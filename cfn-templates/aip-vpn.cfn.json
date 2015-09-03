@@ -1,0 +1,54 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Admin VPN Gateway - Stack aip-all-vgw-us-east-1",
+  "Resources": {
+    "cgwAbbottPark": {
+      "Type": "AWS::EC2::CustomerGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "US-IL-Abbott Park"
+          }
+        ],
+        "Type": "ipsec.1",
+        "IpAddress": "130.36.62.210",
+        "BgpAsn": "65000"
+      }
+    },
+    "vgwAbbottPark": {
+      "Type": "AWS::EC2::VPNGateway",
+      "Properties": {
+        "Type": "ipsec.1",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-all-vgw-us-east-1"
+          }
+        ]
+      }
+    },
+    "gw3": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "InternetGatewayId": {
+          "Ref": "igwc4c8eea1"
+        }
+      }
+    },
+    "gw4": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "VpnGatewayId": {
+          "Ref": "vgwa2bd51cb"
+        }
+      }
+    }
+  }
+}
