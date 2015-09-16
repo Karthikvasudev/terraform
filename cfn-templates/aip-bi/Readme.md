@@ -2,7 +2,7 @@ Readme.md
 
 run AWS CloudFormation Stack commands for BI Environments
 Copy/Paste into bash shell window
-Note: include --profile test when testing only. Included for safety
+Note: include --profile test when testing only. Included for safety reasons
 
 # BI Administration VPC -- Use update-stack thereafter create-stack
 #aws cloudformation create-stack \
