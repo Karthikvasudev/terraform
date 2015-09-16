@@ -1,0 +1,43 @@
+[
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-keys.pem"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-adm-vpc-us-east-1"
+  },
+    {
+    "ParameterKey": "VpcRegion",
+    "ParameterValue": "us-east-1"
+  },
+  {
+    "ParameterKey": "VpcAvailabilityZone1",
+    "ParameterValue": "us-east-1e"
+  },
+  {
+    "ParameterKey": "VpcNetworkCIDR",
+    "ParameterValue": "10.85.0.0/21"
+  },
+  {
+    "ParameterKey": "VpcSubnet1Name",
+    "ParameterValue": "aip-adm-sn-public-us-east-1e"
+  },
+  {
+    "ParameterKey": "VpcSubnet1CIDR",
+    "ParameterValue": "10.85.0.128/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet2Name",
+    "ParameterValue": "aip-adm-sn-private-us-east-1e"
+  },
+  {
+    "ParameterKey": "VpcSubnet2CIDR",
+    "ParameterValue": "10.85.0.0/25"
+  },
+  {
+    "ParameterKey": "NatInstanceType",
+    "ParameterValue": "m3.medium"
+  }
+]
+

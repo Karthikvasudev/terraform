@@ -1,0 +1,36 @@
+Example of process here - 
+
+http://blogs.aws.amazon.com/application-management/post/Tx2DUJYZVBMJ92J/Part-1-Develop-Deploy-and-Manage-for-Scale-with-Elastic-Beanstalk-and-CloudForma
+
+http://blogs.aws.amazon.com/application-management/post/Tx1NV26L8WNB0QS/Part-2-Develop-Deploy-and-Manage-for-Scale-with-Elastic-Beanstalk-and-CloudForma
+
+http://blogs.aws.amazon.com/application-management/post/Tx1H4LR4P9OF6HC/Part-3-Develop-Deploy-and-Manage-for-Scale-with-Elastic-Beanstalk-and-CloudForma
+
+http://blogs.aws.amazon.com/application-management/post/Tx3CSXZ5PNAQVSK/Part-4-Develop-Deploy-and-Manage-for-Scale-with-Elastic-Beanstalk-and-CloudForma
+
+OneClick CFN of the application:
+https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=amediamanager&templateURL=https://s3.amazonaws.com/aws-amm-us-east-1/public/classic/amm-master.cfn.json
+
+
+My test account:  https://randy-test.signin.aws.amazon.com/console
+
+
+Create a CloudFormation template with embedded templates that automates the provisioning & configuration of an environment (dev, qa, test, staging & prod).
+
+aip-bi-master.cfn.json - The master template that consist of sub-templates described below.
+
+aip-bi-vpc.cfn.json - This template defines the VPC for the environment
+
+aip-bi-admin-vpc.cfn.json - This template defines the Admin VPC & VPN and configure VPC peering with env VPC
+
+aip-bi-admin-resources - This template defines the AWS resources for the Admin VPC (JFrog, Docker Trusted Repo, Jenkins)
+
+aip-bi-rds.cfn.json - This template defines the RDS setup
+
+aip-bi-cache.cfn.json - This template defines the ElastiCache setup
+
+aip-bi-aws-resources.cfn.json - This template defines all the AWS dependencies for the Elastic Beanstalk apps (CloudWatch groups, S3 bucket, Lambda function, SQS queues)
+
+aip-bi-eb-bi-app.cfn.json - This template defines the Beanstalk application (web tier) to deploy the BI app (lb, web, api & data services)
+
+aip-bi-eb-etl-app.cfn.json - This template defines the Beanstalk app to deploy the ETL app (worker tier)

@@ -1,0 +1,9 @@
+Notes and To-Do list:
+
+NAT instance type Allowed values - needs to be updated
+
+Mappings AWSNATAMI - requires updates for non-us-east-1 regions
+
+Add metadata tags per Nick's email in support of billing, logs...
+
+

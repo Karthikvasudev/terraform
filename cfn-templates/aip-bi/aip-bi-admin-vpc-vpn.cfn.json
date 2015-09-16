@@ -1,0 +1,83 @@
+{
+  "Parameters": {
+    "VpcID": {
+      "Description": "name of the VPC",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    }
+  },
+
+  "Resources": {
+
+    "VpnGatewayToEnterpriseNetwork": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VpcID"
+        },
+        "InternetGatewayId": {
+          "Ref": "VpnGateway"
+        }
+      }
+    },
+
+    "CustomerGateway": {
+      "Type": "AWS::EC2::CustomerGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-AbbottPark-cgw"
+          }
+        ],
+        "Type": "ipsec.1",
+        "IpAddress": "130.36.62.210",
+        "BgpAsn": "65000"
+      }
+    },
+
+    "VpnGateway": {
+      "Type": "AWS::EC2::VPNGateway",
+      "Properties": {
+        "Type": "ipsec.1",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-all-vgw"
+          }
+        ]
+      }
+    },
+
+    "VpnConnection": {
+      "Type": "AWS::EC2::VPNConnection",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-all-vpn"
+          }
+        ],
+        "Type": "ipsec.1",
+        "StaticRoutesOnly": "true",
+        "VpnGatewayId": {
+          "Ref": "VpnGateway"
+        },
+        "CustomerGatewayId": {
+          "Ref": "CustomerGateway"
+        }
+      }
+    },
+
+    "croute1": {
+      "Type": "AWS::EC2::VPNConnectionRoute",
+      "Properties": {
+        "VpnConnectionId": {
+          "Ref": "VpnConnection"
+        },
+        "DestinationCidrBlock": "10.0.0.0/8"
+      }
+    }
+  }
+}

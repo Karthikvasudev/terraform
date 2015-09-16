@@ -1,0 +1,623 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Provision a the Administration VPC, VPN, VPC Peering - This template provisions a the Administration VPC (single AZ), with a NAT instance in public subnet and all other instances in the private subnet. Internet connectivity is only allowed outbound via the NAT instance. Private subnet instances communicate to the internat via the NAT. There is No Bastion instance. Access to instances via SSH is via Abbott network over the VPN. VPN configuration only allows Abbott --> AWS VPC, not inbound Abbott (security constraint). Output the VPC, Subnets, and SG IDs.",
+
+  "Parameters": {
+    "KeyName": {
+      "Description": "Name of an existing EC2 KeyPair to enable SSH access all hosts",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255",
+      "AllowedPattern": "[\\x20-\\x7E]*",
+      "ConstraintDescription": "can contain only ASCII characters."
+    },
+    "VpcName": {
+      "Description": "name of the VPC",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcRegion": {
+      "Description": "AWS Region",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcAvailabilityZone1": {
+      "Description": "One of two Availability Zones that will be used to create subnets.",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcNetworkCIDR": {
+      "Description": "VPC CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+   "VpcSubnet1Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+   "VpcSubnet1CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+   "VpcSubnet2Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+   "VpcSubnet2CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+   "NatInstanceType": {
+      "Description": "NAT Device EC2 instance type",
+      "Type": "String",
+      "Default": "m3.medium",
+      "AllowedValues": ["t1.micro", "m1.small", "m1.medium", "m1.large", "m1.xlarge", "m2.xlarge", "m2.2xlarge", "m2.4xlarge", "m3.medium", "m3.xlarge", "m3.2xlarge", "c1.medium", "c1.xlarge", "cc1.4xlarge", "cc2.8xlarge", "cg1.4xlarge"],
+      "ConstraintDescription": "must be a valid EC2 instance type."
+    }
+  },
+
+  "Mappings": {
+    "AWSNATAMI": {
+      "us-east-1": {
+        "AMI": "ami-c02b04a8"
+      },
+      "us-west-2": {
+        "AMI": "ami-52ff7262"
+      },
+      "us-west-1": {
+        "AMI": "ami-3bcc9e7e"
+      },
+      "eu-west-1": {
+        "AMI": "ami-0b5b6c7f"
+      },
+      "ap-southeast-1": {
+        "AMI": "ami-02eb9350"
+      },
+      "ap-southeast-2": {
+        "AMI": "ami-ab990e91"
+      },
+      "ap-northeast-1": {
+        "AMI": "ami-14d86d15"
+      },
+      "sa-east-1": {
+        "AMI": "ami-0439e619"
+      }
+    },
+
+    "AWSInstanceType2Arch": {
+      "t1.micro": {
+        "Arch": "64"
+      },
+      "m1.small": {
+        "Arch": "64"
+      },
+      "m1.medium": {
+        "Arch": "64"
+      },
+      "m1.large": {
+        "Arch": "64"
+      },
+      "m1.xlarge": {
+        "Arch": "64"
+      },
+      "m2.xlarge": {
+        "Arch": "64"
+      },
+      "m2.2xlarge": {
+        "Arch": "64"
+      },
+      "m2.4xlarge": {
+        "Arch": "64"
+      },
+      "m3.medium": {
+        "Arch": "64"
+      },
+      "m3.xlarge": {
+        "Arch": "64"
+      },
+      "m3.2xlarge": {
+        "Arch": "64"
+      },
+      "c1.medium": {
+        "Arch": "64"
+      },
+      "c1.xlarge": {
+        "Arch": "64"
+      },
+      "cc1.4xlarge": {
+        "Arch": "64Cluster"
+      },
+      "cc2.8xlarge": {
+        "Arch": "64Cluster"
+      },
+      "cg1.4xlarge": {
+        "Arch": "64GPU"
+      }
+    },
+
+    "AWSRegionArch2AMI": {
+      "us-east-1": {
+        "32": "ami-a0cd60c9",
+        "64": "ami-aecd60c7",
+        "64Cluster": "ami-a8cd60c1",
+        "64GPU": "ami-eccf6285"
+      },
+      "us-west-2": {
+        "32": "ami-46da5576",
+        "64": "ami-48da5578",
+        "64Cluster": "NOT_YET_SUPPORTED",
+        "64GPU": "NOT_YET_SUPPORTED"
+      },
+      "us-west-1": {
+        "32": "ami-7d4c6938",
+        "64": "ami-734c6936",
+        "64Cluster": "NOT_YET_SUPPORTED",
+        "64GPU": "NOT_YET_SUPPORTED"
+      },
+      "eu-west-1": {
+        "32": "ami-61555115",
+        "64": "ami-6d555119",
+        "64Cluster": "ami-67555113",
+        "64GPU": "NOT_YET_SUPPORTED"
+      },
+      "ap-southeast-1": {
+        "32": "ami-220b4a70",
+        "64": "ami-3c0b4a6e",
+        "64Cluster": "NOT_YET_SUPPORTED",
+        "64GPU": "NOT_YET_SUPPORTED"
+      },
+      "ap-southeast-2": {
+        "32": "ami-b3990e89",
+        "64": "ami-bd990e87",
+        "64Cluster": "NOT_YET_SUPPORTED",
+        "64GPU": "NOT_YET_SUPPORTED"
+      },
+      "ap-northeast-1": {
+        "32": "ami-2a19aa2b",
+        "64": "ami-2819aa29",
+        "64Cluster": "NOT_YET_SUPPORTED",
+        "64GPU": "NOT_YET_SUPPORTED"
+      },
+      "sa-east-1": {
+        "32": "ami-f836e8e5",
+        "64": "ami-fe36e8e3",
+        "64Cluster": "NOT_YET_SUPPORTED",
+        "64GPU": "NOT_YET_SUPPORTED"
+      }
+    }
+  },
+
+  "Resources": {
+
+    "Vpc": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": {
+          "Ref": "VpcNetworkCIDR"
+        },
+        "Tags": [{
+          "Key": "Name",
+          "Value": {
+            "Ref": "VpcName"
+          }
+        }]
+      }
+    },
+
+    "VpcSubnet1": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet1CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone1"
+        },
+        "Tags": [{
+          "Key": "Name",
+          "Value": {
+            "Ref": "VpcSubnet1Name"
+           }
+        }]
+      }
+    },
+
+    "VpcSubnet2": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet2CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone1"
+        },
+        "Tags": [{
+          "Key": "Name",
+          "Value": {
+            "Ref": "VpcSubnet2Name"
+           }
+        }]
+      }
+    },
+
+    "InternetGateway": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-igw"
+          }]
+      }
+    },
+
+    "GatewayToInternet": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "InternetGatewayId": {
+          "Ref": "InternetGateway"
+        }
+      }
+    },
+
+
+    "NatInstance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": "ami-c02b04a8",
+        "InstanceType": "m3.medium",
+        "KeyName": "aip-bi-adm-keys",
+        "Monitoring": "false",
+        "AvailabilityZone" :  {"Ref": "VpcAvailabilityZone1"},
+        "SubnetId" : {"Ref": "VpcSubnet1"},
+        "SourceDestCheck" : "false",
+        "SecurityGroupIds": [{ "Ref": "SgNat" }],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-nat"
+          }
+        ]
+      }
+    },
+
+    "NatInstanceEIP": {
+       "Type" : "AWS::EC2::EIP",
+       "Properties" : {
+          "InstanceId" : {"Ref": "NatInstance"},
+          "Domain" : "vpc"
+        }
+    },
+
+
+    "SgPrivate": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Private Security Group",
+        "VpcId": { "Ref": "Vpc" },
+        "SecurityGroupIngress" : [{
+          "IpProtocol": "tcp",
+          "FromPort": "443",
+          "ToPort": "443",
+          "SourceSecurityGroupId": {"Ref": "SgNat"}
+          },{
+          "IpProtocol": "tcp",
+          "FromPort": "80",
+          "ToPort": "80",
+          "SourceSecurityGroupId": {"Ref": "SgNat"}
+          },{  
+          "IpProtocol": "icmp",
+          "FromPort": "-1",
+          "ToPort": "-1",
+          "CidrIp": "10.0.0.0/8"
+          },{  
+          "IpProtocol": "tcp",
+          "FromPort": "22",
+          "ToPort": "22",
+          "CidrIp": "10.0.0.0/8"
+          },{
+          "IpProtocol": "tcp",
+          "FromPort": "22",
+          "ToPort": "22",
+          "CidrIp": "10.85.0.0/25"
+          }],
+        "SecurityGroupEgress" : [{
+          "IpProtocol": "icmp",
+          "FromPort": "-1",
+          "ToPort": "-1",
+          "DestinationSecurityGroupId": {"Ref": "SgNat"}
+          },{
+          "IpProtocol": "-1",
+          "DestinationSecurityGroupId": {"Ref": "SgNat"}
+          },{
+          "IpProtocol": "tcp",
+          "FromPort": "22",
+          "ToPort": "22",
+          "CidrIp": "0.0.0.0/0"
+          }],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-sg-private"
+          }]
+      }
+    },
+
+
+    "SgNat": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Admin VPC NAT Security Group",
+        "VpcId": { "Ref": "Vpc" },
+        "SecurityGroupIngress" : [{
+            "IpProtocol": "icmp",
+            "FromPort": "-1",
+            "ToPort": "-1",
+            "CidrIp": "10.85.0.128/25"
+            },{
+            "IpProtocol": "icmp",
+            "FromPort": "-1",
+            "ToPort": "-1",
+            "CidrIp": "10.0.0.0/8"
+            },{
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": "10.0.0.0/8"
+            },{
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": "10.85.0.128/25"
+            }],
+        "SecurityGroupEgress" : [{
+            "IpProtocol": "icmp",
+            "FromPort": "-1",
+            "ToPort": "-1",
+            "CidrIp": "0.0.0.0/0"
+            },{
+            "IpProtocol": "tcp",
+            "FromPort": "443",
+            "ToPort": "443",
+            "CidrIp": "0.0.0.0/0"
+            },{
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": "0.0.0.0/0"
+            },{
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": "0.0.0.0/0"      
+            }],        
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-sg-nat"
+          }]
+      }
+    },
+
+    "SgNatInboundRule1": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties":{
+          "IpProtocol": "tcp",
+          "FromPort": "80",
+          "ToPort": "80",
+          "SourceSecurityGroupId": {
+              "Fn::GetAtt": ["SgPrivate", "GroupId"] },
+          "GroupId": {"Fn::GetAtt": ["SgNat", "GroupId"] }
+      }
+    },
+
+
+    "SgNatInboundRule2": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties":{
+          "IpProtocol": "tcp",
+          "FromPort": "443",
+          "ToPort": "443",
+          "SourceSecurityGroupId": {
+            "Fn::GetAtt": ["SgPrivate", "GroupId"] },
+          "GroupId": {"Fn::GetAtt": ["SgNat", "GroupId"] }
+      }
+    },
+
+
+    "RouteTablePrivateSubnets": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-rtb-private-us-east-1"
+          }
+        ]
+      }
+    },
+
+    "RouteTablePublicSubnet": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-rtb-public-us-east-1"
+          }
+        ]
+      }
+    },
+
+    "VpcSubnet1RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "RouteTablePublicSubnet"
+        },
+        "SubnetId": {
+          "Ref": "VpcSubnet1"
+        }
+      }
+    },
+
+    "VpcSubnet2RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "RouteTablePrivateSubnets"
+        },
+        "SubnetId": {
+          "Ref": "VpcSubnet2"
+        }
+      }
+    },
+
+
+    "route1": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "RouteTablePrivateSubnets"
+        },
+        "InstanceId": {
+          "Ref": "NatInstance"
+        }
+      }
+    },
+    "route2": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "RouteTablePublicSubnet"
+        },
+        "GatewayId": {
+          "Ref": "InternetGateway"
+        }
+      },
+      "DependsOn": "GatewayToInternet"
+    },
+
+    "PublicRoute": {
+      "Type": "AWS::EC2::Route",
+      "DependsOn": "GatewayToInternet",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "RouteTablePublicSubnet"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "InternetGateway"
+        }
+      }
+    },
+
+    "PublicSubnet1RouteTableAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "VpcSubnet1"
+        },
+        "RouteTableId": {
+          "Ref": "RouteTablePublicSubnet"
+        }
+      }
+    },
+
+    "PublicNetworkAcl": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "Tags": [{ "Key": "Name", "Value": "aip-adm-nacl" }]
+      }
+    },
+
+    "aclEntry1": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "true",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": { "Ref": "PublicNetworkAcl" }
+      }
+    },
+
+    "aclEntry2": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "false",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": { "Ref": "PublicNetworkAcl" }
+      }
+    },
+
+    "PublicNetworkAclAssoc1": {
+      "Type" : "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties" : {
+         "SubnetId" : { "Ref": "VpcSubnet1" },
+         "NetworkAclId" : { "Ref": "PublicNetworkAcl" }
+       }
+    },
+
+    "PrivateNetworkAclAssoc2": {
+      "Type" : "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties" : {
+         "SubnetId" : { "Ref": "VpcSubnet2" },
+         "NetworkAclId" : { "Ref": "PublicNetworkAcl" }
+       }
+    }
+
+  },
+    
+  "Outputs": {
+
+    "VpcId" : {
+      "Description" : "A VPC ID.",
+      "Value" : { "Ref" : "Vpc" }
+    },
+    "VpcSubnet1" : {
+      "Description" : "VPC subnet ID.",
+      "Value" : { "Ref" : "VpcSubnet1" }
+    },
+    "VpcSubnet2" : {
+      "Description" : "VPC subnet ID",
+      "Value" : {"Ref" : "VpcSubnet2" }
+    }
+  }
+}

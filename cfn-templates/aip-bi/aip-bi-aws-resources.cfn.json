@@ -1,0 +1,1 @@
+/* This template defines all the AWS dependencies for the Elastic Beanstalk apps (CloudWatch groups, S3 bucket, Lambda function, SQS queues) */

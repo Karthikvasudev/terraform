@@ -1,0 +1,589 @@
+/* capture of Admin VPC & VPN on September 9th, 2015 */
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "vpc95cb33f1": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.85.0.0/21",
+        "InstanceTenancy": "default",
+        "EnableDnsSupport": "true",
+        "EnableDnsHostnames": "false",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-vpc-us-east-1"
+          }
+        ]
+      }
+    },
+    "subnetce0907b9": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.85.0.128/25",
+        "AvailabilityZone": "us-east-1a",
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-sn-public-us-east-1a"
+          }
+        ]
+      }
+    },
+    "subneta92320de": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.85.0.0/25",
+        "AvailabilityZone": "us-east-1a",
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-sn-private-us-east-1a"
+          }
+        ]
+      }
+    },
+    "igw9ebe95fb": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-igw"
+          }
+        ]
+      }
+    },
+
+    "cgwfce70b95": {
+      "Type": "AWS::EC2::CustomerGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-AbbottPark-cgw"
+          }
+        ],
+        "Type": "ipsec.1",
+        "IpAddress": "130.36.62.210",
+        "BgpAsn": "65000"
+      }
+    },
+    "vgw99ef03f0": {
+      "Type": "AWS::EC2::VPNGateway",
+      "Properties": {
+        "Type": "ipsec.1",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-all-vgw"
+          }
+        ]
+      }
+    },
+
+    "vpn5d3c283c": {
+      "Type": "AWS::EC2::VPNConnection",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-all-vpn"
+          }
+        ],
+        "Type": "ipsec.1",
+        "StaticRoutesOnly": "true",
+        "VpnGatewayId": {
+          "Ref": "vgw99ef03f0"
+        },
+        "CustomerGatewayId": {
+          "Ref": "cgwfce70b95"
+        }
+      }
+    },
+    "aclb65e99d2": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-nacl"
+          }
+        ]
+      }
+    },
+    "rtbc768c4a3": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-rtb-main-us-east-1"
+          }
+        ]
+      }
+    },
+    "rtb6ea81c0a": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-rtb-pub-us-east-1"
+          }
+        ]
+      }
+    },
+    "instancei609741b5": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "DisableApiTermination": "false",
+        "InstanceInitiatedShutdownBehavior": "stop",
+        "IamInstanceProfile": "arn:aws:iam::661072482170:instance-profile/aip-adm-nat",
+        "ImageId": "ami-c02b04a8",
+        "InstanceType": "m3.medium",
+        "KernelId": "aki-919dcaf8",
+        "KeyName": "aip-adm-nat-key",
+        "Monitoring": "false",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-nat"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "DeleteOnTermination": "true",
+            "Description": "Primary network interface",
+            "DeviceIndex": 0,
+            "SubnetId": {
+              "Ref": "subnetce0907b9"
+            },
+            "PrivateIpAddresses": [
+              {
+                "PrivateIpAddress": "10.85.0.254",
+                "Primary": "true"
+              }
+            ],
+            "GroupSet": [
+              {
+                "Ref": "sgaipadmsgnat"
+              }
+            ],
+            "AssociatePublicIpAddress": "true"
+          }
+        ]
+      }
+    },
+    "sgaipadmsgprivate": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Private Security Group",
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-sg-private"
+          }
+        ]
+      }
+    },
+    "sgaipadmsgnat": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Adm VPC NAT Security Group",
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-adm-sg-nat"
+          }
+        ]
+      }
+    },
+    "acl1": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "true",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "aclb65e99d2"
+        }
+      }
+    },
+    "acl2": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "aclb65e99d2"
+        }
+      }
+    },
+    "subnetacl1": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "aclb65e99d2"
+        },
+        "SubnetId": {
+          "Ref": "subneta92320de"
+        }
+      }
+    },
+    "subnetacl2": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "aclb65e99d2"
+        },
+        "SubnetId": {
+          "Ref": "subnetce0907b9"
+        }
+      }
+    },
+    "gw1": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "InternetGatewayId": {
+          "Ref": "igw9ebe95fb"
+        }
+      }
+    },
+    "gw2": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "VpnGatewayId": {
+          "Ref": "vgw99ef03f0"
+        }
+      }
+    },
+    "subnetroute2": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "rtb6ea81c0a"
+        },
+        "SubnetId": {
+          "Ref": "subnetce0907b9"
+        }
+      }
+    },
+    "route1": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "rtbc768c4a3"
+        },
+        "InstanceId": {
+          "Ref": "instancei609741b5"
+        }
+      }
+    },
+    "route2": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "rtb6ea81c0a"
+        },
+        "GatewayId": {
+          "Ref": "igw9ebe95fb"
+        }
+      },
+      "DependsOn": "gw1"
+    },
+    "dopt192ad47c": {
+      "Type": "AWS::EC2::DHCPOptions",
+      "Properties": {
+        "DomainName": "ec2.internal",
+        "DomainNameServers": [
+          "AmazonProvidedDNS"
+        ]
+      }
+    },
+    "dchpassoc1": {
+      "Type": "AWS::EC2::VPCDHCPOptionsAssociation",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc95cb33f1"
+        },
+        "DhcpOptionsId": {
+          "Ref": "dopt192ad47c"
+        }
+      }
+    },
+    "ingress1": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgprivate"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "443",
+        "ToPort": "443",
+        "SourceSecurityGroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "SourceSecurityGroupOwnerId": "661072482170"
+      }
+    },
+    "ingress2": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgprivate"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "80",
+        "ToPort": "80",
+        "SourceSecurityGroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "SourceSecurityGroupOwnerId": "661072482170"
+      }
+    },
+    "ingress3": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgprivate"
+        },
+        "IpProtocol": "icmp",
+        "FromPort": "-1",
+        "ToPort": "-1",
+        "CidrIp": "10.0.0.0/8"
+      }
+    },
+    "ingress4": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgprivate"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "22",
+        "ToPort": "22",
+        "CidrIp": "10.0.0.0/8"
+      }
+    },
+    "ingress5": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgprivate"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "22",
+        "ToPort": "22",
+        "CidrIp": "10.85.0.0/25"
+      }
+    },
+    "ingress6": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "IpProtocol": "icmp",
+        "FromPort": "-1",
+        "ToPort": "-1",
+        "CidrIp": "10.85.0.128/25"
+      }
+    },
+    "ingress7": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "IpProtocol": "icmp",
+        "FromPort": "-1",
+        "ToPort": "-1",
+        "CidrIp": "10.0.0.0/8"
+      }
+    },
+    "ingress8": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "80",
+        "ToPort": "80",
+        "SourceSecurityGroupId": {
+          "Ref": "sgaipadmsgprivate"
+        },
+        "SourceSecurityGroupOwnerId": "661072482170"
+      }
+    },
+    "ingress9": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "22",
+        "ToPort": "22",
+        "CidrIp": "10.0.0.0/8"
+      }
+    },
+    "ingress10": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "22",
+        "ToPort": "22",
+        "CidrIp": "10.85.0.128/25"
+      }
+    },
+    "ingress11": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "443",
+        "ToPort": "443",
+        "SourceSecurityGroupId": {
+          "Ref": "sgaipadmsgprivate"
+        },
+        "SourceSecurityGroupOwnerId": "661072482170"
+      }
+    },
+    "egress1": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgprivate"
+        },
+        "IpProtocol": "icmp",
+        "FromPort": "-1",
+        "ToPort": "-1",
+        "DestinationSecurityGroupId": {
+          "Ref": "sgaipadmsgnat"
+        }
+      }
+    },
+    "egress2": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgprivate"
+        },
+        "IpProtocol": "-1",
+        "DestinationSecurityGroupId": {
+          "Ref": "sgaipadmsgnat"
+        }
+      }
+    },
+    "egress3": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgprivate"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "22",
+        "ToPort": "22",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress4": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "IpProtocol": "icmp",
+        "FromPort": "-1",
+        "ToPort": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress5": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "443",
+        "ToPort": "443",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress6": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "80",
+        "ToPort": "80",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress7": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgaipadmsgnat"
+        },
+        "IpProtocol": "tcp",
+        "FromPort": "22",
+        "ToPort": "22",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "croute1": {
+      "Type": "AWS::EC2::VPNConnectionRoute",
+      "Properties": {
+        "VpnConnectionId": {
+          "Ref": "vpn5d3c283c"
+        },
+        "DestinationCidrBlock": "10.0.0.0/8"
+      }
+    }
+  },
+  "Description": "Sept 10, 2015 capture of Admin VPC"
+}
