@@ -513,19 +513,7 @@
         }
       }
     },
-    "route2": {
-      "Type": "AWS::EC2::Route",
-      "Properties": {
-        "DestinationCidrBlock": "0.0.0.0/0",
-        "RouteTableId": {
-          "Ref": "RouteTablePublicSubnet"
-        },
-        "GatewayId": {
-          "Ref": "InternetGateway"
-        }
-      },
-      "DependsOn": "GatewayToInternet"
-    },
+
 
     "PublicRoute": {
       "Type": "AWS::EC2::Route",
