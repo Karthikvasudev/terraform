@@ -25,10 +25,25 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM --disable-rollback --profile test
 
 ### BI VPC Environments -- Use update-stack once create-stack succeeds
+##
+## -- Dev --
 aws cloudformation create-stack \
---stack-name aip-bi-vpc \
+--stack-name aip-bi-dev-vpc \
 --template-body file://aip-bi-vpc.cfn.json \
 --parameters file://aip-bi-dev-vpc-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback --profile test
 
-aws cloudformation update-stack \
+##
+## -- test --
+### BI VPC Environments -- Use update-stack once create-stack succeeds
+aws cloudformation create-stack \
+--stack-name aip-bi-test-vpc \
+--template-body file://aip-bi-vpc.cfn.json \
+--parameters file://aip-bi-test-vpc-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback --profile test
+
+
+
+
+
+#### aws cloudformation update-stack \

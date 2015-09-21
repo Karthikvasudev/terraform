@@ -10,12 +10,6 @@
       "AllowedPattern": "[\\x20-\\x7E]*",
       "ConstraintDescription": "can contain only ASCII characters."
     },
-    "Environment": {
-      "Description": "name of the VPC Environment (dev, test, qa, prod)",
-      "Type": "String",
-      "MinLength": "1",
-      "MaxLength": "255"
-    },
     "VpcName": {
       "Description": "name of the VPC",
       "Type": "String",
@@ -358,7 +352,50 @@
         ]
       }
     },
-
+    "VpcSubnet3": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet3CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Ref": "VpcSubnet3Name"
+            }
+          }
+        ]
+      }
+    },
+    "VpcSubnet4": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet4CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Ref": "VpcSubnet4Name"
+            }
+          }
+        ]
+      }
+    },
     "VpcSubnet5": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
@@ -403,7 +440,50 @@
         ]
       }
     },
-
+    "VpcSubnet7": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet7CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone2"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Ref": "VpcSubnet7Name"
+            }
+          }
+        ]
+      }
+    },
+    "VpcSubnet8": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet8CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone2"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Ref": "VpcSubnet8Name"
+            }
+          }
+        ]
+      }
+    },
 
     "InternetGateway": {
       "Type": "AWS::EC2::InternetGateway",
@@ -427,7 +507,6 @@
         }
       }
     },
-
     "NatInstance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
@@ -695,6 +774,28 @@
         }
       }
     },
+    "VpcSubnet3RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "RouteTablePrivateSubnets"
+        },
+        "SubnetId": {
+          "Ref": "VpcSubnet3"
+        }
+      }
+    },
+    "VpcSubnet4RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "RouteTablePrivateSubnets"
+        },
+        "SubnetId": {
+          "Ref": "VpcSubnet4"
+        }
+      }
+    },
 
     "VpcSubnet5RouteAssociation": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
@@ -718,7 +819,28 @@
         }
       }
     },
-
+    "VpcSubnet7RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "RouteTablePrivateSubnets"
+        },
+        "SubnetId": {
+          "Ref": "VpcSubnet7"
+        }
+      }
+    },
+    "VpcSubnet8RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "RouteTablePrivateSubnets"
+        },
+        "SubnetId": {
+          "Ref": "VpcSubnet8"
+        }
+      }
+    },
 
     "route1": {
       "Type": "AWS::EC2::Route",
@@ -800,7 +922,20 @@
         "NetworkAclId": { "Ref": "NetworkAcl" }
       }
     },
-   
+    "NetworkAclAssoc3": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "SubnetId": { "Ref": "VpcSubnet3" },
+        "NetworkAclId": { "Ref": "NetworkAcl" }
+      }
+    },
+    "NetworkAclAssoc4": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "SubnetId": { "Ref": "VpcSubnet4" },
+        "NetworkAclId": { "Ref": "NetworkAcl" }
+      }
+    },    
     "NetworkAclAssoc5": {
       "Type": "AWS::EC2::SubnetNetworkAclAssociation",
       "Properties": {
@@ -814,8 +949,23 @@
         "SubnetId": { "Ref": "VpcSubnet6" },
         "NetworkAclId": { "Ref": "NetworkAcl" }
       }
+    },    
+    "NetworkAclAssoc7": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "SubnetId": { "Ref": "VpcSubnet7" },
+        "NetworkAclId": { "Ref": "NetworkAcl" }
+      }
+    },
+    "NetworkAclAssoc8": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "SubnetId": { "Ref": "VpcSubnet8" },
+        "NetworkAclId": { "Ref": "NetworkAcl" }
+      }
     }
   },
+
 
   "Outputs": {
     "VpcId": {
