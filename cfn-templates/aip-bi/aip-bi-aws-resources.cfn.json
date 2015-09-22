@@ -1,1 +1,83 @@
-/* This template defines all the AWS dependencies for the Elastic Beanstalk apps (CloudWatch groups, S3 bucket, Lambda function, SQS queues) */
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "This template defines all the AWS dependencies for the Elastic Beanstalk apps (CloudWatch groups, S3 bucket, Lambda function, SQS queues)",
+  "Resources": {
+    "OpDevSQSFileUpload": {
+        "Type": "AWS::SQS::Queue",
+        "Properties": {
+            "QueueName": "opdevsqsfileupload"
+        }
+    },
+	"OpDevSQSDataProcess": {
+        "Type": "AWS::SQS::Queue",
+        "Properties": {
+            "QueueName": "opdevsqsdataprocess"
+        }
+    },
+	"OpDevS3FileUpload" : {
+		"Type" : "AWS::S3::Bucket",
+		"Properties" : {
+			"BucketName" : "opdevs3fileupload"
+		}
+	},
+	"OpDevS3FileUploadPolicy" : {
+	  "Type" : "AWS::S3::BucketPolicy",
+	  "Properties" : {
+		"Bucket" : {"Ref" : "OpDevS3FileUpload"},
+		"PolicyDocument": {
+		  "Statement":[{
+			"Action":[
+			"s3:GetObject",
+			"s3:PutObject"
+			],
+			"Effect":"Allow",
+			"Resource": { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "OpDevS3FileUpload" } , "/*" ]]},
+			"Principal": {
+                "AWS": "arn:aws:iam::*:user/SRINIAX1"
+			}
+		  }]
+		}
+	  }
+	},
+	"OpDevSQSFileUploadPolicy" : {
+	 "Type" : "AWS::SQS::QueuePolicy",
+	  "Properties" : {
+		"Queues" : [{"Ref" :"OpDevSQSFileUpload"}],
+		"PolicyDocument": {
+		  "Statement": [{
+			  "Action": [
+				"sqs:ReceiveMessage",
+				"sqs:SendMessage"
+			  ],
+			  "Effect": "Allow",
+			  "Resource": [{"Ref":"OpDevSQSFileUpload"}],
+			  "Principal": {
+				  "AWS": ["arn:aws:iam::*:user/SRINIAX1"]
+			  }
+			}
+		  ]
+		}
+	  }
+	},
+	"OpDevSQSDataProcessPolicy" : {
+	 "Type" : "AWS::SQS::QueuePolicy",
+	  "Properties" : {
+		"Queues" : [{"Ref" :"OpDevSQSDataProcess"}],
+		"PolicyDocument": {
+		  "Statement": [{
+			  "Action": [
+				"sqs:ReceiveMessage",
+				"sqs:SendMessage"
+			  ],
+			  "Effect": "Allow",
+			  "Resource": [{"Ref":"OpDevSQSDataProcess"}],
+			  "Principal": {
+				  "AWS": ["arn:aws:iam::*:user/SRINIAX1"]
+			  }
+			}
+		  ]
+		}
+	  }
+	}
+}
+}

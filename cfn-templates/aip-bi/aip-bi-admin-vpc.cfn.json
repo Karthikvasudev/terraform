@@ -17,12 +17,6 @@
       "MinLength": "1",
       "MaxLength": "255"
     },
-    "VpcRegion": {
-      "Description": "AWS Region",
-      "Type": "String",
-      "MinLength": "1",
-      "MaxLength": "255"
-    },
     "VpcAvailabilityZone1": {
       "Description": "One of two Availability Zones that will be used to create subnets.",
       "Type": "String",

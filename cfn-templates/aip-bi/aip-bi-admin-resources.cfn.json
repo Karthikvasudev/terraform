@@ -1,28 +1,7 @@
-/* 
-This template defines the AWS resources for the Admin VPC (JFrog, Docker Trusted Repo, Jenkins) 
-Output the resource IDs"
-*/
-
 {
-  "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Provision a the Administration VPC resources.",
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "Note: Define resources for the Admin VPC here. **Only Admin VPC** ",
+  "Resources": {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	}
 }

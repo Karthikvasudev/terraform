@@ -22,12 +22,6 @@
       "MinLength": "1",
       "MaxLength": "255"
     },
-    "VpcRegion": {
-      "Description": "AWS Region",
-      "Type": "String",
-      "MinLength": "1",
-      "MaxLength": "255"
-    },
     "VpcAvailabilityZone1": {
       "Description": "One of two Availability Zones that will be used to create subnets.",
       "Type": "String",
@@ -411,7 +405,7 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "aip-vpc-igw"
+            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-igw"]] }
           }
         ]
       }
@@ -450,7 +444,7 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "aip-vpc-nat"
+            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-nat"]] }
           }
         ]
       }
@@ -532,7 +526,7 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "aip-vpc-sg-private"
+            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-private"]] }
           }
         ]
       }
@@ -599,7 +593,7 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "aip-vpc-sg-nat"
+            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-nat"]] }
           }
         ]
       }
@@ -653,7 +647,8 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "aip-vpc-rtb-private-us-east-1"
+            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
+                        "-rtb-private-", { "Ref": "AWS::Region" }]] }
           }
         ]
       }
@@ -667,7 +662,8 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "aip-vpc-rtb-public-us-east-1"
+            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
+                        "-rtb-public-", { "Ref": "AWS::Region" }]] }
           }
         ]
       }
@@ -755,7 +751,8 @@
         "Tags": [
           {
             "Key": "Name",
-            "Value": "aip-vpc-nacl"
+            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
+                        "-nacl-", { "Ref": "AWS::Region" }]] }
           }
         ]
       }

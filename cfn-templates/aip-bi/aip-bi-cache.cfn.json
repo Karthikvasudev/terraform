@@ -1,1 +1,7 @@
-/* This template defines the ElastiCache setup */
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "This template defines the ElastiCache",
+  "Resources": {
+
+	}
+}
