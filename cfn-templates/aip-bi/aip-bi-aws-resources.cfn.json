@@ -1,6 +1,9 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
-  "Description" : "This template defines all the AWS dependencies for the Elastic Beanstalk apps (CloudWatch groups, S3 bucket, Lambda function, SQS queues)",
+  
+  "Description" : "Resouces used by the Bi application VPCs, e.g., ETL, RDS data, etc..",
+  "Description" : "Use file aip-admin-resources.cfn.json for Admin VPC specific resources.",
+
   "Resources": {
     "OpDevSQSFileUpload": {
         "Type": "AWS::SQS::Queue",
@@ -33,7 +36,7 @@
 			"Effect":"Allow",
 			"Resource": { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "OpDevS3FileUpload" } , "/*" ]]},
 			"Principal": {
-                "AWS": "arn:aws:iam::*:user/SRINIAX1"
+                "AWS": "arn:aws:iam::596978647277:role/ETL-Role"
 			}
 		  }]
 		}
@@ -52,7 +55,7 @@
 			  "Effect": "Allow",
 			  "Resource": [{"Ref":"OpDevSQSFileUpload"}],
 			  "Principal": {
-				  "AWS": ["arn:aws:iam::*:user/SRINIAX1"]
+				  "AWS": ["arn:aws:iam::596978647277:role/ETL-Role"]
 			  }
 			}
 		  ]
@@ -72,12 +75,40 @@
 			  "Effect": "Allow",
 			  "Resource": [{"Ref":"OpDevSQSDataProcess"}],
 			  "Principal": {
-				  "AWS": ["arn:aws:iam::*:user/SRINIAX1"]
+				  "AWS": ["arn:aws:iam::596978647277:role/ETL-Role"]
 			  }
 			}
 		  ]
 		}
 	  }
-	}
-}
+	},
+	"AlarmTopic": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "Subscription": [{
+          "Endpoint": "abc@abbott.com",
+          "Protocol": "email"
+        }]
+      }
+    },
+	"QueueDepthAlarm": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "AlarmDescription": "Alarm if queue depth grows beyond 10 messages",
+        "Namespace": "AWS/SQS",
+        "MetricName": "ApproximateNumberOfMessagesVisible",
+        "Dimensions": [{
+          "Name": "QueueName",
+          "Value" : { "Fn::GetAtt" : ["OpDevSQSFileUpload", "QueueName"] }
+        }],
+        "Statistic": "Sum",
+        "Period": "300",
+        "EvaluationPeriods": "1",
+        "Threshold": "10",
+        "ComparisonOperator": "GreaterThanThreshold",
+        "AlarmActions": [{ "Ref": "AlarmTopic" }],
+        "InsufficientDataActions": [{ "Ref": "AlarmTopic" }]
+      }
+    }
+  }
 }
