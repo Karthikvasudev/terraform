@@ -65,5 +65,12 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback --profile test
 
 
+##
+## -- VPC peering --
+### 
+
+##
+## -- VPN --
+### 
 
 

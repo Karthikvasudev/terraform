@@ -310,6 +310,7 @@
 
     "VpcSubnet1": {
       "Type": "AWS::EC2::Subnet",
+      "Metadata" : { "Comment" : "Public Subnet"},
       "Properties": {
         "VpcId": {
           "Ref": "Vpc"
@@ -322,16 +323,14 @@
         },
         "Tags": [
           {
-            "Key": "Name",
-            "Value": {
-              "Ref": "VpcSubnet1Name"
-            }
+            "Key": "Name", "Value": { "Ref": "VpcSubnet1Name" }
           }
         ]
       }
     },
     "VpcSubnet2": {
       "Type": "AWS::EC2::Subnet",
+      "Metadata" : { "Comment" : "Private Subnet"},
       "Properties": {
         "VpcId": {
           "Ref": "Vpc"
@@ -343,12 +342,7 @@
           "Ref": "VpcAvailabilityZone1"
         },
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": {
-              "Ref": "VpcSubnet2Name"
-            }
-          }
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet2Name" }}
         ]
       }
     },

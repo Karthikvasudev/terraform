@@ -5,6 +5,12 @@
 
   "Parameters": {
 
+	"Environment": {
+		"Description": "name of the Environment (dev, test, qa, prod)",
+		"Type": "String",
+		"MinLength": "1",
+		"MaxLength": "255"
+	},
     "DBUser": {
       "NoEcho": "true",
       "Description" : "The database admin account username",
@@ -49,6 +55,18 @@
       "Type": "String",
       "AllowedPattern" : "[a-zA-Z0-9\\-]+",
       "ConstraintDescription" : "must be a valid security group name."
+    },
+    "AZforReplica1": {
+      "Description": "This AZ will be used to create read replica - 1",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "AZforReplica2": {
+      "Description": "This AZ will be used to create read replica - 2",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
     }
   },
   "Conditions" : {
@@ -87,7 +105,16 @@
     "MasterDB" : {
       "Type" : "AWS::RDS::DBInstance",
       "Properties" : {
-        "DBInstanceIdentifier" : "bi-dev-rds-dw",
+		"DBInstanceIdentifier" : { "Fn::Join": [
+                                "",
+                                [
+                                    "bi-",
+                                    {
+                                        "Ref": "Environment"
+                                    },
+                                    "-rds-dw"
+                                ]
+                            ]},
         "AllocatedStorage" : { "Ref" : "DBAllocatedStorage" },
         "DBInstanceClass" : { "Ref" : "DBInstanceClass" },
         "Engine" : "postgres",
@@ -101,25 +128,49 @@
       "DeletionPolicy" : "Snapshot"
     },
 
-    "ReplicaDBuseast1d" : {
+    "ReplicaDB1" : {
       "Type" : "AWS::RDS::DBInstance",
       "Properties" : {
-	    "DBInstanceIdentifier" : "bi-dev-rds-dw-us-east-1d",
-		"AvailabilityZone" : "us-east-1d",
+		"DBInstanceIdentifier" : { "Fn::Join": [
+                                "",
+                                [
+                                    "bi-",
+                                    {
+                                        "Ref": "Environment"
+                                    },
+                                    "-rds-dw-",
+                                    {
+                                        "Ref": "AZforReplica1"
+                                    }									
+                                ]
+                            ]},		
+		"AvailabilityZone" : {"Ref": "AZforReplica1"},
         "SourceDBInstanceIdentifier" : { "Ref" : "MasterDB" },
         "DBInstanceClass" : { "Ref" : "DBInstanceClass" },
-        "Tags" : [{ "Key"  : "Name", "Value" : "Read Replica Database on us-east-1d" }]
+        "Tags" : [{ "Key"  : "Name", "Value" : "Read Replica Database on AZ" }]
       }
     },
 	
-	"ReplicaDBuseast1c" : {
+	"ReplicaDB2" : {
       "Type" : "AWS::RDS::DBInstance",
       "Properties" : {
-	    "DBInstanceIdentifier" : "bi-dev-rds-dw-us-east-1c",
-		"AvailabilityZone" : "us-east-1c",
+	   "DBInstanceIdentifier" : { "Fn::Join": [
+					"",
+					[
+						"bi-",
+						{
+							"Ref": "Environment"
+						},
+						"-rds-dw-",
+						{
+							"Ref": "AZforReplica2"
+						}									
+					]
+				]},		
+		"AvailabilityZone" : {"Ref": "AZforReplica2"},
         "SourceDBInstanceIdentifier" : { "Ref" : "MasterDB" },
         "DBInstanceClass" : { "Ref" : "DBInstanceClass" },
-        "Tags" : [{ "Key"  : "Name", "Value" : "Read Replica Database on us-east-1c" }]
+        "Tags" : [{ "Key"  : "Name", "Value" : "Read Replica Database on AZ" }]
       }
     }
   },
@@ -139,21 +190,21 @@
                                       "/",
                                       "bi-dev-rds-dw"]]}
     },
-    "Replica1dJDBCConnectionString": {
+    "Replica1JDBCConnectionString": {
       "Description" : "JDBC connection string for the replica database",
       "Value" : { "Fn::Join": [ "", [ "jdbc:postgres://",
-                                      { "Fn::GetAtt": [ "ReplicaDBuseast1d", "Endpoint.Address" ] },
+                                      { "Fn::GetAtt": [ "ReplicaDB1", "Endpoint.Address" ] },
                                       ":",
-                                      { "Fn::GetAtt": [ "ReplicaDBuseast1d", "Endpoint.Port" ] },
+                                      { "Fn::GetAtt": [ "ReplicaDB1", "Endpoint.Port" ] },
                                       "/",
                                       "bi-dev-rds-dw-us-east-1d" ]]}
     },
-    "Replica1eJDBCConnectionString": {
+    "Replica2JDBCConnectionString": {
       "Description" : "JDBC connection string for the replica database",
       "Value" : { "Fn::Join": [ "", [ "jdbc:postgres://",
-                                      { "Fn::GetAtt": [ "ReplicaDBuseast1c", "Endpoint.Address" ] },
+                                      { "Fn::GetAtt": [ "ReplicaDB2", "Endpoint.Address" ] },
                                       ":",
-                                      { "Fn::GetAtt": [ "ReplicaDBuseast1c", "Endpoint.Port" ] },
+                                      { "Fn::GetAtt": [ "ReplicaDB2", "Endpoint.Port" ] },
                                       "/",
                                       "bi-dev-rds-dw-us-east-1c"]]}
     }	
