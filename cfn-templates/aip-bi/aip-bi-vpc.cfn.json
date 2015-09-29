@@ -298,12 +298,8 @@
           "Ref": "VpcNetworkCIDR"
         },
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": {
-              "Ref": "VpcName"
-            }
-          }
+          {"Key": "Name", "Value": { "Ref": "VpcName" }},
+          {"Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -322,9 +318,8 @@
           "Ref": "VpcAvailabilityZone1"
         },
         "Tags": [
-          {
-            "Key": "Name", "Value": { "Ref": "VpcSubnet1Name" }
-          }
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet1Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -342,7 +337,8 @@
           "Ref": "VpcAvailabilityZone1"
         },
         "Tags": [
-          { "Key": "Name", "Value": { "Ref": "VpcSubnet2Name" }}
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet2Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -360,12 +356,8 @@
           "Ref": "VpcAvailabilityZone2"
         },
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": {
-              "Ref": "VpcSubnet5Name"
-            }
-          }
+          {"Key": "Name", "Value": { "Ref": "VpcSubnet5Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -382,12 +374,8 @@
           "Ref": "VpcAvailabilityZone2"
         },
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": {
-              "Ref": "VpcSubnet6Name"
-            }
-          }
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet6Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -397,10 +385,8 @@
       "Type": "AWS::EC2::InternetGateway",
       "Properties": {
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-igw"]] }
-          }
+          {"Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-igw"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -419,8 +405,8 @@
     "NatInstance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "ImageId": "ami-c02b04a8",
-        "InstanceType": "m3.medium",
+        "NATImageId": {"Ref": "NATImageId"},
+        "NATInstanceType": {"Ref": "NATInstanceType"},
         "KeyName": {"Ref": "KeyName"},
         "Monitoring": "false",
         "AvailabilityZone": {
@@ -436,10 +422,8 @@
           }
         ],
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-nat"]] }
-          }
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-nat"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -518,10 +502,8 @@
           }
         ],
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-private"]] }
-          }
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-private"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -585,10 +567,8 @@
           }
         ],
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-nat"]] }
-          }
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-nat"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -639,11 +619,9 @@
           "Ref": "Vpc"
         },
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
-                        "-rtb-private-", { "Ref": "AWS::Region" }]] }
-          }
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
+                        "-rtb-private-", { "Ref": "AWS::Region" }]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -654,11 +632,9 @@
           "Ref": "Vpc"
         },
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
-                        "-rtb-public-", { "Ref": "AWS::Region" }]] }
-          }
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
+                        "-rtb-public-", { "Ref": "AWS::Region" }]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -815,17 +791,31 @@
         "Ref": "Vpc"
       }
     },
-    "VpcSubnet1": {
-      "Description": "VPC subnet ID.",
+    "InstanceSecurityGroup": {
+      "Description": "Private Subnet Instance Security Group",
       "Value": {
-        "Ref": "VpcSubnet1"
+        "Ref": "SgPrivate"
       }
     },
-    "VpcSubnet2": {
-      "Description": "VPC subnet ID",
+    "PrivateSubnet1": {
+      "Description": "VPC private subnet ID for Web.",
       "Value": {
         "Ref": "VpcSubnet2"
       }
+    },
+    "PrivateSubnet2": {
+      "Description": "VPC private subnet ID for Web",
+      "Value": {
+        "Ref": "VpcSubnet6"
+      }
+    },
+    "PublicSubnet1" : {
+      "Description" : "A public VPC subnet ID.",
+      "Value" : { "Ref" : "VpcSubnet1" }
+    },
+    "PublicSubnet2" : {
+      "Description" : "A public VPC subnet ID. Must be in a different AZ than PrivateSubnet1",
+      "Value" : { "Ref" : "VpcSubnet5" }
     }
   }
 }

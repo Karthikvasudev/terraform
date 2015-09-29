@@ -34,6 +34,10 @@
   {
     "ParameterKey": "NatInstanceType",
     "ParameterValue": "m3.medium"
+  },
+  {
+    "ParameterKey": "NATImageId",
+    "ParameterValue": "ami-c02b04a8"
   }
 ]
 

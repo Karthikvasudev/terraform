@@ -8,6 +8,46 @@
     "ParameterValue": "dev"
   },
   {
+    "ParameterKey": "VpcTemplateKey",
+    "ParameterValue": "aip-devops/cfn-templates/aip-bi/aip-bi-vpc.cfn.json"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "aip-devops/cfn-templates/aip-bi/aip-bi-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "aip-devops/cfn-templates/aip-bi/aip-bi-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "DatabaseUser",
+    "ParameterValue": "api_user"
+  },  
+  {
+    "ParameterKey": "DatabasePassword",
+    "ParameterValue": ""
+  },  
+  {
+    "ParameterKey": "DatabaseName",
+    "ParameterValue": "postgres"
+  },  
+  {
+    "ParameterKey": "WarKey",
+    "ParameterValue": ""
+  }, 
+  {
+    "ParameterKey": "NATInstanceType",
+    "ParameterValue": "m3.medium"
+  },
+  {
+    "ParameterKey": "NATImageId",
+    "ParameterValue": "ami-c02b04a8"
+  }, 
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "ApplicationName"
+  },
+  {
     "ParameterKey": "VpcName",
     "ParameterValue": "aip-dev-vpc-us-east-1"
   },
@@ -86,13 +126,5 @@
   {
     "ParameterKey": "VpcSubnet8CIDR",
     "ParameterValue": "10.85.11.128/25"
-  },
-  {
-    "ParameterKey": "NATInstanceType",
-    "ParameterValue": "m3.medium"
-  },
-  {
-    "ParameterKey": "NATImageId",
-    "ParameterValue": "ami-c02b04a8"
   }
 ]

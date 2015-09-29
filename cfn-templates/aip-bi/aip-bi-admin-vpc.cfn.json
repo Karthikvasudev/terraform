@@ -279,8 +279,8 @@
     "NatInstance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "ImageId": "ami-c02b04a8",
-        "InstanceType": "m3.medium",
+        "NATImageId": {"Ref": "NATImageId"},
+        "NATInstanceType": {"Ref": "NATInstanceType"},
         "KeyName": {"Ref": "KeyName"},
         "Monitoring": "false",
         "AvailabilityZone" :  {"Ref": "VpcAvailabilityZone1"},
