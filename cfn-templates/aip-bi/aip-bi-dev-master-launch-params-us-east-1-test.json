@@ -9,15 +9,15 @@
   },
   {
     "ParameterKey": "VpcTemplateKey",
-    "ParameterValue": "aip-devops/cfn-templates/aip-bi/aip-bi-vpc.cfn.json"
+    "ParameterValue": "aip-devops-test/cfn-templates/aip-bi/aip-bi-vpc.cfn.json"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "aip-devops/cfn-templates/aip-bi/aip-bi-aws-resources.cfn.json"
+    "ParameterValue": "aip-devops-test/cfn-templates/aip-bi/aip-bi-aws-resources.cfn.json"
   },
   {
     "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "aip-devops/cfn-templates/aip-bi/aip-bi-eb-app.cfn.json"
+    "ParameterValue": "aip-devops-test/cfn-templates/aip-bi/aip-bi-eb-app.cfn.json"
   },  
   {
     "ParameterKey": "DatabaseUser",
@@ -25,7 +25,7 @@
   },  
   {
     "ParameterKey": "DatabasePassword",
-    "ParameterValue": ""
+    "ParameterValue": "Pr0jectOT!me"
   },  
   {
     "ParameterKey": "DatabaseName",
