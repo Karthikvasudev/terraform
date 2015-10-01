@@ -138,6 +138,10 @@
   {
     "ParameterKey": "ApplicationURL",
     "ParameterValue": "aip-bi-eb-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "test-bi-dev-v1"
   },  
   {
     "ParameterKey": "ImageId",
