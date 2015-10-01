@@ -36,11 +36,11 @@
     "ParameterValue": ""
   }, 
   {
-    "ParameterKey": "NATInstanceType",
+    "ParameterKey": "NatInstanceType",
     "ParameterValue": "m3.medium"
   },
   {
-    "ParameterKey": "NATImageId",
+    "ParameterKey": "NatImageId",
     "ParameterValue": "ami-c02b04a8"
   }, 
   {
@@ -126,5 +126,22 @@
   {
     "ParameterKey": "VpcSubnet8CIDR",
     "ParameterValue": "10.85.11.128/25"
+  },
+  {
+    "ParameterKey": "CWatchLogGrpName",
+    "ParameterValue": "aip-bi-logs"
+  },  
+  {
+    "ParameterKey": "CWatchLogGrpRetention",
+    "ParameterValue": "14"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "aip-bi-eb-app"
+  },  
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-7da9d918"
   }
+
 ]

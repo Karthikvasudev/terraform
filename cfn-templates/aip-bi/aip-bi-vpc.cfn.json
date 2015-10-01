@@ -161,8 +161,15 @@
         "cg1.4xlarge"
       ],
       "ConstraintDescription": "must be a valid EC2 instance type."
+    },
+    "NatImageId": {
+      "Description": "NAT AMI Id",
+      "Type": "String",
+      "Default": "ami-c02b04a8",
+      "ConstraintDescription": "must be a valid EC2 AMI Id"
     }
   },
+
   "Mappings": {
     "AWSNATAMI": {
       "us-east-1": {
@@ -406,8 +413,8 @@
     "NatInstance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "NATImageId": {"Ref": "NATImageId"},
-        "NATInstanceType": {"Ref": "NATInstanceType"},
+        "ImageId": {"Ref": "NatImageId"},
+        "InstanceType": {"Ref": "NatInstanceType"},
         "KeyName": {"Ref": "KeyName"},
         "Monitoring": "false",
         "AvailabilityZone": {
@@ -792,8 +799,8 @@
         "Ref": "Vpc"
       }
     },
-    "InstanceSecurityGroup": {
-      "Description": "Private Subnet Instance Security Group",
+    "InstanceSecurityGroups": {
+      "Description": "Private Subnet Instance Security Groups",
       "Value": {
         "Ref": "SgPrivate"
       }

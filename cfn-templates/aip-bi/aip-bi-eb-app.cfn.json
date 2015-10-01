@@ -16,10 +16,9 @@
 		"Type": "String",
 		"MinLength": "1",
 		"MaxLength": "255",
-		"ConstraintDescription":"Application URL is a mandatory parameter",
-		"AllowedPattern" : "[a-zA-Z0-9]*"
+		"ConstraintDescription":"Application URL is a mandatory parameter"
 	},
-	"VPCId": {
+	"VpcId": {
 		"Description": "name of the VPC",
 		"Default": "vpc-08e1356c",
 		"Type": "String",
@@ -61,14 +60,19 @@
       "Description" : "Keypair to be used for launching instance",
 	  "Default": "aip-bi-dev-keys",
 	  "Type" : "String"
-    }	
+    },
+    "ApplicationName": {
+      "Description": "The name of the Elastic Beanstalk Application",
+      "Type": "String",
+      "Default": "aip-bi-eb-app"
+    }
   },
 
   "Resources": {
    "BIApp": {
       "Type": "AWS::ElasticBeanstalk::Application",
       "Properties": {
-  		  "ApplicationName" : "aip-bi-eb-app",
+  		  "ApplicationName" : "ApplicationName",
 		  "Description" : "ADD BI Application Environment"
       }
     },
@@ -97,10 +101,10 @@
       "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
       "Properties": {
         "ApplicationName": {
-          "Ref": "BIApp"
+          "Ref": "ApplicationName"
         },
         "SourceBundle": {
-          "S3Bucket": "elasticbeanstalk-us-east-1-661072482170",
+          "S3Bucket": "elasticbeanstalk-us-east-1-596978647277",
           "S3Key": "aip-bi-eb-app-v1.zip"
         }
       }
@@ -108,8 +112,8 @@
     "BIAPPEnvironment": {
       "Type": "AWS::ElasticBeanstalk::Environment",
       "Properties": {
-        "ApplicationName": {
-          "Ref": "BIApp"
+        "VpcId": {
+          "Ref": "VpcId"
         },
         "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
         "VersionLabel": {
@@ -206,8 +210,8 @@
           },
           {
             "Namespace": "aws:ec2:vpc",
-            "OptionName": "VPCId",
-            "Value": {"Ref": "VPCId"}
+            "OptionName": "VpcId",
+            "Value": {"Ref": "VpcId"}
           },
           {
             "Namespace": "aws:elasticbeanstalk:command",
@@ -251,7 +255,7 @@
       "Type": "AWS::ElasticBeanstalk::ConfigurationTemplate",
       "Properties": {
         "ApplicationName": {
-          "Ref": "BIApp"
+          "Ref": "ApplicationName"
         },
         "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
         "OptionSettings": [
@@ -327,8 +331,8 @@
           },
           {
             "Namespace": "aws:ec2:vpc",
-            "OptionName": "VPCId",
-            "Value": {"Ref": "VPCId"}
+            "OptionName": "VpcId",
+            "Value": {"Ref": "VpcId"}
           },
           {
             "Namespace": "aws:elasticbeanstalk:command",
