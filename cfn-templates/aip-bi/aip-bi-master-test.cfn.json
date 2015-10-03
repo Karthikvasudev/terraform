@@ -5,6 +5,7 @@
   "Description": "Provisions two substacks: a Vpc with NAT instances, and the resources stack, which launches the BI Beanstalk app and its dependencies into the VPC.",
 
   "Parameters": {
+
     "Environment": {
       "Description": "name of the VPC Environment (dev, test, qa, prod)",
       "Type": "String",
@@ -86,11 +87,6 @@
       "Description": "The prefix of the S3 bucket where the application WAR is located. A region-specific suffix will be appended, e.g. AssetsBucketPrefix-us-east-1.",
       "Type": "String",
       "Default" : "aws-amm-"
-    },
-    "WarKey": {
-      "Description": "The key of the application WAR file in the WarBucket",
-      "Type": "String",
-      "Default": "public/amediamanager.war"
     },
     "InstanceType": {
       "Description": "The type of instance to use for EB app servers",
@@ -271,6 +267,7 @@
   },
 
   "Resources": {
+
     "VpcScaffold" : {
       "Type" : "AWS::CloudFormation::Stack",
       "Metadata" : { "Comment" : "Build VPC for an Environment"},
@@ -311,7 +308,7 @@
       "Type" : "AWS::CloudFormation::Stack",
       "Metadata" : { "Comment" : "Build AWS Resources per Environment, e.g., S3, RDS"},
       "Properties" : {
-        "TemplateURL" : { "Fn::Join" : ["", [ "http://",  "s3.amazonaws.com/", { "Ref" : "ResourcesTemplateKey" }]]},
+        "TemplateURL" : { "Fn::Join" : ["", [ "http://",  "s3.amazonaws.com/", { "Ref" : "ResourcesTemplateKey" }]]}},
         "Parameters" : {
           "Environment": { "Ref" : "Environment" },
           "CWatchLogGrpName": { "Ref" : "CWatchLogGrpName" },
@@ -320,19 +317,24 @@
       }
     },
 
-    "App1" : {
+    "BeanstalkApp1" : {
       "Type" : "AWS::CloudFormation::Stack",
       "Metadata" : { "Comment" : "Beanstalk App - configure, build, deploy"},
       "Properties" : {
         "TemplateURL" : { "Fn::Join" : ["", [ "http://",  "s3.amazonaws.com/", { "Ref" : "AppTemplateKey" }]]},
         "Parameters" : {
           "Environment"              : { "Ref" : "Environment"},
-          "ApplicationURL"           : { "Ref" : "ApplicationURL"},
+
           "ImageId"                  : { "Ref" : "ImageId" },
           "KeyName"                  : { "Ref" : "KeyName" },
           "InstanceType"             : { "Ref" : "InstanceType"},
-          "ApplicationName"          : { "Ref" : "ApplicationName" },
           "InstanceSecurityGroups"   : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.InstanceSecurityGroups"] },
+
+
+          "ApplicationName"          : { "Ref" : {"Fn::Join": ["", ["aip-eb-bi-app-", {"Ref": "AWS::Region"}]]} },
+          "ApplicationURL"           : { "Ref" : "ApplicationURL"},
+          "ApplicationSourceBundle"  : { "Ref" : {"Fn::Join" : ["-", ["elasticbeanstalk", {"Ref" : "AWS::Region"}, {"Ref" : "AWS::AccountNo"}]]},
+
           "VpcId"                    : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.VpcId"] },
           "PrivateSubnets" : {
             "Fn::Join": [",", [{ "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet1"] }, { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet2"] }]] },
@@ -346,12 +348,7 @@
   "Outputs": {
     "URL": {
       "Description": "URL of the AWS Elastic Beanstalk Environment",
-      "Value": {
-        "Fn::GetAtt": ["App1", "Outputs.URL"]
-      }
+      "Value": { "Fn::GetAtt": ["BeanstalkApp1", "Outputs.URL"] }
     }
   }
 }
-
-
-	
