@@ -32,10 +32,6 @@
     "ParameterValue": "postgres"
   },  
   {
-    "ParameterKey": "WarKey",
-    "ParameterValue": ""
-  }, 
-  {
     "ParameterKey": "NatInstanceType",
     "ParameterValue": "m3.medium"
   },
@@ -141,6 +137,10 @@
   },
   {
     "ParameterKey": "ApplicationName",
+    "ParameterValue": "test-bi-dev-v1"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
     "ParameterValue": "test-bi-dev-v1"
   },  
   {

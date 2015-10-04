@@ -27,26 +27,25 @@
         },
         "InstanceType": {
             "Description": "Size of the instance [t1.micro,t2.small,m3.large..etc]",
-            "Default": "t2.medium",
+            "Default": "t3.medium",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
         },
         "InstanceSecurityGroups": {
             "Description": "A comma-delimited list of security groups",
-            "Default": "sg-fcd2ca9b,sg-3ef61a58",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
         },
-        "AutoScalingSecurityGroups": {
-            "Description": "A comma-delimited list of security groups",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"  
-        },
         "ApplicationURL": {
             "Description": "URL for Elastic BeanStalk Application. Please make sure it doesn't exist [unique]",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+        "ApplicationName": {
+            "Description": "The name of the Elastic Beanstalk Application",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -60,19 +59,16 @@
 
         "VpcId": {
             "Description": "name of the VPC",
-            "Default": "vpc-08e1356c",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
         },
         "PublicSubnets": {
-            "Default": "subnet-2f095104,subnet-c3e12cfe",
             "Description": "A comma-delimited list of public VPC subnets. ELBs will be launched into this subnet.",
             "Type": "String"
         },
         "PrivateSubnets": {
             "Description": "A comma-delimited list of private VPC subnets. Auto Scaling and RDS will be launched into this subnet.",
-            "Default": "subnet-c0e12cfd,subnet-2e095105",
             "Type": "String"
         }
     },
@@ -83,7 +79,7 @@
         "BIApp": {
             "Type": "AWS::ElasticBeanstalk::Application",
             "Properties": {
-                "ApplicationName": "ApplicationName",
+                "ApplicationName": { "Ref": "ApplicationName" },
                 "Description": "ADD BI Application Environment"
             }
         },
@@ -95,7 +91,7 @@
                 "ImageId": { "Ref": "ImageId" },
                 "InstanceType": { "Ref": "InstanceType" },
                 "KeyName": { "Ref": "KeyName"},
-                "SecurityGroups": [{ "Ref": "AutoScalingSecurityGroups" }]
+                "SecurityGroups": [{ "Ref": "InstanceSecurityGroups" }]
             }
         },
 
@@ -104,7 +100,9 @@
             "Properties": {
                 "ApplicationName": { "Ref": "BIApp" },
                 "SourceBundle": {
-                    "S3Bucket": {"Ref": "ApplicationSourceBundle"}, "S3Key": "aip-bi-eb-app-v1.zip"}
+                    "S3Bucket"  : {"Ref": "ApplicationSourceBundle"}, 
+                    "S3Key"     : "aip-bi-eb-app-v1.zip"
+                }
             }
         },
 
@@ -256,7 +254,7 @@
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
                         "OptionName": "EC2KeyName",
-                        "KeyName": { "Ref": "KeyName" }
+                        "Value": { "Ref": "KeyName" }
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",

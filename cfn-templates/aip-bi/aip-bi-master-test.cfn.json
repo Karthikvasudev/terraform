@@ -31,9 +31,7 @@
       "Description": "Name of an existing EC2 KeyPair to enable SSH access to the Elastic Beanstalk and Bastion hosts",
       "Type": "String",
       "MinLength": "1",
-      "MaxLength": "255",
-      "AllowedPattern": "[\\x20-\\x7E]*",
-      "ConstraintDescription": "can contain only ASCII characters."
+      "MaxLength": "255"
     },
     "VpcAvailabilityZone1": {
       "Description": "One of two Availability Zones that will be used to create subnets.",
@@ -66,8 +64,7 @@
       "Type": "String",
       "Description": "Database web app account name",
       "MinLength": "1",
-      "MaxLength": "16",
-      "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
+      "MaxLength": "16"
     },
     "DatabasePassword": {
       "Default": "0bee082a464",
@@ -75,18 +72,17 @@
       "Type": "String",
       "Description": "Database admin account password",
       "MinLength": "1",
-      "MaxLength": "41",
-      "ConstraintDescription": "must contain only alphanumeric characters."
+      "MaxLength": "41"
     },
     "DatabaseName": {
       "Description": "The name of the database",
       "Type": "String",
-      "Default": " amediamanager"
+      "Default": " postgres"
     },
     "AssetsBucketPrefix": {
       "Description": "The prefix of the S3 bucket where the application WAR is located. A region-specific suffix will be appended, e.g. AssetsBucketPrefix-us-east-1.",
       "Type": "String",
-      "Default" : "aws-amm-"
+      "Default" : "aip-"
     },
     "InstanceType": {
       "Description": "The type of instance to use for EB app servers",
@@ -105,9 +101,15 @@
       "MinLength": "1",
       "MaxLength": "255",
       "ConstraintDescription":"Application URL is a mandatory parameter"
-     },
+    },
+    "ApplicationSourceBundle": {
+      "Description": "S3 bucket name having application zip",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
     "ImageId": {
-      "Description": "name of the Image (AMI Info)",
+      "Description": "name of the Image (AMI Info) - aws-elasticbeanstalk-amzn-2015.03.1.x86_64-ecs-hvm-201509182207",
       "Default": "ami-7da9d918",
       "Type": "String",
       "MinLength": "1",
@@ -302,13 +304,15 @@
           "KeyName": { "Ref" : "KeyName" }
         }
       }
+
+
     },
 
     "AppResources" : {
       "Type" : "AWS::CloudFormation::Stack",
-      "Metadata" : { "Comment" : "Build AWS Resources per Environment, e.g., S3, RDS"},
+      "Metadata" : { "Comment" : "Build AWS Resources per Environment, e.g., S3, RDS" },
       "Properties" : {
-        "TemplateURL" : { "Fn::Join" : ["", [ "http://",  "s3.amazonaws.com/", { "Ref" : "ResourcesTemplateKey" }]]}},
+        "TemplateURL" : { "Fn::Join" : ["", [ "http://",  "s3.amazonaws.com/", { "Ref" : "ResourcesTemplateKey" }]]},
         "Parameters" : {
           "Environment": { "Ref" : "Environment" },
           "CWatchLogGrpName": { "Ref" : "CWatchLogGrpName" },
@@ -319,32 +323,32 @@
 
     "BeanstalkApp1" : {
       "Type" : "AWS::CloudFormation::Stack",
-      "Metadata" : { "Comment" : "Beanstalk App - configure, build, deploy"},
+      "Metadata" : { "Comment" : "Beanstalk App - configure, build, deploy" },
       "Properties" : {
-        "TemplateURL" : { "Fn::Join" : ["", [ "http://",  "s3.amazonaws.com/", { "Ref" : "AppTemplateKey" }]]},
+        "TemplateURL" : {"Fn::Join" : ["", [ "http://",  "s3.amazonaws.com/", { "Ref" : "AppTemplateKey" }]]},
         "Parameters" : {
-          "Environment"              : { "Ref" : "Environment"},
+            "Environment"              : { "Ref" : "Environment"},
 
-          "ImageId"                  : { "Ref" : "ImageId" },
-          "KeyName"                  : { "Ref" : "KeyName" },
-          "InstanceType"             : { "Ref" : "InstanceType"},
-          "InstanceSecurityGroups"   : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.InstanceSecurityGroups"] },
+            "ImageId"                  : { "Ref" : "ImageId" },
+            "KeyName"                  : { "Ref" : "KeyName" },
+            "InstanceType"             : { "Ref" : "InstanceType" },
+            "InstanceSecurityGroups"   : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.InstanceSecurityGroups"] },
 
+            "ApplicationName"          : {"Fn::Join": ["", ["aip-eb-bi-app-", {"Ref": "AWS::Region"}]]},
+            "ApplicationURL"           : { "Ref" : "ApplicationURL"},
+            "ApplicationSourceBundle"  : {"Fn::Join" : ["-", ["elasticbeanstalk", {"Ref" : "AWS::Region"}, {"Ref" : "AWS::AccountId"}]]},
 
-          "ApplicationName"          : { "Ref" : {"Fn::Join": ["", ["aip-eb-bi-app-", {"Ref": "AWS::Region"}]]} },
-          "ApplicationURL"           : { "Ref" : "ApplicationURL"},
-          "ApplicationSourceBundle"  : { "Ref" : {"Fn::Join" : ["-", ["elasticbeanstalk", {"Ref" : "AWS::Region"}, {"Ref" : "AWS::AccountNo"}]]},
-
-          "VpcId"                    : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.VpcId"] },
-          "PrivateSubnets" : {
-            "Fn::Join": [",", [{ "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet1"] }, { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet2"] }]] },
-          "PublicSubnets" : {
-            "Fn::Join": [",", [{ "Fn::GetAtt" : ["VpcScaffold", "Outputs.PublicSubnet1"] }, { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PublicSubnet2"] }]] }
+            "VpcId"                    : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.VpcId"] },
+            "PrivateSubnets" : {
+              "Fn::Join": [",", [{ "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet1"]}, { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet2"]} ]] },
+            "PublicSubnets" : {
+              "Fn::Join": [",", [{ "Fn::GetAtt" : ["VpcScaffold", "Outputs.PublicSubnet1"]}, { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PublicSubnet2"]} ]] }
+          }
         }
       }
-    }
   },
 
+  
   "Outputs": {
     "URL": {
       "Description": "URL of the AWS Elastic Beanstalk Environment",

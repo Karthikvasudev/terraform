@@ -83,3 +83,9 @@ aws cloudformation create-stack \
 --template-body file://aip-bi-master-test.cfn.json \
 --parameters file://aip-bi-dev-master-launch-params-us-east-1-test.json \
 --capabilities CAPABILITY_IAM --disable-rollback --profile test
+
+# DEBUG - Validate Template
+aws cloudformation validate-template \
+--stack-name aip-bi-dev-master \
+--template-body file://aip-bi-master-test.cfn.json \
+--parameters file://aip-bi-dev-master-launch-params-us-east-1-test.json --profile test
