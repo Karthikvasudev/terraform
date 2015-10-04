@@ -144,6 +144,10 @@
     "ParameterValue": "test-bi-dev-v1"
   },  
   {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "test-bi-dev-v1.zip"
+  },  
+  {
     "ParameterKey": "ImageId",
     "ParameterValue": "ami-7da9d918"
   }

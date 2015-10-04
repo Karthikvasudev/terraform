@@ -56,7 +56,12 @@
             "MinLength": "1",
             "MaxLength": "255"
 		},
-
+        "S3Key": {
+            "Description": "Application zip file name within ApplicationSourceBundle",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
         "VpcId": {
             "Description": "name of the VPC",
             "Type": "String",
@@ -101,7 +106,7 @@
                 "ApplicationName": { "Ref": "BIApp" },
                 "SourceBundle": {
                     "S3Bucket"  : {"Ref": "ApplicationSourceBundle"}, 
-                    "S3Key"     : "aip-bi-eb-app-v1.zip"
+                    "S3Key"     : {"Ref" : "S3Key"}
                 }
             }
         },

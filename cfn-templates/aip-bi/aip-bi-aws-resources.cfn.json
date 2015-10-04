@@ -40,6 +40,7 @@
             "ConstraintDescription": "must select a valid retention interval."
         }
     },
+
     "Resources": {
         "OpSQSFileUpload": {
             "Type": "AWS::SQS::Queue",
@@ -213,5 +214,29 @@
                 }
             }
         }
-    }
+    },
+
+    "Outputs": {
+        "OpSQSFileUpload": {
+          "Value": {"Ref": "OpSQSFileUpload"}
+        },
+        "OpSQSDataProcess": {
+           "Value" : { "Ref" : "OpSQSDataProcess" }
+        },
+        "OpS3FileUpload": {
+           "Value" : { "Ref" : "OpS3FileUpload" }
+        },        
+        "OpS3FileUploadPolicy": {
+           "Value" : { "Ref" : "OpS3FileUploadPolicy" }
+        },        
+        "OpSQSFileUploadPolicy": {
+           "Value" : { "Ref" : "OpSQSFileUploadPolicy" }
+        },          
+        "OpSQSDataProcessPolicy": {
+           "Value" : { "Ref" : "OpSQSDataProcessPolicy" }
+        },          
+        "cWatch": {
+           "Value" : { "Ref" : "cWatch" }
+        }
+  }
 }
