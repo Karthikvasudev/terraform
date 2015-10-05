@@ -9,15 +9,15 @@
   },
   {
     "ParameterKey": "VpcTemplateKey",
-    "ParameterValue": "aip-devops/cfn-templates/aip-bi/aip-bi-vpc.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-bi/aip-bi-vpc.cfn.json"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "aip-devops/cfn-templates/aip-bi/aip-bi-aws-resources.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-bi/aip-bi-aws-resources.cfn.json"
   },
   {
     "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "aip-devops/cfn-templates/aip-bi/aip-bi-eb-app.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-bi/aip-bi-eb-app.cfn.json"
   },  
   {
     "ParameterKey": "DatabaseUser",
@@ -25,16 +25,12 @@
   },  
   {
     "ParameterKey": "DatabasePassword",
-    "ParameterValue": ""
+    "ParameterValue": "Pr0jectOT!me"
   },  
   {
     "ParameterKey": "DatabaseName",
     "ParameterValue": "postgres"
   },  
-  {
-    "ParameterKey": "WarKey",
-    "ParameterValue": ""
-  }, 
   {
     "ParameterKey": "NatInstanceType",
     "ParameterValue": "m3.medium"
@@ -126,5 +122,34 @@
   {
     "ParameterKey": "VpcSubnet8CIDR",
     "ParameterValue": "10.85.11.128/25"
+  },
+  {
+    "ParameterKey": "CWatchLogGrpName",
+    "ParameterValue": "aip-bi-logs"
+  },  
+  {
+    "ParameterKey": "CWatchLogGrpRetention",
+    "ParameterValue": "14"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "test-bi"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "test-bi-dev-v1"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "test-bi-dev-v1"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "aip-bi-eb-app-v1.zip"
+  },  
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-7da9d918"
   }
+
 ]

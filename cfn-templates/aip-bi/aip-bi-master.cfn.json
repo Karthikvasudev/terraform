@@ -5,28 +5,33 @@
   "Description": "Provisions two substacks: a Vpc with NAT instances, and the resources stack, which launches the BI Beanstalk app and its dependencies into the VPC.",
 
   "Parameters": {
+
+    "Environment": {
+      "Description": "name of the VPC Environment (dev, test, qa, prod)",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
     "VpcTemplateKey": {
       "Description": "The key of the template for the VPC scaffold substack",
       "Type": "String",
-      "Default": "aip-devops/cfn-templates/aip-bi/aip-bi-vpc.cfn.json"
+      "Default": "aip-devops-REGION-ACCOUNTID/cfn-templates/aip-bi/aip-bi-vpc.cfn.json"
     },
     "ResourcesTemplateKey": {
       "Description": "The key of the template for the EB resources and application substack",
       "Type": "String",
-      "Default": "aip-devops/cfn-templates/aip-bi/aip-bi-aws-resources.cfn.json"
+      "Default": "aip-devops-REGION-ACCOUNTID/cfn-templates/aip-bi/aip-bi-aws-resources.cfn.json"
     },
     "AppTemplateKey": {
       "Description": "The key of the template for that contains the EB app and env embedded in ResourcesTemplateKey",
       "Type": "String",
-      "Default": "aip-devops/cfn-templates/aip-bi/aip-bi-eb-app.cfn.json"
+      "Default": "aip-devops-REGION-ACCOUNTID/cfn-templates/aip-bi/aip-bi-eb-app.cfn.json"
     },
     "KeyName": {
       "Description": "Name of an existing EC2 KeyPair to enable SSH access to the Elastic Beanstalk and Bastion hosts",
       "Type": "String",
       "MinLength": "1",
-      "MaxLength": "255",
-      "AllowedPattern": "[\\x20-\\x7E]*",
-      "ConstraintDescription": "can contain only ASCII characters."
+      "MaxLength": "255"
     },
     "VpcAvailabilityZone1": {
       "Description": "One of two Availability Zones that will be used to create subnets.",
@@ -57,10 +62,9 @@
       "Default": "admin",
       "NoEcho": "true",
       "Type": "String",
-      "Description": "Database admin account name",
+      "Description": "Database web app account name",
       "MinLength": "1",
-      "MaxLength": "16",
-      "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
+      "MaxLength": "16"
     },
     "DatabasePassword": {
       "Default": "0bee082a464",
@@ -68,23 +72,17 @@
       "Type": "String",
       "Description": "Database admin account password",
       "MinLength": "1",
-      "MaxLength": "41",
-      "ConstraintDescription": "must contain only alphanumeric characters."
+      "MaxLength": "41"
     },
     "DatabaseName": {
       "Description": "The name of the database",
       "Type": "String",
-      "Default": " amediamanager"
+      "Default": " postgres"
     },
     "AssetsBucketPrefix": {
       "Description": "The prefix of the S3 bucket where the application WAR is located. A region-specific suffix will be appended, e.g. AssetsBucketPrefix-us-east-1.",
       "Type": "String",
-      "Default" : "aws-amm-"
-    },
-    "WarKey": {
-      "Description": "The key of the application WAR file in the WarBucket",
-      "Type": "String",
-      "Default": "public/amediamanager.war"
+      "Default" : "aip-"
     },
     "InstanceType": {
       "Description": "The type of instance to use for EB app servers",
@@ -95,18 +93,198 @@
     "ApplicationName": {
       "Description": "The name of the Elastic Beanstalk Application",
       "Type": "String",
-      "Default": "aMediaManager-VPC"
+      "Default": "aip-bi-eb-app"
+    },
+    "ApplicationURL": {
+      "Description": "URL for Elastic BeanStalk Application. Please make sure it doesn't exist [unique]",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255",
+      "ConstraintDescription":"Application URL is a mandatory parameter"
+    },
+    "ApplicationSourceBundle": {
+      "Description": "S3 bucket name having application zip",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "S3Key": {
+      "Description": "Application zip file name within ApplicationSourceBundle",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "ImageId": {
+      "Description": "name of the Image (AMI Info) - aws-elasticbeanstalk-amzn-2015.03.1.x86_64-ecs-hvm-201509182207",
+      "Default": "ami-7da9d918",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },  
+    "CWatchLogGrpName": {
+        "Description": "CloudWatch Log Group Name for BI Apps",
+        "Type": "String",
+        "MinLength": "1",
+        "MaxLength": "255"
+    },
+    "CWatchLogGrpRetention": {
+        "Default": "5",
+        "Description": "CloudWatch Log Group Retention In Days for BI Apps",
+        "Type": "Number",
+        "AllowedValues": [
+            1,
+            3,
+            5,
+            7,
+            14,
+            30,
+            60,
+            90,
+            120,
+            150,
+            180,
+            365,
+            400,
+            545,
+            731,
+            1827,
+            3653
+        ],
+        "ConstraintDescription": "must select a valid retention interval."
+    },
+    "VpcName": {
+      "Description": "name of the VPC",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcAvailabilityZone1": {
+      "Description": "One of two Availability Zones that will be used to create subnets.",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcAvailabilityZone2": {
+      "Description": "One of two Availability Zones that will be used to create subnets.",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcNetworkCIDR": {
+      "Description": "VPC CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet1Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet1CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet2Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet2CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet3Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet3CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet4Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet4CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet5Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet5CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet6Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet6CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet7Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet7CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet8Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet8CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
     }
   },
 
   "Resources": {
+
     "VpcScaffold" : {
       "Type" : "AWS::CloudFormation::Stack",
       "Metadata" : { "Comment" : "Build VPC for an Environment"},
       "Properties" : {
-        "TemplateURL" : { "Fn::Join" : ["", [ "http://", "s3.amazonaws.com/", { "Ref" : "VpcTemplateKey" }]]},
+        "TemplateURL" : 
+            { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
+            {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "VpcTemplateKey" }]]},
         "Parameters" : {
-          "Environment" : { "Ref" : " Environment"},
+          "Environment" : { "Ref" : "Environment"},
 
           "VpcName" : { "Ref" : "VpcName"},
           "VpcAvailabilityZone1": { "Ref" : "VpcAvailabilityZone1" },
@@ -130,63 +308,64 @@
           "VpcSubnet8CIDR" : { "Ref" : "VpcSubnet8CIDR"},
 
           "NatInstanceType" : { "Ref" : "NatInstanceType"},
+          "NatImageId" : { "Ref" : "NatImageId"},
           "KeyName": { "Ref" : "KeyName" }
         }
       }
+
+
     },
+
     "AppResources" : {
       "Type" : "AWS::CloudFormation::Stack",
-      "Metadata" : { "Comment" : "Build AWS Resources per Environment, e.g., S3, RDS"},
+      "Metadata" : { "Comment" : "Build AWS Resources per Environment, e.g., S3, RDS" },
       "Properties" : {
-        "TemplateURL" : { "Fn::Join" : ["", [ "http://",  "s3.amazonaws.com/", { "Ref" : "ResourcesTemplateKey" }]]},
+        "TemplateURL" : 
+            { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
+            {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "ResourcesTemplateKey" }]]},
         "Parameters" : {
-          "DatabaseUser": { "Ref" : "DatabaseUser" },
-          "DatabasePassword": { "Ref" : "DatabasePassword" },
-          "DatabaseName": { "Ref" : "DatabaseName" },          
-          "InstanceSecurityGroup" : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.InstanceSecurityGroup"] },
-          "VpcId" : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.VpcId"] },
-          "PrivateSubnet1" : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet1"] },
-          "PrivateSubnet2" : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet2"] }
+          "Environment": { "Ref" : "Environment" },
+          "CWatchLogGrpName": { "Ref" : "CWatchLogGrpName" },
+          "CWatchLogGrpRetention": { "Ref" : "CWatchLogGrpRetention" }
         }
       }
     },
-    "App1" : {
+
+    "BeanstalkApp1" : {
       "Type" : "AWS::CloudFormation::Stack",
-      "Metadata" : { "Comment" : "Beanstalk App - configure, build, deploy"},
+      "Metadata" : { "Comment" : "Beanstalk App - configure, build, deploy" },
       "Properties" : {
-        "TemplateURL" : { "Fn::Join" : ["", [ "http://",  "s3.amazonaws.com/", { "Ref" : "AppTemplateKey" }]]},
+        "TemplateURL" :         
+            { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
+            {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "AppTemplateKey" }]]},
         "Parameters" : {
-          "RdsDbId"                : { "Fn::GetAtt" : [ "AppResources", "Outputs.RdsDbId" ]},
-          "DatabaseName"           : { "Ref" : "DatabaseName"},
-          "DatabaseUser"           : { "Ref" : "DatabaseUser"},
-          "DatabasePassword"       : { "Ref" : "DatabasePassword" },
-          "AssetsBucketPrefix"     : { "Ref" : "AssetsBucketPrefix" },
-          "WarKey"                 : { "Ref" : "WarKey"},
-          "KeyName"                : { "Ref" : "KeyName" },
-          "InstanceType"           : { "Ref" : "InstanceType"},
-          "ApplicationName"        : { "Ref" : "ApplicationName" },
-          "InstanceSecurityGroup"  : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.InstanceSecurityGroup"] },
-          "VpcId" : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.VpcId"] },
-          "PrivateSubnets" : {
-            "Fn::Join": [",", [{ "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet1"] }, { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet2"] }]]
-          },
-          "PublicSubnets" : {
-            "Fn::Join": [",", [{ "Fn::GetAtt" : ["VpcScaffold", "Outputs.PublicSubnet1"] }, { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PublicSubnet2"] }]]
+            "Environment"              : { "Ref" : "Environment"},
+
+            "ImageId"                  : { "Ref" : "ImageId" },
+            "KeyName"                  : { "Ref" : "KeyName" },
+            "InstanceType"             : { "Ref" : "InstanceType" },
+            "InstanceSecurityGroups"   : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.InstanceSecurityGroups"] },
+
+            "ApplicationName"          : { "Fn::Join": ["", ["aip-eb-bi-app-", {"Ref": "AWS::Region"}]]},
+            "ApplicationURL"           : { "Ref" : "ApplicationURL"},
+            "ApplicationSourceBundle"  : { "Fn::Join" : ["-", ["elasticbeanstalk", {"Ref" : "AWS::Region"}, {"Ref" : "AWS::AccountId"}]]},
+            "S3Key"                    : { "Ref" : "S3Key"},
+
+            "VpcId"                    : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.VpcId"] },
+            "PrivateSubnets" : {
+              "Fn::Join": [",", [{ "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet1"]}, { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PrivateSubnet2"]} ]] },
+            "PublicSubnets" : {
+              "Fn::Join": [",", [{ "Fn::GetAtt" : ["VpcScaffold", "Outputs.PublicSubnet1"]}, { "Fn::GetAtt" : ["VpcScaffold", "Outputs.PublicSubnet2"]} ]] }
           }
         }
       }
-    }
   },
+
+  
   "Outputs": {
     "URL": {
       "Description": "URL of the AWS Elastic Beanstalk Environment",
-      "Value": {
-        "Fn::GetAtt": ["App1", "Outputs.URL"]
-      }
+      "Value": { "Fn::GetAtt": ["BeanstalkApp1", "Outputs.URL"] }
     }
   }
 }
-
-
-
-	

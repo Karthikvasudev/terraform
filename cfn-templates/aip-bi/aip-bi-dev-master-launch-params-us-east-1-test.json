@@ -145,7 +145,7 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "test-bi-dev-v1.zip"
+    "ParameterValue": "aip-bi-eb-app-v1.zip"
   },  
   {
     "ParameterKey": "ImageId",

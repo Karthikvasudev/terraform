@@ -65,6 +65,14 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback --profile test
 
 
+
+# DEBUG - Validate Template
+aws cloudformation validate-template \
+--template-body file://aip-bi-master-test.cfn.json \
+--cli-input-json file://aip-bi-dev-master-launch-params-us-east-1-test.json --profile test
+
+
+
 ##
 ## -- VPC peering --
 ### 
@@ -77,15 +85,16 @@ aws cloudformation create-stack \
 
 ### BI Beanstalk deployment via Master Template -- 
 ##
-## -- Dev --
+## -- Test Dev --
 aws cloudformation create-stack \
 --stack-name aip-bi-dev-master \
 --template-body file://aip-bi-master-test.cfn.json \
 --parameters file://aip-bi-dev-master-launch-params-us-east-1-test.json \
 --capabilities CAPABILITY_IAM --disable-rollback --profile test
 
-# DEBUG - Validate Template
-aws cloudformation validate-template \
+## -- Abbott Dev --
+aws cloudformation create-stack \
 --stack-name aip-bi-dev-master \
---template-body file://aip-bi-master-test.cfn.json \
---parameters file://aip-bi-dev-master-launch-params-us-east-1-test.json --profile test
+--template-body file://aip-bi-master.cfn.json \
+--parameters file://aip-bi-dev-master-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback --profile test

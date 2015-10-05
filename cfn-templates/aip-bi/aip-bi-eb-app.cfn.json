@@ -105,8 +105,8 @@
             "Properties": {
                 "ApplicationName": { "Ref": "BIApp" },
                 "SourceBundle": {
-                    "S3Bucket"  : {"Ref": "ApplicationSourceBundle"}, 
-                    "S3Key"     : {"Ref" : "S3Key"}
+                    "S3Bucket"  : { "Ref" : "ApplicationSourceBundle" }, 
+                    "S3Key"     : { "Ref" : "S3Key" }
                 }
             }
         },
@@ -127,7 +127,6 @@
                     "Version": " "
                 },
                 "EnvironmentName": {"Fn::Join": ["", ["aip-", {"Ref": "Environment"}, "-bi-", {"Ref": "AWS::Region"}]]},
-                "CNAMEPrefix": {"Ref": "ApplicationURL"},
                 "OptionSettings": [
                     {
                         "Namespace": "aws:autoscaling:asg",
