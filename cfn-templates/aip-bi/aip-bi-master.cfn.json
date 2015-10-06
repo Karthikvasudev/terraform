@@ -152,6 +152,24 @@
         ],
         "ConstraintDescription": "must select a valid retention interval."
     },
+    "AdminVpcId": {
+      "Description": "Administration Vpc Id",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "AdminVpcCIDR": {
+      "Description": "Administration Vpc CIDR block assignment",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "AdminVpcPrivateRouteTableId": {
+      "Description": "Administration Vpc Route Table Id for Private Subnets",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
     "VpcName": {
       "Description": "name of the VPC",
       "Type": "String",
@@ -309,7 +327,11 @@
 
           "NatInstanceType" : { "Ref" : "NatInstanceType"},
           "NatImageId" : { "Ref" : "NatImageId"},
-          "KeyName": { "Ref" : "KeyName" }
+          "KeyName": { "Ref" : "KeyName" },
+
+          "AdminVpcId" : { "Ref" : "AdminVpcId"},
+          "AdminVpcCIDR" : { "Ref" : "AdminVpcCIDR"},
+          "AdminVpcPrivateRouteTableId": { "Ref" : "AdminVpcPrivateRouteTableId" }
         }
       }
 
@@ -346,7 +368,7 @@
             "InstanceType"             : { "Ref" : "InstanceType" },
             "InstanceSecurityGroups"   : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.InstanceSecurityGroups"] },
 
-            "ApplicationName"          : { "Fn::Join": ["", ["aip-eb-bi-app-", {"Ref": "AWS::Region"}]]},
+            "ApplicationName"          : { "Fn::Join": ["-", [{"Ref": "ApplicationName"}, {"Ref": "AWS::Region"}]]},
             "ApplicationURL"           : { "Ref" : "ApplicationURL"},
             "ApplicationSourceBundle"  : { "Fn::Join" : ["-", ["elasticbeanstalk", {"Ref" : "AWS::Region"}, {"Ref" : "AWS::AccountId"}]]},
             "S3Key"                    : { "Ref" : "S3Key"},

@@ -78,11 +78,17 @@
         }
     },
 
+    "Conditions" : {
+        "CreateBeanstalkApplication" : {
+            "Fn::Equals": [{"Ref" : "Environment"}, "dev"]
+        }
+    },
 
     "Resources": {
 
         "BIApp": {
             "Type": "AWS::ElasticBeanstalk::Application",
+            "Condition"  : "CreateBeanstalkApplication",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "Description": "ADD BI Application Environment"
@@ -103,7 +109,7 @@
         "BIAppVersion": {
             "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
             "Properties": {
-                "ApplicationName": { "Ref": "BIApp" },
+                "ApplicationName": { "Ref": "ApplicationName" },
                 "SourceBundle": {
                     "S3Bucket"  : { "Ref" : "ApplicationSourceBundle" }, 
                     "S3Key"     : { "Ref" : "S3Key" }
@@ -115,7 +121,7 @@
             "Type": "AWS::ElasticBeanstalk::Environment",
             "Properties": {
                 "ApplicationName": {
-                    "Ref": "BIApp"
+                    "Ref": "ApplicationName"
                 },
                 "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
                 "VersionLabel": {
@@ -126,7 +132,7 @@
                     "Type": "Standard",
                     "Version": " "
                 },
-                "EnvironmentName": {"Fn::Join": ["", ["aip-", {"Ref": "Environment"}, "-bi-", {"Ref": "AWS::Region"}]]},
+                "EnvironmentName": {"Fn::Join": ["", [{"Ref": "Environment"}, "-bi-app-", {"Ref": "AWS::Region"}]]},
                 "OptionSettings": [
                     {
                         "Namespace": "aws:autoscaling:asg",
@@ -246,7 +252,7 @@
             "Type": "AWS::ElasticBeanstalk::ConfigurationTemplate",
             "Properties": {
                 "ApplicationName": {
-                    "Ref": "BIApp"
+                    "Ref": "ApplicationName"
                 },
                 "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
                 "OptionSettings": [

@@ -12,17 +12,3 @@ Routing testing
 Peering VPC to Admin VPC
 
 
-# Peering
-{
-  "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "VPC Peering template",
-
-  "Resources": {
-	   "Type" : "AWS::EC2::VPCPeeringConnection",
-	   "Properties" : {
-	      "PeerVpcId" : String,
-	      "Tags" : [ Resource Tag, ... ],
-	      "VpcId" : String
-	}
-	}
-}   

@@ -1,11 +1,11 @@
 [
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-dev-keys"
+    "ParameterValue": "aip-bi-test-keys"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "dev"
+    "ParameterValue": "test"
   },
   {
     "ParameterKey": "VpcTemplateKey",
@@ -57,7 +57,7 @@
   },
   {
     "ParameterKey": "VpcName",
-    "ParameterValue": "aip-dev-vpc-us-east-1"
+    "ParameterValue": "aip-test-vpc-us-east-1"
   },
   {
     "ParameterKey": "VpcAvailabilityZone1",
@@ -69,71 +69,71 @@
   },
   {
     "ParameterKey": "VpcNetworkCIDR",
-    "ParameterValue": "10.85.8.0/21"
+    "ParameterValue": "10.85.16.0/21"
   },
   {
     "ParameterKey": "VpcSubnet1Name",
-    "ParameterValue": "aip-dev-sn-pub-us-east-1d"
+    "ParameterValue": "aip-test-sn-pub-us-east-1d"
   },
   {
     "ParameterKey": "VpcSubnet1CIDR",
-    "ParameterValue": "10.85.8.0/25"
+    "ParameterValue": "10.85.16.0/25"
   },
   {
     "ParameterKey": "VpcSubnet2Name",
-    "ParameterValue": "aip-dev-sn-web-us-east-1d"
+    "ParameterValue": "aip-test-sn-web-us-east-1d"
   },
   {
     "ParameterKey": "VpcSubnet2CIDR",
-    "ParameterValue": "10.85.8.128/25"
+    "ParameterValue": "10.85.16.128/25"
   },  
   {
     "ParameterKey": "VpcSubnet3Name",
-    "ParameterValue": "aip-dev-sn-data-us-east-1d"
+    "ParameterValue": "aip-test-sn-data-us-east-1d"
   },
   {
     "ParameterKey": "VpcSubnet3CIDR",
-    "ParameterValue": "10.85.9.0/25"
+    "ParameterValue": "10.85.17.0/25"
   },
   {
     "ParameterKey": "VpcSubnet4Name",
-    "ParameterValue": "aip-dev-sn-etl-us-east-1d"
+    "ParameterValue": "aip-test-sn-etl-us-east-1d"
   },
   {
     "ParameterKey": "VpcSubnet4CIDR",
-    "ParameterValue": "10.85.9.128/25"
+    "ParameterValue": "10.85.17.128/25"
   },  
   {
     "ParameterKey": "VpcSubnet5Name",
-    "ParameterValue": "aip-dev-sn-pub-us-east-1e"
+    "ParameterValue": "aip-test-sn-pub-us-east-1e"
   },
   {
     "ParameterKey": "VpcSubnet5CIDR",
-    "ParameterValue": "10.85.10.0/25"
+    "ParameterValue": "10.85.18.0/25"
   },
   {
     "ParameterKey": "VpcSubnet6Name",
-    "ParameterValue": "aip-dev-sn-web-us-east-1e"
+    "ParameterValue": "aip-test-sn-web-us-east-1e"
   },
   {
     "ParameterKey": "VpcSubnet6CIDR",
-    "ParameterValue": "10.85.10.128/25"
+    "ParameterValue": "10.85.18.128/25"
   },
   {
     "ParameterKey": "VpcSubnet7Name",
-    "ParameterValue": "aip-dev-sn-data-us-east-1e"
+    "ParameterValue": "aip-test-sn-data-us-east-1e"
   },
   {
     "ParameterKey": "VpcSubnet7CIDR",
-    "ParameterValue": "10.85.11.0/25"
+    "ParameterValue": "10.85.19.0/25"
   },
   {
     "ParameterKey": "VpcSubnet8Name",
-    "ParameterValue": "aip-dev-sn-etl-us-east-1e"
+    "ParameterValue": "aip-test-sn-etl-us-east-1e"
   },
   {
     "ParameterKey": "VpcSubnet8CIDR",
-    "ParameterValue": "10.85.11.128/25"
+    "ParameterValue": "10.85.19.128/25"
   },
   {
     "ParameterKey": "CWatchLogGrpName",
@@ -145,7 +145,7 @@
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "aip-dev-eb-bi-app"
+    "ParameterValue": "aip-test-eb-bi-app"
   },
   {
     "ParameterKey": "ApplicationName",
@@ -153,11 +153,11 @@
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
-    "ParameterValue": "aip-dev-eb-bi-app"
+    "ParameterValue": "aip-test-eb-bi-app"
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "aip-dev-eb-bi-app.zip"
+    "ParameterValue": "aip-test-eb-bi-app.zip"
   },  
   {
     "ParameterKey": "ImageId",

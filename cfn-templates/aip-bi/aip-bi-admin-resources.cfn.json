@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
   
-  "Description" : "Resouces used by the admin VPC only.",
+  "Description" : "aip-bi-admin-resources.cfn.json - Resouces used by the admin VPC only.",
   "Description" : "Use file aip-bi-aws-resources.cfn.json for VPC and application specific resources.",
 
   "Resources": {

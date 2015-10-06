@@ -17,6 +17,24 @@
       "MinLength": "1",
       "MaxLength": "255"
     },
+    "AdminVpcId": {
+      "Description": "Administration Vpc Id",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "AdminVpcCIDR": {
+      "Description": "Administration Vpc CIDR block assignment",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "AdminVpcPrivateRouteTableId": {
+      "Description": "Administration Vpc Route Table Id for Private Subnets",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
     "VpcName": {
       "Description": "name of the VPC",
       "Type": "String",
@@ -623,9 +641,7 @@
     "RouteTablePrivateSubnets": {
       "Type": "AWS::EC2::RouteTable",
       "Properties": {
-        "VpcId": {
-          "Ref": "Vpc"
-        },
+        "VpcId": { "Ref": "Vpc" },
         "Tags": [
           { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
                         "-rtb-private-", { "Ref": "AWS::Region" }]] }},
@@ -636,9 +652,7 @@
     "RouteTablePublicSubnet": {
       "Type": "AWS::EC2::RouteTable",
       "Properties": {
-        "VpcId": {
-          "Ref": "Vpc"
-        },
+        "VpcId": { "Ref": "Vpc" },
         "Tags": [
           { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
                         "-rtb-public-", { "Ref": "AWS::Region" }]] }},
@@ -650,82 +664,57 @@
     "VpcSubnet1RouteAssociation": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
-        "RouteTableId": {
-          "Ref": "RouteTablePublicSubnet"
-        },
-        "SubnetId": {
-          "Ref": "VpcSubnet1"
-        }
+        "RouteTableId": { "Ref": "RouteTablePublicSubnet" },
+        "SubnetId": { "Ref": "VpcSubnet1" }
       }
     },
     "VpcSubnet2RouteAssociation": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
-        "RouteTableId": {
-          "Ref": "RouteTablePrivateSubnets"
-        },
-        "SubnetId": {
-          "Ref": "VpcSubnet2"
-        }
+        "RouteTableId": { "Ref": "RouteTablePrivateSubnets" },
+        "SubnetId": { "Ref": "VpcSubnet2" }
       }
     },
 
     "VpcSubnet5RouteAssociation": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
-        "RouteTableId": {
-          "Ref": "RouteTablePublicSubnet"
-        },
-        "SubnetId": {
-          "Ref": "VpcSubnet5"
-        }
+        "RouteTableId": { "Ref": "RouteTablePublicSubnet" },
+        "SubnetId": { "Ref": "VpcSubnet5" }
       }
     },
     "VpcSubnet6RouteAssociation": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
-        "RouteTableId": {
-          "Ref": "RouteTablePrivateSubnets"
-        },
-        "SubnetId": {
-          "Ref": "VpcSubnet6"
-        }
+        "RouteTableId": { "Ref": "RouteTablePrivateSubnets" },
+        "SubnetId": { "Ref": "VpcSubnet6" }
       }
     },
 
 
     "route1": {
       "Type": "AWS::EC2::Route",
+      "Metadata" : { "Comment" : "Add a route the private subnets to the NAT"},
       "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
-        "RouteTableId": {
-          "Ref": "RouteTablePrivateSubnets"
-        },
-        "InstanceId": {
-          "Ref": "NatInstance"
-        }
+        "RouteTableId": { "Ref": "RouteTablePrivateSubnets" },
+        "InstanceId": { "Ref": "NatInstance" }
       }
     },
     "PublicRoute": {
       "Type": "AWS::EC2::Route",
       "DependsOn": "GatewayToInternet",
       "Properties": {
-        "RouteTableId": {
-          "Ref": "RouteTablePublicSubnet"
-        },
+        "RouteTableId": { "Ref": "RouteTablePublicSubnet" },
         "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": {
-          "Ref": "InternetGateway"
-        }
+        "GatewayId": { "Ref": "InternetGateway" }
       }
     },
 
     "NetworkAcl": {
       "Type": "AWS::EC2::NetworkAcl",
       "Properties": {
-        "VpcId": {
-          "Ref": "Vpc"
-        },
+        "VpcId": { "Ref": "Vpc" },
         "Tags": [
           {
             "Key": "Name",
@@ -789,7 +778,43 @@
         "SubnetId": { "Ref": "VpcSubnet6" },
         "NetworkAclId": { "Ref": "NetworkAcl" }
       }
+    },
+
+
+
+    "VpcPeeringConnection": {
+       "Type" : "AWS::EC2::VPCPeeringConnection",
+       "Metadata" : { "Comment" : "Create a VPC Peering connection between the Administration and this VPC"},
+       "Properties" : {
+          "VpcId" : {"Ref": "AdminVpcId"},
+          "PeerVpcId" : {"Ref": "Vpc"},
+          "Tags": [{
+              "Key": "Name",
+              "Value": { "Fn::Join": ["", ["aip-adm-", { "Ref": "Environment" }, 
+                          "-peer-", { "Ref": "AWS::Region" }]] }
+            }]
+        }
+    },
+
+    "VpcPeeringAdminRouteAddition1": {
+      "Type": "AWS::EC2::Route",
+      "Metadata" : { "Comment" : "Add a route to the Administration VPC Private subnet route table"},
+      "Properties": {
+        "DestinationCidrBlock"  : { "Ref": "VpcNetworkCIDR" },
+        "RouteTableId"          : { "Ref": "AdminVpcPrivateRouteTableId" },
+        "VpcPeeringConnectionId": { "Ref": "VpcPeeringConnection" }
+      }
+    },
+    "VpcPeeringAdminRouteAddition2": {
+      "Type": "AWS::EC2::Route",
+      "Metadata" : { "Comment" : "Add a route from this VPC's private subnets to the Administration VPC"},
+      "Properties": {
+        "DestinationCidrBlock"  : { "Ref":  "AdminVpcCIDR" },
+        "RouteTableId"          : { "Ref": "RouteTablePrivateSubnets" },
+        "VpcPeeringConnectionId": { "Ref": "VpcPeeringConnection" }
+      }
     }
+
   },
 
   "Outputs": {

@@ -1,0 +1,149 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Resources for aip-application-service development environment (aip-dev)",
+   
+
+
+  "Parameters": {
+
+    "Environment": {
+      "Description": "name of the VPC Environment (dev, test, qa, prod)",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    }
+
+  },
+
+
+  "Resources": {
+
+    "ddbapplication": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "AppId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "StoreId",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "AppId",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "StoreId",
+            "KeyType": "RANGE"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": "3",
+          "WriteCapacityUnits": "1"
+        },
+        "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-application"]] }
+      }
+    },
+    "ddbconfiguration": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "AppId#TenantId#UserId",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "AppId#TenantId#UserId",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": "3",
+          "WriteCapacityUnits": "1"
+        },
+        "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-configuration"]] }
+      }
+    },
+    "ddbstore": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "StoreId",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "StoreId",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": "3",
+          "WriteCapacityUnits": "1"
+        },
+        "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-store"]] }
+      }
+    },
+    "ddbsubscription": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "AppId#TenantId",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "AppId#TenantId",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": "3",
+          "WriteCapacityUnits": "1"
+        },
+        "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-subscription"]] }
+      }
+    },
+    "snsappcreated": {
+      "Type": "AWS::SNS::Topic",
+    "Properties" : {
+    "TopicName" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-created"]] }
+    }   
+    },
+    "snsappdeleted": {
+      "Type": "AWS::SNS::Topic",
+    "Properties" : {
+    "TopicName" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-deleted"]] }
+    }   
+    },
+    "snsappsubscribed": {
+      "Type": "AWS::SNS::Topic",
+    "Properties" : {
+    "TopicName" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-subscribed"]] }
+    }
+    },
+    "snsappunsubscribed": {
+      "Type": "AWS::SNS::Topic",
+    "Properties" : {
+      "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-unsubscribed"]] }
+    }
+    },
+    "snsappupdated": {
+      "Type": "AWS::SNS::Topic",
+    "Properties" : {
+      "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-updated"]] }
+    }
+    }
+
+  }
+}

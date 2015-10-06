@@ -74,10 +74,6 @@ aws cloudformation validate-template \
 
 
 ##
-## -- VPC peering --
-### 
-
-##
 ## -- VPN --
 ### 
 
@@ -85,16 +81,52 @@ aws cloudformation validate-template \
 
 ### BI Beanstalk deployment via Master Template -- 
 ##
-## -- Test Dev --
+## -- Create Test AWS: Dev environment --
 aws cloudformation create-stack \
 --stack-name aip-bi-dev-master \
 --template-body file://aip-bi-master-test.cfn.json \
 --parameters file://aip-bi-dev-master-launch-params-us-east-1-test.json \
 --capabilities CAPABILITY_IAM --disable-rollback --profile test
 
-## -- Abbott Dev --
+
+### Dev
+## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
 --stack-name aip-bi-dev-master \
 --template-body file://aip-bi-master.cfn.json \
 --parameters file://aip-bi-dev-master-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback --profile test
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## -- Update Abbott AWS: Dev environment --
+aws cloudformation update-stack \
+--stack-name aip-bi-dev-master \
+--template-body file://aip-bi-master.cfn.json \
+--parameters file://aip-bi-dev-master-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM
+
+### Test
+## -- Create Abbott AWS: Test environment --
+aws cloudformation create-stack \
+--stack-name aip-bi-test-master \
+--template-body file://aip-bi-master.cfn.json \
+--parameters file://aip-bi-test-master-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## -- Update Abbott AWS: Test environment --
+aws cloudformation update-stack \
+--stack-name aip-bi-test-master \
+--template-body file://aip-bi-master.cfn.json \
+--parameters file://aip-bi-test-master-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM
+
+
+
+
+
+## DynamoDB
+aws cloudformation create-stack \
+--stack-name aip-application-service \
+--template-body file://aip-application-service.cfn.json \
+--cli-input-json file://aip-dev-application-service-launch-params.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
