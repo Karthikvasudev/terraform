@@ -1,23 +1,24 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "CloudFormation template for RDS With Read Replica",
+  "Description" : "CloudFormation template for RDS With Read Replicas",
 
   "Parameters": {
 
-	"Environment": {
-		"Description": "name of the Environment (dev, test, qa, prod)",
-		"Type": "String",
-		"MinLength": "1",
-		"MaxLength": "255"
-	},
+  	"Environment": {
+  		"Description": "name of the Environment (dev, test, qa, prod)",
+  		"Type": "String",
+  		"MinLength": "1",
+  		"MaxLength": "255"
+  	},
+
     "DBUser": {
       "NoEcho": "true",
       "Description" : "The database admin account username",
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "16",
-      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9\\_]*",
       "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
     },
 
@@ -26,9 +27,7 @@
       "Description" : "The database admin account password",
       "Type": "String",
       "MinLength": "1",
-      "MaxLength": "41",
-      "AllowedPattern" : "[a-zA-Z0-9]+",
-      "ConstraintDescription" : "must contain only alphanumeric characters."
+      "MaxLength": "41"
     },
 
     "DBAllocatedStorage": {
@@ -44,8 +43,9 @@
       "Description" : "The database instance type",
       "Type": "String",
       "Default": "db.m1.small",
-      "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m1.medium", "db.m1.large", "db.m1.xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge", "db.m3.medium", "db.m3.large", "db.m3.xlarge", "db.m3.2xlarge", "db.r3.large", "db.r3.xlarge", "db.r3.2xlarge", "db.r3.4xlarge", "db.r3.8xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge", "db.cr1.8xlarge"]
-,
+      "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m3.medium", "db.m3.large", "db.m3.xlarge", 
+          "db.m3.2xlarge", "db.r3.large", "db.r3.xlarge", "db.r3.2xlarge", "db.r3.4xlarge", 
+          "db.r3.8xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge", "db.m2.8xlarge"],
       "ConstraintDescription" : "must select a valid database instance type."
     },
 
@@ -69,61 +69,40 @@
       "MaxLength": "255"
     }
   },
-  "Conditions" : {
-    "Is-EC2-VPC"     : { "Fn::Or" : [ {"Fn::Equals" : [{"Ref" : "AWS::Region"}, "eu-central-1" ]},
-                                      {"Fn::Equals" : [{"Ref" : "AWS::Region"}, "cn-north-1" ]}]},
-    "Is-EC2-Classic" : { "Fn::Not" : [{ "Condition" : "Is-EC2-VPC"}]}
-  },
+
 
   "Resources" : {
 
     "DBEC2SecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
-      "Condition" : "Is-EC2-VPC",
       "Properties" : {
         "GroupDescription": "Open database for access",
         "SecurityGroupIngress" : [{
           "IpProtocol" : "tcp",
-          "FromPort" : "3306",
-          "ToPort" : "3306",
+          "FromPort" : "5432",
+          "ToPort" : "5432",
           "SourceSecurityGroupName" : { "Ref" : "EC2SecurityGroup" }
         }]
       }
     },
 
-    "DBSecurityGroup": {
-      "Type": "AWS::RDS::DBSecurityGroup",
-      "Condition" : "Is-EC2-Classic",
-      "Properties": {
-        "DBSecurityGroupIngress": {
-          "EC2SecurityGroupName": { "Ref": "EC2SecurityGroup" }
-        },
-        "GroupDescription": "database access"
-      }
-    },
 
     "MasterDB" : {
       "Type" : "AWS::RDS::DBInstance",
       "Properties" : {
-		"DBInstanceIdentifier" : { "Fn::Join": [
-                                "",
-                                [
-                                    "bi-",
-                                    {
-                                        "Ref": "Environment"
-                                    },
-                                    "-rds-dw"
-                                ]
-                            ]},
+    		"DBInstanceIdentifier" : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]]},
         "AllocatedStorage" : { "Ref" : "DBAllocatedStorage" },
         "DBInstanceClass" : { "Ref" : "DBInstanceClass" },
         "Engine" : "postgres",
         "MasterUsername" : { "Ref" : "DBUser" },
         "MasterUserPassword" : { "Ref" : "DBPassword" },
         "MultiAZ" : "true",
-        "Tags" : [{ "Key"  : "Name", "Value" : "Master Database" }],
-        "VPCSecurityGroups": { "Fn::If" : [ "Is-EC2-VPC", [ { "Fn::GetAtt": [ "DBEC2SecurityGroup", "GroupId" ] } ], { "Ref" : "AWS::NoValue"}]},
-        "DBSecurityGroups": { "Fn::If" : [ "Is-EC2-Classic", [ { "Ref": "DBSecurityGroup" } ], { "Ref" : "AWS::NoValue"}]}
+        "Tags" : [
+            {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]] }},
+            {"Key": "Environment", "Value": { "Ref": "Environment" }},
+            { "Key"  : "Comment", "Value" : "MasterDB" }
+        ],
+        "VPCSecurityGroups": { "Fn::GetAtt": [ "DBEC2SecurityGroup", "GroupId" ]}
       },
       "DeletionPolicy" : "Snapshot"
     },
@@ -131,46 +110,30 @@
     "ReplicaDB1" : {
       "Type" : "AWS::RDS::DBInstance",
       "Properties" : {
-		"DBInstanceIdentifier" : { "Fn::Join": [
-                                "",
-                                [
-                                    "bi-",
-                                    {
-                                        "Ref": "Environment"
-                                    },
-                                    "-rds-dw-",
-                                    {
-                                        "Ref": "AZforReplica1"
-                                    }									
-                                ]
-                            ]},		
-		"AvailabilityZone" : {"Ref": "AZforReplica1"},
+    		"DBInstanceIdentifier" : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", { "Ref": "AZforReplica1" }]]},		
+    		"AvailabilityZone" : {"Ref": "AZforReplica1"},
         "SourceDBInstanceIdentifier" : { "Ref" : "MasterDB" },
         "DBInstanceClass" : { "Ref" : "DBInstanceClass" },
-        "Tags" : [{ "Key"  : "Name", "Value" : "Read Replica Database on AZ" }]
+        "Tags" : [
+            {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", { "Ref": "AZforReplica1" }]]}},
+            {"Key": "Environment", "Value": { "Ref": "Environment" }},
+            {"Key": "Comment", "Value" : "Read Replica DB"}
+            ]
       }
     },
 	
-	"ReplicaDB2" : {
+  	"ReplicaDB2" : {
       "Type" : "AWS::RDS::DBInstance",
       "Properties" : {
-	   "DBInstanceIdentifier" : { "Fn::Join": [
-					"",
-					[
-						"bi-",
-						{
-							"Ref": "Environment"
-						},
-						"-rds-dw-",
-						{
-							"Ref": "AZforReplica2"
-						}									
-					]
-				]},		
-		"AvailabilityZone" : {"Ref": "AZforReplica2"},
+        "DBInstanceIdentifier" : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", { "Ref": "AZforReplica2" }]]},    
+      	"AvailabilityZone" : {"Ref": "AZforReplica2"},
         "SourceDBInstanceIdentifier" : { "Ref" : "MasterDB" },
         "DBInstanceClass" : { "Ref" : "DBInstanceClass" },
-        "Tags" : [{ "Key"  : "Name", "Value" : "Read Replica Database on AZ" }]
+        "Tags" : [
+            {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", { "Ref": "AZforReplica2" }]]}},
+            {"Key": "Environment", "Value": { "Ref": "Environment" }},
+            {"Key": "Comment", "Value" : "Read Replica DB"}
+            ]
       }
     }
   },
@@ -178,35 +141,26 @@
   "Outputs" : {
     "EC2Platform" : {
       "Description" : "Platform in which this stack is deployed",
-      "Value" : { "Fn::If" : [ "Is-EC2-VPC", "EC2-VPC", "EC2-Classic" ]}
+      "Value" : "EC2-VPC" 
     },
 
     "MasterJDBCConnectionString": {
       "Description" : "JDBC connection string for the master database",
-      "Value" : { "Fn::Join": [ "", [ "jdbc:postgres://",
-                                      { "Fn::GetAtt": [ "MasterDB", "Endpoint.Address" ] },
-                                      ":",
-                                      { "Fn::GetAtt": [ "MasterDB", "Endpoint.Port" ] },
-                                      "/",
-                                      "bi-dev-rds-dw"]]}
+      "Value" : 
+          { "Fn::Join": [ "", [ "jdbc:postgres://", { "Fn::GetAtt": [ "MasterDB", "Endpoint.Address" ] }, ":",
+          { "Fn::GetAtt": [ "MasterDB", "Endpoint.Port" ] }]]}
     },
     "Replica1JDBCConnectionString": {
       "Description" : "JDBC connection string for the replica database",
-      "Value" : { "Fn::Join": [ "", [ "jdbc:postgres://",
-                                      { "Fn::GetAtt": [ "ReplicaDB1", "Endpoint.Address" ] },
-                                      ":",
-                                      { "Fn::GetAtt": [ "ReplicaDB1", "Endpoint.Port" ] },
-                                      "/",
-                                      "bi-dev-rds-dw-us-east-1d" ]]}
+      "Value" : 
+          { "Fn::Join": [ "", [ "jdbc:postgres://", { "Fn::GetAtt": [ "ReplicaDB1", "Endpoint.Address" ] }, ":",
+          { "Fn::GetAtt": [ "ReplicaDB1", "Endpoint.Port" ] }]]}
     },
     "Replica2JDBCConnectionString": {
       "Description" : "JDBC connection string for the replica database",
-      "Value" : { "Fn::Join": [ "", [ "jdbc:postgres://",
-                                      { "Fn::GetAtt": [ "ReplicaDB2", "Endpoint.Address" ] },
-                                      ":",
-                                      { "Fn::GetAtt": [ "ReplicaDB2", "Endpoint.Port" ] },
-                                      "/",
-                                      "bi-dev-rds-dw-us-east-1c"]]}
+      "Value" : 
+          { "Fn::Join": [ "", [ "jdbc:postgres://", { "Fn::GetAtt": [ "ReplicaDB2", "Endpoint.Address" ] }, ":",
+          { "Fn::GetAtt": [ "ReplicaDB2", "Endpoint.Port" ] }]]}
     }	
   }
 }

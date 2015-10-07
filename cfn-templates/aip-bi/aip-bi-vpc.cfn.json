@@ -320,9 +320,9 @@
     "Vpc": {
       "Type": "AWS::EC2::VPC",
       "Properties": {
-        "CidrBlock": {
-          "Ref": "VpcNetworkCIDR"
-        },
+        "CidrBlock": { "Ref": "VpcNetworkCIDR" },
+        "EnableDnsSupport" : "true",
+        "EnableDnsHostnames" : "true",
         "Tags": [
           {"Key": "Name", "Value": { "Ref": "VpcName" }},
           {"Key": "Environment", "Value": { "Ref": "Environment" }}
