@@ -368,9 +368,48 @@
         ]
       }
     },
+    "VpcSubnet3": {
+      "Type": "AWS::EC2::Subnet",
+      "Metadata" : { "Comment" : "Private Subnet"},
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet3CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone1"
+        },
+        "Tags": [
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet3Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
+      }
+    },
+    "VpcSubnet4": {
+      "Type": "AWS::EC2::Subnet",
+      "Metadata" : { "Comment" : "Private Subnet"},
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet4CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone1"
+        },
+        "Tags": [
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet4Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
+      }
+    },
 
     "VpcSubnet5": {
       "Type": "AWS::EC2::Subnet",
+      "Metadata" : { "Comment" : "Public Subnet"},
       "Properties": {
         "VpcId": {
           "Ref": "Vpc"
@@ -389,6 +428,7 @@
     },
     "VpcSubnet6": {
       "Type": "AWS::EC2::Subnet",
+      "Metadata" : { "Comment" : "Private Subnet"},
       "Properties": {
         "VpcId": {
           "Ref": "Vpc"
@@ -401,6 +441,44 @@
         },
         "Tags": [
           { "Key": "Name", "Value": { "Ref": "VpcSubnet6Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
+      }
+    },
+    "VpcSubnet7": {
+      "Type": "AWS::EC2::Subnet",
+      "Metadata" : { "Comment" : "Private Subnet"},
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet7CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone2"
+        },
+        "Tags": [
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet7Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
+      }
+    },
+    "VpcSubnet8": {
+      "Type": "AWS::EC2::Subnet",
+      "Metadata" : { "Comment" : "Private Subnet"},
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet8CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone2"
+        },
+        "Tags": [
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet8Name" }},
           { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
@@ -675,7 +753,20 @@
         "SubnetId": { "Ref": "VpcSubnet2" }
       }
     },
-
+    "VpcSubnet3RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": { "Ref": "RouteTablePrivateSubnets" },
+        "SubnetId": { "Ref": "VpcSubnet3" }
+      }
+    },    
+    "VpcSubnet4RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": { "Ref": "RouteTablePrivateSubnets" },
+        "SubnetId": { "Ref": "VpcSubnet4" }
+      }
+    },
     "VpcSubnet5RouteAssociation": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
@@ -690,7 +781,20 @@
         "SubnetId": { "Ref": "VpcSubnet6" }
       }
     },
-
+    "VpcSubnet7RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": { "Ref": "RouteTablePrivateSubnets" },
+        "SubnetId": { "Ref": "VpcSubnet7" }
+      }
+    },    
+    "VpcSubnet8outeAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": { "Ref": "RouteTablePrivateSubnets" },
+        "SubnetId": { "Ref": "VpcSubnet8" }
+      }
+    },
 
     "route1": {
       "Type": "AWS::EC2::Route",
@@ -824,31 +928,55 @@
         "Ref": "Vpc"
       }
     },
-    "InstanceSecurityGroups": {
-      "Description": "Private Subnet Instance Security Groups",
+    "WebSecurityGroup": {
+      "Description": "Web tier Subnet Instance Security Group",
       "Value": {
         "Ref": "SgPrivate"
       }
     },
-    "PrivateSubnet1": {
+    "PublicSubnet1" : {
+      "Description" : "A public VPC subnet ID - used for ELB and NAT.",
+      "Value" : { "Ref" : "VpcSubnet1" }
+    },
+    "PublicSubnet2" : {
+      "Description" : "A public VPC subnet ID - used for ELB and NAT. Must be in a different AZ than PrivateSubnet1",
+      "Value" : { "Ref" : "VpcSubnet5" }
+    },
+    "WebSubnet1": {
       "Description": "VPC private subnet ID for Web.",
       "Value": {
         "Ref": "VpcSubnet2"
       }
     },
-    "PrivateSubnet2": {
+    "WebSubnet2": {
       "Description": "VPC private subnet ID for Web",
       "Value": {
         "Ref": "VpcSubnet6"
       }
     },
-    "PublicSubnet1" : {
-      "Description" : "A public VPC subnet ID.",
-      "Value" : { "Ref" : "VpcSubnet1" }
+    "DatabaseSubnet1": {
+      "Description": "VPC private subnet ID for RDS database.",
+      "Value": {
+        "Ref": "VpcSubnet3"
+      }
     },
-    "PublicSubnet2" : {
-      "Description" : "A public VPC subnet ID. Must be in a different AZ than PrivateSubnet1",
-      "Value" : { "Ref" : "VpcSubnet5" }
+    "DatabaseSubnet2": {
+      "Description": "VPC private subnet ID for RDS database",
+      "Value": {
+        "Ref": "VpcSubnet7"
+      }
+    },
+    "EtlSubnet1": {
+      "Description": "VPC private subnet ID for ETL.",
+      "Value": {
+        "Ref": "VpcSubnet4"
+      }
+    },
+    "EtlSubnet2": {
+      "Description": "VPC private subnet ID for ETL",
+      "Value": {
+        "Ref": "VpcSubnet8"
+      }
     }
   }
 }

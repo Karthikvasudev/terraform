@@ -4,11 +4,7 @@ NAT instance type Allowed values - needs to be updated
 
 Mappings AWSNATAMI - requires updates for non-us-east-1 regions
 
-Add metadata tags per Nick's email in support of billing, logs...
+Polices - definition needs to be provided. May need seperate CF template for this or depend on manual creation in each region/account. Case - ETL-Role is defined in aip-bi-aws-resources.cfn.json, but does not create the role under IAM. Unless the role already exists, the CF launch fails.
 
-VPC - security groups for each private subnet
-Test NAT instance from each subnet
-Routing testing
-Peering VPC to Admin VPC
 
 

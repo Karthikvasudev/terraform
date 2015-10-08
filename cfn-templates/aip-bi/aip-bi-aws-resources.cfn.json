@@ -1,8 +1,9 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
 
-    "Description": "aip-bi-aws-resources.cfn.json - Application specific AWS resources",
     "Description": "Use file aip-admin-resources.cfn.json for Admin VPC specific resources.",
+    "Description": "Application specific AWS resources - aip-bi-aws-resources.cfn.json",
+
 
     "Parameters": {
         "Environment": {

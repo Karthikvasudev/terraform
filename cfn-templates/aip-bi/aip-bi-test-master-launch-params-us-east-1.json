@@ -12,6 +12,10 @@
     "ParameterValue": "/cfn-templates/aip-bi/aip-bi-vpc.cfn.json"
   },
   {
+    "ParameterKey": "DatabaseTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-bi/aip-bi-rds.cfn.json"
+  },
+  {
     "ParameterKey": "ResourcesTemplateKey",
     "ParameterValue": "/cfn-templates/aip-bi/aip-bi-aws-resources.cfn.json"
   },

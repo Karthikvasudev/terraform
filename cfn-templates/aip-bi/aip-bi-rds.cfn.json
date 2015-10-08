@@ -12,7 +12,7 @@
   		"MaxLength": "255"
   	},
 
-    "DBUser": {
+    "DatabaseUser": {
       "NoEcho": "true",
       "Description" : "The database admin account username",
       "Type": "String",
@@ -22,7 +22,7 @@
       "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
     },
 
-    "DBPassword": {
+    "DatabasePassword": {
       "NoEcho": "true",
       "Description" : "The database admin account password",
       "Type": "String",
@@ -49,7 +49,7 @@
       "ConstraintDescription" : "must select a valid database instance type."
     },
 
-    "EC2SecurityGroup": {
+    "WebSecurityGroup": {
       "Description" : "The EC2 security group that contains instances that need access to the database",
       "Default": "default",
       "Type": "String",
@@ -67,13 +67,25 @@
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "255"
+    },
+    "DatabaseSubnet1": {
+      "Description": "This AZ will be used to create read replica - 1",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "DatabaseSubnet2": {
+      "Description": "This AZ will be used to create read replica - 2",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
     }
   },
 
 
   "Resources" : {
 
-    "DBEC2SecurityGroup": {
+    "DBSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties" : {
         "GroupDescription": "Open database for access",
@@ -81,28 +93,42 @@
           "IpProtocol" : "tcp",
           "FromPort" : "5432",
           "ToPort" : "5432",
-          "SourceSecurityGroupName" : { "Ref" : "EC2SecurityGroup" }
+          "SourceSecurityGroupName" : { "Ref" : "WebSecurityGroup" }
         }]
       }
     },
 
+    "DBSubnetGroup" : {
+         "Type" : "AWS::RDS::DBSubnetGroup",
+         "Properties" : {
+            "DBSubnetGroupDescription" : "Data tier subnet list, one per AZ",
+            "SubnetIds" : [{"Ref": "DatabaseSubnet1"}, {"Ref": "DatabaseSubnet2"} ],
+            "Tags" : [ 
+                {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-subnetgrp-", {"Ref": "AWS::Region"} ]] }},
+                {"Key": "Environment", "Value": { "Ref": "Environment" }},
+                {"Key"  : "Comment", "Value" : "RDS Subnet Group" }
+             ]
+         }
+    },
 
     "MasterDB" : {
       "Type" : "AWS::RDS::DBInstance",
       "Properties" : {
-    		"DBInstanceIdentifier" : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]]},
-        "AllocatedStorage" : { "Ref" : "DBAllocatedStorage" },
-        "DBInstanceClass" : { "Ref" : "DBInstanceClass" },
-        "Engine" : "postgres",
-        "MasterUsername" : { "Ref" : "DBUser" },
-        "MasterUserPassword" : { "Ref" : "DBPassword" },
-        "MultiAZ" : "true",
+    		"DBInstanceIdentifier"  : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]]},
+        "AllocatedStorage"      : { "Ref" : "DBAllocatedStorage" },
+        "DBInstanceClass"       : { "Ref" : "DBInstanceClass" },
+        "Engine"                : "postgres",
+        "MasterUsername"        : { "Ref" : "DatabaseUser" },
+        "MasterUserPassword"    : { "Ref" : "DatabasePassword" },
+        "MultiAZ"               : "true",
+        "DBSubnetGroupName"     : { "Ref" : "DBSubnetGroup" },
+        "PubliclyAccessible"    : "false",
         "Tags" : [
             {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]] }},
             {"Key": "Environment", "Value": { "Ref": "Environment" }},
-            { "Key"  : "Comment", "Value" : "MasterDB" }
+            {"Key"  : "Comment", "Value" : "MasterDB" }
         ],
-        "VPCSecurityGroups": { "Fn::GetAtt": [ "DBEC2SecurityGroup", "GroupId" ]}
+        "VPCSecurityGroups": { "Fn::GetAtt": [ "DBSecurityGroup", "GroupId" ]}
       },
       "DeletionPolicy" : "Snapshot"
     },
@@ -161,6 +187,14 @@
       "Value" : 
           { "Fn::Join": [ "", [ "jdbc:postgres://", { "Fn::GetAtt": [ "ReplicaDB2", "Endpoint.Address" ] }, ":",
           { "Fn::GetAtt": [ "ReplicaDB2", "Endpoint.Port" ] }]]}
-    }	
+    },
+    "DBSecurityGroup": {
+      "Description" : "Database Security Group",
+      "Value" : { "Fn::GetAtt": [ "DBSecurityGroup", "GroupId" ]}
+    },
+    "DBSubnetGroup": {
+      "Description" : "Database Subnet Group",
+      "Value" : { "Fn::GetAtt": [ "DBSubnetGroup", "GroupId" ]}
+    }
   }
 }
