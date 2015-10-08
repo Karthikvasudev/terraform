@@ -190,11 +190,11 @@
     },
     "DBSecurityGroup": {
       "Description" : "Database Security Group",
-      "Value" : { "Fn::GetAtt": [ "DBSecurityGroup", "GroupId" ]}
+      "Value" : { "Ref": "DBSecurityGroup" }
     },
     "DBSubnetGroup": {
       "Description" : "Database Subnet Group",
-      "Value" : { "Fn::GetAtt": [ "DBSubnetGroup", "GroupId" ]}
+      "Value" : { "Ref": "DBSubnetGroup" }
     }
   }
 }

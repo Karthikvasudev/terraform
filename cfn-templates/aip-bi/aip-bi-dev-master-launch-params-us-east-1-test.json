@@ -73,7 +73,7 @@
   },  
   {
     "ParameterKey": "AdminVpcPrivateRouteTableId",
-    "ParameterValue": "rtb-1942f17d"
+    "ParameterValue": "rtb-2c3a8248"
   },
   {
     "ParameterKey": "VpcName",
