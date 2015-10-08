@@ -1,6 +1,8 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
 
+
+
   "Description": "aip-bi-master.cfn.json",
   "Description": "Provisions two substacks: a Vpc with NAT instances, and the resources stack, which launches the BI Beanstalk app and its dependencies into the VPC.",
 
