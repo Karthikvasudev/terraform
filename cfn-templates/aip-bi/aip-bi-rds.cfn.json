@@ -11,7 +11,12 @@
   		"MinLength": "1",
   		"MaxLength": "255"
   	},
-
+    "VpcId": {
+      "Description": "Administration Vpc Id",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
     "DatabaseUser": {
       "NoEcho": "true",
       "Description" : "The database admin account username",
@@ -89,6 +94,7 @@
       "Type": "AWS::EC2::SecurityGroup",
       "Properties" : {
         "GroupDescription": "Open database for access",
+        "VpcId": {"Ref" : "VpcId"},
         "SecurityGroupIngress" : [{
           "IpProtocol" : "tcp",
           "FromPort" : "5432",

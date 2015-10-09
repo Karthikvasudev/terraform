@@ -50,7 +50,7 @@
             "MinLength": "1",
             "MaxLength": "255"
         },
-        "ApplicationSourceBundle": {
+        "S3Bucket": {
             "Description": "S3 bucket name having application zip",
             "Type": "String",
             "MinLength": "1",
@@ -111,7 +111,7 @@
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SourceBundle": {
-                    "S3Bucket"  : { "Ref" : "ApplicationSourceBundle" }, 
+                    "S3Bucket"  : { "Ref" : "S3Bucket" }, 
                     "S3Key"     : { "Ref" : "S3Key" }
                 }
             }
