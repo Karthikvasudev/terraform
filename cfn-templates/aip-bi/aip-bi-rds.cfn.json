@@ -99,8 +99,12 @@
           "IpProtocol" : "tcp",
           "FromPort" : "5432",
           "ToPort" : "5432",
-          "SourceSecurityGroupName" : { "Ref" : "WebSecurityGroup" }
-        }]
+          "SourceSecurityGroupId" : { "Ref" : "WebSecurityGroup" }
+        }],
+        "Tags": [
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-database"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
       }
     },
 
@@ -128,7 +132,7 @@
         "MasterUserPassword"    : { "Ref" : "DatabasePassword" },
         "MultiAZ"               : "true",
         "DBSubnetGroupName"     : { "Ref" : "DBSubnetGroup" },
-        "VPCSecurityGroups"     : { "Ref" : "DBSecurityGroup" },
+        "VPCSecurityGroups"     : [ { "Fn::GetAtt": [ "DBSecurityGroup", "GroupId" ] } ],
         "PubliclyAccessible"    : "false",
         "Tags" : [
             {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]] }},

@@ -25,7 +25,7 @@
   },  
   {
     "ParameterKey": "DatabaseUser",
-    "ParameterValue": "api_user"
+    "ParameterValue": "sa"
   },  
   {
     "ParameterKey": "DatabasePassword",
