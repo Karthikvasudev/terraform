@@ -128,13 +128,13 @@
         "MasterUserPassword"    : { "Ref" : "DatabasePassword" },
         "MultiAZ"               : "true",
         "DBSubnetGroupName"     : { "Ref" : "DBSubnetGroup" },
+        "VPCSecurityGroups"     : { "Ref" : "DBSecurityGroup" },
         "PubliclyAccessible"    : "false",
         "Tags" : [
             {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]] }},
             {"Key": "Environment", "Value": { "Ref": "Environment" }},
             {"Key"  : "Comment", "Value" : "MasterDB" }
-        ],
-        "VPCSecurityGroups": { "Fn::GetAtt": [ "DBSecurityGroup", "GroupId" ]}
+        ]
       },
       "DeletionPolicy" : "Snapshot"
     },

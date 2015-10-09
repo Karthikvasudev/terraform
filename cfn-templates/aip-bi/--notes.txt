@@ -6,7 +6,7 @@ Mappings AWSNATAMI - requires updates for non-us-east-1 regions
 
 Polices - definition needs to be provided. May need seperate CF template for this or depend on manual creation in each region/account. Case - ETL-Role is defined in aip-bi-aws-resources.cfn.json, but does not create the role under IAM. Unless the role already exists, the CF launch fails.
 
-
+remove ApplicatoinSourceBundle - from all beanstalk related templates.
 
 
 

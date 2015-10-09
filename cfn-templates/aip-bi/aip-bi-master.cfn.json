@@ -363,11 +363,12 @@
             {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "DatabaseTemplateKey" }]]},
         "Parameters" : {
           "Environment"             : { "Ref" : "Environment" },
+          "VpcId"                   : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.VpcId"] },
           "DatabaseUser"            : { "Ref" : "DatabaseUser" },
           "DatabasePassword"        : { "Ref" : "DatabasePassword" },
           "DBAllocatedStorage"      : { "Ref" : "DBAllocatedStorage" },
           "DBInstanceClass"         : { "Ref" : "DBInstanceClass" },
-          "EC2SecurityGroup"        : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.WebSecurityGroup"]},
+          "WebSecurityGroup"        : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.WebSecurityGroup"]},
           "AZforReplica1"           : { "Ref" : "AZforReplica1" },
           "AZforReplica2"           : { "Ref" : "AZforReplica2" },
           "DatabaseSubnet1"         : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.DatabaseSubnet1"]},
@@ -408,8 +409,8 @@
 
             "ApplicationName"          : { "Fn::Join": ["-", [{"Ref": "ApplicationName"}, {"Ref": "AWS::Region"}]]},
             "ApplicationURL"           : { "Ref" : "ApplicationURL"},
-            "ApplicationSourceBundle"  : { "Fn::Join" : ["-", ["elasticbeanstalk", {"Ref" : "AWS::Region"}, {"Ref" : "AWS::AccountId"}]]},
-            "S3Key"                    : { "Ref" : "S3Key"},
+            "S3Bucket"                 : { "Fn::Join" : ["-", ["elasticbeanstalk", {"Ref" : "AWS::Region"}, {"Ref" : "AWS::AccountId"}]]},
+            "S3Key"                    : { "Fn::Join" : ["", [{"Ref": "ApplicationName"}, "-", {"Ref": "AWS::Region"}, "/", {"Ref" : "S3Key"}]]},
 
             "VpcId"                    : { "Fn::GetAtt" : ["VpcScaffold", "Outputs.VpcId"] },
             "PrivateSubnets" : {
