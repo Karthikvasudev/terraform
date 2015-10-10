@@ -25,7 +25,7 @@
   },  
   {
     "ParameterKey": "DatabaseUser",
-    "ParameterValue": "api_user"
+    "ParameterValue": "sa"
   },  
   {
     "ParameterKey": "DatabasePassword",
@@ -35,6 +35,22 @@
     "ParameterKey": "DatabaseName",
     "ParameterValue": "postgres"
   },  
+  {
+    "ParameterKey": "AZforReplica1",
+    "ParameterValue": "us-east-1d"
+  },
+  {
+    "ParameterKey": "AZforReplica2",
+    "ParameterValue": "us-east-1e"
+  },
+  {
+    "ParameterKey": "DBInstanceClass",
+    "ParameterValue": "db.r3.xlarge"
+  },   
+  {
+    "ParameterKey": "DBAllocatedStorage",
+    "ParameterValue": "100"
+  },
   {
     "ParameterKey": "NatInstanceType",
     "ParameterValue": "m3.medium"
@@ -153,7 +169,7 @@
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "aip-bi-app"
+    "ParameterValue": "aip-test-eb-bi-app"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",

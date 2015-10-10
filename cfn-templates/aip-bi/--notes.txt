@@ -12,3 +12,42 @@ remove ApplicatoinSourceBundle - from all beanstalk related templates.
 
 
 
+DBSecurityGroups.member
+
+VpcSecurityGroupIds.member.N
+
+    A list of EC2 VPC security groups to associate with this DB instance.
+
+    Default: The default EC2 VPC security group for the DB subnet group's VPC.
+
+    Type: String list
+
+    Required: No 
+
+DBParameterGroups
+
+    Provides the list of DB parameter groups applied to this DB instance.
+
+    Type: DBParameterGroupStatus list 
+DBSecurityGroups
+
+    Provides List of DB security group elements containing only DBSecurityGroup.Name and DBSecurityGroup.Status subelements.
+
+    Type: DBSecurityGroupMembership list 
+DBSubnetGroup
+
+    Specifies information on the subnet group associated with the DB instance, including the name, description, and subnets in the subnet group.
+
+    Type: DBSubnetGroup
+
+VpcSecurityGroups
+
+    Provides List of VPC security group elements that the DB instance belongs to.
+
+    Type: VpcSecurityGroupMembership list 
+
+***For VPC, under AWS::EC2::SecurityGroupIngress, use GroupId instead of GroupName.
+and use SourceSecurityGroupId instead of SourceSecurityGroupName.
+
+- Change AWS CLI profile name from 'test' to 'sandbox'
+
