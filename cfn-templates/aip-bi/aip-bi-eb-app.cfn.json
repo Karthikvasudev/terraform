@@ -78,11 +78,17 @@
         }
     },
 
+   "Conditions" : {
+        "CreateBeanstalkApplication" : {
+            "Fn::Equals": [{"Ref" : "Environment"}, "dev"]
+        }
+    },
 
     "Resources": {
 
         "BIApp": {
             "Type": "AWS::ElasticBeanstalk::Application",
+            "Condition"  : "CreateBeanstalkApplication",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "Description": "ADD BI Application Environment"
@@ -103,7 +109,7 @@
         "BIAppVersion": {
             "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
             "Properties": {
-                "ApplicationName": { "Ref": "BIApp" },
+                "ApplicationName": { "Ref": "ApplicationName" },
                 "SourceBundle": {
                     "S3Bucket"  : { "Ref" : "S3Bucket" }, 
                     "S3Key"     : { "Ref" : "S3Key" }
@@ -114,9 +120,7 @@
         "BIAPPEnvironment": {
             "Type": "AWS::ElasticBeanstalk::Environment",
             "Properties": {
-                "ApplicationName": {
-                    "Ref": "BIApp"
-                },
+                "ApplicationName": { "Ref": "ApplicationName" },
                 "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
                 "VersionLabel": {
                     "Ref": "BIAppVersion"

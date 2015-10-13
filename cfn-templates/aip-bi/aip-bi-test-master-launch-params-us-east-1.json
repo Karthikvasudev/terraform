@@ -169,7 +169,7 @@
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "aip-test-eb-bi-app"
+    "ParameterValue": "bi-app"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
