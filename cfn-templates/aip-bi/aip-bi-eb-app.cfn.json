@@ -15,7 +15,7 @@
         },
         "ImageId": {
             "Description": "name of the Image (AMI Info)",
-            "Default": "ami-7da9d918",
+            "Default": "ami-5943023c",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -172,128 +172,6 @@
                         "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
                         "OptionName": "MinInstancesInService",
                         "Value": "1"
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                        "OptionName": "RollingUpdateEnabled",
-                        "Value": "true"
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                        "OptionName": "RollingUpdateType",
-                        "Value": "Health"
-                    },
-                    {
-                        "Namespace": "aws:ec2:vpc",
-                        "OptionName": "AssociatePublicIpAddress",
-                        "Value": "false"
-                    },
-                    {
-                        "Namespace": "aws:ec2:vpc",
-                        "OptionName": "ELBSubnets",
-                        "Value": { "Ref": "PublicSubnets" }
-                    },
-                    {
-                        "Namespace": "aws:ec2:vpc",
-                        "OptionName": "Subnets",
-                        "Value": { "Ref": "PrivateSubnets" }
-                    },
-                    {
-                        "Namespace": "aws:ec2:vpc",
-                        "OptionName": "VpcId",
-                        "Value": { "Ref": "VpcId" }
-                    },
-                    {
-                        "Namespace": "aws:elasticbeanstalk:command",
-                        "OptionName": "BatchSize",
-                        "Value": "30"
-                    },
-                    {
-                        "Namespace": "aws:elasticbeanstalk:environment",
-                        "OptionName": "ServiceRole",
-                        "Value": "aws-elasticbeanstalk-service-role"
-                    },
-                    {
-                        "Namespace": "aws:elasticbeanstalk:healthreporting:system",
-                        "OptionName": "SystemType",
-                        "Value": "enhanced"
-                    },
-                    {
-                        "Namespace": "aws:elb:healthcheck",
-                        "OptionName": "Interval",
-                        "Value": "10"
-                    },
-                    {
-                        "Namespace": "aws:elb:loadbalancer",
-                        "OptionName": "CrossZone",
-                        "Value": "true"
-                    },
-                    {
-                        "Namespace": "aws:elb:loadbalancer",
-                        "OptionName": "LoadBalancerHTTPPort",
-                        "Value": "80"
-                    },
-                    {
-                        "Namespace": "aws:elb:policies",
-                        "OptionName": "ConnectionDrainingEnabled",
-                        "Value": "true"
-                    }
-                ]
-            }
-        },
-
-        "BIAPPEnvironmentConfigTemplate": {
-            "Type": "AWS::ElasticBeanstalk::ConfigurationTemplate",
-            "Properties": {
-                "ApplicationName": {
-                    "Ref": "BIApp"
-                },
-                "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
-                "OptionSettings": [
-                    {
-                        "Namespace": "aws:autoscaling:asg",
-                        "OptionName": "MinSize",
-                        "Value": "2"
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:launchconfiguration",
-                        "OptionName": "EC2KeyName",
-                        "Value": { "Ref": "KeyName" }
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:launchconfiguration",
-                        "OptionName": "IamInstanceProfile",
-                        "Value": "aws-elasticbeanstalk-ec2-role"
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:launchconfiguration",
-                        "OptionName": "ImageId",
-                        "Value": { "Ref": "ImageId" }
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:launchconfiguration",
-                        "OptionName": "InstanceType",
-                        "Value": { "Ref": "InstanceType" }
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:launchconfiguration",
-                        "OptionName": "SecurityGroups",
-                        "Value": { "Ref": "InstanceSecurityGroups" }
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:trigger",
-                        "OptionName": "UpperThreshold",
-                        "Value": "6000000"
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                        "OptionName": "MaxBatchSize",
-                        "Value": "1"
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                        "OptionName": "MinInstancesInService",
-                        "Value": "2"
                     },
                     {
                         "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",

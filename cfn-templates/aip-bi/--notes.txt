@@ -8,7 +8,7 @@ Polices - definition needs to be provided. May need seperate CF template for thi
 
 remove ApplicatoinSourceBundle - from all beanstalk related templates.
 
-
+Admin VPC template - set DHCP option to true in support of R53.
 
 
 
@@ -49,5 +49,5 @@ VpcSecurityGroups
 ***For VPC, under AWS::EC2::SecurityGroupIngress, use GroupId instead of GroupName.
 and use SourceSecurityGroupId instead of SourceSecurityGroupName.
 
-- Change AWS CLI profile name from 'test' to 'sandbox'
+
 
