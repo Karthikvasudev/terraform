@@ -3,6 +3,7 @@
 run AWS CloudFormation Stack commands for BI Environments
 Copy/Paste into bash shell window
 Note: include --profile sandbox when testing only. Included for safety reasons
+Note: The Dev VPC must be created before the 'test, qa, or prod' environments. It establishes the BI Application, while the others attach 'Environments' to the BI Application.
 
 
 ### BI Administration VPC -- 
