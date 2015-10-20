@@ -152,10 +152,12 @@ aws cloudformation update-stack \
 
 
 
-## DynamoDB
+### Platform Services App
+##
+### Dev
+## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
---stack-name aip-application-service \
---template-body file://aip-application-service.cfn.json \
---cli-input-json file://aip-dev-application-service-launch-params.json \
+--stack-name aip-platform-dev \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platforms-dev-master-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
-
