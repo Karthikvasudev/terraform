@@ -204,3 +204,23 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM 
 
 #### --------------------------
+
+
+
+### Abbott AWS -- DNS Route 53 -- 
+##
+### Dev
+## -- Create Abbott AWS: Dev environment --
+
+
+## -- Update Abbott AWS: Dev environment --
+
+
+
+## -- Create Sandbox AWS: Dev environment --
+aws cloudformation create-stack \
+--stack-name aip-dns \
+--template-body file://aip-dns.cfn.json \
+--capabilities CAPABILITY_IAM --disable-rollback --profile sandbox
+
+#### --------------------------
