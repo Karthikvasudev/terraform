@@ -108,6 +108,7 @@
 
         "BIAppVersion": {
             "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
+            "DependsOn" : "BIApp",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SourceBundle": {

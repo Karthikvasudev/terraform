@@ -1,11 +1,19 @@
 [
   {
-    "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-prod-keys"
-  },
-  {
     "ParameterKey": "Environment",
     "ParameterValue": "prod"
+  },
+  {
+    "ParameterKey": "AdminVpcId",
+    "ParameterValue": "vpc-1d23ee79"
+  },
+  {
+    "ParameterKey": "AdminVpcCIDR",
+    "ParameterValue": "10.85.0.0/21"
+  },
+  {
+    "ParameterKey": "AdminVpcPrivateRouteTableId",
+    "ParameterValue": "rtb-1942f17d"
   },
   {
     "ParameterKey": "VpcName",
@@ -88,12 +96,16 @@
     "ParameterValue": "10.85.35.128/25"
   },
   {
-    "ParameterKey": "NATInstanceType",
+    "ParameterKey": "NatInstanceType",
     "ParameterValue": "m3.medium"
   },
   {
-    "ParameterKey": "NATImageId",
+    "ParameterKey": "NatImageId",
     "ParameterValue": "ami-c02b04a8"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-prod-keys"
   }
 
 ]

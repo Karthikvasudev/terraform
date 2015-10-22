@@ -1,5 +1,245 @@
+Paramter file additions for bi master:
+
+    "VpcId": {
+      "Description": "Vpc Id to run application",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "WebSecurityGroup": {
+      "Description": "Web tier Private Subnet to run instances",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "DatabaseSubnet1": {
+      "Description": "Data tier Private Subnet to run DB instances",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "DatabaseSubnet2": {
+
+-------------
+Note needed:
+
+    "AssetsBucketPrefix": {
+      "Description": "The prefix of the S3 bucket where the application WAR is located. A region-specific suffix will be appended, e.g. AssetsBucketPrefix-us-east-1.",
+      "Type": "String",
+      "Default" : "aip-"
+    },
+---------------
+    "AdminVpcId": {
+      "Description": "Administration Vpc Id",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "AdminVpcCIDR": {
+      "Description": "Administration Vpc CIDR block assignment",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "AdminVpcPrivateRouteTableId": {
+      "Description": "Administration Vpc Route Table Id for Private Subnets",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+
+    "VpcName": {
+      "Description": "name of the VPC",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+
+    "VpcNetworkCIDR": {
+      "Description": "VPC CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet1Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet1CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet2Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet2CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet3Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet3CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet4Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet4CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet5Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet5CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet6Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet6CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet7Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet7CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet8Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet8CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    }
+
+    "VpcAvailabilityZone1": {
+      "Description": "One of two Availability Zones that will be used to create subnets.",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcAvailabilityZone2": {
+      "Description": "One of two Availability Zones that will be used to create subnets.",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+
+    "NatInstanceType": {
+      "Description": "NAT Device EC2 instance type",
+      "Type": "String",
+      "Default": "m3.medium",
+      "AllowedValues": ["t1.micro", "m3.small", "m3.medium", "m1.large", "m1.xlarge", "m2.xlarge", "m2.2xlarge", "m2.4xlarge", "m3.xlarge", "m3.2xlarge", "c1.medium", "c1.xlarge", "cc1.4xlarge", "cc2.8xlarge", "cg1.4xlarge"],
+      "ConstraintDescription": "must be a valid EC2 instance type."
+    },
+
+
+    "NatImageId": {
+      "Description": "NAT AMI Id",
+      "Type": "String",
+      "Default": "ami-c02b04a8",
+      "ConstraintDescription": "must be a valid EC2 AMI Id"
+    },
+
+
+
+
+    "VpcTemplateKey": {
+      "Description": "The key of the template for the VPC scaffold substack",
+      "Type": "String",
+      "Default": "aip-devops-REGION-ACCOUNTID/cfn-templates/aip-bi/aip-bi-vpc.cfn.json"
+    },
 
 
 
 
 
+    "VpcScaffold" : {
+      "Type" : "AWS::CloudFormation::Stack",
+      "Metadata" : { "Comment" : "Build VPC for an Environment"},
+      "Properties" : {
+        "TemplateURL" : 
+            { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
+            {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "VpcTemplateKey" }]]},
+        "Parameters" : {
+          "Environment" : { "Ref" : "Environment"},
+
+          "VpcName" : { "Ref" : "VpcName"},
+          "VpcAvailabilityZone1": { "Ref" : "VpcAvailabilityZone1" },
+          "VpcAvailabilityZone2" : { "Ref" : "VpcAvailabilityZone2"},
+          "VpcNetworkCIDR" : { "Ref" : "VpcNetworkCIDR"},
+          "VpcSubnet1Name" : { "Ref" : "VpcSubnet1Name"},
+          "VpcSubnet1CIDR" : { "Ref" : "VpcSubnet1CIDR"},
+          "VpcSubnet2Name" : { "Ref" : "VpcSubnet2Name"},
+          "VpcSubnet2CIDR" : { "Ref" : "VpcSubnet2CIDR"},
+          "VpcSubnet3Name" : { "Ref" : "VpcSubnet3Name"},
+          "VpcSubnet3CIDR" : { "Ref" : "VpcSubnet3CIDR"},
+          "VpcSubnet4Name" : { "Ref" : "VpcSubnet4Name"},
+          "VpcSubnet4CIDR" : { "Ref" : "VpcSubnet4CIDR"},
+          "VpcSubnet5Name" : { "Ref" : "VpcSubnet5Name"},
+          "VpcSubnet5CIDR" : { "Ref" : "VpcSubnet5CIDR"},
+          "VpcSubnet6Name" : { "Ref" : "VpcSubnet6Name"},
+          "VpcSubnet6CIDR" : { "Ref" : "VpcSubnet6CIDR"},
+          "VpcSubnet7Name" : { "Ref" : "VpcSubnet7Name"},
+          "VpcSubnet7CIDR" : { "Ref" : "VpcSubnet7CIDR"},
+          "VpcSubnet8Name" : { "Ref" : "VpcSubnet8Name"},
+          "VpcSubnet8CIDR" : { "Ref" : "VpcSubnet8CIDR"},
+
+          "NatInstanceType" : { "Ref" : "NatInstanceType"},
+          "NatImageId" : { "Ref" : "NatImageId"},
+          "KeyName": { "Ref" : "KeyName" },
+
+          "AdminVpcId" : { "Ref" : "AdminVpcId"},
+          "AdminVpcCIDR" : { "Ref" : "AdminVpcCIDR"},
+          "AdminVpcPrivateRouteTableId": { "Ref" : "AdminVpcPrivateRouteTableId" }
+        }
+      }
+
+
+    },

@@ -1,9 +1,0 @@
-{
-  "AWSTemplateFormatVersion" : "2010-09-09",
-  "Description" : " aip-bi-eb-etl-app.cfn.json - This template defines the ElastiCache",
-  "Resources": {
-
-	}
-}
-
-

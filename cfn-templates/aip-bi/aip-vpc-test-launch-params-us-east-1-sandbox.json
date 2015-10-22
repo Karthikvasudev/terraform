@@ -1,67 +1,8 @@
 [
-  {
-    "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-test-keys"
-  },
+
   {
     "ParameterKey": "Environment",
     "ParameterValue": "test"
-  },
-  {
-    "ParameterKey": "VpcTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-bi/aip-bi-vpc.cfn.json"
-  },
-  {
-    "ParameterKey": "DatabaseTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-bi/aip-bi-rds.cfn.json"
-  },
-  {
-    "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-bi/aip-bi-aws-resources.cfn.json"
-  },
-  {
-    "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-bi/aip-bi-eb-app.cfn.json"
-  },  
-  {
-    "ParameterKey": "DatabaseUser",
-    "ParameterValue": "sa"
-  },  
-  {
-    "ParameterKey": "DatabasePassword",
-    "ParameterValue": "Pr0jectOT!me"
-  },  
-  {
-    "ParameterKey": "DatabaseName",
-    "ParameterValue": "postgres"
-  },  
-  {
-    "ParameterKey": "AZforReplica1",
-    "ParameterValue": "us-east-1d"
-  },
-  {
-    "ParameterKey": "AZforReplica2",
-    "ParameterValue": "us-east-1e"
-  },
-  {
-    "ParameterKey": "DBInstanceClass",
-    "ParameterValue": "db.r3.xlarge"
-  },   
-  {
-    "ParameterKey": "DBAllocatedStorage",
-    "ParameterValue": "100"
-  },
-  {
-    "ParameterKey": "NatInstanceType",
-    "ParameterValue": "m3.medium"
-  },
-  {
-    "ParameterKey": "NatImageId",
-    "ParameterValue": "ami-c02b04a8"
-  }, 
-  {
-    "ParameterKey": "InstanceType",
-    "ParameterValue": "m3.medium"
   },
   {
     "ParameterKey": "AdminVpcId",
@@ -70,7 +11,7 @@
   {
     "ParameterKey": "AdminVpcCIDR",
     "ParameterValue": "10.85.0.0/21"
-  },  
+  },
   {
     "ParameterKey": "AdminVpcPrivateRouteTableId",
     "ParameterValue": "rtb-2c3a8248"
@@ -156,32 +97,16 @@
     "ParameterValue": "10.85.19.128/25"
   },
   {
-    "ParameterKey": "CWatchLogGrpName",
-    "ParameterValue": "aip-bi-logs"
-  },  
-  {
-    "ParameterKey": "CWatchLogGrpRetention",
-    "ParameterValue": "14"
+    "ParameterKey": "NatInstanceType",
+    "ParameterValue": "m3.medium"
   },
   {
-    "ParameterKey": "ApplicationURL",
-    "ParameterValue": "aip-test-eb-bi-app"
+    "ParameterKey": "NatImageId",
+    "ParameterValue": "ami-c02b04a8"
   },
   {
-    "ParameterKey": "ApplicationName",
-    "ParameterValue": "bi-app"
-  },  
-  {
-    "ParameterKey": "ApplicationSourceBundle",
-    "ParameterValue": "aip-test-eb-bi-app"
-  },  
-  {
-    "ParameterKey": "S3Key",
-    "ParameterValue": "aip-test-eb-bi-app.zip"
-  },  
-  {
-    "ParameterKey": "ImageId",
-    "ParameterValue": "ami-7da9d918"
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-test-keys"
   }
 
 ]

@@ -1,0 +1,116 @@
+[
+  
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-f7872b93"
+  },
+  {
+    "ParameterKey": "WebSecurityGroup",
+    "ParameterValue": "sg-60855f06"
+  },  
+  {
+    "ParameterKey": "DatabaseSubnet1",
+    "ParameterValue": "subnet-7f363226"
+  },  
+  {
+    "ParameterKey": "DatabaseSubnet2",
+    "ParameterValue": "subnet-7062bb4d"
+  },  
+  {
+    "ParameterKey": "WebSubnet1",
+    "ParameterValue": "subnet-7236322b"
+  },  
+  {
+    "ParameterKey": "WebSubnet2",
+    "ParameterValue": "subnet-7362bb4e"
+  },  
+  {
+    "ParameterKey": "PublicSubnet1",
+    "ParameterValue": "subnet-70363229"
+  },
+  {
+    "ParameterKey": "PublicSubnet2",
+    "ParameterValue": "subnet-7262bb4f"
+  },       
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-dev-keys"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "dev"
+  },
+  {
+    "ParameterKey": "DatabaseTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-bi/bi-rds.cfn.json"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-bi/bi-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-bi/bi-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "DatabaseUser",
+    "ParameterValue": "sa"
+  },  
+  {
+    "ParameterKey": "DatabasePassword",
+    "ParameterValue": "Pr0jectOT!me"
+  },  
+  {
+    "ParameterKey": "DatabaseName",
+    "ParameterValue": "postgres"
+  }, 
+  {
+    "ParameterKey": "AZforReplica1",
+    "ParameterValue": "us-east-1d"
+  },
+  {
+    "ParameterKey": "AZforReplica2",
+    "ParameterValue": "us-east-1e"
+  },
+  {
+    "ParameterKey": "DBInstanceClass",
+    "ParameterValue": "db.r3.xlarge"
+  },   
+  {
+    "ParameterKey": "DBAllocatedStorage",
+    "ParameterValue": "100"
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m3.medium"
+  },
+  {
+    "ParameterKey": "CWatchLogGrpName",
+    "ParameterValue": "aip-bi-logs"
+  },  
+  {
+    "ParameterKey": "CWatchLogGrpRetention",
+    "ParameterValue": "14"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "aip-dev-eb-bi-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "bi-app"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "aip-dev-eb-bi-app"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "aip-dev-eb-bi-app.zip"
+  },  
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-7da9d918"
+  }
+
+]

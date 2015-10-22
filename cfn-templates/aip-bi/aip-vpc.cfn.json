@@ -3,14 +3,7 @@
   "Description": "This template defines a VPC for an environment (dev, test, qa, prod,...)",
   
   "Parameters": {
-    "KeyName": {
-      "Description": "Name of an existing EC2 KeyPair to enable SSH access all hosts",
-      "Type": "String",
-      "MinLength": "1",
-      "MaxLength": "255",
-      "AllowedPattern": "[\\x20-\\x7E]*",
-      "ConstraintDescription": "can contain only ASCII characters."
-    },
+  
     "Environment": {
       "Description": "name of the VPC Environment (dev, test, qa, prod)",
       "Type": "String",
@@ -34,6 +27,14 @@
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "255"
+    },
+    "KeyName": {
+      "Description": "Name of an existing EC2 KeyPair to enable SSH access all hosts",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255",
+      "AllowedPattern": "[\\x20-\\x7E]*",
+      "ConstraintDescription": "can contain only ASCII characters."
     },
     "VpcName": {
       "Description": "name of the VPC",
@@ -316,6 +317,8 @@
       }
     }
   },
+
+
   "Resources": {
     "Vpc": {
       "Type": "AWS::EC2::VPC",
