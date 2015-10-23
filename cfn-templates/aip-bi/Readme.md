@@ -203,6 +203,28 @@ aws cloudformation update-stack \
 --parameters file://aip-platform-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 
 
+
+
+### Abbott AWS -- Beanstalk App -- Proxy Services
+##
+### Dev
+## -- Create Abbott AWS: Dev environment --
+aws cloudformation create-stack \
+--stack-name aip-proxy-dev\
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-master-dev-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+## -- Update Abbott AWS: Dev environment --
+#--REFACTOR: change stack-name to aip-platform-dev-master
+aws cloudformation update-stack \
+--stack-name aip-proxy-dev \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-master-dev-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
+
+
+
 #### --------------------------
 
 

@@ -1,8 +1,8 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
 
-    "Description": "aip-bi-eb-app.cfn.json",
-    "Description": "This template defines the Beanstalk App",
+    "Description": "proxy-eb-app.cfn.json",
+    "Description": "This template defines the Beanstalk App for proxy services",
 
     "Parameters": {
 
@@ -13,6 +13,13 @@
             "MinLength": "1",
             "MaxLength": "255"
         },
+        "AppEnvironmentSuffix": {
+            "Description": "application environment suffix [ENV-'proxy'-REGION or ENV-'bi-app'-REGION]",
+            "Default": "proxy",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },		
         "ImageId": {
             "Description": "name of the Image (AMI Info)",
             "Default": "ami-5943023c",
@@ -27,7 +34,7 @@
         },
         "InstanceType": {
             "Description": "Size of the instance [t1.micro,t2.small,m3.large..etc]",
-            "Default": "t3.medium",
+            "Default": "m3.medium",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -77,7 +84,7 @@
             "Type": "String"
         },
         "R53HostedZoneName": {
-            "Description": "Name of the R53 HostedZone[aip.local.]",
+            "Description": "Name of the R53 HostedZone[aliniqbis.local.]",
 			"Default": "aliniqbis.local.",
             "Type": "String",
             "MinLength": "1",
@@ -85,7 +92,7 @@
         },
 		"R53RecordSetNamePrefix": {
 			"Description": "Name of the R53 Record Set[proxy,bi,aip]",
-			"Default": "bi",
+			"Default": "proxy",
 			"Type": "String",
 			"MinLength": "1",
 			"MaxLength": "255"
@@ -96,7 +103,7 @@
 			"Type": "String",
 			"MinLength": "1",
 			"MaxLength": "255"
-		}				
+		}		
     },
 
    "Conditions" : {
@@ -106,18 +113,16 @@
     },
 
     "Resources": {
-
-        "BIApp": {
+	
+		"App": {
             "Type": "AWS::ElasticBeanstalk::Application",
             "Condition"  : "CreateBeanstalkApplication",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
-                "Description": "ADD BI Application Environment"
+                "Description": "ADD Application Environment"
             }
         },
-
-
-        "BIAppEbEnv": {
+        "AppEbEnv": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
                 "ImageId": { "Ref": "ImageId" },
@@ -127,9 +132,9 @@
             }
         },
 
-        "BIAppVersion": {
+        "AppVersion": {
             "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
-            "DependsOn" : "BIApp",
+			"DependsOn" : "App",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SourceBundle": {
@@ -139,20 +144,21 @@
             }
         },
 
-        "BIAPPEnvironment": {
+        "APPEnvironment": {
             "Type": "AWS::ElasticBeanstalk::Environment",
+			"DependsOn" : "App",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
                 "VersionLabel": {
-                    "Ref": "BIAppVersion"
+                    "Ref": "AppVersion"
                 },
                 "Tier": {
                     "Name": "WebServer",
                     "Type": "Standard",
                     "Version": " "
                 },
-                "EnvironmentName": {"Fn::Join": ["", [{"Ref": "Environment"}, "-bi-app-", {"Ref": "AWS::Region"}]]},
+                "EnvironmentName": {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}, "-",{"Ref": "AWS::Region"}]]},
                 "OptionSettings": [
                     {
                         "Namespace": "aws:autoscaling:asg",
@@ -266,28 +272,28 @@
                     }
                 ]
             }
-        }
+        },
+	    "AppAccessCname" : {
+            "Type" : "AWS::Route53::RecordSetGroup",
+			"DependsOn" : "APPEnvironment",
+            "Properties" : {
+                "HostedZoneName" : { "Ref": "R53HostedZoneName" },
+                "Comment" : "Assigning route 53 cname for ELB's DNS record.",
+                "RecordSets" : [
+                  {
+                    "Name" : { "Fn::Join": ["-", [{ "Ref": "R53RecordSetNamePrefix" },{"Ref": "Environment"}, {"Ref": "R53RecordSetNameSuffix"}]]},
+                    "Type" : "CNAME",
+                    "TTL" : "900",
+                    "ResourceRecords" : [{"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]}]
+                  }
+                  ]
+            }
+        }			
     },
-	"AppAccessCname" : {
-		"Type" : "AWS::Route53::RecordSetGroup",
-		"DependsOn" : "APPEnvironment",
-		"Properties" : {
-			"HostedZoneName" : { "Ref": "R53HostedZoneName" },
-			"Comment" : "Assigning route 53 cname for ELB's DNS record.",
-			"RecordSets" : [
-			  {
-				"Name" : { "Fn::Join": ["-", [{ "Ref": "R53RecordSetNamePrefix" },{"Ref": "Environment"}, {"Ref": "R53RecordSetNameSuffix"}]]},
-				"Type" : "CNAME",
-				"TTL" : "900",
-				"ResourceRecords" : [{"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]}]
-			  }
-			  ]
-		}
-	}			
-},
+
     "Outputs": {
         "URL": {
             "Description": "URL of the AWS Elastic Beanstalk Environment",
-            "Value": {"Fn::Join": ["", ["http://", {"Fn::GetAtt": ["BIAPPEnvironment", "EndpointURL"]} ]] }}
+            "Value": {"Fn::Join": ["", ["http://", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]] }}
     }
 }

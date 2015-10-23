@@ -9,11 +9,11 @@
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-platform/aip-platform-aws-resources.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-proxy/aip-proxy-aws-resources.cfn.json"
   },
   {
     "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-platform/aip-platform-eb-app.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-proxy/aip-proxy-eb-app.cfn.json"
   },  
   {
     "ParameterKey": "InstanceType",
@@ -29,11 +29,11 @@
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "aip-dev-platform-app"
+    "ParameterValue": "dev-proxy-app"
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "aip"
+    "ParameterValue": "proxy"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
@@ -49,7 +49,7 @@
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
-    "ParameterValue": "aip"
+    "ParameterValue": "proxy"
   },
   {
     "ParameterKey": "R53HostedZoneName",
@@ -57,7 +57,7 @@
   },
   {
     "ParameterKey": "R53RecordSetNamePrefix",
-    "ParameterValue": "aip"
+    "ParameterValue": "proxy"
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
@@ -69,7 +69,7 @@
   },
   {
     "ParameterKey": "PrivateSubnets",
-    "ParameterValue": "subnet-77ffd05c,subnet-d3f82bee"
+    "ParameterValue": "subnet-d3f82bee,subnet-77ffd05c"
   },   
   {
     "ParameterKey": "InstanceSecurityGroups",
