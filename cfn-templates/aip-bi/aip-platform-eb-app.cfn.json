@@ -45,12 +45,6 @@
             "MinLength": "1",
             "MaxLength": "255"
         },
-        "AutoScalingSecGrp": {
-            "Description": "A comma-delimited list of security groups",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        },
         "ApplicationURL": {
             "Description": "URL for Elastic BeanStalk Application. Please make sure it doesn't exist [unique]",
             "Type": "String",
@@ -91,17 +85,25 @@
         },
         "R53HostedZoneName": {
             "Description": "Name of the R53 HostedZone[aip.local.]",
-			"Default": "aip.local.",
+			"Default": "aliniqbis.local.",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
         },
-        "R53RecordSetName": {
-            "Description": "Name of the R53 Record Set[platformservices.aip.local]",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        }		
+		"R53RecordSetNamePrefix": {
+			"Description": "Name of the R53 Record Set[proxy,bi,aip]",
+			"Default": "aip",
+			"Type": "String",
+			"MinLength": "1",
+			"MaxLength": "255"
+		},
+		"R53RecordSetNameSuffix": {
+			"Description": "Name of the R53 Record Set[us-1.aliniqbis.local]",
+			"Default": "us-1.aliniqbis.local",
+			"Type": "String",
+			"MinLength": "1",
+			"MaxLength": "255"
+		}		
     },
 
    "Conditions" : {
@@ -126,7 +128,7 @@
                 "ImageId": { "Ref": "ImageId" },
                 "InstanceType": { "Ref": "InstanceType" },
                 "KeyName": { "Ref": "KeyName"},
-                "SecurityGroups": [{ "Ref": "AutoScalingSecGrp" }]
+                "SecurityGroups": [{ "Ref": "InstanceSecurityGroups" }]
             }
         },
 
@@ -279,7 +281,7 @@
                 "Comment" : "Assigning route 53 cname for ELB's DNS record.",
                 "RecordSets" : [
                   {
-                    "Name" : { "Ref": "R53RecordSetName" },
+                    "Name" : { "Fn::Join": ["-", [{ "Ref": "R53RecordSetNamePrefix" },{"Ref": "Environment"}, {"Ref": "R53RecordSetNameSuffix"}]]},
                     "Type" : "CNAME",
                     "TTL" : "900",
                     "ResourceRecords" : [{"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]}]
