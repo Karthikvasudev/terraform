@@ -2,7 +2,7 @@
   "AWSTemplateFormatVersion": "2010-09-09",
 
   "Description": "aip-bi-master.cfn.json",
-  "Description": "Provisions two substacks: a Vpc with NAT instances, and the resources stack, which launches the BI Beanstalk app and its dependencies into the VPC.",
+  "Description": "Provisions two substacks: The BI Beanstalk app into the VPC, RDS MultiAZ, with Read Replicas, resources.",
 
   "Parameters": {
 
@@ -183,10 +183,18 @@
     }
   },
 
+
+ "Conditions" : {
+    "CreateRDS" : {
+        "Fn::Equals": ["false", "true"]
+    }
+  },
+
   "Resources": {
 
     "RdsDatabase" : {
       "Type" : "AWS::CloudFormation::Stack",
+      "Condition" : "CreateRDS",
       "DependsOn" : "BeanstalkApp1",
       "Metadata" : { "Comment" : "Build AWS Resources per Environment, e.g., S3, RDS" },
       "Properties" : {

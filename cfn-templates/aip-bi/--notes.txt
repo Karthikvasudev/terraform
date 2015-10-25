@@ -10,6 +10,13 @@ remove ApplicatoinSourceBundle - from all beanstalk related templates.
 
 Admin VPC template - set DHCP option to true in support of R53.
 
-
+To-Dos:
+	- Review Platform Services docs on Confluence
+	- Jenkins: Port 9418 open Privage SG Outbound & Inbound thru Nat instance. Update Admin VPC template. User Date Git command need. Verify with Andreas again.
+	- DNS - make a Public file. Also, automate privte VPC Id finding and template constructiion
+	- Admin VPC: Setup VPN stack or make seperate stack. Must add Route VPG to Private subnets (not Public however).
+	- IAM roles: defined in CF for Admin and All Beanstalk needs, Lambda
+	- Lockdown Public visibility of BI apps via SG or other
+	
 
 

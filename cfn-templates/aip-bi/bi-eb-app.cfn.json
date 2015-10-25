@@ -120,6 +120,7 @@
 
         "BIAPPEnvironment": {
             "Type": "AWS::ElasticBeanstalk::Environment",
+            "DependsOn" : "BIAppEbEnv",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
@@ -207,6 +208,11 @@
                         "Namespace": "aws:ec2:vpc",
                         "OptionName": "VpcId",
                         "Value": { "Ref": "VpcId" }
+                    },
+                    {
+                        "Namespace": "aws:ec2:vpc",
+                        "OptionName": "ELBScheme",
+                        "Value": "internal"
                     },
                     {
                         "Namespace": "aws:elasticbeanstalk:command",

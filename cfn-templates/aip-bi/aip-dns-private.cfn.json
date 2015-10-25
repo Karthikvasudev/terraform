@@ -1,0 +1,34 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+
+    "Description": "DNS Route 53 - aip-dns-private.cfn.json",
+
+
+
+    "Resources": {
+
+        "DNS": {
+            "Type": "AWS::Route53::HostedZone",
+            "Properties": {
+              "HostedZoneConfig": {"Comment": "AIP Private Zone"},
+              "Name": "aip.local",
+              "VPCs": [
+                {"VPCId": "vpc-8b20eaef", "VPCRegion": "us-east-1"},
+                {"VPCId": "vpc-8b802cef", "VPCRegion": "us-east-1"},
+                {"VPCId": "vpc-f7872b93", "VPCRegion": "us-east-1"}
+              ],
+              "HostedZoneTags" : [
+                {"Key": "Name", "Value": "aip-dns-privatezone" }
+              ]
+            }
+        }
+    },
+
+  
+  "Outputs": {
+    "HostedZoneId": {
+      "Description": "Private Zone Id",
+      "Value": { "Ref" : "DNS" }
+    }
+  }
+}

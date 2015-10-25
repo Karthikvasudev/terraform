@@ -219,8 +219,13 @@ aws cloudformation update-stack \
 
 ## -- Create Sandbox AWS: Dev environment --
 aws cloudformation create-stack \
---stack-name aip-dns \
---template-body file://aip-dns.cfn.json \
+--stack-name aip-dns-private \
+--template-body file://aip-dns-private.cfn.json \
 --capabilities CAPABILITY_IAM --disable-rollback --profile sandbox
 
+## -- Create Sandbox AWS: Dev environment --
+aws cloudformation create-stack \
+--stack-name aip-dns-public \
+--template-body file://aip-dns-public.cfn.json \
+--capabilities CAPABILITY_IAM --disable-rollback --profile sandbox
 #### --------------------------
