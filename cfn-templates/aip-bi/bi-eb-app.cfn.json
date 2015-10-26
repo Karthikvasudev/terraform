@@ -272,24 +272,24 @@
                     }
                 ]
             }
-        }
-    },
-	"AppAccessCname" : {
-		"Type" : "AWS::Route53::RecordSetGroup",
-		"DependsOn" : "APPEnvironment",
-		"Properties" : {
-			"HostedZoneName" : { "Ref": "R53HostedZoneName" },
-			"Comment" : "Assigning route 53 cname for ELB's DNS record.",
-			"RecordSets" : [
-			  {
-				"Name" : { "Fn::Join": ["-", [{ "Ref": "R53RecordSetNamePrefix" },{"Ref": "Environment"}, {"Ref": "R53RecordSetNameSuffix"}]]},
-				"Type" : "CNAME",
-				"TTL" : "900",
-				"ResourceRecords" : [{"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]}]
-			  }
-			  ]
-		}
-	}			
+        },
+
+    	"AppAccessCname" : {
+    		"Type" : "AWS::Route53::RecordSetGroup",
+    		"DependsOn" : "BIAPPEnvironment",
+    		"Properties" : {
+    			"HostedZoneName" : { "Ref": "R53HostedZoneName" },
+    			"Comment" : "Assigning route 53 cname for ELB's DNS record.",
+    			"RecordSets" : [
+    			  {
+    				"Name" : { "Fn::Join": ["-", [{ "Ref": "R53RecordSetNamePrefix" },{"Ref": "Environment"}, {"Ref": "R53RecordSetNameSuffix"}]]},
+    				"Type" : "CNAME",
+    				"TTL" : "900",
+    				"ResourceRecords" : [{"Fn::GetAtt": ["BIAPPEnvironment", "EndpointURL"]}]
+    			  }
+    			  ]
+    		}
+    	}			
 },
     "Outputs": {
         "URL": {

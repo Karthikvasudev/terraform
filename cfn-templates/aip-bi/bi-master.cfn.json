@@ -205,7 +205,7 @@
 
  "Conditions" : {
     "CreateRDS" : {
-        "Fn::Equals": ["false", "true"]
+        "Fn::Equals": ["true", "true"]
     }
   },
 

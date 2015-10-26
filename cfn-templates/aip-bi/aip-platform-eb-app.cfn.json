@@ -236,6 +236,11 @@
                         "Value": { "Ref": "VpcId" }
                     },
                     {
+                        "Namespace": "aws:ec2:vpc",
+                        "OptionName": "ELBScheme",
+                        "Value": "internal"
+                    },
+                    {
                         "Namespace": "aws:elasticbeanstalk:command",
                         "OptionName": "BatchSize",
                         "Value": "30"

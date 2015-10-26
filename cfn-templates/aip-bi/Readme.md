@@ -149,7 +149,7 @@ aws cloudformation update-stack \
 
 #### --------------------------
 
-### Abbott AWS -- BI Beanstalk deployment via Master Template -- 
+### Abbott AWS -- BI Beanstalk deployment via Master Template -- "bi-app-us-east-1"
 ##
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
@@ -184,41 +184,38 @@ aws cloudformation update-stack \
 
 
 
-### Abbott AWS -- Beanstalk App -- Platform Services
+### Abbott AWS -- Beanstalk App -- Platform Services "aip-us-east-1"
 ##
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
-# --REFACTOR: change stack-name to aip-platform-dev-master
 aws cloudformation create-stack \
---stack-name aip-platform-dev\
+--stack-name aip-platform-dev-master \
 --template-body file://aip-platform-master.cfn.json \
 --parameters file://aip-platform-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 ## -- Update Abbott AWS: Dev environment --
-#--REFACTOR: change stack-name to aip-platform-dev-master
 aws cloudformation update-stack \
---stack-name aip-platform-dev \
+--stack-name aip-platform-dev-master \
 --template-body file://aip-platform-master.cfn.json \
 --parameters file://aip-platform-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 
 
 
 
-### Abbott AWS -- Beanstalk App -- Proxy Services
+### Abbott AWS -- Beanstalk App -- Proxy Services ""
 ##
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
---stack-name aip-proxy-dev\
+--stack-name aip-proxy-dev-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 ## -- Update Abbott AWS: Dev environment --
-#--REFACTOR: change stack-name to aip-platform-dev-master
 aws cloudformation update-stack \
---stack-name aip-proxy-dev \
+--stack-name aip-proxy-dev-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 

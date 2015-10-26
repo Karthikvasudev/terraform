@@ -2,35 +2,35 @@
 
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": ""
+    "ParameterValue": "vpc-3517bf51"
   },
   {
     "ParameterKey": "WebSecurityGroup",
-    "ParameterValue": ""
+    "ParameterValue": "sg-0211b164"
   },  
   {
     "ParameterKey": "DatabaseSubnet1",
-    "ParameterValue": ""
+    "ParameterValue": "subnet-c3b583e8"
   },  
   {
     "ParameterKey": "DatabaseSubnet2",
-    "ParameterValue": ""
+    "ParameterValue": "subnet-8829f3b5"
   },  
   {
     "ParameterKey": "WebSubnet1",
-    "ParameterValue": ""
+    "ParameterValue": "subnet-c2b583e9"
   },  
   {
     "ParameterKey": "WebSubnet2",
-    "ParameterValue": ""
+    "ParameterValue": "subnet-8f29f3b2"
   },  
   {
     "ParameterKey": "PublicSubnet1",
-    "ParameterValue": ""
+    "ParameterValue": "subnet-c0b583eb"
   },
   {
     "ParameterKey": "PublicSubnet2",
-    "ParameterValue": ""
+    "ParameterValue": "subnet-8929f3b4"
   },       
   {
     "ParameterKey": "KeyName",

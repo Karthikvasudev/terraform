@@ -17,6 +17,9 @@ To-Dos:
 	- Admin VPC: Setup VPN stack or make seperate stack. Must add Route VPG to Private subnets (not Public however).
 	- IAM roles: defined in CF for Admin and All Beanstalk needs, Lambda
 	- Lockdown Public visibility of BI apps via SG or other
-	
 
+Issues - CNAME - each app delete stack operation requies MANUAL removal of CNAME value - not so great!
+
+Need to ensure left over apps are not still in Beanstalk. 
+	19:58:28 UTC-0700	CREATE_FAILED	AWS::ElasticBeanstalk::Application	App	aip-us-east-1 already exists
 
