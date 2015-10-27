@@ -1,0 +1,78 @@
+[
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-dev-keys"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "dev"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m3.medium"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-3517bf51"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-dev-vpc-us-east-1"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "dev-etl-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "etl"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "aip-dev-eb-bi-app"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "aip-dev-eb-bi-app.zip"
+  },  
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-7da9d918"
+  },
+  {
+    "ParameterKey": "AppEnvironmentSuffix",
+    "ParameterValue": "etl"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.local."
+  },
+  {
+    "ParameterKey": "R53RecordSetNamePrefix",
+    "ParameterValue": "etl"
+  },
+  {
+    "ParameterKey": "R53RecordSetNameSuffix",
+    "ParameterValue": "us-1.aliniqbis.local"
+  },
+  {
+    "ParameterKey": "PublicSubnets",
+    "ParameterValue": "subnet-8929f3b4,subnet-c0b583eb"
+  },
+  {
+    "ParameterKey": "PrivateSubnets",
+    "ParameterValue": "subnet-c1b583ea,subnet-8e29f3b3"
+  },   
+  {
+    "ParameterKey": "InstanceSecurityGroups",
+    "ParameterValue": "sg-0211b164"
+  }
+]
