@@ -221,6 +221,35 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM 
 
 
+### Abbott AWS -- Beanstalk App -- ETL Services ""
+##
+### Dev
+## -- Create Abbott AWS: Dev environment --
+aws cloudformation create-stack \
+--stack-name bit-etl-dev --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-master-dev-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- Update Abbott AWS: Dev environment --
+aws cloudformation update-stack \
+--stack-name bit-etl-dev --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-master-dev-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+## Sandbox
+
+aws cloudformation create-stack \
+--stack-name bit-etl-dev --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-master-dev-launch-params-us-east-1-Sandbox.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+aws cloudformation update-stack \
+--stack-name bit-etl-dev --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-master-dev-launch-params-us-east-1-Sandbox.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
 
 #### --------------------------
 
