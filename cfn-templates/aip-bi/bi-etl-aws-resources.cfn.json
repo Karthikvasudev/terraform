@@ -1,0 +1,126 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Resources for ETL services includes S3,SQS and related policies for event notification to automatically post message",
+    "Parameters": {
+        "Environment": {
+            "Description": "name of the VPC Environment (dev, test, qa, prod)",
+            "MaxLength": "255",
+            "MinLength": "1",
+            "Type": "String"
+        }
+    },
+    "Resources": {
+        "biETLQueue": {
+            "Properties": {
+                "QueueName": {
+					"Fn::Join": [
+						"",
+						[
+							"bi-etl-",
+							{
+								"Ref": "Environment"
+							},
+							"-sqs-dataprocess"
+						]
+					]				
+				},
+                "ReceiveMessageWaitTimeSeconds": 20,
+                "VisibilityTimeout": 120
+            },
+            "Type": "AWS::SQS::Queue"
+        },
+        "biETLQueuePolicy": {
+            "DependsOn": "biETLQueue",
+            "Properties": {
+                "PolicyDocument": {
+                    "Version": "2008-10-17",
+                    "Id": "biETLQueuePolicyId",
+                    "Statement": [
+                        {
+                            "Sid": "biETLQueuePolicyStmtId",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": "*"
+                            },
+                            "Action": [
+                                "SQS:SendMessage"
+                            ],
+                            "Resource": {
+                                "Fn::GetAtt": [
+                                    "biETLQueue",
+                                    "Arn"
+                                ]
+                            },
+                            "Condition": {
+                                "ArnLike": {
+                                    "aws:SourceArn": {
+                                        "Fn::Join": [
+                                            "",
+                                            [
+                                                "arn:aws:s3:*:*:",
+   											    {
+													"Ref": "Environment"
+												},
+												"-bi-etl-",
+												{
+													"Ref": "AWS::Region"
+												},
+												"-",
+												{
+													"Ref" : "AWS::AccountId"
+												}
+                                            ]
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Queues": [
+                    {
+                        "Ref": "biETLQueue"
+                    }
+                ]
+            },
+            "Type": "AWS::SQS::QueuePolicy"
+        },
+        "biETLBucket": {
+            "DependsOn": "biETLQueuePolicy",
+            "Properties": {
+                "BucketName": {
+					"Fn::Join": [
+						"",
+						[
+							{
+								"Ref": "Environment"
+							},
+							"-bi-etl-",
+							{
+								"Ref": "AWS::Region"
+							},
+							"-",
+							{
+								"Ref" : "AWS::AccountId"
+							}
+						]
+					]
+                },
+                "NotificationConfiguration": {
+                    "QueueConfigurations": [
+                        {
+                            "Event": "s3:ObjectCreated:*",
+                            "Queue": {
+                                "Fn::GetAtt": [
+                                    "biETLQueue",
+                                    "Arn"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "Type": "AWS::S3::Bucket"
+        }
+    }
+}
