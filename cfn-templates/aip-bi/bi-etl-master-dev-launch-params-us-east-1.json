@@ -37,11 +37,11 @@
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
-    "ParameterValue": "aip-dev-eb-bi-app"
+    "ParameterValue": "golden"
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "aip-dev-eb-bi-app.zip"
+    "ParameterValue": "bi-etl-dev-eb-18.zip"
   },  
   {
     "ParameterKey": "ImageId",

@@ -58,10 +58,11 @@
                                             "",
                                             [
                                                 "arn:aws:s3:*:*:",
+												"bi-",
    											    {
 													"Ref": "Environment"
 												},
-												"-bi-etl-",
+												"-etl-s3-",
 												{
 													"Ref": "AWS::Region"
 												},
