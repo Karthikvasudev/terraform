@@ -102,15 +102,27 @@
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
-    "ParameterValue": "aip-dev-eb-bi-app"
+    "ParameterValue": "golden"
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "aip-dev-eb-bi-app.zip"
+    "ParameterValue": "bi-dev-eb-248.zip"
   },  
   {
     "ParameterKey": "ImageId",
     "ParameterValue": "ami-7da9d918"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.local."
+  },
+  {
+    "ParameterKey": "R53RecordSetNamePrefix",
+    "ParameterValue": "bi"
+  },
+  {
+    "ParameterKey": "R53RecordSetNameSuffix",
+    "ParameterValue": "us-1.aliniqbis.local"
   }
 
 ]
