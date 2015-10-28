@@ -41,7 +41,7 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "aip-dev-eb-bi-app.zip"
+    "ParameterValue": "aip-dev-eb-proxy-app.zip"
   },  
   {
     "ParameterKey": "ImageId",

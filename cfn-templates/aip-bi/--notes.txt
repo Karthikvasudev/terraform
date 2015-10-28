@@ -17,9 +17,31 @@ To-Dos:
 	- Admin VPC: Setup VPN stack or make seperate stack. Must add Route VPG to Private subnets (not Public however).
 	- IAM roles: defined in CF for Admin and All Beanstalk needs, Lambda
 	- Lockdown Public visibility of BI apps via SG or other
+	- Add to vpc private database SG - PostgreSQL inbound from 10.85.0.0/16 (for Workstation PGadmin from Admin VPC use)
 
 Issues - CNAME - each app delete stack operation requies MANUAL removal of CNAME value - not so great!
 
+Note: Jenkins database connection must be URI encoded as part of connection string. 
+We have to remember to URI encode the credentials as well for Jenkins:
+	postgres://api_user:SomePassword%24%25%233@bi-dev-rds-dw-us-east-1d.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres
+
 Need to ensure left over apps are not still in Beanstalk. 
 	19:58:28 UTC-0700	CREATE_FAILED	AWS::ElasticBeanstalk::Application	App	aip-us-east-1 already exists
+
+Fix ETL App Subnets:
+Web tier subnets: subnet-c2b583e9,subnet-8f29f3b2
+ETL tier subnets: subnet-c1b583ea,subnet-8e29f3b3
+
+VPC deployments: - R53 manual associate aip.local and aliniqbis.local for each vpc after create event.
+
+BI App Issue:
+http://dev-bi-app-us-east-1-ac4xtayjng.elasticbeanstalk.com/
+internal-awseb-e-b-AWSEBLoa-1K4CBDW2HRM0L-1574079299.us-east-1.elb.amazonaws.com
+http://internal-awseb-e-b-awsebloa-1wtl8rls29xxu-1553663982.us-east-1.elb.amazonaws.com/
+http://dev-bi-app-us-east-1-ac4xtayjng.elasticbeanstalk.com/
+
+zP29gG.%4Z
+
+NAT SG: sg-f37b7794  
+Win2 SG: sg-076dcf61
 
