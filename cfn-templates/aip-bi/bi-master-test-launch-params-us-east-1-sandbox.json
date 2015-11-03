@@ -1,4 +1,36 @@
-[
+[  
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "WebSecurityGroup",
+    "ParameterValue": ""
+  },  
+  {
+    "ParameterKey": "DatabaseSubnet1",
+    "ParameterValue": ""
+  },  
+  {
+    "ParameterKey": "DatabaseSubnet2",
+    "ParameterValue": ""
+  },  
+  {
+    "ParameterKey": "WebSubnet1",
+    "ParameterValue": ""
+  },  
+  {
+    "ParameterKey": "WebSubnet2",
+    "ParameterValue": ""
+  },  
+  {
+    "ParameterKey": "PublicSubnet1",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "PublicSubnet2",
+    "ParameterValue": ""
+  },
   {
     "ParameterKey": "KeyName",
     "ParameterValue": "aip-bi-test-keys"
@@ -46,14 +78,6 @@
   {
     "ParameterKey": "DBAllocatedStorage",
     "ParameterValue": "100"
-  },
-  {
-    "ParameterKey": "NatInstanceType",
-    "ParameterValue": "m3.medium"
-  },
-  {
-    "ParameterKey": "NatImageId",
-    "ParameterValue": "ami-c02b04a8"
   }, 
   {
     "ParameterKey": "InstanceType",

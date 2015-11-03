@@ -1,5 +1,37 @@
 [
   {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-185df67c"
+  },
+  {
+    "ParameterKey": "WebSecurityGroup",
+    "ParameterValue": "sg-8611b2e0"
+  },  
+  {
+    "ParameterKey": "DatabaseSubnet1",
+    "ParameterValue": "subnet-2f5b6a04"
+  },  
+  {
+    "ParameterKey": "DatabaseSubnet2",
+    "ParameterValue": "subnet-1afb5e27"
+  },  
+  {
+    "ParameterKey": "WebSubnet1",
+    "ParameterValue": "subnet-2a5b6a01"
+  },  
+  {
+    "ParameterKey": "WebSubnet2",
+    "ParameterValue": "subnet-1bfb5e26"
+  },  
+  {
+    "ParameterKey": "PublicSubnet1",
+    "ParameterValue": "subnet-285b6a03"
+  },
+  {
+    "ParameterKey": "PublicSubnet2",
+    "ParameterValue": "subnet-15fb5e28"
+  },
+  {
     "ParameterKey": "KeyName",
     "ParameterValue": "aip-bi-test-keys"
   },
@@ -25,7 +57,7 @@
   },  
   {
     "ParameterKey": "DatabasePassword",
-    "ParameterValue": "Pr0jectOT!me"
+    "ParameterValue": "Pr0jectOnT!me"
   },  
   {
     "ParameterKey": "DatabaseName",
@@ -46,110 +78,10 @@
   {
     "ParameterKey": "DBAllocatedStorage",
     "ParameterValue": "100"
-  },
-  {
-    "ParameterKey": "NatInstanceType",
-    "ParameterValue": "m3.medium"
-  },
-  {
-    "ParameterKey": "NatImageId",
-    "ParameterValue": "ami-c02b04a8"
   }, 
   {
     "ParameterKey": "InstanceType",
     "ParameterValue": "m3.medium"
-  },
-  {
-    "ParameterKey": "AdminVpcId",
-    "ParameterValue": "vpc-1d23ee79"
-  },
-  {
-    "ParameterKey": "AdminVpcCIDR",
-    "ParameterValue": "10.85.0.0/21"
-  },  
-  {
-    "ParameterKey": "AdminVpcPrivateRouteTableId",
-    "ParameterValue": "rtb-1942f17d"
-  },
-  {
-    "ParameterKey": "VpcName",
-    "ParameterValue": "aip-test-vpc-us-east-1"
-  },
-  {
-    "ParameterKey": "VpcAvailabilityZone1",
-    "ParameterValue": "us-east-1d"
-  },
-  {
-    "ParameterKey": "VpcAvailabilityZone2",
-    "ParameterValue": "us-east-1e"
-  },
-  {
-    "ParameterKey": "VpcNetworkCIDR",
-    "ParameterValue": "10.85.16.0/21"
-  },
-  {
-    "ParameterKey": "VpcSubnet1Name",
-    "ParameterValue": "aip-test-sn-pub-us-east-1d"
-  },
-  {
-    "ParameterKey": "VpcSubnet1CIDR",
-    "ParameterValue": "10.85.16.0/25"
-  },
-  {
-    "ParameterKey": "VpcSubnet2Name",
-    "ParameterValue": "aip-test-sn-web-us-east-1d"
-  },
-  {
-    "ParameterKey": "VpcSubnet2CIDR",
-    "ParameterValue": "10.85.16.128/25"
-  },  
-  {
-    "ParameterKey": "VpcSubnet3Name",
-    "ParameterValue": "aip-test-sn-data-us-east-1d"
-  },
-  {
-    "ParameterKey": "VpcSubnet3CIDR",
-    "ParameterValue": "10.85.17.0/25"
-  },
-  {
-    "ParameterKey": "VpcSubnet4Name",
-    "ParameterValue": "aip-test-sn-etl-us-east-1d"
-  },
-  {
-    "ParameterKey": "VpcSubnet4CIDR",
-    "ParameterValue": "10.85.17.128/25"
-  },  
-  {
-    "ParameterKey": "VpcSubnet5Name",
-    "ParameterValue": "aip-test-sn-pub-us-east-1e"
-  },
-  {
-    "ParameterKey": "VpcSubnet5CIDR",
-    "ParameterValue": "10.85.18.0/25"
-  },
-  {
-    "ParameterKey": "VpcSubnet6Name",
-    "ParameterValue": "aip-test-sn-web-us-east-1e"
-  },
-  {
-    "ParameterKey": "VpcSubnet6CIDR",
-    "ParameterValue": "10.85.18.128/25"
-  },
-  {
-    "ParameterKey": "VpcSubnet7Name",
-    "ParameterValue": "aip-test-sn-data-us-east-1e"
-  },
-  {
-    "ParameterKey": "VpcSubnet7CIDR",
-    "ParameterValue": "10.85.19.0/25"
-  },
-  {
-    "ParameterKey": "VpcSubnet8Name",
-    "ParameterValue": "aip-test-sn-etl-us-east-1e"
-  },
-  {
-    "ParameterKey": "VpcSubnet8CIDR",
-    "ParameterValue": "10.85.19.128/25"
   },
   {
     "ParameterKey": "CWatchLogGrpName",
@@ -169,15 +101,27 @@
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
-    "ParameterValue": "aip-test-eb-bi-app"
+    "ParameterValue": "golden"
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "aip-test-eb-bi-app.zip"
+    "ParameterValue": "bi-dev-eb-248.zip"
   },  
   {
     "ParameterKey": "ImageId",
     "ParameterValue": "ami-7da9d918"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.local."
+  },
+  {
+    "ParameterKey": "R53RecordSetNamePrefix",
+    "ParameterValue": "bi"
+  },
+  {
+    "ParameterKey": "R53RecordSetNameSuffix",
+    "ParameterValue": "us-1.aliniqbis.local"
   }
 
 ]

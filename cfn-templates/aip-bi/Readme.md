@@ -181,6 +181,36 @@ aws cloudformation update-stack \
 --parameters file://bi-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
 
+### QA
+## -- Create Abbott AWS: Test environment --
+aws cloudformation create-stack \
+--stack-name bi-qa-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-master-qa-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## -- Update Abbott AWS: Test environment --
+aws cloudformation update-stack \
+--stack-name bi-qa-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-master-qa-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM
+
+### Prod
+## -- Create Abbott AWS: Test environment --
+aws cloudformation create-stack \
+--stack-name bi-prod-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-master-prod-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## -- Update Abbott AWS: Test environment --
+aws cloudformation update-stack \
+--stack-name bi-prod-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-master-prod-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM
+
 
 
 

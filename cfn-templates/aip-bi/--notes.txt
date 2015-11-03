@@ -45,3 +45,10 @@ zP29gG.%4Z
 NAT SG: sg-f37b7794  
 Win2 SG: sg-076dcf61
 
+abbott-add.awsapps.com
+
+# docker 
+sudo docker ps -a
+get name of containers - grab names of EC2 
+docker logs container
+sudo docker info
