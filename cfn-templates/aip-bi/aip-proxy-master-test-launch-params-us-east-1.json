@@ -41,7 +41,7 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "aip-dev-eb-proxy-11.zip"
+    "ParameterValue": "eb-docker-template.zip"
   },  
   {
     "ParameterKey": "ImageId",

@@ -37,11 +37,11 @@
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
-    "ParameterValue": "aip-dev-eb-bi-app"
+    "ParameterValue": "golden"
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "aip-dev-eb-bi-app.zip"
+    "ParameterValue": "eb-docker-template.zip"
   },  
   {
     "ParameterKey": "ImageId",

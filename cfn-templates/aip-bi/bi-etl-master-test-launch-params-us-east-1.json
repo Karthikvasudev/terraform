@@ -41,7 +41,7 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "bi-etl-dev-eb-18.zip"
+    "ParameterValue": "eb-docker-template.zip"
   },  
   {
     "ParameterKey": "ImageId",

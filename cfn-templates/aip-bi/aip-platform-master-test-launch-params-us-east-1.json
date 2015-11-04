@@ -41,7 +41,7 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "aip-dev-eb-platform-services-76.zip"
+    "ParameterValue": "eb-docker-template.zip"
   },  
   {
     "ParameterKey": "ImageId",
