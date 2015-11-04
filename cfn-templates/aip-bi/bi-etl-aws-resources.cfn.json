@@ -59,7 +59,7 @@
                                             [
                                                 "arn:aws:s3:*:*:",
 												"bi-",
-   											    {
+   											    	{
 													"Ref": "Environment"
 												},
 												"-etl-s3-",
@@ -93,17 +93,18 @@
 					"Fn::Join": [
 						"",
 						[
-							{
-								"Ref": "Environment"
-							},
-							"-bi-etl-",
-							{
-								"Ref": "AWS::Region"
-							},
-							"-",
-							{
-								"Ref" : "AWS::AccountId"
-							}
+												"bi-",
+   											    	{
+													"Ref": "Environment"
+												},
+												"-etl-s3-",
+												{
+													"Ref": "AWS::Region"
+												},
+												"-",
+												{
+													"Ref" : "AWS::AccountId"
+												}
 						]
 					]
                 },

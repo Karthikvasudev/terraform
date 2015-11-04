@@ -233,6 +233,22 @@ aws cloudformation update-stack \
 
 
 
+## -- Create Abbott AWS: Test environment --
+aws cloudformation create-stack \
+--stack-name aip-platform-test-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-master-test-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- update Abbott AWS: Test environment --
+aws cloudformation update-stack \
+--stack-name aip-platform-test-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-master-test-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
 ### Abbott AWS -- Beanstalk App -- Proxy Services ""
 ##
 ### Dev
@@ -249,6 +265,25 @@ aws cloudformation update-stack \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 
+
+
+
+### Test
+## -- Create Abbott AWS: Test environment --
+aws cloudformation create-stack \
+--stack-name aip-proxy-test-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-master-test-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- update Abbott AWS: Test environment --
+aws cloudformation update-stack \
+--stack-name aip-proxy-test-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-master-test-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
 
 
 ### Abbott AWS -- Beanstalk App -- ETL Services ""
@@ -278,6 +313,21 @@ aws cloudformation create-stack \
 aws cloudformation update-stack \
 --stack-name bit-etl-dev --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-dev-launch-params-us-east-1-Sandbox.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+
+## -- Create Abbott AWS: Test environment --
+aws cloudformation create-stack \
+--stack-name bit-etl-test --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-master-test-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- Update Abbott AWS: Test environment --
+aws cloudformation Update-stack \
+--stack-name bit-etl-test --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 

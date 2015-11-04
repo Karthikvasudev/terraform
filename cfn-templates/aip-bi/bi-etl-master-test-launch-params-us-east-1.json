@@ -1,11 +1,11 @@
 [
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-dev-keys"
+    "ParameterValue": "aip-bi-test-keys"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "dev"
+    "ParameterValue": "test"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
@@ -21,15 +21,15 @@
   },
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-3517bf51"
+    "ParameterValue": "vpc-185df67c"
   },
   {
     "ParameterKey": "VpcName",
-    "ParameterValue": "aip-dev-vpc-us-east-1"
+    "ParameterValue": "aip-test-vpc-us-east-1"
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "dev-etl-app"
+    "ParameterValue": "test-etl-app"
   },
   {
     "ParameterKey": "ApplicationName",
@@ -65,14 +65,14 @@
   },
   {
     "ParameterKey": "PublicSubnets",
-    "ParameterValue": "subnet-8929f3b4,subnet-c0b583eb"
+    "ParameterValue": "subnet-285b6a03,subnet-15fb5e28"
   },
   {
     "ParameterKey": "PrivateSubnets",
-    "ParameterValue": "subnet-c1b583ea,subnet-8e29f3b3"
+    "ParameterValue": "subnet-2a5b6a01,subnet-1bfb5e26"
   },   
   {
     "ParameterKey": "InstanceSecurityGroups",
-    "ParameterValue": "sg-0211b164"
+    "ParameterValue": "sg-8611b2e0"
   }
 ]

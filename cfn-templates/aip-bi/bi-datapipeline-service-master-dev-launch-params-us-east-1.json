@@ -9,11 +9,11 @@
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-aws-resources.cfn.json"
+    "ParameterValue": "/cfn-templates/bi-datapipeline-service/bi-datapipeline-service-aws-resources.cfn.json"
   },
   {
     "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-eb-app.cfn.json"
+    "ParameterValue": "/cfn-templates/bi-datapipeline-service/bi-datapipeline-service-eb-app.cfn.json"
   },  
   {
     "ParameterKey": "InstanceType",
@@ -29,11 +29,11 @@
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "dev-etl-app"
+    "ParameterValue": "dev-datapipeline-service-app"
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "etl"
+    "ParameterValue": "datapipeline-service"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
@@ -41,7 +41,7 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "bi-etl-dev-eb-18.zip"
+    "ParameterValue": "eb-docker-template.zip"
   },  
   {
     "ParameterKey": "ImageId",
@@ -49,7 +49,7 @@
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
-    "ParameterValue": "etl"
+    "ParameterValue": "bi-datapipeline-service"
   },
   {
     "ParameterKey": "R53HostedZoneName",
@@ -57,7 +57,7 @@
   },
   {
     "ParameterKey": "R53RecordSetNamePrefix",
-    "ParameterValue": "etl"
+    "ParameterValue": "bi-datapipeline-service"
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
@@ -74,5 +74,33 @@
   {
     "ParameterKey": "InstanceSecurityGroups",
     "ParameterValue": "sg-0211b164"
+  },
+  {
+    "ParameterKey": "DatabaseSubnet1",
+    "ParameterValue": "subnet-c3b583e8"
+  },  
+  {
+    "ParameterKey": "DatabaseSubnet2",
+    "ParameterValue": "subnet-8829f3b5"
+  },  
+  {
+    "ParameterKey": "DatabaseUser",
+    "ParameterValue": "sa"
+  },  
+  {
+    "ParameterKey": "DatabasePassword",
+    "ParameterValue": "Pr0jectOT!me"
+  },  
+  {
+    "ParameterKey": "DatabaseName",
+    "ParameterValue": "postgres"
+  }, 
+  {
+    "ParameterKey": "DBInstanceClass",
+    "ParameterValue": "db.r3.xlarge"
+  },   
+  {
+    "ParameterKey": "DBAllocatedStorage",
+    "ParameterValue": "100"
   }
 ]

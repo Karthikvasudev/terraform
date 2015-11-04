@@ -1,39 +1,39 @@
 [
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-dev-keys"
+    "ParameterValue": "aip-bi-test-keys"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "dev"
+    "ParameterValue": "test"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-aws-resources.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-platform/aip-platform-aws-resources.cfn.json"
   },
   {
     "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-eb-app.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-platform/aip-platform-eb-app.cfn.json"
   },  
   {
     "ParameterKey": "InstanceType",
-    "ParameterValue": "r3.large"
+    "ParameterValue": "m3.medium"
   },
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-3517bf51"
+    "ParameterValue": "vpc-185df67c"
   },
   {
     "ParameterKey": "VpcName",
-    "ParameterValue": "aip-dev-vpc-us-east-1"
+    "ParameterValue": "aip-test-vpc-us-east-1"
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "dev-etl-app"
+    "ParameterValue": "aip-test-platform-app"
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "etl"
+    "ParameterValue": "aip"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
@@ -41,7 +41,7 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "bi-etl-dev-eb-18.zip"
+    "ParameterValue": "aip-dev-eb-platform-services-76.zip"
   },  
   {
     "ParameterKey": "ImageId",
@@ -49,7 +49,7 @@
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
-    "ParameterValue": "etl"
+    "ParameterValue": "aip"
   },
   {
     "ParameterKey": "R53HostedZoneName",
@@ -57,7 +57,7 @@
   },
   {
     "ParameterKey": "R53RecordSetNamePrefix",
-    "ParameterValue": "etl"
+    "ParameterValue": "aip"
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
@@ -65,14 +65,14 @@
   },
   {
     "ParameterKey": "PublicSubnets",
-    "ParameterValue": "subnet-8929f3b4,subnet-c0b583eb"
+    "ParameterValue": "subnet-285b6a03,subnet-15fb5e28"
   },
   {
     "ParameterKey": "PrivateSubnets",
-    "ParameterValue": "subnet-c1b583ea,subnet-8e29f3b3"
+    "ParameterValue": "subnet-2a5b6a01,subnet-1bfb5e26"
   },   
   {
     "ParameterKey": "InstanceSecurityGroups",
-    "ParameterValue": "sg-0211b164"
+    "ParameterValue": "sg-8611b2e0"
   }
 ]

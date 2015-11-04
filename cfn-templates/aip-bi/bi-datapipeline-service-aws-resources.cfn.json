@@ -1,0 +1,208 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Resources for ETL services includes S3,SQS and related policies for event notification to automatically post message",
+    "Parameters": {
+        "Environment": {
+            "Description": "name of the VPC Environment (dev, test, qa, prod)",
+            "MaxLength": "255",
+            "MinLength": "1",
+            "Type": "String"
+        },
+		"VpcId": {
+		  "Description": "Administration Vpc Id",
+		  "Type": "String",
+		  "MinLength": "1",
+		  "MaxLength": "255"
+		},
+		"DatabaseUser": {
+		  "NoEcho": "true",
+		  "Description" : "The database admin account username",
+		  "Type": "String",
+		  "MinLength": "1",
+		  "MaxLength": "16",
+		  "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9\\_]*",
+		  "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+		},
+
+		"DatabasePassword": {
+		  "NoEcho": "true",
+		  "Description" : "The database admin account password",
+		  "Type": "String",
+		  "MinLength": "1",
+		  "MaxLength": "41"
+		},
+
+		"DBAllocatedStorage": {
+		  "Default": "5",
+		  "Description" : "The size of the database (Gb)",
+		  "Type": "Number",
+		  "MinValue": "5",
+		  "MaxValue": "1024",
+		  "ConstraintDescription" : "must be between 5 and 1024Gb."
+		},
+
+		"DBInstanceClass": {
+		  "Description" : "The database instance type",
+		  "Type": "String",
+		  "Default": "db.m1.small",
+		  "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m3.medium", "db.m3.large", "db.m3.xlarge", 
+			  "db.m3.2xlarge", "db.r3.large", "db.r3.xlarge", "db.r3.2xlarge", "db.r3.4xlarge", 
+			  "db.r3.8xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge", "db.m2.8xlarge"],
+		  "ConstraintDescription" : "must select a valid database instance type."
+		},
+
+		"WebSecurityGroup": {
+		  "Description" : "The EC2 security group that contains instances that need access to the database",
+		  "Default": "default",
+		  "Type": "String",
+		  "AllowedPattern" : "[a-zA-Z0-9\\-]+",
+		  "ConstraintDescription" : "must be a valid security group name."
+		},
+		"DatabaseSubnet1": {
+		  "Description": "This AZ will be used to create read replica - 1",
+		  "Type": "String",
+		  "MinLength": "1",
+		  "MaxLength": "255"
+		},
+		"DatabaseSubnet2": {
+		  "Description": "This AZ will be used to create read replica - 2",
+		  "Type": "String",
+		  "MinLength": "1",
+		  "MaxLength": "255"
+		}
+    },
+    "Resources": {
+        "biDataPipelineQ": {
+            "Properties": {
+                "QueueName": {
+					"Fn::Join": [
+						"",
+						[
+							"bi-",
+							{
+								"Ref": "Environment"
+							},
+							"-sqs-datapipeline-service"
+						]
+					]				
+				},
+                "ReceiveMessageWaitTimeSeconds": 0,
+                "VisibilityTimeout": 1800,
+				"MaximumMessageSize": 262144,
+				"MessageRetentionPeriod": 1209600,
+				"DelaySeconds": 0,
+				"RedrivePolicy": {
+				  "deadLetterTargetArn" : {"Fn::GetAtt" : [ "biDataPipelineDeadQ" , "Arn" ]},
+				  "maxReceiveCount" : 5
+				}
+            },
+            "Type": "AWS::SQS::Queue"
+        },
+		"biDataPipelineDeadQ" : {
+		  "Type" : "AWS::SQS::Queue",
+		  "Properties": {
+                "QueueName": {
+					"Fn::Join": [
+						"",
+						[
+							"bi-",
+							{
+								"Ref": "Environment"
+							},
+							"-sqs-datapipeline-dead"
+						]
+					]				
+				}
+			}
+		},
+		"aipsnsdaychanged" : {
+		   "Type" : "AWS::SNS::Topic",
+		   "Properties" : {
+			  "Subscription" : [
+				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineQ", "Arn" ] }, "Protocol" : "sqs" },
+				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineDeadQ", "Arn" ] }, "Protocol" : "sqs" }
+			  ],
+			  "TopicName" : "aip-sns-day-changed"
+		   }
+		},
+		"bisnsdataloaded" : {
+		   "Type" : "AWS::SNS::Topic",
+		   "Properties" : {
+			  "Subscription" : [
+				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineQ", "Arn" ] }, "Protocol" : "sqs" },
+				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineDeadQ", "Arn" ] }, "Protocol" : "sqs" }
+			  ],
+			  "TopicName" : "bi-sns-data-loaded"
+		   }
+		},
+		"bisnsdataprocess" : {
+		   "Type" : "AWS::SNS::Topic",
+		   "Properties" : {
+			  "Subscription" : [
+				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineQ", "Arn" ] }, "Protocol" : "sqs" },
+				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineDeadQ", "Arn" ] }, "Protocol" : "sqs" }
+			  ],
+			  "TopicName" : "bi-sns-data-process"
+		   }
+		},		
+		"DBSecurityGroup": {
+		  "Type": "AWS::EC2::SecurityGroup",
+		  "Properties" : {
+			"GroupDescription": "Open pipeline database for access",
+			"VpcId": {"Ref" : "VpcId"},
+			"SecurityGroupIngress" : [{
+			  "IpProtocol" : "tcp",
+			  "FromPort" : "5432",
+			  "ToPort" : "5432",
+			  "SourceSecurityGroupId" : { "Ref" : "WebSecurityGroup" }
+			},
+			{
+			  "IpProtocol" : "tcp",
+			  "FromPort" : "5432",
+			  "ToPort" : "5432",
+			  "CidrIp" : "10.0.0.0/8"
+			}],
+			"Tags": [
+			  { "Key": "Name", "Value": { "Fn::Join": ["", ["bi-datapipeline-", { "Ref": "Environment" }, "-sg-database"]] }},
+			  { "Key": "Environment", "Value": { "Ref": "Environment" }}
+			]
+		  }
+		},
+
+		"DBSubnetGroup" : {
+			 "Type" : "AWS::RDS::DBSubnetGroup",
+			 "Properties" : {
+				"DBSubnetGroupDescription" : "Data tier subnet list, one per AZ",
+				"SubnetIds" : [{"Ref": "DatabaseSubnet1"}, {"Ref": "DatabaseSubnet2"} ],
+				"Tags" : [ 
+					{"Key": "Name", "Value": { "Fn::Join": ["", ["bi-datapipeline-", { "Ref": "Environment" }, "-rds-subnetgrp-", {"Ref": "AWS::Region"} ]] }},
+					{"Key": "Environment", "Value": { "Ref": "Environment" }},
+					{"Key"  : "Comment", "Value" : "RDS Subnet Group" }
+				 ]
+			 }
+		},
+
+		"MasterDB" : {
+		  "Type" : "AWS::RDS::DBInstance",
+		  "Properties" : {
+			"DBInstanceIdentifier"  : { "Fn::Join": ["", ["bi-datapipeline-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]]},
+			"AllocatedStorage"      : { "Ref" : "DBAllocatedStorage" },
+			"DBInstanceClass"       : { "Ref" : "DBInstanceClass" },
+			"Engine"                : "postgres",
+			"MasterUsername"        : { "Ref" : "DatabaseUser" },
+			"MasterUserPassword"    : { "Ref" : "DatabasePassword" },
+			"MultiAZ"               : "true",
+			"DBSubnetGroupName"     : { "Ref" : "DBSubnetGroup" },
+			"VPCSecurityGroups"     : [ { "Fn::GetAtt": [ "DBSecurityGroup", "GroupId" ] } ],
+			"PubliclyAccessible"    : "false",
+			"StorageEncrypted"      : "true",
+			"Tags" : [
+				{"Key": "Name", "Value": { "Fn::Join": ["", ["bi-datapipeline-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]] }},
+				{"Key": "Environment", "Value": { "Ref": "Environment" }},
+				{"Key"  : "Comment", "Value" : "MasterDB" }
+			]
+		  },
+		  "DeletionPolicy" : "Snapshot"
+		}		
+    }
+}

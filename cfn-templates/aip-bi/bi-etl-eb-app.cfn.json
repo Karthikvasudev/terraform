@@ -33,8 +33,8 @@
             "Type": "String"
         },
         "InstanceType": {
-            "Description": "Size of the instance [t1.micro,t2.small,m3.large..etc]",
-            "Default": "m3.medium",
+            "Description": "Size of the instance [t1.micro,t2.small,r3.large..etc]",
+            "Default": "r3.large",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -135,7 +135,6 @@
 
         "AppVersion": {
             "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
-			"DependsOn" : "App",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SourceBundle": {
@@ -147,7 +146,6 @@
 
         "APPEnvironment": {
             "Type": "AWS::ElasticBeanstalk::Environment",
-			"DependsOn" : "App",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
@@ -310,7 +308,12 @@
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "MaxRetries",
 						"Value": "50"
-					}					
+					},
+					{
+						"Namespace": "aws:elasticbeanstalk:sqsd",
+						"OptionName": "HttpPath",
+						"Value": "/etl/sqs"
+					}	
                 ]
             }
         }			

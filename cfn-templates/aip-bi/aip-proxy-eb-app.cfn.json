@@ -134,7 +134,6 @@
 
         "AppVersion": {
             "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
-			"DependsOn" : "App",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SourceBundle": {
@@ -146,7 +145,6 @@
 
         "APPEnvironment": {
             "Type": "AWS::ElasticBeanstalk::Environment",
-			"DependsOn" : "App",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",

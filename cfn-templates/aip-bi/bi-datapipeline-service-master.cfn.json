@@ -1,8 +1,8 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
 
-  "Description": "bi-etl-master.cfn.json",
-  "Description": "Provisions ETL Beanstalk app and its dependencies into the VPC.",
+  "Description": "bi-datapipeline-service-master.cfn.json",
+  "Description": "Provisions bi-datapipeline-service Beanstalk app and its dependencies into the VPC.",
 
   "Parameters": {
 
@@ -15,12 +15,12 @@
     "ResourcesTemplateKey": {
       "Description": "The key of the template for the EB resources and application substack",
       "Type": "String",
-      "Default": "aip-devops-REGION-ACCOUNTID/cfn-templates/bi-etl/bi-etl-aws-resources.cfn.json"
+      "Default": "aip-devops-REGION-ACCOUNTID/cfn-templates/bi-datapipeline-service/bi-datapipeline-service-aws-resources.cfn.json"
     },
     "AppTemplateKey": {
       "Description": "The key of the template for that contains the EB app and env embedded in ResourcesTemplateKey",
       "Type": "String",
-      "Default": "aip-devops-REGION-ACCOUNTID/cfn-templates/bi-etl/bi-etl-eb-app.cfn.json"
+      "Default": "aip-devops-REGION-ACCOUNTID/cfn-templates/bi-datapipeline-service/bi-datapipeline-service-eb-app.cfn.json"
     },
     "KeyName": {
       "Description": "Name of an existing EC2 KeyPair to enable SSH access to the Elastic Beanstalk and Bastion hosts",
@@ -42,7 +42,7 @@
     "ApplicationName": {
       "Description": "The name of the Elastic Beanstalk Application",
       "Type": "String",
-      "Default": "bi-etl"
+      "Default": "bi-datapipeline-service"
     },
     "ApplicationURL": {
       "Description": "URL for Elastic BeanStalk Application. Please make sure it doesn't exist [unique]",
@@ -98,7 +98,7 @@
 		"MaxLength": "255"
 	},
 	"R53RecordSetNamePrefix": {
-		"Description": "Name of the R53 Record Set[proxy,bi,aip,etl]",
+		"Description": "Name of the R53 Record Set[proxy,bi,aip,bi-datapipeline-service]",
 		"Type": "String",
 		"MinLength": "1",
 		"MaxLength": "255"
@@ -110,8 +110,8 @@
 		"MaxLength": "255"
 	},
 	"AppEnvironmentSuffix": {
-		"Description": "application environment suffix [ENV-'aip'-REGION or ENV-'bi-etl'-REGION or ENV-'proxy'-REGION]",
-		"Default": "bi-etl",
+		"Description": "application environment suffix [ENV-'aip'-REGION or ENV-'bi-datapipeline-service'-REGION or ENV-'proxy'-REGION]",
+		"Default": "datapipeline-service",
 		"Type": "String",
 		"MinLength": "1",
 		"MaxLength": "255"
@@ -121,23 +121,83 @@
 		"Type": "String",
 		"MinLength": "1",
 		"MaxLength": "255"
-	}	
+	},
+    "DatabaseUser": {
+      "Default": "admin",
+      "NoEcho": "true",
+      "Type": "String",
+      "Description": "Database web app account name",
+      "MinLength": "1",
+      "MaxLength": "16"
+    },
+    "DatabasePassword": {
+      "Default": "0bee082a464",
+      "NoEcho": "true",
+      "Type": "String",
+      "Description": "Database admin account password",
+      "MinLength": "1",
+      "MaxLength": "41"
+    },
+    "DatabaseName": {
+      "Description": "The name of the database",
+      "Type": "String",
+      "Default": " postgres"
+    },
+    "DBAllocatedStorage": {
+      "Default": "5",
+      "Description" : "The size of the database (Gb)",
+      "Type": "Number",
+      "MinValue": "5",
+      "MaxValue": "1024",
+      "ConstraintDescription" : "must be between 5 and 1024Gb."
+    },
+    "DBInstanceClass": {
+      "Description" : "The database instance type",
+      "Type": "String",
+      "Default": "db.m1.small",
+      "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m3.medium", "db.m3.large", "db.m3.xlarge", 
+          "db.m3.2xlarge", "db.r3.large", "db.r3.xlarge", "db.r3.2xlarge", "db.r3.4xlarge", 
+          "db.r3.8xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge", "db.m2.8xlarge"],
+      "ConstraintDescription" : "must select a valid database instance type."
+    },
+    "DatabaseSubnet1": {
+      "Description": "Data tier Private Subnet to run DB instances",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "DatabaseSubnet2": {
+      "Description": "Data tier Private Subnet to run DB instances",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    }	
   },
 
   "Resources": {
+  
     "AppResources" : {
       "Type" : "AWS::CloudFormation::Stack",
-      "Metadata" : { "Comment" : "Build AWS Resources per Environment, e.g., S3"},
+      "Condition" : "CreateRDS",
+      "DependsOn" : "BeanstalkApp1",
+      "Metadata" : { "Comment" : "Build AWS Resources per Environment, e.g., S3, RDS" },
       "Properties" : {
         "TemplateURL" : 
             { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
             {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "ResourcesTemplateKey" }]]},
         "Parameters" : {
-          "Environment": { "Ref" : "Environment" }
+          "Environment"             : { "Ref" : "Environment" },
+          "VpcId"                   : { "Ref" : "VpcId" },
+          "DatabaseUser"            : { "Ref" : "DatabaseUser" },
+          "DatabasePassword"        : { "Ref" : "DatabasePassword" },
+          "DBAllocatedStorage"      : { "Ref" : "DBAllocatedStorage" },
+          "DBInstanceClass"         : { "Ref" : "DBInstanceClass" },
+          "WebSecurityGroup"        : { "Ref" : "InstanceSecurityGroups"},
+          "DatabaseSubnet1"         : { "Ref" : "DatabaseSubnet1"},
+          "DatabaseSubnet2"         : { "Ref" : "DatabaseSubnet2"}
         }
       }
     },
-
     "BeanstalkApp1" : {
       "Type" : "AWS::CloudFormation::Stack",
       "Metadata" : { "Comment" : "Beanstalk App - configure, build, deploy" },
