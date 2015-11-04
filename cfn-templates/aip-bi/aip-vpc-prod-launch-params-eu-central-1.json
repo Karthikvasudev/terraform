@@ -1,0 +1,110 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "prod"
+  }, 
+  {
+    "ParameterKey": "AdminVpcId",
+    "ParameterValue": "vpc-"
+  },
+  {
+    "ParameterKey": "AdminVpcCIDR",
+    "ParameterValue": "10.41.0.0/21"
+  },
+  {
+    "ParameterKey": "AdminVpcPrivateRouteTableId",
+    "ParameterValue": "rtb-1942f17d"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-dev-vpc-us-east-1"
+  },
+  {
+    "ParameterKey": "VpcAvailabilityZone1",
+    "ParameterValue": "us-east-1d"
+  },
+  {
+    "ParameterKey": "VpcAvailabilityZone2",
+    "ParameterValue": "us-east-1e"
+  },
+  {
+    "ParameterKey": "VpcNetworkCIDR",
+    "ParameterValue": "10.85.8.0/21"
+  },
+  {
+    "ParameterKey": "VpcSubnet1Name",
+    "ParameterValue": "aip-dev-sn-pub-us-east-1d"
+  },
+  {
+    "ParameterKey": "VpcSubnet1CIDR",
+    "ParameterValue": "10.85.8.0/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet2Name",
+    "ParameterValue": "aip-dev-sn-web-us-east-1d"
+  },
+  {
+    "ParameterKey": "VpcSubnet2CIDR",
+    "ParameterValue": "10.85.8.128/25"
+  },  
+  {
+    "ParameterKey": "VpcSubnet3Name",
+    "ParameterValue": "aip-dev-sn-data-us-east-1d"
+  },
+  {
+    "ParameterKey": "VpcSubnet3CIDR",
+    "ParameterValue": "10.85.9.0/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet4Name",
+    "ParameterValue": "aip-dev-sn-etl-us-east-1d"
+  },
+  {
+    "ParameterKey": "VpcSubnet4CIDR",
+    "ParameterValue": "10.85.9.128/25"
+  },  
+  {
+    "ParameterKey": "VpcSubnet5Name",
+    "ParameterValue": "aip-dev-sn-pub-us-east-1e"
+  },
+  {
+    "ParameterKey": "VpcSubnet5CIDR",
+    "ParameterValue": "10.85.10.0/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet6Name",
+    "ParameterValue": "aip-dev-sn-web-us-east-1e"
+  },
+  {
+    "ParameterKey": "VpcSubnet6CIDR",
+    "ParameterValue": "10.85.10.128/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet7Name",
+    "ParameterValue": "aip-dev-sn-data-us-east-1e"
+  },
+  {
+    "ParameterKey": "VpcSubnet7CIDR",
+    "ParameterValue": "10.85.11.0/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet8Name",
+    "ParameterValue": "aip-dev-sn-etl-us-east-1e"
+  },
+  {
+    "ParameterKey": "VpcSubnet8CIDR",
+    "ParameterValue": "10.85.11.128/25"
+  },
+  {
+    "ParameterKey": "NatInstanceType",
+    "ParameterValue": "m3.medium"
+  },
+  {
+    "ParameterKey": "NatImageId",
+    "ParameterValue": "ami-c02b04a8"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-dev-keys"
+  }
+]

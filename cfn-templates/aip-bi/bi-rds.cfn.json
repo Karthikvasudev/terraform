@@ -152,6 +152,7 @@
 
     "ReplicaDB1" : {
       "Type" : "AWS::RDS::DBInstance",
+      "DependsOn" : "MasterDB",
       "Properties" : {
     		"DBInstanceIdentifier" : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", { "Ref": "AZforReplica1" }]]},		
     		"AvailabilityZone" : {"Ref": "AZforReplica1"},
@@ -167,6 +168,7 @@
 	
   	"ReplicaDB2" : {
       "Type" : "AWS::RDS::DBInstance",
+      "DependsOn" : "ReplicaDB1",
       "Properties" : {
         "DBInstanceIdentifier" : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", { "Ref": "AZforReplica2" }]]},    
       	"AvailabilityZone" : {"Ref": "AZforReplica2"},

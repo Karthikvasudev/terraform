@@ -52,3 +52,9 @@ sudo docker ps -a
 get name of containers - grab names of EC2 
 docker logs container
 sudo docker info
+
+
+Region porting notes eu-central-1:
+Create keys - aip-adm-keys
+Pick an Amazone Linux NAT (HVM) AMI in each region. Same to --NAT notes file.
+

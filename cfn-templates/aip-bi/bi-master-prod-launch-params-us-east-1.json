@@ -1,43 +1,44 @@
 [
+
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-"
+    "ParameterValue": "vpc-c3f042a7"
   },
   {
     "ParameterKey": "WebSecurityGroup",
-    "ParameterValue": "sg-"
+    "ParameterValue": "sg-97ce7df1"
   },  
   {
     "ParameterKey": "DatabaseSubnet1",
-    "ParameterValue": "subnet-"
+    "ParameterValue": "subnet-6e665945"
   },  
   {
     "ParameterKey": "DatabaseSubnet2",
-    "ParameterValue": "subnet-"
+    "ParameterValue": "subnet-7c43e341"
   },  
   {
     "ParameterKey": "WebSubnet1",
-    "ParameterValue": "subnet-"
+    "ParameterValue": "subnet-68665943"
   },  
   {
     "ParameterKey": "WebSubnet2",
-    "ParameterValue": "subnet-"
+    "ParameterValue": "subnet-0243e33f"
   },  
   {
     "ParameterKey": "PublicSubnet1",
-    "ParameterValue": "subnet-"
+    "ParameterValue": "subnet-6f665944"
   },
   {
     "ParameterKey": "PublicSubnet2",
-    "ParameterValue": "subnet-"
-  },
+    "ParameterValue": "subnet-7f43e342"
+  },       
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-test-keys"
+    "ParameterValue": "aip-bi-prod-keys"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "test"
+    "ParameterValue": "prod"
   },
   {
     "ParameterKey": "DatabaseTemplateKey",
@@ -62,7 +63,7 @@
   {
     "ParameterKey": "DatabaseName",
     "ParameterValue": "postgres"
-  },  
+  }, 
   {
     "ParameterKey": "AZforReplica1",
     "ParameterValue": "us-east-1d"
@@ -78,7 +79,7 @@
   {
     "ParameterKey": "DBAllocatedStorage",
     "ParameterValue": "100"
-  }, 
+  },
   {
     "ParameterKey": "InstanceType",
     "ParameterValue": "m3.medium"
@@ -93,7 +94,7 @@
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "aip-test-eb-bi-app"
+    "ParameterValue": "aip-prod-eb-bi-app"
   },
   {
     "ParameterKey": "ApplicationName",
@@ -105,8 +106,8 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "bi-dev-eb-248.zip"
-  },  
+    "ParameterValue": "eb-docker-template.zip"
+  },
   {
     "ParameterKey": "ImageId",
     "ParameterValue": "ami-7da9d918"
@@ -123,5 +124,4 @@
     "ParameterKey": "R53RecordSetNameSuffix",
     "ParameterValue": "us-1.aliniqbis.local"
   }
-
 ]

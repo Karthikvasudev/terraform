@@ -1,0 +1,59 @@
+[
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-adm-keys-eu1"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-adm-vpc-eu-central-1"
+  },
+  {
+    "ParameterKey": "VpcAvailabilityZone1",
+    "ParameterValue": "us-central-1a"
+  },
+  {
+    "ParameterKey": "VpcNetworkCIDR",
+    "ParameterValue": "10.41.0.0/21"
+  },
+  {
+    "ParameterKey": "VpcSubnet1Name",
+    "ParameterValue": "aip-adm-sn-public-eu-central-1a"
+  },
+  {
+    "ParameterKey": "VpcSubnet1CIDR",
+    "ParameterValue": "10.41.0.128/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet2Name",
+    "ParameterValue": "aip-adm-sn-private-eu-central-1a"
+  },
+  {
+    "ParameterKey": "VpcSubnet2CIDR",
+    "ParameterValue": "10.41.0.0/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet3Name",
+    "ParameterValue": "aip-adm-sn-private-workspaces-eu-central-1a"
+  },
+  {
+    "ParameterKey": "VpcSubnet3CIDR",
+    "ParameterValue": "10.41.1.0/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet4Name",
+    "ParameterValue": "aip-adm-sn-private-workspaces-eu-central-1b"
+  },
+  {
+    "ParameterKey": "VpcSubnet4CIDR",
+    "ParameterValue": "10.41.1.128/25"
+  },
+  {
+    "ParameterKey": "NatInstanceType",
+    "ParameterValue": "m3.medium"
+  },
+  {
+    "ParameterKey": "NATImageId",
+    "ParameterValue": "ami-46073a5b"
+  }
+]
+

@@ -58,7 +58,7 @@
   },  
   {
     "ParameterKey": "DatabasePassword",
-    "ParameterValue": "Pr0jectOT!me"
+    "ParameterValue": "Pr0jectOnT!me"
   },  
   {
     "ParameterKey": "DatabaseName",
@@ -106,8 +106,8 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "bi-dev-eb-248.zip"
-  },  
+    "ParameterValue": "eb-docker-template.zip"
+  },
   {
     "ParameterKey": "ImageId",
     "ParameterValue": "ami-7da9d918"
