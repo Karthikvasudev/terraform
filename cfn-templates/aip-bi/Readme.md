@@ -68,6 +68,7 @@ aws cloudformation create-stack \
 
 #### --------------------------
 
+NOTE: R53 must be updated with any new VPC creations. Be sure to make the associations and drop any old ones. 
 
 ### Abbott AWS -- VPC Environments -- 
 ##
@@ -112,7 +113,7 @@ aws cloudformation create-stack \
 
 
 #### --------------------------
-
+NOTE: R53 must be updated with any new VPC creations. Be sure to make the associations and drop any old ones. 
 
 ### Sandbox -- BI Beanstalk deployment via Master Template -- Sandbox
 ##
@@ -182,14 +183,14 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM
 
 ### QA
-## -- Create Abbott AWS: Test environment --
+## -- Create Abbott AWS: QA environment --
 aws cloudformation create-stack \
 --stack-name bi-qa-master \
 --template-body file://bi-master.cfn.json \
 --parameters file://bi-master-qa-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
-## -- Update Abbott AWS: Test environment --
+## -- Update Abbott AWS: QA environment --
 aws cloudformation update-stack \
 --stack-name bi-qa-master \
 --template-body file://bi-master.cfn.json \
@@ -197,14 +198,14 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM
 
 ### Prod
-## -- Create Abbott AWS: Test environment --
+## -- Create Abbott AWS: Prod environment --
 aws cloudformation create-stack \
 --stack-name bi-prod-master \
 --template-body file://bi-master.cfn.json \
 --parameters file://bi-master-prod-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
-## -- Update Abbott AWS: Test environment --
+## -- Update Abbott AWS: Prod environment --
 aws cloudformation update-stack \
 --stack-name bi-prod-master \
 --template-body file://bi-master.cfn.json \
