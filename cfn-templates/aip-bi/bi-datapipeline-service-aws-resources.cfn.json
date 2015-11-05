@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Resources for ETL services includes S3,SQS and related policies for event notification to automatically post message",
+    "Description": "Resources for data pipeline  services includes RDS,SQS and related policies for event notification to automatically post message",
     "Parameters": {
         "Environment": {
             "Description": "name of the VPC Environment (dev, test, qa, prod)",

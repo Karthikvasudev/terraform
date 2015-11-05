@@ -33,7 +33,7 @@
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "datapipeline-service"
+    "ParameterValue": "bi-datapipeline-service"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
@@ -49,7 +49,7 @@
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
-    "ParameterValue": "bi-datapipeline-service"
+    "ParameterValue": "bi-dp"
   },
   {
     "ParameterKey": "R53HostedZoneName",
