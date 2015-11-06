@@ -1,0 +1,78 @@
+[
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-qa-keys"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "qa"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-platform/aip-platform-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-platform/aip-platform-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m3.medium"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-c3f042a7"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-qa-vpc-us-east-1"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "aip-qa-platform-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "aip"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "golden"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "eb-docker-template.zip"
+  },  
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-7da9d918"
+  },
+  {
+    "ParameterKey": "AppEnvironmentSuffix",
+    "ParameterValue": "aip"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.local."
+  },
+  {
+    "ParameterKey": "R53RecordSetNamePrefix",
+    "ParameterValue": "aip"
+  },
+  {
+    "ParameterKey": "R53RecordSetNameSuffix",
+    "ParameterValue": "us-1.aliniqbis.local"
+  },
+  {
+    "ParameterKey": "PublicSubnets",
+    "ParameterValue": "subnet-6f665944,subnet-7f43e342"
+  },
+  {
+    "ParameterKey": "PrivateSubnets",
+    "ParameterValue": "subnet-68665943,subnet-0243e33f"
+  },   
+  {
+    "ParameterKey": "InstanceSecurityGroups",
+    "ParameterValue": "sg-97ce7df1"
+  }
+]
