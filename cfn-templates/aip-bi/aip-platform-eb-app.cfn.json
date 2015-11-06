@@ -171,7 +171,7 @@
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
                         "OptionName": "IamInstanceProfile",
-                        "Value": "aip-dev-iam-eb-ec2-role"
+                        "Value": { "Fn::Join": ["", ["aip-", {"Ref": "Environment"}, "-iam-eb-ec2-role"]]}
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
@@ -291,7 +291,42 @@
                   }
                   ]
             }
-        }			
+        },
+
+        "BeanstalkEC2Role": {
+             "Type": "AWS::IAM::Role",
+             "Properties": {
+                "AssumeRolePolicyDocument": {
+                   "Version" : "2012-10-17",
+                   "Statement": [ {
+                      "Effect": "Allow",
+                      "Principal": {
+                         "Service": [ "ec2.amazonaws.com" ]
+                      },
+                      "Action": [ "sts:AssumeRole" ]
+                   } ]
+                },
+                "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonS3FullAccess",
+                                    "arn:aws:iam::aws:policy/AmazonSQSFullAccess", 
+                                    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"],
+                "Path": "/"
+             }
+        },
+        "BeanstalkEC2RolePolicy" : {
+           "Type" : "AWS::IAM::Policy",
+           "Properties" : {
+              "PolicyName" : { "Fn::Join": ["", ["aip-", {"Ref": "Environment"}, "-iam-eb-ec2-role"]]},
+              "PolicyDocument" : {
+                 "Version": "2012-10-17",
+                 "Statement" : [ {
+                    "Effect" : "Allow",
+                    "Action" : ["*"],
+                    "Resource" : "*"
+                 } ]
+              },
+              "Roles": [ { "Ref": "BeanstalkEC2Role" } ]
+           }
+        }   
     },
 
     "Outputs": {

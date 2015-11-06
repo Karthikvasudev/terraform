@@ -1,11 +1,11 @@
 [
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-qa-keys"
+    "ParameterValue": "aip-bi-prod-keys"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "qa"
+    "ParameterValue": "prod"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
@@ -25,11 +25,11 @@
   },
   {
     "ParameterKey": "VpcName",
-    "ParameterValue": "aip-qa-vpc-us-east-1"
+    "ParameterValue": "aip-prod-vpc-us-east-1"
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "aip-qa-platform-app"
+    "ParameterValue": "aip-prod-platform-app"
   },
   {
     "ParameterKey": "ApplicationName",

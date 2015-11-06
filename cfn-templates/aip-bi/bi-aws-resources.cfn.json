@@ -82,6 +82,64 @@
                     ]
                 }
             }
+        },
+
+        "BiS3Benchmark": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": {"Fn::Join": ["", ["bi-", {"Ref": "Environment"}, "-s3-data-benchmark-",
+                    {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}]]}
+            }
+        },
+        "BiS3BenchmarkPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "Bucket": {
+                    "Ref": "BiS3Benchmark"
+                },
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "s3:GetObject",
+                                "s3:PutObject"
+                            ],
+                            "Effect": "Allow",
+                            "Resource": {"Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "BiS3Benchmark"}, "/*"]]},
+                            "Principal": { "AWS": [{"Fn::Join": ["", ["arn:aws:iam::", {"Ref": "AWS::AccountId"}, ":role/ETL-Role"]]}]}
+                        }
+                    ]
+                }
+            }
+        },
+
+        "BiS3Metaanalysis": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": {"Fn::Join": ["", ["bi-", {"Ref": "Environment"}, "-s3-data-metaanalysis-",
+                    {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}]]}
+            }
+        },
+        "BiS3MetaanalysisPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "Bucket": {
+                    "Ref": "BiS3Metaanalysis"
+                },
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "s3:GetObject",
+                                "s3:PutObject"
+                            ],
+                            "Effect": "Allow",
+                            "Resource": {"Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "BiS3Metaanalysis"}, "/*"]]},
+                            "Principal": { "AWS": [{"Fn::Join": ["", ["arn:aws:iam::", {"Ref": "AWS::AccountId"}, ":role/ETL-Role"]]}]}
+                        }
+                    ]
+                }
+            }
         }
     },
 
@@ -89,6 +147,12 @@
         
         "BiS3FileUpload": {
            "Value" : { "Ref" : "BiS3FileUpload" }
+        },
+        "BiS3Benchmark": {
+           "Value" : { "Ref" : "BiS3Benchmark" }
+        },
+        "BiS3Metaanalysis": {
+           "Value" : { "Ref" : "BiS3Metaanalysis" }
         }
   }
 }
