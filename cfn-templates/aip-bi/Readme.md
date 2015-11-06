@@ -359,27 +359,27 @@ aws cloudformation update-stack \
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
---stack-name bit-etl-dev --template-body file://bi-etl-master.cfn.json \
+--stack-name bit-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 
 ## -- Update Abbott AWS: Dev environment --
 aws cloudformation update-stack \
---stack-name bit-etl-dev --template-body file://bi-etl-master.cfn.json \
+--stack-name bit-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 ## Sandbox
 
 aws cloudformation create-stack \
---stack-name bit-etl-dev --template-body file://bi-etl-master.cfn.json \
+--stack-name bit-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-dev-launch-params-us-east-1-Sandbox.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 
 aws cloudformation update-stack \
---stack-name bit-etl-dev --template-body file://bi-etl-master.cfn.json \
+--stack-name bit-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-dev-launch-params-us-east-1-Sandbox.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
@@ -387,17 +387,30 @@ aws cloudformation update-stack \
 
 ## -- Create Abbott AWS: Test environment --
 aws cloudformation create-stack \
---stack-name bit-etl-test --template-body file://bi-etl-master.cfn.json \
+--stack-name bit-etl-test-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 
 ## -- Update Abbott AWS: Test environment --
-aws cloudformation Update-stack \
---stack-name bit-etl-test --template-body file://bi-etl-master.cfn.json \
+aws cloudformation update-stack \
+--stack-name bit-etl-test-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
+### Abbott AWS -- Beanstalk App -- Data Pipeline Services ""
+##
+### Dev
+## -- Create Abbott AWS: Dev environment --
+aws cloudformation create-stack \
+--stack-name bi-datapipeline-service-dev-master --template-body file://bi-datapipeline-service-master.cfn.json \
+--parameters file://bi-datapipeline-service-master-dev-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+aws cloudformation update-stack \
+--stack-name bi-datapipeline-service-dev-master --template-body file://bi-datapipeline-service-master.cfn.json \
+--parameters file://bi-datapipeline-service-master-dev-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
 
 #### --------------------------
 
