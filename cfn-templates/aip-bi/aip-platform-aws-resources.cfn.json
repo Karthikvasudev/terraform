@@ -19,7 +19,7 @@
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "AttributeDefinitions": [
-		  {
+    		  {
             "AttributeName": "clientId",
             "AttributeType": "S"
           }
@@ -69,7 +69,7 @@
           "WriteCapacityUnits": "1"
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-authentication-service.AccessTokens"]] },
-		"GlobalSecondaryIndexes": [
+    		"GlobalSecondaryIndexes": [
           {
             "IndexName": "userId-Index",
             "KeySchema": [
@@ -82,9 +82,9 @@
               "NonKeyAttributes": [
                 "clientId",
                 "tokenHash",
-				"scope",
-				"createdAt",
-				"expiresAt"
+        				"scope",
+        				"createdAt",
+        				"expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
@@ -165,8 +165,8 @@
               "NonKeyAttributes": [
                 "clientId",
                 "tokenHash",
-				"createdAt",
-				"expiresAt"
+        				"createdAt",
+        				"expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
@@ -187,8 +187,8 @@
               "NonKeyAttributes": [
                 "clientId",
                 "userId",
-				"createdAt",
-				"expiresAt"
+        				"createdAt",
+        				"expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
@@ -206,13 +206,13 @@
       "Properties": {
         "AttributeDefinitions": [
           {
-            "AttributeName": "AppId#TenantId#UserId",
+            "AttributeName": "appIdTenantIdUserId",
             "AttributeType": "S"
           }
         ],
         "KeySchema": [
           {
-            "AttributeName": "AppId#TenantId#UserId",
+            "AttributeName": "appIdTenantIdUserId",
             "KeyType": "HASH"
           }
         ],
@@ -228,13 +228,13 @@
       "Properties": {
         "AttributeDefinitions": [
           {
-            "AttributeName": "StoreId",
+            "AttributeName": "storeId",
             "AttributeType": "S"
           }
         ],
         "KeySchema": [
           {
-            "AttributeName": "StoreId",
+            "AttributeName": "storeId",
             "KeyType": "HASH"
           }
         ],
@@ -250,13 +250,13 @@
       "Properties": {
         "AttributeDefinitions": [
           {
-            "AttributeName": "AppId#TenantId",
+            "AttributeName": "appIdTenantId",
             "AttributeType": "S"
           }
         ],
         "KeySchema": [
           {
-            "AttributeName": "AppId#TenantId",
+            "AttributeName": "appIdTenantId",
             "KeyType": "HASH"
           }
         ],
@@ -272,21 +272,21 @@
       "Properties": {
         "AttributeDefinitions": [
           {
-            "AttributeName": "AppId",
+            "AttributeName": "appId",
             "AttributeType": "S"
           },
 		  {
-            "AttributeName": "StoreId",
+            "AttributeName": "storeId",
             "AttributeType": "S"
           }
         ],
         "KeySchema": [
           {
-            "AttributeName": "AppId",
+            "AttributeName": "appId",
             "KeyType": "HASH"
           },
 		  {
-            "AttributeName": "StoreId",
+            "AttributeName": "storeId",
             "KeyType": "RANGE"
           }
         ],
@@ -354,13 +354,17 @@
       "Properties": {
         "AttributeDefinitions": [
           {
-            "AttributeName": "TenantId",
+            "AttributeName": "tenantId",
             "AttributeType": "S"
-          }
+          },
+          {
+            "AttributeName": "tenantUrl",
+            "AttributeType": "S"
+          }          
         ],
         "KeySchema": [
           {
-            "AttributeName": "TenantId",
+            "AttributeName": "tenantId",
             "KeyType": "HASH"
           }
         ],
@@ -368,7 +372,25 @@
           "ReadCapacityUnits": "3",
           "WriteCapacityUnits": "1"
         },
-        "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-organization"]] }
+        "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-organization"]] },
+        "GlobalSecondaryIndexes": [
+          {
+            "IndexName": "tenantUrl-index",
+            "KeySchema": [
+              {
+                "AttributeName": "tenantUrl",
+                "KeyType": "HASH"
+              }
+            ],
+            "Projection": {
+              "ProjectionType": "ALL"
+            },
+            "ProvisionedThroughput": {
+              "ReadCapacityUnits": "1",
+              "WriteCapacityUnits": "1"
+            }
+          }
+        ]
       }
     },
     "ddbaccount": {

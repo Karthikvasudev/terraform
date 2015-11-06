@@ -233,7 +233,6 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM 
 
 
-
 ## -- Create Abbott AWS: Test environment --
 aws cloudformation create-stack \
 --stack-name aip-platform-test-master \
@@ -248,6 +247,43 @@ aws cloudformation update-stack \
 --template-body file://aip-platform-master.cfn.json \
 --parameters file://aip-platform-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- Create Abbott AWS: QA environment --
+aws cloudformation create-stack \
+--stack-name aip-platform-qa-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-master-qa-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- update Abbott AWS: QA environment --
+aws cloudformation update-stack \
+--stack-name aip-platform-qa-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-master-qa-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name aip-platform-prod-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-master-prod-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name aip-platform-prod-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-master-prod-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+
+
 
 
 ### Abbott AWS -- Beanstalk App -- Proxy Services ""
@@ -268,13 +304,44 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM 
 
 
-
 ### Test
 ## -- Create Abbott AWS: Test environment --
 aws cloudformation create-stack \
 --stack-name aip-proxy-test-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-master-test-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+## -- update Abbott AWS: Test environment --
+aws cloudformation update-stack \
+--stack-name aip-proxy-test-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-master-test-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+### QA
+## -- Create Abbott AWS: Test environment --
+aws cloudformation create-stack \
+--stack-name aip-proxy-qa-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-master-qa-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+## -- update Abbott AWS: Test environment --
+aws cloudformation update-stack \
+--stack-name aip-proxy-qa-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-master-qa-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+### Prod
+## -- Create Abbott AWS: Test environment --
+aws cloudformation create-stack \
+--stack-name aip-proxy-prod-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-master-prod-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 
