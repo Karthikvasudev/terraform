@@ -58,3 +58,6 @@ Region porting notes eu-central-1:
 Create keys - aip-adm-keys
 Pick an Amazone Linux NAT (HVM) AMI in each region. Same to --NAT notes file.
 
+Workspaces:
+	- Proxy suggested by Kathy: 10.254.245.203:80
+	- Proxy via nslookup: pac.lb.abbott.corp - 10.254.250.39:80
