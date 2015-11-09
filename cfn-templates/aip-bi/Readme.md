@@ -246,7 +246,7 @@ aws cloudformation update-stack \
 --stack-name aip-platform-test-master \
 --template-body file://aip-platform-master.cfn.json \
 --parameters file://aip-platform-master-test-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
 
 
 ## -- Create Abbott AWS: QA environment --
@@ -262,7 +262,7 @@ aws cloudformation update-stack \
 --stack-name aip-platform-qa-master \
 --template-body file://aip-platform-master.cfn.json \
 --parameters file://aip-platform-master-qa-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
 
 
 
@@ -279,7 +279,7 @@ aws cloudformation update-stack \
 --stack-name aip-platform-prod-master \
 --template-body file://aip-platform-master.cfn.json \
 --parameters file://aip-platform-master-prod-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
 
 
 
@@ -317,7 +317,7 @@ aws cloudformation update-stack \
 --stack-name aip-proxy-test-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-master-test-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
 
 
 ### QA
@@ -333,7 +333,7 @@ aws cloudformation update-stack \
 --stack-name aip-proxy-qa-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-master-qa-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
 
 
 ### Prod
@@ -350,7 +350,7 @@ aws cloudformation update-stack \
 --stack-name aip-proxy-test-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-master-test-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
 
 
 
@@ -359,44 +359,46 @@ aws cloudformation update-stack \
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
---stack-name bit-etl-dev-master --template-body file://bi-etl-master.cfn.json \
+--stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 
 ## -- Update Abbott AWS: Dev environment --
 aws cloudformation update-stack \
---stack-name bit-etl-dev-master --template-body file://bi-etl-master.cfn.json \
+--stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-dev-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
 
 ## Sandbox
 
 aws cloudformation create-stack \
---stack-name bit-etl-dev-master --template-body file://bi-etl-master.cfn.json \
+--stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-dev-launch-params-us-east-1-Sandbox.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 
 aws cloudformation update-stack \
---stack-name bit-etl-dev-master --template-body file://bi-etl-master.cfn.json \
+--stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-dev-launch-params-us-east-1-Sandbox.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
 
 
 
 ## -- Create Abbott AWS: Test environment --
 aws cloudformation create-stack \
---stack-name bit-etl-test-master --template-body file://bi-etl-master.cfn.json \
+--stack-name bi-etl-test-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 
 ## -- Update Abbott AWS: Test environment --
 aws cloudformation update-stack \
---stack-name bit-etl-test-master --template-body file://bi-etl-master.cfn.json \
+--stack-name bi-etl-test-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-test-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
+
+
 
 ### Abbott AWS -- Beanstalk App -- Data Pipeline Services ""
 ##
@@ -410,7 +412,7 @@ aws cloudformation create-stack \
 aws cloudformation update-stack \
 --stack-name bi-datapipeline-service-dev-master --template-body file://bi-datapipeline-service-master.cfn.json \
 --parameters file://bi-datapipeline-service-master-dev-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
 
 #### --------------------------
 
@@ -438,3 +440,14 @@ aws cloudformation create-stack \
 --template-body file://aip-dns-public.cfn.json \
 --capabilities CAPABILITY_IAM --disable-rollback --profile sandbox
 #### --------------------------
+
+
+
+
+Testing / Debugging
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name aip-roles-master \
+--template-body file://aip-eb-roles.cfn.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
