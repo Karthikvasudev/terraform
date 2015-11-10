@@ -115,16 +115,6 @@
 				}
 			}
 		},
-		"aipsnsdaychanged" : {
-		   "Type" : "AWS::SNS::Topic",
-		   "Properties" : {
-			  "Subscription" : [
-				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineQ", "Arn" ] }, "Protocol" : "sqs" },
-				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineDeadQ", "Arn" ] }, "Protocol" : "sqs" }
-			  ],
-			  "TopicName" : "aip-sns-day-changed"
-		   }
-		},
 		"bisnsdataloaded" : {
 		   "Type" : "AWS::SNS::Topic",
 		   "Properties" : {
@@ -132,7 +122,7 @@
 				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineQ", "Arn" ] }, "Protocol" : "sqs" },
 				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineDeadQ", "Arn" ] }, "Protocol" : "sqs" }
 			  ],
-			  "TopicName" : "bi-sns-data-loaded"
+			  "TopicName" : {"Fn::Join": ["", ["aip-",{"Ref": "Environment"},"-sns-data-loaded"]]}
 		   }
 		},
 		"bisnsdataprocess" : {
@@ -142,7 +132,7 @@
 				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineQ", "Arn" ] }, "Protocol" : "sqs" },
 				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineDeadQ", "Arn" ] }, "Protocol" : "sqs" }
 			  ],
-			  "TopicName" : "bi-sns-data-process"
+			  "TopicName" : {"Fn::Join": ["", ["aip-",{"Ref": "Environment"},"-sns-data-process"]]}
 		   }
 		},		
 		"DBSecurityGroup": {

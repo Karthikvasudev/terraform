@@ -1,11 +1,11 @@
 [
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-dev-keys"
+    "ParameterValue": "aip-bi-qa-keys"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "dev"
+    "ParameterValue": "qa"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
@@ -21,15 +21,15 @@
   },
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-3517bf51"
+    "ParameterValue": "vpc-e4f04280"
   },
   {
     "ParameterKey": "VpcName",
-    "ParameterValue": "aip-dev-vpc-us-east-1"
+    "ParameterValue": "aip-qa-vpc-us-east-1"
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "dev-datapipeline-service-app"
+    "ParameterValue": "qa-datapipeline-service-app"
   },
   {
     "ParameterKey": "ApplicationName",
@@ -65,23 +65,23 @@
   },
   {
     "ParameterKey": "PublicSubnets",
-    "ParameterValue": "subnet-8929f3b4,subnet-c0b583eb"
+    "ParameterValue": "subnet-03665928,subnet-0f43e332"
   },
   {
     "ParameterKey": "PrivateSubnets",
-    "ParameterValue": "subnet-c2b583e9,subnet-8f29f3b2"
+    "ParameterValue": "subnet-0166592a,subnet-0e43e333"
   },   
   {
     "ParameterKey": "InstanceSecurityGroups",
-    "ParameterValue": "sg-0211b164"
+    "ParameterValue": "sg-00ce7d66"
   },
   {
     "ParameterKey": "DatabaseSubnet1",
-    "ParameterValue": "subnet-c3b583e8"
+    "ParameterValue": "subnet-0d665926"
   },  
   {
     "ParameterKey": "DatabaseSubnet2",
-    "ParameterValue": "subnet-8829f3b5"
+    "ParameterValue": "subnet-0943e334"
   },  
   {
     "ParameterKey": "DatabaseUser",

@@ -1,19 +1,19 @@
 [
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-test-keys"
+    "ParameterValue": "aip-bi-qa-keys"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "test"
+    "ParameterValue": "qa"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-aws-resources.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-aws-resources.cfn.json"
   },
   {
     "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-eb-app.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-eb-app.cfn.json"
   },  
   {
     "ParameterKey": "InstanceType",
@@ -21,19 +21,19 @@
   },
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-185df67c"
+    "ParameterValue": "vpc-e4f04280"
   },
   {
     "ParameterKey": "VpcName",
-    "ParameterValue": "aip-test-vpc-us-east-1"
+    "ParameterValue": "aip-qa-vpc-us-east-1"
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "test-etl-app"
+    "ParameterValue": "qa-aip-chronos-app"
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "etl"
+    "ParameterValue": "aip-chronos"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
@@ -49,7 +49,7 @@
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
-    "ParameterValue": "etl"
+    "ParameterValue": "aip-chro"
   },
   {
     "ParameterKey": "R53HostedZoneName",
@@ -57,7 +57,7 @@
   },
   {
     "ParameterKey": "R53RecordSetNamePrefix",
-    "ParameterValue": "etl"
+    "ParameterValue": "aip-chro"
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
@@ -65,14 +65,14 @@
   },
   {
     "ParameterKey": "PublicSubnets",
-    "ParameterValue": "subnet-285b6a03,subnet-15fb5e28"
+    "ParameterValue": "subnet-03665928,subnet-0f43e332"
   },
   {
     "ParameterKey": "PrivateSubnets",
-    "ParameterValue": "subnet-18fb5e25,subnet-2d5b6a06"
+    "ParameterValue": "subnet-0166592a,subnet-0e43e333"
   },   
   {
     "ParameterKey": "InstanceSecurityGroups",
-    "ParameterValue": "sg-8611b2e0"
+    "ParameterValue": "sg-00ce7d66"
   }
 ]

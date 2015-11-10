@@ -2,7 +2,7 @@
     "AWSTemplateFormatVersion": "2010-09-09",
 
     "Description": "bi-datapipeline-service.cfn.json",
-    "Description": "This template defines the Beanstalk App for BI Data Pipeline services",
+    "Description": "This template defines the Beanstalk App for aip chronos",
 
     "Parameters": {
 
@@ -15,7 +15,7 @@
         },
         "AppEnvironmentSuffix": {
             "Description": "application environment suffix [ENV-'bi-datapipeline'-REGION or ENV-'bi-app'-REGION]",
-            "Default": "datapipeline-service",
+            "Default": "aip-chronos",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -106,7 +106,6 @@
 			"MaxLength": "255"
 		}		
     },
-
 
     "Resources": {
 	
@@ -251,11 +250,11 @@
 												{
 													"Ref": "AWS::AccountId"
 												},
-												"/bi-",
+												"/aip-",
 												{
 													"Ref" : "Environment"
 												},
-												"-sqs-datapipeline-service"
+												"-sqs-chronos"
                                             ]
                                         ]
 						
@@ -269,7 +268,7 @@
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "HttpConnections",
-						"Value": "1"
+						"Value": "75"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
@@ -284,7 +283,7 @@
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "VisibilityTimeout",
-						"Value": "1800"
+						"Value": "300"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
@@ -299,7 +298,7 @@
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "HttpPath",
-						"Value": "/api/bi-datapipeline-service/v1/event/"
+						"Value": "/etl/sqs"
 					}					
                 ]
             }
