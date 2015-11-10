@@ -119,20 +119,18 @@
 		   "Type" : "AWS::SNS::Topic",
 		   "Properties" : {
 			  "Subscription" : [
-				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineQ", "Arn" ] }, "Protocol" : "sqs" },
-				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineDeadQ", "Arn" ] }, "Protocol" : "sqs" }
+				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineQ", "Arn" ] }, "Protocol" : "sqs" }
 			  ],
-			  "TopicName" : {"Fn::Join": ["", ["aip-",{"Ref": "Environment"},"-sns-data-loaded"]]}
+			  "TopicName" : {"Fn::Join": ["", ["bi-",{"Ref": "Environment"},"-sns-data-loaded"]]}
 		   }
 		},
 		"bisnsdataprocess" : {
 		   "Type" : "AWS::SNS::Topic",
 		   "Properties" : {
 			  "Subscription" : [
-				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineQ", "Arn" ] }, "Protocol" : "sqs" },
-				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineDeadQ", "Arn" ] }, "Protocol" : "sqs" }
+				 { "Endpoint" : { "Fn::GetAtt" : [ "biDataPipelineQ", "Arn" ] }, "Protocol" : "sqs" }
 			  ],
-			  "TopicName" : {"Fn::Join": ["", ["aip-",{"Ref": "Environment"},"-sns-data-process"]]}
+			  "TopicName" : {"Fn::Join": ["", ["bi-",{"Ref": "Environment"},"-sns-data-process"]]}
 		   }
 		},		
 		"DBSecurityGroup": {
