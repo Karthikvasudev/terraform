@@ -107,22 +107,8 @@
 		}		
     },
 
-   "Conditions" : {
-        "CreateBeanstalkApplication" : {
-            "Fn::Equals": [{"Ref" : "Environment"}, "dev"]
-        }
-    },
-
     "Resources": {
 	
-		"App": {
-            "Type": "AWS::ElasticBeanstalk::Application",
-            "Condition"  : "CreateBeanstalkApplication",
-            "Properties": {
-                "ApplicationName": { "Ref": "ApplicationName" },
-                "Description": "ADD Application Environment"
-            }
-        },
         "AppEbEnv": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
@@ -264,7 +250,7 @@
 												{
 													"Ref": "AWS::AccountId"
 												},
-												"/bi-etl-",
+												"/bi-",
 												{
 													"Ref" : "Environment"
 												},

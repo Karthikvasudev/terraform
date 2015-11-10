@@ -1,0 +1,94 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Resources for aip chronos app includes includes SNS and SQS services",
+    "Parameters": {
+        "Environment": {
+            "Description": "name of the VPC Environment (dev, test, qa, prod)",
+            "MaxLength": "255",
+            "MinLength": "1",
+            "Type": "String"
+        }
+    },
+    "Resources": {
+        "aipChronosQ": {
+            "Properties": {
+                "QueueName": {
+					"Fn::Join": [
+						"",
+						[
+							"aip-",
+							{
+								"Ref": "Environment"
+							},
+							"-sqs-chronos"
+						]
+					]				
+				},
+                "ReceiveMessageWaitTimeSeconds": 0,
+                "VisibilityTimeout": 1800,
+				"MaximumMessageSize": 262144,
+				"MessageRetentionPeriod": 1209600,
+				"DelaySeconds": 0
+            },
+            "Type": "AWS::SQS::Queue"
+        },
+		"aipsnsdaychanged" : {
+		   "Type" : "AWS::SNS::Topic",
+		   "Properties" : {
+			  "Subscription" : [
+				 { "Endpoint" : { "Fn::GetAtt" : [ "aipChronosQ", "Arn" ] }, "Protocol" : "sqs" },
+				 { "Endpoint" : {                            
+							"Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:sqs:",
+                                    {
+                                        "Ref": "AWS::Region"
+                                    },
+                                    ":",
+                                    {
+                                        "Ref": "AWS::AccountId"
+                                    },
+                                    ":bi-",
+                                    {
+                                        "Ref": "Environment"
+                                    },
+                                    "-sqs-datapipeline-service"
+                                ]
+                            ]}, "Protocol" : "sqs" 
+				},
+				{ "Endpoint" : {                            
+							"Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:sqs:",
+                                    {
+                                        "Ref": "AWS::Region"
+                                    },
+                                    ":",
+                                    {
+                                        "Ref": "AWS::AccountId"
+                                    },
+                                    ":bi-",
+                                    {
+                                        "Ref": "Environment"
+                                    },
+                                    "-sqs-datapipeline-dead"
+                                ]
+                            ]}, "Protocol" : "sqs" 
+				}				
+			  ],
+			  "TopicName" : {"Fn::Join": ["", ["aip-",{"Ref": "Environment"},"-sns-day-changed"]]}
+		   }
+		},
+		"aipsnstimechanged" : {
+		   "Type" : "AWS::SNS::Topic",
+		   "Properties" : {
+			  "Subscription" : [
+				 { "Endpoint" : { "Fn::GetAtt" : [ "aipChronosQ", "Arn" ] }, "Protocol" : "sqs" }
+			  ],
+			   "TopicName" : {"Fn::Join": ["", ["aip-",{"Ref": "Environment"},"-sns-time-changed"]]}
+		   }
+		}		
+    }
+}

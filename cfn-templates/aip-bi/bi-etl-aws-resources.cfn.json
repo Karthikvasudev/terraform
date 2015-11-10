@@ -16,7 +16,7 @@
 					"Fn::Join": [
 						"",
 						[
-							"bi-etl-",
+							"bi-",
 							{
 								"Ref": "Environment"
 							},
@@ -62,7 +62,7 @@
    											    	{
 													"Ref": "Environment"
 												},
-												"-etl-s3-",
+												"-s3-dataprocess-fileupload-",
 												{
 													"Ref": "AWS::Region"
 												},
@@ -97,7 +97,7 @@
    											    	{
 													"Ref": "Environment"
 												},
-												"-etl-s3-",
+												"-s3-dataprocess-fileupload-",
 												{
 													"Ref": "AWS::Region"
 												},
