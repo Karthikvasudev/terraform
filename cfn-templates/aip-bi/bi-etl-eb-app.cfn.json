@@ -304,7 +304,8 @@
                 ]
             }
         },
-                "BeanstalkEC2Role": {
+
+        "BeanstalkEC2Role": {
              "Type": "AWS::IAM::Role",
              "Properties": {
                 "AssumeRolePolicyDocument": {
@@ -317,22 +318,13 @@
                       "Action": [ "sts:AssumeRole" ]
                    } ]
                 },
-                "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonS3FullAccess",
-                                    "arn:aws:iam::aws:policy/AmazonSQSFullAccess", 
-                                    "arn:aws:iam::aws:policy/AmazonSNSFullAccess",
-                                    "arn:aws:iam::aws:policy/CloudWatchFullAccess"],
-                "Path": "/"
-             }
-        },
-        "BeanstalkEC2RolePolicy" : {
-           "Type" : "AWS::IAM::Policy",
-           "Properties" : {
-              "PolicyName" : { "Fn::Join": ["", ["aip-", {"Ref": "Environment"}, "-iam-eb-ec2-role"]]},
-              "PolicyDocument" : {
-                 "Version": "2012-10-17",
-                 "Statement" : [ {
-                    "Effect" : "Allow",
-                    "Action" : [ 
+                "Policies" : [{
+                   "PolicyName": "EB_MultiContainer_App_ECS",
+                   "PolicyDocument": {
+                     "Version": "2012-10-17",
+                     "Statement" : [ {
+                        "Effect" : "Allow",
+                        "Action" : [ 
                                 "ecs:StartTask",
                                 "ecs:StopTask",
                                 "ecs:RegisterContainerInstance",
@@ -350,9 +342,14 @@
                     "Action" : [ "s3:PutObject" ],
                     "Resource" : "arn:aws:s3:::elasticbeanstalk-*/resources/environments/logs/*"
                  }]
-              },
-              "Roles": [ { "Ref": "BeanstalkEC2Role" } ]
-           }
+               }
+              }],
+                "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonS3FullAccess",
+                                    "arn:aws:iam::aws:policy/AmazonSQSFullAccess", 
+                                    "arn:aws:iam::aws:policy/AmazonSNSFullAccess",
+                                    "arn:aws:iam::aws:policy/CloudWatchFullAccess"],
+                "Path": "/"
+             }
         },
         "BeanstalkEC2InstancProfile" : {
            "Type": "AWS::IAM::InstanceProfile",

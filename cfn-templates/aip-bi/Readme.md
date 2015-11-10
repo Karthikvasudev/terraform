@@ -440,14 +440,14 @@ aws cloudformation update-stack \
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
---stack-name bi-dev-master \
+--stack-name aip-chronos-dev-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
 ## -- Update Abbott AWS: Dev environment --
 aws cloudformation update-stack \
---stack-name bi-dev-master \
+--stack-name aip-chronos-dev-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
@@ -455,14 +455,14 @@ aws cloudformation update-stack \
 ### Test
 ## -- Create Abbott AWS: Test environment --
 aws cloudformation create-stack \
---stack-name bi-dev-master \
+--stack-name aip-chronos-test-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
-## -- Update Abbott AWS: Dev environment --
+## -- Update Abbott AWS: Test environment --
 aws cloudformation update-stack \
---stack-name bi-dev-master \
+--stack-name aip-chronos-test-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
@@ -470,14 +470,14 @@ aws cloudformation update-stack \
 ### QA
 ## -- Create Abbott AWS: QA environment --
 aws cloudformation create-stack \
---stack-name bi-dev-master \
+--stack-name aip-chronos-qa-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-master-qa-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
-## -- Update Abbott AWS: Dev environment --
+## -- Update Abbott AWS: QA environment --
 aws cloudformation update-stack \
---stack-name bi-dev-master \
+--stack-name aip-chronos-qa-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-master-qa-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
@@ -485,14 +485,14 @@ aws cloudformation update-stack \
 ### Prod
 ## -- Create Abbott AWS: Prod environment --
 aws cloudformation create-stack \
---stack-name bi-dev-master \
+--stack-name aip-chronos-prod-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-master-prod-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
-## -- Update Abbott AWS: Dev environment --
+## -- Update Abbott AWS: Prod environment --
 aws cloudformation update-stack \
---stack-name bi-dev-master \
+--stack-name aip-chronos-prod-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-master-prod-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
@@ -506,14 +506,14 @@ aws cloudformation update-stack \
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
---stack-name bi-dev-master \
+--stack-name bi-datapipeline-service-dev-master \
 --template-body file://bi-datapipeline-service-master.cfn.json \
 --parameters file://bi-datapipeline-service-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
 ## -- Update Abbott AWS: Dev environment --
 aws cloudformation update-stack \
---stack-name bi-dev-master \
+--stack-name bi-datapipeline-service-dev-master \
 --template-body file://bi-datapipeline-service-master.cfn.json \
 --parameters file://bi-datapipeline-service-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
@@ -521,14 +521,14 @@ aws cloudformation update-stack \
 ### Test
 ## -- Create Abbott AWS: Test environment --
 aws cloudformation create-stack \
---stack-name bi-dev-master \
+--stack-name bi-datapipeline-service-test-master \
 --template-body file://bi-datapipeline-service-master.cfn.json \
 --parameters file://bi-datapipeline-service-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
-## -- Update Abbott AWS: Dev environment --
+## -- Update Abbott AWS: Test environment --
 aws cloudformation update-stack \
---stack-name bi-dev-master \
+--stack-name bi-datapipeline-service-test-master \
 --template-body file://bi-datapipeline-service-master.cfn.json \
 --parameters file://bi-datapipeline-service-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
@@ -536,14 +536,14 @@ aws cloudformation update-stack \
 ### QA
 ## -- Create Abbott AWS: QA environment --
 aws cloudformation create-stack \
---stack-name bi-dev-master \
+--stack-name bi-datapipeline-service-qa-master \
 --template-body file://bi-datapipeline-service-master.cfn.json \
 --parameters file://bi-datapipeline-service-master-qa-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
-## -- Update Abbott AWS: Dev environment --
+## -- Update Abbott AWS: QA environment --
 aws cloudformation update-stack \
---stack-name bi-dev-master \
+--stack-name bi-datapipeline-service-qa-master \
 --template-body file://bi-datapipeline-service-master.cfn.json \
 --parameters file://bi-datapipeline-service-master-qa-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
@@ -551,14 +551,14 @@ aws cloudformation update-stack \
 ### Prod
 ## -- Create Abbott AWS: Prod environment --
 aws cloudformation create-stack \
---stack-name bi-dev-master \
+--stack-name bi-datapipeline-service-prod-master \
 --template-body file://bi-datapipeline-service-master.cfn.json \
 --parameters file://bi-datapipeline-service-master-prod-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
-## -- Update Abbott AWS: Dev environment --
+## -- Update Abbott AWS: Prod environment --
 aws cloudformation update-stack \
---stack-name bi-dev-master \
+--stack-name bi-datapipeline-service-prod-master \
 --template-body file://bi-datapipeline-service-master.cfn.json \
 --parameters file://bi-datapipeline-service-master-prod-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM

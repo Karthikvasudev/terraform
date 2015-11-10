@@ -132,6 +132,7 @@
 
         "APPEnvironment": {
             "Type": "AWS::ElasticBeanstalk::Environment",
+            "DependsOn" : "BeanstalkEC2InstancProfile",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
@@ -148,7 +149,12 @@
                     {
                         "Namespace": "aws:autoscaling:asg",
                         "OptionName": "MinSize",
-                        "Value": "2"
+                        "Value": "1"
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:asg",
+                        "OptionName": "MaxSize",
+                        "Value": "1"
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
@@ -158,7 +164,7 @@
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
                         "OptionName": "IamInstanceProfile",
-                        "Value": "aws-elasticbeanstalk-ec2-role"
+                        "Value": { "Ref": "BeanstalkEC2InstancProfile"}
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
@@ -179,26 +185,6 @@
                         "Namespace": "aws:autoscaling:trigger",
                         "OptionName": "UpperThreshold",
                         "Value": "6000000"
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                        "OptionName": "MaxBatchSize",
-                        "Value": "1"
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                        "OptionName": "MinInstancesInService",
-                        "Value": "1"
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                        "OptionName": "RollingUpdateEnabled",
-                        "Value": "true"
-                    },
-                    {
-                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                        "OptionName": "RollingUpdateType",
-                        "Value": "Health"
                     },
                     {
                         "Namespace": "aws:ec2:vpc",
@@ -302,12 +288,69 @@
 					}					
                 ]
             }
-        }			
+        },
+
+        "BeanstalkEC2Role": {
+             "Type": "AWS::IAM::Role",
+             "Properties": {
+                "AssumeRolePolicyDocument": {
+                   "Version" : "2012-10-17",
+                   "Statement": [ {
+                      "Effect": "Allow",
+                      "Principal": {
+                         "Service": [ "ec2.amazonaws.com" ]
+                      },
+                      "Action": [ "sts:AssumeRole" ]
+                   } ]
+                },
+                "Policies" : [{
+                   "PolicyName": "EB_MultiContainer_App_ECS",
+                   "PolicyDocument": {
+                     "Version": "2012-10-17",
+                     "Statement" : [ {
+                        "Effect" : "Allow",
+                        "Action" : [ 
+                                "ecs:StartTask",
+                                "ecs:StopTask",
+                                "ecs:RegisterContainerInstance",
+                                "ecs:DeregisterContainerInstance",
+                                "ecs:DescribeContainerInstances",
+                                "ecs:DiscoverPollEndpoint",
+                                "ecs:Submit*",
+                                "ecs:CreateCluster",
+                                "ecs:Poll"
+                                ],
+                    "Resource" : "*"
+                 },
+                 {
+                    "Effect" : "Allow",
+                    "Action" : [ "s3:PutObject" ],
+                    "Resource" : "arn:aws:s3:::elasticbeanstalk-*/resources/environments/logs/*"
+                 }]
+               }
+              }],
+                "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonSQSFullAccess", 
+                                    "arn:aws:iam::aws:policy/AmazonSNSFullAccess"],
+                "Path": "/"
+             }
+        },
+        "BeanstalkEC2InstancProfile" : {
+           "Type": "AWS::IAM::InstanceProfile",
+           "Properties": {
+              "Path": "/",
+              "Roles": [ { "Ref": "BeanstalkEC2Role" } ]
+           }
+        }	
     },
 
     "Outputs": {
         "URL": {
             "Description": "URL of the AWS Elastic Beanstalk Environment",
-            "Value": "TO BE DECIDED"}
+            "Value": "TO BE DECIDED"
+            },
+        "BeanstalkEC2Role": {
+            "Description": "Beanstalk EC2 Instance Role",
+            "Value": {"Ref" : "BeanstalkEC2Role"}
+        }
     }
 }
