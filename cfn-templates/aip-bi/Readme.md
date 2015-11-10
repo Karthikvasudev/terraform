@@ -365,7 +365,7 @@ aws cloudformation create-stack \
 
 
 ## -- Update Abbott AWS: Dev environment --
-aws cloudformation update-stack \
+aws cloudformation a \
 --stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 
@@ -398,6 +398,34 @@ aws cloudformation update-stack \
 --parameters file://bi-etl-master-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 
 
+
+## -- Create Abbott AWS: QA environment --
+aws cloudformation create-stack \
+--stack-name bi-etl-qa-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-master-qa-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- Update Abbott AWS: QA environment --
+aws cloudformation update-stack \
+--stack-name bi-etl-qa-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-master-qa-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
+
+
+
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name bi-etl-prod-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-master-prod-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- Update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name bi-etl-prod-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-master-prod-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
 
 
 ### Abbott AWS -- Beanstalk App -- Data Pipeline Services ""

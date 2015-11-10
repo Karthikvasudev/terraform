@@ -141,6 +141,7 @@
 
         "BIAPPEnvironment": {
             "Type": "AWS::ElasticBeanstalk::Environment",
+            "DependsOn" : "BeanstalkEC2InstancProfile",
             "DependsOn" : "BIAppEbEnv",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
@@ -168,7 +169,7 @@
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
                         "OptionName": "IamInstanceProfile",
-                        "Value": "aws-elasticbeanstalk-ec2-role"
+                        "Value": { "Ref": "BeanstalkEC2InstancProfile"}
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
@@ -289,11 +290,71 @@
     			  }
     			  ]
     		}
-    	}			
+    	},
+
+        "BeanstalkEC2Role": {
+             "Type": "AWS::IAM::Role",
+             "Properties": {
+                "AssumeRolePolicyDocument": {
+                   "Version" : "2012-10-17",
+                   "Statement": [ {
+                      "Effect": "Allow",
+                      "Principal": {
+                         "Service": [ "ec2.amazonaws.com" ]
+                      },
+                      "Action": [ "sts:AssumeRole" ]
+                   } ]
+                },
+                "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonS3FullAccess",
+                                    "arn:aws:iam::aws:policy/CloudWatchFullAccess"],
+                "Path": "/"
+             }
+        },
+        "BeanstalkEC2RolePolicy" : {
+           "Type" : "AWS::IAM::Policy",
+           "Properties" : {
+              "PolicyName" : { "Fn::Join": ["", ["aip-", {"Ref": "Environment"}, "-iam-eb-ec2-role"]]},
+              "PolicyDocument" : {
+                 "Version": "2012-10-17",
+                 "Statement" : [ {
+                    "Effect" : "Allow",
+                    "Action" : [ 
+                                "ecs:StartTask",
+                                "ecs:StopTask",
+                                "ecs:RegisterContainerInstance",
+                                "ecs:DeregisterContainerInstance",
+                                "ecs:DescribeContainerInstances",
+                                "ecs:DiscoverPollEndpoint",
+                                "ecs:Submit*",
+                                "ecs:CreateCluster",
+                                "ecs:Poll"
+                                ],
+                    "Resource" : "*"
+                 },
+                 {
+                    "Effect" : "Allow",
+                    "Action" : [ "s3:PutObject" ],
+                    "Resource" : "arn:aws:s3:::elasticbeanstalk-*/resources/environments/logs/*"
+                 }]
+              },
+              "Roles": [ { "Ref": "BeanstalkEC2Role" } ]
+           }
+        },
+        "BeanstalkEC2InstancProfile" : {
+           "Type": "AWS::IAM::InstanceProfile",
+           "Properties": {
+              "Path": "/",
+              "Roles": [ { "Ref": "BeanstalkEC2Role" } ]
+           }
+        }		
 },
     "Outputs": {
         "URL": {
             "Description": "URL of the AWS Elastic Beanstalk Environment",
             "Value": {"Fn::Join": ["", ["http://", {"Fn::GetAtt": ["BIAPPEnvironment", "EndpointURL"]} ]] }}
+    },
+    "BeanstalkEC2InstancProfile": {
+            "Description": "Beanstalk EC2 Instance Profile",
+            "Value": {"Ref" : "BeanstalkEC2InstancProfile"}
     }
 }
