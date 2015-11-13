@@ -337,6 +337,11 @@
           "FromPort": "8080",
           "ToPort": "8080",
           "CidrIp": "10.0.0.0/8"
+          },          {
+          "IpProtocol": "tcp",
+          "FromPort": "389",
+          "ToPort": "389",
+          "CidrIp": "10.0.0.0/8"
           },{
           "IpProtocol": "tcp",
           "FromPort": "443",

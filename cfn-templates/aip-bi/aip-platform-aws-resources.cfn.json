@@ -1,9 +1,7 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Resources for aip-authentication-service development environment (aip-dev)",
+  "Description": "Resources for aip environments)",
    
-
-
   "Parameters": {
 
     "Environment": {
@@ -19,7 +17,7 @@
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "AttributeDefinitions": [
-    		  {
+		  {
             "AttributeName": "clientId",
             "AttributeType": "S"
           }
@@ -69,7 +67,7 @@
           "WriteCapacityUnits": "1"
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-authentication-service.AccessTokens"]] },
-    		"GlobalSecondaryIndexes": [
+		"GlobalSecondaryIndexes": [
           {
             "IndexName": "userId-Index",
             "KeySchema": [
@@ -82,9 +80,9 @@
               "NonKeyAttributes": [
                 "clientId",
                 "tokenHash",
-        				"scope",
-        				"createdAt",
-        				"expiresAt"
+				"scope",
+				"createdAt",
+				"expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
@@ -165,8 +163,8 @@
               "NonKeyAttributes": [
                 "clientId",
                 "tokenHash",
-        				"createdAt",
-        				"expiresAt"
+				"createdAt",
+				"expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
@@ -187,8 +185,8 @@
               "NonKeyAttributes": [
                 "clientId",
                 "userId",
-        				"createdAt",
-        				"expiresAt"
+				"createdAt",
+				"expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
@@ -563,10 +561,22 @@
         "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-account-deactivated"]] }
       }
     },      
+    "snsaccountRemoved": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-account-removed"]] }
+      }
+    },      
     "snsaccountlocked": {
       "Type": "AWS::SNS::Topic",
       "Properties": {
         "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-account-locked"]] }
+      }
+    },
+    "snsaccountunlocked": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-account-unlocked"]] }
       }
     },  
     "snsaccountexpired": {

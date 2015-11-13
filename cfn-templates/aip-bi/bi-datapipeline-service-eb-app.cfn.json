@@ -365,10 +365,11 @@
     "Outputs": {
         "URL": {
             "Description": "URL of the AWS Elastic Beanstalk Environment",
-            "Value": "TO BE DECIDED"}
-    },
-    "BeanstalkEC2InstancProfile": {
-            "Description": "Beanstalk EC2 Instance Profile",
-            "Value": {"Ref" : "BeanstalkEC2InstancProfile"}
+            "Value": "TO BE DECIDED"
+        },
+        "BeanstalkEC2Role": {
+            "Description": "Beanstalk EC2 Instance Role",
+            "Value": {"Ref" : "BeanstalkEC2Role"}
+        }
     }
 }

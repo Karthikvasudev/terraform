@@ -61,3 +61,11 @@ Pick an Amazone Linux NAT (HVM) AMI in each region. Same to --NAT notes file.
 Workspaces:
 	- Proxy suggested by Kathy: 10.254.245.203:80
 	- Proxy via nslookup: pac.lb.abbott.corp - 10.254.250.39:80
+
+
+# Fix Dev environment Platform Services
+aws cloudformation create-stack \
+--stack-name aip-platform-dev-master-repair \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-master-dev-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback

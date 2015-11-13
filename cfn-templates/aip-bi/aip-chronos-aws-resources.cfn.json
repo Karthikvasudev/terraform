@@ -10,33 +10,34 @@
         }
     },
     "Resources": {
+
         "aipChronosQ": {
             "Properties": {
                 "QueueName": {
-					"Fn::Join": [
-						"",
-						[
-							"aip-",
-							{
-								"Ref": "Environment"
-							},
-							"-sqs-chronos"
-						]
-					]				
-				},
+                    "Fn::Join": [
+                        "",
+                        [
+                            "aip-",
+                            {
+                                "Ref": "Environment"
+                            },
+                            "-sqs-chronos"
+                        ]
+                    ]               
+                },
                 "ReceiveMessageWaitTimeSeconds": 0,
                 "VisibilityTimeout": 1800,
-				"MaximumMessageSize": 262144,
-				"MessageRetentionPeriod": 1209600,
-				"DelaySeconds": 0
+                "MaximumMessageSize": 262144,
+                "MessageRetentionPeriod": 1209600,
+                "DelaySeconds": 0
             },
             "Type": "AWS::SQS::Queue"
         },
-		"aipsnstimechanged" : {
+		"aipSnsTimeChanged" : {
 		   "Type" : "AWS::SNS::Topic",
 		   "Properties" : {
 			   "TopicName" : {"Fn::Join": ["", ["aip-",{"Ref": "Environment"},"-sns-time-changed"]]}
 		   }
-		}		
+		}
     }
 }

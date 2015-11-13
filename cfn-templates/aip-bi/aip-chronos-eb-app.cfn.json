@@ -329,8 +329,8 @@
                  }]
                }
               }],
-                "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonSQSFullAccess", 
-                                    "arn:aws:iam::aws:policy/AmazonSNSFullAccess"],
+                "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonSNSFullAccess",
+                                    "arn:aws:iam::aws:policy/CloudWatchFullAccess"],
                 "Path": "/"
              }
         },
@@ -347,7 +347,7 @@
         "URL": {
             "Description": "URL of the AWS Elastic Beanstalk Environment",
             "Value": "TO BE DECIDED"
-            },
+        },
         "BeanstalkEC2Role": {
             "Description": "Beanstalk EC2 Instance Role",
             "Value": {"Ref" : "BeanstalkEC2Role"}

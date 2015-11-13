@@ -149,6 +149,20 @@ aws cloudformation update-stack \
 
 
 #### --------------------------
+### Abbott AWS -- BI Beanstalk Create All Applications All Environments
+##  
+##
+### Dev
+aws cloudformation create-stack \
+--stack-name aip-eb-allenvironments-master \
+--template-body file://aip-eb-allenvironments.cfn.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+aws cloudformation update-stack \
+--stack-name aip-eb-allenvironments-master \
+--template-body file://aip-eb-allenvironments.cfn.json \
+--capabilities CAPABILITY_IAM 
+
 
 ### Abbott AWS -- BI Beanstalk deployment via Master Template -- "bi-app-us-east-1"
 ##

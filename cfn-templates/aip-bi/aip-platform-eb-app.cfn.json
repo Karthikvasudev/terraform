@@ -106,22 +106,10 @@
 		}		
     },
 
-   "Conditions" : {
-        "CreateBeanstalkApplication" : {
-            "Fn::Equals": [{"Ref" : "Environment"}, "dev"]
-        }
-    },
 
     "Resources": {
 	
-		"App": {
-            "Type": "AWS::ElasticBeanstalk::Application",
-            "Condition"  : "CreateBeanstalkApplication",
-            "Properties": {
-                "ApplicationName": { "Ref": "ApplicationName" },
-                "Description": "ADD Application Environment"
-            }
-        },
+
         "AppEbEnv": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
@@ -354,10 +342,10 @@
         "URL": {
             "Description": "URL of the AWS Elastic Beanstalk Environment",
             "Value": {"Fn::Join": ["", ["http://", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]]}
-            },
-        "BeanstalkEC2InstancProfile": {
-            "Description": "Beanstalk EC2 Instance Profile",
-            "Value": {"Ref" : "BeanstalkEC2InstancProfile"}
+        },
+        "BeanstalkEC2Role": {
+            "Description": "Beanstalk EC2 Instance Role",
+            "Value": {"Ref" : "BeanstalkEC2Role"}
         }
     }
 }
