@@ -1,0 +1,234 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "CloudFormation template for RDS With Read Replicas",
+
+  "Parameters": {
+
+  	"Environment": {
+  		"Description": "name of the Environment (dev, test, qa, prod)",
+  		"Type": "String",
+  		"MinLength": "1",
+  		"MaxLength": "255"
+  	},
+    "VpcId": {
+      "Description": "Administration Vpc Id",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "DatabaseUser": {
+      "NoEcho": "true",
+      "Description" : "The database admin account username",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "16",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9\\_]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+    },
+
+    "DatabasePassword": {
+      "NoEcho": "true",
+      "Description" : "The database admin account password",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41"
+    },
+
+    "DBAllocatedStorage": {
+      "Default": "5",
+      "Description" : "The size of the database (Gb)",
+      "Type": "Number",
+      "MinValue": "5",
+      "MaxValue": "1024",
+      "ConstraintDescription" : "must be between 5 and 1024Gb."
+    },
+
+    "DBStorageType": {
+      "Default": "gp2",
+      "Description" : "magnetic, General Purpose SSD, Provisioned IOPS",
+      "Type": "String",
+      "AllowedValues" : [ "standard", "gp2", "io1" ],
+      "ConstraintDescription" : "must select a valid database storage type."
+    },
+
+    "DBInstanceClass": {
+      "Description" : "The database instance type",
+      "Type": "String",
+      "Default": "db.m1.small",
+      "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m3.medium", "db.m3.large", "db.m3.xlarge", 
+          "db.m3.2xlarge", "db.r3.large", "db.r3.xlarge", "db.r3.2xlarge", "db.r3.4xlarge", 
+          "db.r3.8xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge", "db.m2.8xlarge"],
+      "ConstraintDescription" : "must select a valid database instance type."
+    },
+
+    "WebSecurityGroup": {
+      "Description" : "The EC2 security group that contains instances that need access to the database",
+      "Default": "default",
+      "Type": "String",
+      "AllowedPattern" : "[a-zA-Z0-9\\-]+",
+      "ConstraintDescription" : "must be a valid security group name."
+    },
+    "AZforReplica1": {
+      "Description": "This AZ will be used to create read replica - 1",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "AZforReplica2": {
+      "Description": "This AZ will be used to create read replica - 2",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "DatabaseSubnet1": {
+      "Description": "This AZ will be used to create read replica - 1",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "DatabaseSubnet2": {
+      "Description": "This AZ will be used to create read replica - 2",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    }
+  },
+
+
+  "Resources" : {
+
+    "DBSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription": "Open database for access",
+        "VpcId": {"Ref" : "VpcId"},
+        "SecurityGroupIngress" : [{
+          "IpProtocol" : "tcp",
+          "FromPort" : "5432",
+          "ToPort" : "5432",
+          "SourceSecurityGroupId" : { "Ref" : "WebSecurityGroup" }
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "5432",
+          "ToPort" : "5432",
+          "CidrIp" : "10.0.0.0/8"
+        }],
+        "Tags": [
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-database"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
+      }
+    },
+
+    "DBSubnetGroup" : {
+         "Type" : "AWS::RDS::DBSubnetGroup",
+         "Properties" : {
+            "DBSubnetGroupDescription" : "Data tier subnet list, one per AZ",
+            "SubnetIds" : [{"Ref": "DatabaseSubnet1"}, {"Ref": "DatabaseSubnet2"} ],
+            "Tags" : [ 
+                {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-subnetgrp-", {"Ref": "AWS::Region"} ]] }},
+                {"Key": "Environment", "Value": { "Ref": "Environment" }},
+                {"Key"  : "Comment", "Value" : "RDS Subnet Group" }
+             ]
+         }
+    },
+
+    "MasterDB" : {
+      "Type" : "AWS::RDS::DBInstance",
+      "Properties" : {
+    		"DBInstanceIdentifier"  : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]]},
+        "AllocatedStorage"      : { "Ref" : "DBAllocatedStorage" },
+        "DBInstanceClass"       : { "Ref" : "DBInstanceClass" },
+        "Engine"                : "postgres",
+        "MasterUsername"        : { "Ref" : "DatabaseUser" },
+        "MasterUserPassword"    : { "Ref" : "DatabasePassword" },
+        "MultiAZ"               : "true",
+        "DBSubnetGroupName"     : { "Ref" : "DBSubnetGroup" },
+        "VPCSecurityGroups"     : [ { "Fn::GetAtt": [ "DBSecurityGroup", "GroupId" ] } ],
+        "PubliclyAccessible"    : "false",
+        "StorageEncrypted"      : "true",
+        "StorageType"           : { "Ref" : "DBStorageType" },
+        "Tags" : [
+            {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]] }},
+            {"Key": "Environment", "Value": { "Ref": "Environment" }},
+            {"Key"  : "Comment", "Value" : "MasterDB" }
+        ]
+      },
+      "DeletionPolicy" : "Snapshot"
+    },
+
+    "ReplicaDB1" : {
+      "Type" : "AWS::RDS::DBInstance",
+      "DependsOn" : "MasterDB",
+      "Properties" : {
+    		"DBInstanceIdentifier" : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-r1-", { "Ref": "AZforReplica1" }]]},		
+    		"AvailabilityZone" : {"Ref": "AZforReplica1"},
+        "SourceDBInstanceIdentifier" : { "Ref" : "MasterDB" },
+        "DBInstanceClass" : { "Ref" : "DBInstanceClass" },
+        "PubliclyAccessible"    : "false",
+        "StorageEncrypted"      : "true",
+        "StorageType"           : { "Ref" : "DBStorageType" },
+        "Tags" : [
+            {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-r1-", { "Ref": "AZforReplica1" }]]}},
+            {"Key": "Environment", "Value": { "Ref": "Environment" }},
+            {"Key": "Comment", "Value" : "Read Replica DB"}
+            ]
+      }
+    },
+	
+  	"ReplicaDB2" : {
+      "Type" : "AWS::RDS::DBInstance",
+      "DependsOn" : "ReplicaDB1",
+      "Properties" : {
+        "DBInstanceIdentifier" : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-r2-", { "Ref": "AZforReplica2" }]]},    
+      	"AvailabilityZone" : {"Ref": "AZforReplica2"},
+        "SourceDBInstanceIdentifier" : { "Ref" : "MasterDB" },
+        "DBInstanceClass" : { "Ref" : "DBInstanceClass" },
+        "PubliclyAccessible"    : "false",
+        "StorageEncrypted"      : "true",
+        "StorageType"           : { "Ref" : "DBStorageType" },
+        "Tags" : [
+            {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-r2-", { "Ref": "AZforReplica2" }]]}},
+            {"Key": "Environment", "Value": { "Ref": "Environment" }},
+            {"Key": "Comment", "Value" : "Read Replica DB"}
+            ]
+      }
+    }
+  },
+
+  "Outputs" : {
+    "EC2Platform" : {
+      "Description" : "Platform in which this stack is deployed",
+      "Value" : "EC2-VPC" 
+    },
+
+    "MasterJDBCConnectionString": {
+      "Description" : "JDBC connection string for the master database",
+      "Value" : 
+          { "Fn::Join": [ "", [ "jdbc:postgres://", { "Fn::GetAtt": [ "MasterDB", "Endpoint.Address" ] }, ":",
+          { "Fn::GetAtt": [ "MasterDB", "Endpoint.Port" ] }]]}
+    },
+    "Replica1JDBCConnectionString": {
+      "Description" : "JDBC connection string for the replica database",
+      "Value" : 
+          { "Fn::Join": [ "", [ "jdbc:postgres://", { "Fn::GetAtt": [ "ReplicaDB1", "Endpoint.Address" ] }, ":",
+          { "Fn::GetAtt": [ "ReplicaDB1", "Endpoint.Port" ] }]]}
+    },
+    "Replica2JDBCConnectionString": {
+      "Description" : "JDBC connection string for the replica database",
+      "Value" : 
+          { "Fn::Join": [ "", [ "jdbc:postgres://", { "Fn::GetAtt": [ "ReplicaDB2", "Endpoint.Address" ] }, ":",
+          { "Fn::GetAtt": [ "ReplicaDB2", "Endpoint.Port" ] }]]}
+    },
+    "DBSecurityGroup": {
+      "Description" : "Database Security Group",
+      "Value" : { "Ref": "DBSecurityGroup" }
+    },
+    "DBSubnetGroup": {
+      "Description" : "Database Subnet Group",
+      "Value" : { "Ref": "DBSubnetGroup" }
+    }
+  }
+}

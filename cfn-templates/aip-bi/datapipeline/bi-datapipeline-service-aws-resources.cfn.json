@@ -103,13 +103,14 @@
                             "Principal": { "AWS": "*" },
                             "Action": [ "SQS:SendMessage" ],
                             "Resource": { "Fn::GetAtt": [ "biDataPipelineQ", "Arn" ] },
-                            "Condition": {
-                                "ArnLike": {
-                                    "aws:SourceArn": {
-                                        "Fn::Join": ["", ["arn:aws:sqs:*:*:",
-												"bi-", {"Ref": "Environment"},
-												"-sqs-datapipeline-service"]]}
-                                }
+	                        "Condition": {
+                                "ArnEquals": {
+		                            "aws:SourceArn": [
+		                            {"Fn::Join": ["", ["arn:aws:sqs:*:*:", "aip-", {"Ref": "Environment"}, "-sns-day-changed"]]},
+                                    {"Fn::Join": ["", ["arn:aws:sqs:*:*:", "bi-",  {"Ref": "Environment"}, "-sns-data-loaded"]]},
+                                    {"Fn::Join": ["", ["arn:aws:sqs:*:*:", "bi-",  {"Ref": "Environment"}, "-sns-data-process"]]}
+                                    ]
+                              }
                             }
                         }
                     ]

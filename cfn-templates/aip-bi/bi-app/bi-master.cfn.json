@@ -2,7 +2,7 @@
   "AWSTemplateFormatVersion": "2010-09-09",
 
   "Description": "aip-bi-master.cfn.json",
-  "Description": "Provisions two substacks: The BI Beanstalk app into the VPC, RDS MultiAZ, with Read Replicas, resources.",
+  "Description": "Provisions two substacks: The BI Beanstalk app into the VPC and its resources.",
 
   "Parameters": {
 
@@ -17,11 +17,6 @@
       "Type": "String",
       "Default": "aip-devops-REGION-ACCOUNTID/cfn-templates/aip-bi/aip-bi-aws-resources.cfn.json"
     },
-    "DatabaseTemplateKey": {
-      "Description": "The key of the template for the Database resources",
-      "Type": "String",
-      "Default": "aip-devops-REGION-ACCOUNTID/cfn-templates/aip-bi/aip-bi-rds.cfn.json"
-    },
     "AppTemplateKey": {
       "Description": "The key of the template for that contains the EB app and env embedded in ResourcesTemplateKey",
       "Type": "String",
@@ -29,56 +24,6 @@
     },
     "KeyName": {
       "Description": "Name of an existing EC2 KeyPair to enable SSH access to the Elastic Beanstalk and Bastion hosts",
-      "Type": "String",
-      "MinLength": "1",
-      "MaxLength": "255"
-    },
-    "DatabaseUser": {
-      "Default": "admin",
-      "NoEcho": "true",
-      "Type": "String",
-      "Description": "Database web app account name",
-      "MinLength": "1",
-      "MaxLength": "16"
-    },
-    "DatabasePassword": {
-      "Default": "0bee082a464",
-      "NoEcho": "true",
-      "Type": "String",
-      "Description": "Database admin account password",
-      "MinLength": "1",
-      "MaxLength": "41"
-    },
-    "DatabaseName": {
-      "Description": "The name of the database",
-      "Type": "String",
-      "Default": " postgres"
-    },
-    "DBAllocatedStorage": {
-      "Default": "5",
-      "Description" : "The size of the database (Gb)",
-      "Type": "Number",
-      "MinValue": "5",
-      "MaxValue": "1024",
-      "ConstraintDescription" : "must be between 5 and 1024Gb."
-    },
-    "DBInstanceClass": {
-      "Description" : "The database instance type",
-      "Type": "String",
-      "Default": "db.m1.small",
-      "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m3.medium", "db.m3.large", "db.m3.xlarge", 
-          "db.m3.2xlarge", "db.r3.large", "db.r3.xlarge", "db.r3.2xlarge", "db.r3.4xlarge", 
-          "db.r3.8xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge", "db.m2.8xlarge"],
-      "ConstraintDescription" : "must select a valid database instance type."
-    },
-    "AZforReplica1": {
-      "Description": "This AZ will be used to create read replica - 1",
-      "Type": "String",
-      "MinLength": "1",
-      "MaxLength": "255"
-    },
-    "AZforReplica2": {
-      "Description": "This AZ will be used to create read replica - 2",
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "255"
@@ -145,18 +90,6 @@
       "MinLength": "1",
       "MaxLength": "255"
     },
-    "DatabaseSubnet1": {
-      "Description": "Data tier Private Subnet to run DB instances",
-      "Type": "String",
-      "MinLength": "1",
-      "MaxLength": "255"
-    },
-    "DatabaseSubnet2": {
-      "Description": "Data tier Private Subnet to run DB instances",
-      "Type": "String",
-      "MinLength": "1",
-      "MaxLength": "255"
-    },
     "WebSubnet1": {
       "Description": "Web tier Private Subnet to run beanstalk instances",
       "Type": "String",
@@ -203,38 +136,7 @@
   },
 
 
- "Conditions" : {
-    "CreateRDS" : {
-        "Fn::Equals": ["true", "true"]
-    }
-  },
-
   "Resources": {
-
-    "RdsDatabase" : {
-      "Type" : "AWS::CloudFormation::Stack",
-      "Condition" : "CreateRDS",
-      "DependsOn" : "BeanstalkApp1",
-      "Metadata" : { "Comment" : "Build AWS Resources per Environment, e.g., S3, RDS" },
-      "Properties" : {
-        "TemplateURL" : 
-            { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
-            {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "DatabaseTemplateKey" }]]},
-        "Parameters" : {
-          "Environment"             : { "Ref" : "Environment" },
-          "VpcId"                   : { "Ref" : "VpcId" },
-          "DatabaseUser"            : { "Ref" : "DatabaseUser" },
-          "DatabasePassword"        : { "Ref" : "DatabasePassword" },
-          "DBAllocatedStorage"      : { "Ref" : "DBAllocatedStorage" },
-          "DBInstanceClass"         : { "Ref" : "DBInstanceClass" },
-          "WebSecurityGroup"        : { "Ref" : "WebSecurityGroup"},
-          "AZforReplica1"           : { "Ref" : "AZforReplica1" },
-          "AZforReplica2"           : { "Ref" : "AZforReplica2" },
-          "DatabaseSubnet1"         : { "Ref" : "DatabaseSubnet1"},
-          "DatabaseSubnet2"         : { "Ref" : "DatabaseSubnet2"}
-        }
-      }
-    },
 
     "AppResources" : {
       "Type" : "AWS::CloudFormation::Stack",
@@ -244,9 +146,7 @@
             { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
             {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "ResourcesTemplateKey" }]]},
         "Parameters" : {
-          "Environment": { "Ref" : "Environment" },
-          "CWatchLogGrpName": { "Ref" : "CWatchLogGrpName" },
-          "CWatchLogGrpRetention": { "Ref" : "CWatchLogGrpRetention" }
+          "Environment": { "Ref" : "Environment" }
         }
       }
     },

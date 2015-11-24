@@ -1,0 +1,5 @@
+--RDS Notes
+
+Amazon RDS sets up a secure communications channel between the source DB instance and a Read Replica. Amazon RDS establishes any AWS security configurations, such as adding security group entries, needed to enable the secure channel. MySQL and MariaDB DB instances use public key encryption between the source DB instance and the Read Replica. PostgreSQL DB instances use a secure connection that you can encrypt by setting the ssl parameter to 1 for both the source and the replica instances.
+
+http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html

@@ -1,8 +1,8 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
 
-    "Description": "bi-datapipeline-service.cfn.json",
-    "Description": "This template defines the Beanstalk App for BI Data Pipeline services",
+    "Description": "bi-etl-app.cfn.json",
+    "Description": "This template defines the Beanstalk App for ETL services",
 
     "Parameters": {
 
@@ -14,8 +14,8 @@
             "MaxLength": "255"
         },
         "AppEnvironmentSuffix": {
-            "Description": "application environment suffix [ENV-'bi-datapipeline'-REGION or ENV-'bi-app'-REGION]",
-            "Default": "datapipeline-service",
+            "Description": "application environment suffix [ENV-'etl'-REGION or ENV-'bi-app'-REGION]",
+            "Default": "etl",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -34,7 +34,7 @@
         },
         "InstanceType": {
             "Description": "Size of the instance [t1.micro,t2.small,r3.large..etc]",
-            "Default": "m3.medium",
+            "Default": "r3.large",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -47,7 +47,7 @@
         },
         "ApplicationURL": {
             "Description": "URL for Elastic BeanStalk Application. Please make sure it doesn't exist [unique]",
-			"Default": "bi-datapipeline-service",
+			"Default": "bi-etl",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -92,8 +92,8 @@
             "MaxLength": "255"
         },
 		"R53RecordSetNamePrefix": {
-			"Description": "Name of the R53 Record Set[proxy,bi,datapipeline-service]",
-			"Default": "bi-datapipeline",
+			"Description": "Name of the R53 Record Set[proxy,bi,etl]",
+			"Default": "etl",
 			"Type": "String",
 			"MinLength": "1",
 			"MaxLength": "255"
@@ -106,7 +106,6 @@
 			"MaxLength": "255"
 		}		
     },
-
 
     "Resources": {
 	
@@ -153,6 +152,11 @@
                         "Value": "2"
                     },
                     {
+                        "Namespace": "aws:autoscaling:asg",
+                        "OptionName": "MaxSize",
+                        "Value": "20"
+                    },
+                    {
                         "Namespace": "aws:autoscaling:launchconfiguration",
                         "OptionName": "EC2KeyName",
                         "Value": { "Ref": "KeyName" }
@@ -171,6 +175,11 @@
                         "Namespace": "aws:autoscaling:launchconfiguration",
                         "OptionName": "InstanceType",
                         "Value": { "Ref": "InstanceType" }
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:launchconfiguration",
+                        "OptionName": "RootVolumeSize",
+                        "Value": "50"
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
@@ -256,7 +265,7 @@
 												{
 													"Ref" : "Environment"
 												},
-												"-sqs-datapipeline-service"
+												"-sqs-dataprocess"
                                             ]
                                         ]
 						
@@ -270,7 +279,7 @@
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "HttpConnections",
-						"Value": "1"
+						"Value": "75"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
@@ -285,7 +294,7 @@
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "VisibilityTimeout",
-						"Value": "1800"
+						"Value": "300"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
@@ -300,13 +309,12 @@
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "HttpPath",
-						"Value": "/api/bi-datapipeline-service/v1/event/"
-					}					
+						"Value": "/etl/sqs"
+					}	
                 ]
             }
         },
 
-        
         "BeanstalkEC2Role": {
              "Type": "AWS::IAM::Role",
              "Properties": {
@@ -359,7 +367,7 @@
               "Path": "/",
               "Roles": [ { "Ref": "BeanstalkEC2Role" } ]
            }
-        }   			
+        }			
     },
 
     "Outputs": {
@@ -367,9 +375,9 @@
             "Description": "URL of the AWS Elastic Beanstalk Environment",
             "Value": "TO BE DECIDED"
         },
-        "BeanstalkEC2Role": {
-            "Description": "Beanstalk EC2 Instance Role",
-            "Value": {"Ref" : "BeanstalkEC2Role"}
+        "BeanstalkEC2InstancProfile": {
+            "Description": "Beanstalk EC2 Instance Profile",
+            "Value": {"Ref" : "BeanstalkEC2InstancProfile"}
         }
     }
 }

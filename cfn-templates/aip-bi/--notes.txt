@@ -69,3 +69,22 @@ aws cloudformation create-stack \
 --template-body file://aip-platform-master.cfn.json \
 --parameters file://aip-platform-master-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
+
+
+#Latest EB ECS: aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201511050720 (ami-62027e08)
+
+# Test policy on SQS queue with specific SNS topics allowed
+aws cloudformation create-stack \
+--stack-name testpolicy \
+--template-body file://-testpolicy.cfn.json \
+--capabilities CAPABILITY_IAM --disable-rollback  --profile sandbox
+
+
+aip-platform-aws-resources.cfn.json
+
+
+11/24 - Perf team whitelists for test & Prod
+130.36.0.0/16,10.0.0.0/8,209.195.3.114,209.195.3.121,50.79.128.73,50.79.128.75,23.23.88.217,207.229.173.88,174.23.27.182
+Proxy App builds deployed - Prod #48, Test #47
+
+postgres://api_user%3AFkgel%24%25%233@bi-qa-rds-dw-r1-us-east-1d.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres

@@ -1,47 +1,35 @@
 [
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-185df67c"
+    "ParameterValue": "vpc-e4f04280"
   },
   {
     "ParameterKey": "WebSecurityGroup",
-    "ParameterValue": "sg-8611b2e0"
-  },  
-  {
-    "ParameterKey": "DatabaseSubnet1",
-    "ParameterValue": "subnet-2f5b6a04"
-  },  
-  {
-    "ParameterKey": "DatabaseSubnet2",
-    "ParameterValue": "subnet-1afb5e27"
-  },  
+    "ParameterValue": "sg-00ce7d66"
+  },    
   {
     "ParameterKey": "WebSubnet1",
-    "ParameterValue": "subnet-2a5b6a01"
+    "ParameterValue": "subnet-0166592a"
   },  
   {
     "ParameterKey": "WebSubnet2",
-    "ParameterValue": "subnet-1bfb5e26"
+    "ParameterValue": "subnet-0e43e333"
   },  
   {
     "ParameterKey": "PublicSubnet1",
-    "ParameterValue": "subnet-285b6a03"
+    "ParameterValue": "subnet-03665928"
   },
   {
     "ParameterKey": "PublicSubnet2",
-    "ParameterValue": "subnet-15fb5e28"
-  },
+    "ParameterValue": "subnet-0f43e332"
+  },       
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-test-keys"
+    "ParameterValue": "aip-bi-qa-keys"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "test"
-  },
-  {
-    "ParameterKey": "DatabaseTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-bi/bi-rds.cfn.json"
+    "ParameterValue": "qa"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
@@ -51,34 +39,6 @@
     "ParameterKey": "AppTemplateKey",
     "ParameterValue": "/cfn-templates/aip-bi/bi-eb-app.cfn.json"
   },  
-  {
-    "ParameterKey": "DatabaseUser",
-    "ParameterValue": "sa"
-  },  
-  {
-    "ParameterKey": "DatabasePassword",
-    "ParameterValue": "Pr0jectOnT!me"
-  },  
-  {
-    "ParameterKey": "DatabaseName",
-    "ParameterValue": "postgres"
-  },  
-  {
-    "ParameterKey": "AZforReplica1",
-    "ParameterValue": "us-east-1d"
-  },
-  {
-    "ParameterKey": "AZforReplica2",
-    "ParameterValue": "us-east-1e"
-  },
-  {
-    "ParameterKey": "DBInstanceClass",
-    "ParameterValue": "db.r3.xlarge"
-  },   
-  {
-    "ParameterKey": "DBAllocatedStorage",
-    "ParameterValue": "100"
-  }, 
   {
     "ParameterKey": "InstanceType",
     "ParameterValue": "m3.medium"
@@ -93,7 +53,7 @@
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "aip-test-eb-bi-app"
+    "ParameterValue": "aip-qa-eb-bi-app"
   },
   {
     "ParameterKey": "ApplicationName",
@@ -105,8 +65,8 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "bi-dev-eb-248.zip"
-  },  
+    "ParameterValue": "eb-docker-template.zip"
+  },
   {
     "ParameterKey": "ImageId",
     "ParameterValue": "ami-7da9d918"
@@ -123,5 +83,4 @@
     "ParameterKey": "R53RecordSetNameSuffix",
     "ParameterValue": "us-1.aliniqbis.local"
   }
-
 ]

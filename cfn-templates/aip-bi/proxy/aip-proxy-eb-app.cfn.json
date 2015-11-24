@@ -1,8 +1,8 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
 
-    "Description": "bi-datapipeline-service.cfn.json",
-    "Description": "This template defines the Beanstalk App for aip chronos",
+    "Description": "aip-base-app.cfn.json",
+    "Description": "This template defines the Beanstalk App for proxy services",
 
     "Parameters": {
 
@@ -14,8 +14,8 @@
             "MaxLength": "255"
         },
         "AppEnvironmentSuffix": {
-            "Description": "application environment suffix [ENV-'bi-datapipeline'-REGION or ENV-'bi-app'-REGION]",
-            "Default": "aip-chronos",
+            "Description": "application environment suffix [ENV-'aip'-REGION or ENV-'bi-app'-REGION]",
+            "Default": "proxy",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -33,7 +33,7 @@
             "Type": "String"
         },
         "InstanceType": {
-            "Description": "Size of the instance [t1.micro,t2.small,r3.large..etc]",
+            "Description": "Size of the instance [t1.micro,t2.small,m3.large..etc]",
             "Default": "m3.medium",
             "Type": "String",
             "MinLength": "1",
@@ -47,7 +47,6 @@
         },
         "ApplicationURL": {
             "Description": "URL for Elastic BeanStalk Application. Please make sure it doesn't exist [unique]",
-			"Default": "bi-datapipeline-service",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -92,8 +91,8 @@
             "MaxLength": "255"
         },
 		"R53RecordSetNamePrefix": {
-			"Description": "Name of the R53 Record Set[proxy,bi,datapipeline-service]",
-			"Default": "bi-datapipeline",
+			"Description": "Name of the R53 Record Set[proxy,bi,aip]",
+			"Default": "proxy",
 			"Type": "String",
 			"MinLength": "1",
 			"MaxLength": "255"
@@ -107,8 +106,10 @@
 		}		
     },
 
+
     "Resources": {
 	
+
         "AppEbEnv": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
@@ -132,7 +133,6 @@
 
         "APPEnvironment": {
             "Type": "AWS::ElasticBeanstalk::Environment",
-            "DependsOn" : "BeanstalkEC2InstancProfile",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
                 "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
@@ -140,21 +140,21 @@
                     "Ref": "AppVersion"
                 },
                 "Tier": {
-                    "Name": "Worker",
-                    "Type": "SQS/HTTP",
-                    "Version": ""
+                    "Name": "WebServer",
+                    "Type": "Standard",
+                    "Version": " "
                 },
                 "EnvironmentName": {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}, "-",{"Ref": "AWS::Region"}]]},
                 "OptionSettings": [
                     {
                         "Namespace": "aws:autoscaling:asg",
                         "OptionName": "MinSize",
-                        "Value": "1"
+                        "Value": "2"
                     },
                     {
                         "Namespace": "aws:autoscaling:asg",
                         "OptionName": "MaxSize",
-                        "Value": "1"
+                        "Value": "20"
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
@@ -164,7 +164,7 @@
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
                         "OptionName": "IamInstanceProfile",
-                        "Value": { "Ref": "BeanstalkEC2InstancProfile"}
+                        "Value": "aws-elasticbeanstalk-ec2-role"
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
@@ -178,6 +178,11 @@
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
+                        "OptionName": "RootVolumeSize",
+                        "Value": "50"
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:launchconfiguration",
                         "OptionName": "SecurityGroups",
                         "Value": { "Ref": "InstanceSecurityGroups" }
                     },
@@ -185,6 +190,26 @@
                         "Namespace": "aws:autoscaling:trigger",
                         "OptionName": "UpperThreshold",
                         "Value": "6000000"
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
+                        "OptionName": "MaxBatchSize",
+                        "Value": "1"
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
+                        "OptionName": "MinInstancesInService",
+                        "Value": "1"
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
+                        "OptionName": "RollingUpdateEnabled",
+                        "Value": "true"
+                    },
+                    {
+                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
+                        "OptionName": "RollingUpdateType",
+                        "Value": "Health"
                     },
                     {
                         "Namespace": "aws:ec2:vpc",
@@ -221,136 +246,50 @@
                         "OptionName": "SystemType",
                         "Value": "enhanced"
                     },
-					{
-						"Namespace": "aws:elasticbeanstalk:sqsd",
-						"OptionName": "WorkerQueueURL",
-						"Value": {
-							"Fn::Join": [
-                                            "",
-                                            [
-                                                "https://sqs.",
-   											    {
-													"Ref": "AWS::Region"
-												},
-												".amazonaws.com/",
-												{
-													"Ref": "AWS::AccountId"
-												},
-												"/aip-",
-												{
-													"Ref" : "Environment"
-												},
-												"-sqs-chronos"
-                                            ]
-                                        ]
-						
-						}
-					},					
-					{
-						"Namespace": "aws:elasticbeanstalk:sqsd",
-						"OptionName": "MimeType",
-						"Value": "application/json"
-					},
-					{
-						"Namespace": "aws:elasticbeanstalk:sqsd",
-						"OptionName": "HttpConnections",
-						"Value": "75"
-					},
-					{
-						"Namespace": "aws:elasticbeanstalk:sqsd",
-						"OptionName": "ConnectTimeout",
-						"Value": "10"
-					},
-					{
-						"Namespace": "aws:elasticbeanstalk:sqsd",
-						"OptionName": "InactivityTimeout",
-						"Value": "10"
-					},
-					{
-						"Namespace": "aws:elasticbeanstalk:sqsd",
-						"OptionName": "VisibilityTimeout",
-						"Value": "300"
-					},
-					{
-						"Namespace": "aws:elasticbeanstalk:sqsd",
-						"OptionName": "RetentionPeriod",
-						"Value": "345600"
-					},
-					{
-						"Namespace": "aws:elasticbeanstalk:sqsd",
-						"OptionName": "MaxRetries",
-						"Value": "50"
-					},
-					{
-						"Namespace": "aws:elasticbeanstalk:sqsd",
-						"OptionName": "HttpPath",
-						"Value": "/etl/sqs"
-					}					
+                    {
+                        "Namespace": "aws:elb:healthcheck",
+                        "OptionName": "Interval",
+                        "Value": "10"
+                    },
+                    {
+                        "Namespace": "aws:elb:loadbalancer",
+                        "OptionName": "CrossZone",
+                        "Value": "true"
+                    },
+                    {
+                        "Namespace": "aws:elb:loadbalancer",
+                        "OptionName": "LoadBalancerHTTPPort",
+                        "Value": "80"
+                    },
+                    {
+                        "Namespace": "aws:elb:policies",
+                        "OptionName": "ConnectionDrainingEnabled",
+                        "Value": "true"
+                    }
                 ]
             }
         },
-
-        "BeanstalkEC2Role": {
-             "Type": "AWS::IAM::Role",
-             "Properties": {
-                "AssumeRolePolicyDocument": {
-                   "Version" : "2012-10-17",
-                   "Statement": [ {
-                      "Effect": "Allow",
-                      "Principal": {
-                         "Service": [ "ec2.amazonaws.com" ]
-                      },
-                      "Action": [ "sts:AssumeRole" ]
-                   } ]
-                },
-                "Policies" : [{
-                   "PolicyName": "EB_MultiContainer_App_ECS",
-                   "PolicyDocument": {
-                     "Version": "2012-10-17",
-                     "Statement" : [ {
-                        "Effect" : "Allow",
-                        "Action" : [ 
-                                "ecs:StartTask",
-                                "ecs:StopTask",
-                                "ecs:RegisterContainerInstance",
-                                "ecs:DeregisterContainerInstance",
-                                "ecs:DescribeContainerInstances",
-                                "ecs:DiscoverPollEndpoint",
-                                "ecs:Submit*",
-                                "ecs:CreateCluster",
-                                "ecs:Poll"
-                                ],
-                    "Resource" : "*"
-                 },
-                 {
-                    "Effect" : "Allow",
-                    "Action" : [ "s3:PutObject" ],
-                    "Resource" : "arn:aws:s3:::elasticbeanstalk-*/resources/environments/logs/*"
-                 }]
-               }
-              }],
-                "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonSNSFullAccess",
-                                    "arn:aws:iam::aws:policy/CloudWatchFullAccess"],
-                "Path": "/"
-             }
-        },
-        "BeanstalkEC2InstancProfile" : {
-           "Type": "AWS::IAM::InstanceProfile",
-           "Properties": {
-              "Path": "/",
-              "Roles": [ { "Ref": "BeanstalkEC2Role" } ]
-           }
-        }	
+	    "AppAccessCname" : {
+            "Type" : "AWS::Route53::RecordSetGroup",
+			"DependsOn" : "APPEnvironment",
+            "Properties" : {
+                "HostedZoneName" : { "Ref": "R53HostedZoneName" },
+                "Comment" : "Assigning route 53 cname for ELB's DNS record.",
+                "RecordSets" : [
+                  {
+                    "Name" : { "Fn::Join": ["-", [{ "Ref": "R53RecordSetNamePrefix" },{"Ref": "Environment"}, {"Ref": "R53RecordSetNameSuffix"}]]},
+                    "Type" : "CNAME",
+                    "TTL" : "900",
+                    "ResourceRecords" : [{"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]}]
+                  }
+                  ]
+            }
+        }			
     },
 
     "Outputs": {
         "URL": {
             "Description": "URL of the AWS Elastic Beanstalk Environment",
-            "Value": "TO BE DECIDED"
-        },
-        "BeanstalkEC2Role": {
-            "Description": "Beanstalk EC2 Instance Role",
-            "Value": {"Ref" : "BeanstalkEC2Role"}
-        }
+            "Value": {"Fn::Join": ["", ["http://", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]] }}
     }
 }

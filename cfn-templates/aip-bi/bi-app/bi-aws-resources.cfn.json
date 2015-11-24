@@ -11,37 +11,6 @@
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
-        },
-        "CWatchLogGrpName": {
-            "Description": "CloudWatch Log Group Name for BI Apps",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        },
-        "CWatchLogGrpRetention": {
-            "Default": "5",
-            "Description": "CloudWatch Log Group Retention In Days for BI Apps",
-            "Type": "Number",
-            "AllowedValues": [
-                1,
-                3,
-                5,
-                7,
-                14,
-                30,
-                60,
-                90,
-                120,
-                150,
-                180,
-                365,
-                400,
-                545,
-                731,
-                1827,
-                3653
-            ],
-            "ConstraintDescription": "must select a valid retention interval."
         }
     },
 
@@ -106,7 +75,7 @@
                             ],
                             "Effect": "Allow",
                             "Resource": {"Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "BiS3Benchmark"}, "/*"]]},
-                            "Principal": { "AWS": [{"Fn::Join": ["", ["arn:aws:iam::", {"Ref": "AWS::AccountId"}, ":role/ETL-Role"]]}]}
+                            "Principal": "*"
                         }
                     ]
                 }
@@ -135,13 +104,15 @@
                             ],
                             "Effect": "Allow",
                             "Resource": {"Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "BiS3Metaanalysis"}, "/*"]]},
-                            "Principal": { "AWS": [{"Fn::Join": ["", ["arn:aws:iam::", {"Ref": "AWS::AccountId"}, ":role/ETL-Role"]]}]}
+                            "Principal":  "*"
                         }
                     ]
                 }
             }
         }
+
     },
+
 
     "Outputs": {
         

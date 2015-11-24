@@ -1,48 +1,35 @@
 [
-  
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-f7872b93"
+    "ParameterValue": "vpc-c3f042a7"
   },
   {
     "ParameterKey": "WebSecurityGroup",
-    "ParameterValue": "sg-60855f06"
-  },  
-  {
-    "ParameterKey": "DatabaseSubnet1",
-    "ParameterValue": "subnet-7f363226"
-  },  
-  {
-    "ParameterKey": "DatabaseSubnet2",
-    "ParameterValue": "subnet-7062bb4d"
+    "ParameterValue": "sg-97ce7df1"
   },  
   {
     "ParameterKey": "WebSubnet1",
-    "ParameterValue": "subnet-7236322b"
+    "ParameterValue": "subnet-68665943"
   },  
   {
     "ParameterKey": "WebSubnet2",
-    "ParameterValue": "subnet-7362bb4e"
+    "ParameterValue": "subnet-0243e33f"
   },  
   {
     "ParameterKey": "PublicSubnet1",
-    "ParameterValue": "subnet-70363229"
+    "ParameterValue": "subnet-6f665944"
   },
   {
     "ParameterKey": "PublicSubnet2",
-    "ParameterValue": "subnet-7262bb4f"
+    "ParameterValue": "subnet-7f43e342"
   },       
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-dev-keys"
+    "ParameterValue": "aip-bi-prod-keys"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "dev"
-  },
-  {
-    "ParameterKey": "DatabaseTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-bi/bi-rds.cfn.json"
+    "ParameterValue": "prod"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
@@ -52,34 +39,6 @@
     "ParameterKey": "AppTemplateKey",
     "ParameterValue": "/cfn-templates/aip-bi/bi-eb-app.cfn.json"
   },  
-  {
-    "ParameterKey": "DatabaseUser",
-    "ParameterValue": "sa"
-  },  
-  {
-    "ParameterKey": "DatabasePassword",
-    "ParameterValue": "Pr0jectOnT!me"
-  },  
-  {
-    "ParameterKey": "DatabaseName",
-    "ParameterValue": "postgres"
-  }, 
-  {
-    "ParameterKey": "AZforReplica1",
-    "ParameterValue": "us-east-1d"
-  },
-  {
-    "ParameterKey": "AZforReplica2",
-    "ParameterValue": "us-east-1e"
-  },
-  {
-    "ParameterKey": "DBInstanceClass",
-    "ParameterValue": "db.r3.xlarge"
-  },   
-  {
-    "ParameterKey": "DBAllocatedStorage",
-    "ParameterValue": "100"
-  },
   {
     "ParameterKey": "InstanceType",
     "ParameterValue": "m3.medium"
@@ -94,7 +53,7 @@
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "aip-dev-eb-bi-app"
+    "ParameterValue": "aip-prod-eb-bi-app"
   },
   {
     "ParameterKey": "ApplicationName",
@@ -124,5 +83,4 @@
     "ParameterKey": "R53RecordSetNameSuffix",
     "ParameterValue": "us-1.aliniqbis.local"
   }
-
 ]
