@@ -17,7 +17,7 @@
   },  
   {
     "ParameterKey": "InstanceType",
-    "ParameterValue": "r3.large"
+    "ParameterValue": "m3.medium"
   },
   {
     "ParameterKey": "VpcId",
@@ -45,7 +45,7 @@
   },  
   {
     "ParameterKey": "ImageId",
-    "ParameterValue": "ami-7da9d918"
+    "ParameterValue": "ami-62027e08"
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",

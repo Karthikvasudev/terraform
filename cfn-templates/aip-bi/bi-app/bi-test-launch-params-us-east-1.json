@@ -41,7 +41,7 @@
   },
   {
     "ParameterKey": "InstanceType",
-    "ParameterValue": "m3.medium"
+    "ParameterValue": "m3.large"
   },
   {
     "ParameterKey": "CWatchLogGrpName",

@@ -41,7 +41,7 @@
   },
   {
     "ParameterKey": "InstanceType",
-    "ParameterValue": "m3.medium"
+    "ParameterValue": "m3.large"
   },
   {
     "ParameterKey": "CWatchLogGrpName",
@@ -69,7 +69,7 @@
   },  
   {
     "ParameterKey": "ImageId",
-    "ParameterValue": "ami-7da9d918"
+    "ParameterValue": "ami-62027e08"
   },
   {
     "ParameterKey": "R53HostedZoneName",

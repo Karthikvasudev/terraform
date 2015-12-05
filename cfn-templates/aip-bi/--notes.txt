@@ -84,7 +84,19 @@ aip-platform-aws-resources.cfn.json
 
 
 11/24 - Perf team whitelists for test & Prod
-130.36.0.0/16,10.0.0.0/8,209.195.3.114,209.195.3.121,50.79.128.73,50.79.128.75,23.23.88.217,207.229.173.88,174.23.27.182
-Proxy App builds deployed - Prod #48, Test #47
+130.36.0.0/16,10.0.0.0/8,209.195.3.114,209.195.3.121,50.79.128.73,50.79.128.75,23.23.88.217,207.229.173.88,174.23.27.182,50.254.15.138
+
+Proxy App builds deployed - Prod #53, Test #54
 
 postgres://api_user%3AFkgel%24%25%233@bi-qa-rds-dw-r1-us-east-1d.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres
+
+
+aws-elasticbeanstalk-amzn-2015.03.1.x86_64-ecs-hvm-201509182207 (ami-7da9d918)
+
+---
+64bit Amazon Linux 2015.09 v2.0.4 running Multi-container Docker 1.7.1 (Generic)
+aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201511050720 (ami-62027e08)
+---
+
+James Mburu info
+Hsaetrp$&#*!

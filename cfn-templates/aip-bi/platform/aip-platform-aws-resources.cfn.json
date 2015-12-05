@@ -295,58 +295,6 @@
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-application"]] }
       }
     },
-	"ddblogs": {
-      "Type": "AWS::DynamoDB::Table",
-      "Properties": {
-        "AttributeDefinitions": [
-          {
-            "AttributeName": "Id",
-            "AttributeType": "S"
-          },
-		  {
-            "AttributeName": "TenantId",
-            "AttributeType": "S"
-          },
-		  {
-            "AttributeName": "ModifiedOn",
-            "AttributeType": "N"
-          }
-        ],
-        "KeySchema": [
-          {
-            "AttributeName": "Id",
-            "KeyType": "HASH"
-          }
-        ],
-        "ProvisionedThroughput": {
-          "ReadCapacityUnits": "3",
-          "WriteCapacityUnits": "1"
-        },
-        "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-lislog"]] },
-		"GlobalSecondaryIndexes": [
-          {
-            "IndexName": "tenant-index",
-            "KeySchema": [
-              {
-                "AttributeName": "TenantId",
-                "KeyType": "HASH"
-              },
-			  {
-                "AttributeName": "ModifiedOn",
-                "KeyType": "RANGE"
-              }
-            ],
-            "Projection": {
-              "ProjectionType": "ALL"
-            },
-            "ProvisionedThroughput": {
-              "ReadCapacityUnits": "1",
-              "WriteCapacityUnits": "1"
-            }
-          }
-        ]
-      }
-    },
     "ddborganization": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {

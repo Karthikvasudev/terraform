@@ -65,7 +65,7 @@
     },
     "ImageId": {
       "Description": "name of the Image (AMI Info) - aws-elasticbeanstalk-amzn-2015.03.1.x86_64-ecs-hvm-201509182207",
-      "Default": "ami-7da9d918",
+      "Default": "ami-62027e08",
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "255"

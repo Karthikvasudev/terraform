@@ -22,7 +22,7 @@
         },		
         "ImageId": {
             "Description": "name of the Image (AMI Info)",
-            "Default": "ami-5943023c",
+            "Default": "ami-62027e08",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
