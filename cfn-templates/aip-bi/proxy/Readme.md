@@ -71,7 +71,7 @@ aws cloudformation update-stack \
 --stack-name aip-proxy-prod-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-prod-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM 
 
 
 
