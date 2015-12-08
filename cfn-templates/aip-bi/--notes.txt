@@ -100,3 +100,10 @@ aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201511050720 (ami-62027e08)
 
 James Mburu info
 Hsaetrp$&#*!
+	I have updated the sa password for the aws-informatics (Public Dev) and bi-dev-rds-dw-us-east-1 (CI/CD Dev) to Pr0jectOnT!me so as to match the standard password in use by the other instances. We will now have the same sa password across all instances. 
+
+
+	aws elasticbeanstalk describe-configuration-settings --environment-name qa-etl-us-east-1 --application-name etl-us-east-1 
+
+
+	
