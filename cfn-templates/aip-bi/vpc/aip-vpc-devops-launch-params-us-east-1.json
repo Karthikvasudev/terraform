@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "AdminVpcCIDR",
-    "ParameterValue": "10.85.48.0/21"
+    "ParameterValue": "10.85.0.0/21"
   },
   {
     "ParameterKey": "AdminVpcPrivateRouteTableId",
@@ -105,7 +105,7 @@
   },
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-devops-keys"
+    "ParameterValue": "aip-devops-keys"
   }
 
 ]
