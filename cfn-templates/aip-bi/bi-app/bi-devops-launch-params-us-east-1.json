@@ -73,7 +73,7 @@
   },
   {
     "ParameterKey": "R53HostedZoneName",
-    "ParameterValue": "aliniqbis.com"
+    "ParameterValue": "aliniqbis.local."
   },
   {
     "ParameterKey": "R53RecordSetNamePrefix",
@@ -81,6 +81,6 @@
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
-    "ParameterValue": "us-1.aliniqbis.com"
+    "ParameterValue": "devops.aliniqbis.local"
   }
 ]

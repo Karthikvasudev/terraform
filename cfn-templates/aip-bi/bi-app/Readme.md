@@ -74,3 +74,18 @@ aws cloudformation update-stack \
 
 
 
+
+### DevOps
+## -- Create Abbott AWS: DevOps environment --
+aws cloudformation create-stack \
+--stack-name bi-devops-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## -- Update Abbott AWS: devops environment --
+aws cloudformation update-stack \
+--stack-name bi-devops-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM
