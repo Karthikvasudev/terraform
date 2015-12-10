@@ -74,6 +74,22 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM 
 
 
+### DevOps
+## -- Create Abbott AWS: DevOps environment --
+aws cloudformation create-stack \
+--stack-name aip-proxy-devops-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- Update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name aip-proxy-devops-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-prod-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
+
 
 
 

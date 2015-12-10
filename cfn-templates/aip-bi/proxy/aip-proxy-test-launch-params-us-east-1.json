@@ -53,7 +53,7 @@
   },
   {
     "ParameterKey": "R53HostedZoneName",
-    "ParameterValue": "aliniqbis.local."
+    "ParameterValue": "aliniqbis.com"
   },
   {
     "ParameterKey": "R53RecordSetNamePrefix",
@@ -61,7 +61,7 @@
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
-    "ParameterValue": "us-1.aliniqbis.local"
+    "ParameterValue": "us-1.aliniqbis.com"
   },
   {
     "ParameterKey": "PublicSubnets",
