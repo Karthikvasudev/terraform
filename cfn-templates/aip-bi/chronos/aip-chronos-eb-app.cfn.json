@@ -83,28 +83,8 @@
         "PrivateSubnets": {
             "Description": "A comma-delimited list of private VPC subnets. Auto Scaling and RDS will be launched into this subnet.",
             "Type": "String"
-        },
-        "R53HostedZoneName": {
-            "Description": "Name of the R53 HostedZone[aip.local.]",
-			"Default": "aliniqbis.local.",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        },
-		"R53RecordSetNamePrefix": {
-			"Description": "Name of the R53 Record Set[proxy,bi,datapipeline-service]",
-			"Default": "bi-datapipeline",
-			"Type": "String",
-			"MinLength": "1",
-			"MaxLength": "255"
-		},
-		"R53RecordSetNameSuffix": {
-			"Description": "Name of the R53 Record Set[us-1.aliniqbis.local]",
-			"Default": "us-1.aliniqbis.local",
-			"Type": "String",
-			"MinLength": "1",
-			"MaxLength": "255"
-		}		
+        }
+	
     },
 
     "Resources": {

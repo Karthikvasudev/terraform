@@ -52,18 +52,6 @@
     "ParameterValue": "aip-chro"
   },
   {
-    "ParameterKey": "R53HostedZoneName",
-    "ParameterValue": "aliniqbis.local."
-  },
-  {
-    "ParameterKey": "R53RecordSetNamePrefix",
-    "ParameterValue": "aip-chro"
-  },
-  {
-    "ParameterKey": "R53RecordSetNameSuffix",
-    "ParameterValue": "us-1.aliniqbis.local"
-  },
-  {
     "ParameterKey": "PublicSubnets",
     "ParameterValue": "subnet-03665928,subnet-0f43e332"
   },
