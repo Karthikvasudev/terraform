@@ -1,0 +1,86 @@
+[
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-2cd74548"
+  },
+  {
+    "ParameterKey": "WebSecurityGroup",
+    "ParameterValue": "sg-d0b8b8b6"
+  },  
+  {
+    "ParameterKey": "WebSubnet1",
+    "ParameterValue": "subnet-42534069"
+  },  
+  {
+    "ParameterKey": "WebSubnet2",
+    "ParameterValue": "subnet-53a01a6e"
+  },  
+  {
+    "ParameterKey": "PublicSubnet1",
+    "ParameterValue": "subnet-4753406c"
+  },
+  {
+    "ParameterKey": "PublicSubnet2",
+    "ParameterValue": "subnet-50a01a6d"
+  },       
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-devops-keys"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "devops"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-bi/bi-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-bi/bi-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m3.large"
+  },
+  {
+    "ParameterKey": "CWatchLogGrpName",
+    "ParameterValue": "aip-bi-logs"
+  },  
+  {
+    "ParameterKey": "CWatchLogGrpRetention",
+    "ParameterValue": "14"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "aip-devops-eb-bi-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "bi-app"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "golden"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "eb-docker-template.zip"
+  },
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-62027e08"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.com"
+  },
+  {
+    "ParameterKey": "R53RecordSetNamePrefix",
+    "ParameterValue": "bi"
+  },
+  {
+    "ParameterKey": "R53RecordSetNameSuffix",
+    "ParameterValue": "us-1.aliniqbis.com"
+  }
+]
