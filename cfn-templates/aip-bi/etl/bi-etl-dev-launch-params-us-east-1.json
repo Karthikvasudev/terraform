@@ -52,18 +52,6 @@
     "ParameterValue": "etl"
   },
   {
-    "ParameterKey": "R53HostedZoneName",
-    "ParameterValue": "aliniqbis.local."
-  },
-  {
-    "ParameterKey": "R53RecordSetNamePrefix",
-    "ParameterValue": "etl"
-  },
-  {
-    "ParameterKey": "R53RecordSetNameSuffix",
-    "ParameterValue": "us-1.aliniqbis.local"
-  },
-  {
     "ParameterKey": "PublicSubnets",
     "ParameterValue": "subnet-8929f3b4,subnet-c0b583eb"
   },

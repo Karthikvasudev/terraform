@@ -12,14 +12,14 @@ Note: include --profile sandbox when testing only. Included for safety reasons
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
---stack-name aip-proxy-dev-master \
+--stack-name aip-proxy-dev-master2 \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 ## -- Update Abbott AWS: Dev environment --
 aws cloudformation update-stack \
---stack-name aip-proxy-dev-master \
+--stack-name aip-proxy-dev-master2 \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 

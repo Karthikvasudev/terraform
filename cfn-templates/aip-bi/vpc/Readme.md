@@ -79,6 +79,14 @@ aws cloudformation create-stack \
 --parameters file://aip-vpc-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
+# -- Dev -- Update Stack
+aws cloudformation update-stack \
+--stack-name aip-dev-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-dev-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
+
+
 ##
 ## -- Test --
 ### BI VPC Environments -- Use update-stack once create-stack succeeds

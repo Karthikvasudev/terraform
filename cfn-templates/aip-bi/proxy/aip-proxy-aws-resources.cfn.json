@@ -13,56 +13,6 @@
 
   },
   "Resources": {   
-	"proxyBucket": {
-		"Type": "AWS::S3::Bucket",
-		"Properties": {
-			"BucketName": {
-				"Fn::Join": [
-					"",
-					[
-						"proxy-",
-						{
-							"Ref": "Environment"
-						},
-						"-s3-config-",
-						{
-							"Ref": "AWS::Region"
-						}
-					]
-				]
-			}
-		}
-	},
-    "proxyEC2Role": {
-         "Type": "AWS::IAM::Role",
-         "Properties": {
-            "AssumeRolePolicyDocument": {
-               "Version" : "2012-10-17",
-               "Statement": [ {
-                  "Effect": "Allow",
-                  "Principal": {
-                     "Service": [ "ec2.amazonaws.com" ]
-                  },
-                  "Action": [ "sts:AssumeRole" ]
-               } ]
-            },
-            "Path": "/"
-         }
-    },
-	"proxyPolicy" : {
-	   "Type" : "AWS::IAM::Policy",
-	   "Properties" : {
-		  "PolicyName" : { "Fn::Join": ["-", ["ProxyGrpPolicy", {"Ref": "Environment"} ,{"Ref": "AWS::Region"}]]},
-		  "PolicyDocument" : {
-			 "Version": "2012-10-17",
-			 "Statement" : [ {
-				"Effect" : "Allow",
-				"Action" : ["s3:GetObject" ],
-				"Resource" : "*"
-			 } ]
-		  },
-		  "Roles": [ { "Ref": "proxyEC2Role" } ]
-	   }
-	}	
+
   }
 }

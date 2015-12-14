@@ -165,9 +165,9 @@
             "KeyName"                  : { "Ref" : "KeyName" },
             "InstanceType"             : { "Ref" : "InstanceType" },
             "InstanceSecurityGroups"   : { "Ref" : "WebSecurityGroup"},
-			"R53HostedZoneName"		   : { "Ref" : "R53HostedZoneName" },
-			"R53RecordSetNamePrefix"   : { "Ref" : "R53RecordSetNamePrefix" },
-			"R53RecordSetNameSuffix"   : { "Ref" : "R53RecordSetNameSuffix" },			
+      			"R53HostedZoneName"		   : { "Ref" : "R53HostedZoneName" },
+      			"R53RecordSetNamePrefix"   : { "Ref" : "R53RecordSetNamePrefix" },
+      			"R53RecordSetNameSuffix"   : { "Ref" : "R53RecordSetNameSuffix" },			
 
             "ApplicationName"          : { "Fn::Join": ["-", [{"Ref": "ApplicationName"}, {"Ref": "AWS::Region"}]]},
             "ApplicationURL"           : { "Fn::Join": ["-", [{"Ref": "ApplicationURL"}, {"Ref": "AWS::Region"}, {"Ref": "AWS::AccountId"}]]},

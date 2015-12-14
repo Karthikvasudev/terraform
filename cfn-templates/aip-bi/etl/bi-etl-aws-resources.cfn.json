@@ -20,7 +20,7 @@
 							{
 								"Ref": "Environment"
 							},
-							"-sqs-dataprocess"
+							"-sqs-etl-dataprocess"
 						]
 					]				
 				},

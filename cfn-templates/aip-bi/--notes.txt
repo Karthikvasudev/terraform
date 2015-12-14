@@ -105,5 +105,7 @@ Hsaetrp$&#*!
 
 	aws elasticbeanstalk describe-configuration-settings --environment-name qa-etl-us-east-1 --application-name etl-us-east-1 
 
+# When changing to a newer Docker AMI-id, Beanstalk & Docker AMI must match for "SolutionStackName" property. Git it with:
+$ aws elasticbeanstalk list-available-solution-stacks | grep Docker
 
-	
+devops-aip-chr-us-east-1

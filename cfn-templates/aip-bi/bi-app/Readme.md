@@ -12,14 +12,14 @@
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
---stack-name bi-dev-master \
+--stack-name bi-dev-master2 \
 --template-body file://bi-master.cfn.json \
 --parameters file://bi-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
 ## -- Update Abbott AWS: Dev environment --
 aws cloudformation update-stack \
---stack-name bi-dev-master \
+--stack-name bi-dev-master2 \
 --template-body file://bi-master.cfn.json \
 --parameters file://bi-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM

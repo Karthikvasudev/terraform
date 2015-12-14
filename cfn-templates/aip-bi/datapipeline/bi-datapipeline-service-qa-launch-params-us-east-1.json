@@ -52,18 +52,6 @@
     "ParameterValue": "bi-dp"
   },
   {
-    "ParameterKey": "R53HostedZoneName",
-    "ParameterValue": "aliniqbis.local."
-  },
-  {
-    "ParameterKey": "R53RecordSetNamePrefix",
-    "ParameterValue": "bi-datapipeline-service"
-  },
-  {
-    "ParameterKey": "R53RecordSetNameSuffix",
-    "ParameterValue": "us-1.aliniqbis.local"
-  },
-  {
     "ParameterKey": "PublicSubnets",
     "ParameterValue": "subnet-03665928,subnet-0f43e332"
   },
@@ -74,33 +62,5 @@
   {
     "ParameterKey": "InstanceSecurityGroups",
     "ParameterValue": "sg-00ce7d66"
-  },
-  {
-    "ParameterKey": "DatabaseSubnet1",
-    "ParameterValue": "subnet-0d665926"
-  },  
-  {
-    "ParameterKey": "DatabaseSubnet2",
-    "ParameterValue": "subnet-0943e334"
-  },  
-  {
-    "ParameterKey": "DatabaseUser",
-    "ParameterValue": "sa"
-  },  
-  {
-    "ParameterKey": "DatabasePassword",
-    "ParameterValue": "Pr0jectOT!me"
-  },  
-  {
-    "ParameterKey": "DatabaseName",
-    "ParameterValue": "postgres"
-  }, 
-  {
-    "ParameterKey": "DBInstanceClass",
-    "ParameterValue": "db.r3.xlarge"
-  },   
-  {
-    "ParameterKey": "DBAllocatedStorage",
-    "ParameterValue": "100"
   }
 ]

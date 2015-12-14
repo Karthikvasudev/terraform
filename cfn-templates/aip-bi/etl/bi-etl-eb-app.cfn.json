@@ -83,28 +83,7 @@
         "PrivateSubnets": {
             "Description": "A comma-delimited list of private VPC subnets. Auto Scaling and RDS will be launched into this subnet.",
             "Type": "String"
-        },
-        "R53HostedZoneName": {
-            "Description": "Name of the R53 HostedZone[aip.local.]",
-			"Default": "aliniqbis.local.",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        },
-		"R53RecordSetNamePrefix": {
-			"Description": "Name of the R53 Record Set[proxy,bi,etl]",
-			"Default": "etl",
-			"Type": "String",
-			"MinLength": "1",
-			"MaxLength": "255"
-		},
-		"R53RecordSetNameSuffix": {
-			"Description": "Name of the R53 Record Set[us-1.aliniqbis.local]",
-			"Default": "us-1.aliniqbis.local",
-			"Type": "String",
-			"MinLength": "1",
-			"MaxLength": "255"
-		}		
+        }		
     },
 
     "Resources": {
@@ -135,7 +114,7 @@
             "DependsOn" : "BeanstalkEC2InstancProfile",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
-                "SolutionStackName": "64bit Amazon Linux 2015.03 v2.0.2 running Multi-container Docker 1.7.1 (Generic)",
+                "SolutionStackName": "64bit Amazon Linux 2015.09 v2.0.4 running Multi-container Docker 1.7.1 (Generic)",
                 "VersionLabel": {
                     "Ref": "AppVersion"
                 },
@@ -265,7 +244,7 @@
 												{
 													"Ref" : "Environment"
 												},
-												"-sqs-dataprocess"
+												"-sqs-etl-dataprocess"
                                             ]
                                         ]
 						
@@ -371,10 +350,6 @@
     },
 
     "Outputs": {
-        "URL": {
-            "Description": "URL of the AWS Elastic Beanstalk Environment",
-            "Value": "TO BE DECIDED"
-        },
         "BeanstalkEC2InstancProfile": {
             "Description": "Beanstalk EC2 Instance Profile",
             "Value": {"Ref" : "BeanstalkEC2InstancProfile"}

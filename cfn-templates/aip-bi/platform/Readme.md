@@ -12,14 +12,14 @@ Note: include --profile sandbox when testing only. Included for safety reasons
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
---stack-name aip-platform-dev-master \
+--stack-name aip-platform-dev-master2 \
 --template-body file://aip-platform-master.cfn.json \
 --parameters file://aip-platform-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback
 
 ## -- Update Abbott AWS: Dev environment --
 aws cloudformation update-stack \
---stack-name aip-platform-dev-master \
+--stack-name aip-platform-dev-master2 \
 --template-body file://aip-platform-master.cfn.json \
 --parameters file://aip-platform-dev-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 
@@ -75,5 +75,21 @@ aws cloudformation update-stack \
 
 
 
+
+
+## -- Create Abbott AWS: DevOps environment --
+aws cloudformation create-stack \
+--stack-name aip-platform-devops-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- update Abbott AWS: Devops environment --
+aws cloudformation update-stack \
+--stack-name aip-platform-devops-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
 
 

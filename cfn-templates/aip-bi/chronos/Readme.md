@@ -69,3 +69,19 @@ aws cloudformation update-stack \
 --parameters file://aip-chronos-prod-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
 
+
+### DevOps
+## -- Create Abbott AWS: devops environment --
+aws cloudformation create-stack \
+--stack-name aip-chronos-devops-master \
+--template-body file://aip-chronos-master.cfn.json \
+--parameters file://aip-chronos-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## -- Update Abbott AWS: devops environment --
+aws cloudformation update-stack \
+--stack-name aip-chronos-devops-master \
+--template-body file://aip-chronos-master.cfn.json \
+--parameters file://aip-chronos-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM
+

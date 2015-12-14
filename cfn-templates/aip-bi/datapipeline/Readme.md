@@ -71,6 +71,22 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM
 
 
+### DevOps
+## -- Create Abbott AWS: DevOps environment --
+aws cloudformation create-stack \
+--stack-name bi-datapipeline-service-devops-master \
+--template-body file://bi-datapipeline-service-master.cfn.json \
+--parameters file://bi-datapipeline-service-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## -- Update Abbott AWS: DevOps environment --
+aws cloudformation update-stack \
+--stack-name bi-datapipeline-service-devops-master \
+--template-body file://bi-datapipeline-service-master.cfn.json \
+--parameters file://bi-datapipeline-service-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM
+
+
 
 
 

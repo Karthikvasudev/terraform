@@ -7,69 +7,7 @@
             "MaxLength": "255",
             "MinLength": "1",
             "Type": "String"
-        },
-		"VpcId": {
-		  "Description": "Administration Vpc Id",
-		  "Type": "String",
-		  "MinLength": "1",
-		  "MaxLength": "255"
-		},
-		"DatabaseUser": {
-		  "NoEcho": "true",
-		  "Description" : "The database admin account username",
-		  "Type": "String",
-		  "MinLength": "1",
-		  "MaxLength": "16",
-		  "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9\\_]*",
-		  "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
-		},
-
-		"DatabasePassword": {
-		  "NoEcho": "true",
-		  "Description" : "The database admin account password",
-		  "Type": "String",
-		  "MinLength": "1",
-		  "MaxLength": "41"
-		},
-
-		"DBAllocatedStorage": {
-		  "Default": "5",
-		  "Description" : "The size of the database (Gb)",
-		  "Type": "Number",
-		  "MinValue": "5",
-		  "MaxValue": "1024",
-		  "ConstraintDescription" : "must be between 5 and 1024Gb."
-		},
-
-		"DBInstanceClass": {
-		  "Description" : "The database instance type",
-		  "Type": "String",
-		  "Default": "db.m1.small",
-		  "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m3.medium", "db.m3.large", "db.m3.xlarge", 
-			  "db.m3.2xlarge", "db.r3.large", "db.r3.xlarge", "db.r3.2xlarge", "db.r3.4xlarge", 
-			  "db.r3.8xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge", "db.m2.8xlarge"],
-		  "ConstraintDescription" : "must select a valid database instance type."
-		},
-
-		"WebSecurityGroup": {
-		  "Description" : "The EC2 security group that contains instances that need access to the database",
-		  "Default": "default",
-		  "Type": "String",
-		  "AllowedPattern" : "[a-zA-Z0-9\\-]+",
-		  "ConstraintDescription" : "must be a valid security group name."
-		},
-		"DatabaseSubnet1": {
-		  "Description": "This AZ will be used to create read replica - 1",
-		  "Type": "String",
-		  "MinLength": "1",
-		  "MaxLength": "255"
-		},
-		"DatabaseSubnet2": {
-		  "Description": "This AZ will be used to create read replica - 2",
-		  "Type": "String",
-		  "MinLength": "1",
-		  "MaxLength": "255"
-		}
+        }
     },
 
     "Resources": {
