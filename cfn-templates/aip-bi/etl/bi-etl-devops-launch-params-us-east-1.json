@@ -1,0 +1,66 @@
+[
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-devops-keys"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "devops"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m3.xlarge"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-2cd74548"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-devops-vpc-us-east-1"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "devops-etl-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "etl"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "golden"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "eb-docker-template.zip"
+  },  
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-62027e08"
+  },
+  {
+    "ParameterKey": "AppEnvironmentSuffix",
+    "ParameterValue": "etl"
+  },
+  {
+    "ParameterKey": "PublicSubnets",
+    "ParameterValue": "subnet-4753406c,subnet-50a01a6d"
+  },
+  {
+    "ParameterKey": "PrivateSubnets",
+    "ParameterValue": "subnet-4153406a,subnet-52a01a6f"
+  },   
+  {
+    "ParameterKey": "InstanceSecurityGroups",
+    "ParameterValue": "sg-d0b8b8b6"
+  }
+]
