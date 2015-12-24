@@ -51,7 +51,7 @@ aws cloudformation create-stack \
 ## -- Update Abbott AWS: QA environment --
 aws cloudformation update-stack \
 --stack-name bi-datapipeline-service-qa-master \
---template-body file://bi-datapipeline--master.cfn.json \
+--template-body file://bi-datapipeline-service-master.cfn.json \
 --parameters file://bi-datapipeline-service-qa-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
 

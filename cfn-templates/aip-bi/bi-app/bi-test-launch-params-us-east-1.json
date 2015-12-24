@@ -81,7 +81,7 @@
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
-    "ParameterValue": "test.aliniqbis.local"
+    "ParameterValue": "us-1.aliniqbis.local"
   }
 
 ]

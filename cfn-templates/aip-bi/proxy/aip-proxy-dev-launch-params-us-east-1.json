@@ -61,7 +61,7 @@
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
-    "ParameterValue": "dev.aliniqbis.com"
+    "ParameterValue": "us-1.aliniqbis.com"
   },
   {
     "ParameterKey": "PublicSubnets",

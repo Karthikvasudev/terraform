@@ -109,3 +109,22 @@ Hsaetrp$&#*!
 $ aws elasticbeanstalk list-available-solution-stacks | grep Docker
 
 devops-aip-chr-us-east-1
+
+AIP:
+internal-awseb-e-s-AWSEBLoa-1KAUP5M6FWM9W-1768590128.us-east-1.elb.amazonaws.com
+internal-awseb-e-s-AWSEBLoa-1KAUP5M6FWM9W-1768590128.us-east-1.elb.amazonaws.com
+
+BI:
+internal-awseb-e-9-AWSEBLoa-34U2LK7TVYMT-904844333.us-east-1.elb.amazonaws.com
+internal-awseb-e-9-AWSEBLoa-34U2LK7TVYMT-904844333.us-east-1.elb.amazonaws.com
+
+bi-datapipeline SQSQ removed per Adam Levar email 12/17/15
+	                        "Condition": {
+                                "ArnEquals": {
+		                            "aws:SourceArn": [
+		                            {"Fn::Join": ["", ["arn:aws:sqs:*:*:", "aip-", {"Ref": "Environment"}, "-sns-day-changed"]]},
+                                    {"Fn::Join": ["", ["arn:aws:sqs:*:*:", "bi-",  {"Ref": "Environment"}, "-sns-data-loaded"]]},
+                                    {"Fn::Join": ["", ["arn:aws:sqs:*:*:", "bi-",  {"Ref": "Environment"}, "-sns-data-process"]]}
+                                    ]
+                              }
+                            }

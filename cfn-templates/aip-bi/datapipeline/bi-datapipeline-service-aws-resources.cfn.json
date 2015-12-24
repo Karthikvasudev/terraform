@@ -17,7 +17,7 @@
 					"Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-sqs-datapipeline-service" ]]				
 				},
                 "ReceiveMessageWaitTimeSeconds": 0,
-                "VisibilityTimeout": 300,
+                "VisibilityTimeout": 7200,
 				"MaximumMessageSize": 262144,
 				"MessageRetentionPeriod": 1209600,
 				"DelaySeconds": 0,
@@ -40,16 +40,7 @@
                             "Effect": "Allow",
                             "Principal": { "AWS": "*" },
                             "Action": [ "SQS:SendMessage" ],
-                            "Resource": { "Fn::GetAtt": [ "biDataPipelineQ", "Arn" ] },
-	                        "Condition": {
-                                "ArnEquals": {
-		                            "aws:SourceArn": [
-		                            {"Fn::Join": ["", ["arn:aws:sqs:*:*:", "aip-", {"Ref": "Environment"}, "-sns-day-changed"]]},
-                                    {"Fn::Join": ["", ["arn:aws:sqs:*:*:", "bi-",  {"Ref": "Environment"}, "-sns-data-loaded"]]},
-                                    {"Fn::Join": ["", ["arn:aws:sqs:*:*:", "bi-",  {"Ref": "Environment"}, "-sns-data-process"]]}
-                                    ]
-                              }
-                            }
+                            "Resource": { "Fn::GetAtt": [ "biDataPipelineQ", "Arn" ] }
                         }
                     ]
                 },

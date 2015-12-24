@@ -269,12 +269,12 @@
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "InactivityTimeout",
-						"Value": "300"
+						"Value": "1800"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "VisibilityTimeout",
-						"Value": "300"
+						"Value": "7200"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",

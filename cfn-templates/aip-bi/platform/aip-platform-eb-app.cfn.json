@@ -84,7 +84,7 @@
             "Type": "String"
         },
         "R53HostedZoneName": {
-            "Description": "Name of the R53 HostedZone[aip.local.]",
+            "Description": "Name of the R53 HostedZone",
 			"Default": "aliniqbis.local.",
             "Type": "String",
             "MinLength": "1",
@@ -99,7 +99,7 @@
 		},
 		"R53RecordSetNameSuffix": {
 			"Description": "Name of the R53 Record Set[us-1.aliniqbis.local]",
-			"Default": "us-1.aliniqbis.local",
+			"Default": "aliniqbis.local",
 			"Type": "String",
 			"MinLength": "1",
 			"MaxLength": "255"
@@ -253,9 +253,15 @@
                         "Value": "enhanced"
                     },
                     {
+                        "OptionName": "Timeout", 
+                        "ResourceName": "AWSEBLoadBalancer", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "30"
+                    },   
+                    {
                         "Namespace": "aws:elb:healthcheck",
                         "OptionName": "Interval",
-                        "Value": "10"
+                        "Value": "60"
                     },
                     {
                         "Namespace": "aws:elb:loadbalancer",
