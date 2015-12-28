@@ -75,6 +75,23 @@ aws cloudformation update-stack \
 
 
 
+## -- Create Abbott AWS: Beta environment --
+aws cloudformation create-stack \
+--stack-name aip-platform-beta-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-beta-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- update Abbott AWS: Beta environment --
+aws cloudformation update-stack \
+--stack-name aip-platform-beta-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-beta-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
+
+
+
 
 
 ## -- Create Abbott AWS: DevOps environment --

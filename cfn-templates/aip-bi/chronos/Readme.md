@@ -54,6 +54,7 @@ aws cloudformation update-stack \
 --parameters file://aip-chronos-qa-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
 
+
 ### Prod
 ## -- Create Abbott AWS: Prod environment --
 aws cloudformation create-stack \
@@ -67,6 +68,22 @@ aws cloudformation update-stack \
 --stack-name aip-chronos-prod-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-prod-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM
+
+
+### Beta
+## -- Create Abbott AWS: Beta environment --
+aws cloudformation create-stack \
+--stack-name aip-chronos-beta-master \
+--template-body file://aip-chronos-master.cfn.json \
+--parameters file://aip-chronos-beta-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## -- Update Abbott AWS: Beta environment --
+aws cloudformation update-stack \
+--stack-name aip-chronos-beta-master \
+--template-body file://aip-chronos-master.cfn.json \
+--parameters file://aip-chronos-beta-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
 
 

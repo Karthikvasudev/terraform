@@ -80,6 +80,22 @@ aws cloudformation update-stack \
 
 
 
+## -- Create Abbott AWS: Beta environment --
+aws cloudformation create-stack \
+--stack-name bi-etl-beta-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-beta-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback
+
+
+## -- Update Abbott AWS: Beta environment --
+aws cloudformation update-stack \
+--stack-name bi-etl-beta-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-beta-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
+
+
+
+
 ## -- Create Abbott AWS: DevOps environment --
 aws cloudformation create-stack \
 --stack-name bi-etl-devops-master --template-body file://bi-etl-master.cfn.json \

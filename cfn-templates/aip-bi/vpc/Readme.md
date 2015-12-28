@@ -116,6 +116,16 @@ aws cloudformation create-stack \
 
 
 ##
+## -- Beta --
+### BI VPC Environments -- Use update-stack once create-stack succeeds
+aws cloudformation create-stack \
+--stack-name aip-beta-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-beta-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+
+##
 ## -- DevOps --
 ### BI VPC Environments -- Use update-stack once create-stack succeeds
 aws cloudformation create-stack \
