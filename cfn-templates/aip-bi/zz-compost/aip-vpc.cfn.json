@@ -568,14 +568,6 @@
             }
           },
           {
-            "IpProtocol": "udp",
-            "FromPort": "123",
-            "ToPort": "123",
-            "SourceSecurityGroupId": {
-              "Ref": "SgNat"
-            }
-          },
-          {
             "IpProtocol": "icmp",
             "FromPort": "-1",
             "ToPort": "-1",
@@ -605,14 +597,6 @@
           },
           {
             "IpProtocol": "-1",
-            "DestinationSecurityGroupId": {
-              "Ref": "SgNat"
-            }
-          },
-          {
-            "IpProtocol": "udp",
-            "FromPort": "123",
-            "ToPort": "123",
             "DestinationSecurityGroupId": {
               "Ref": "SgNat"
             }
@@ -687,12 +671,6 @@
             "FromPort": "22",
             "ToPort": "22",
             "CidrIp": "0.0.0.0/0"
-          },
-          {
-            "IpProtocol": "udp",
-            "FromPort": "123",
-            "ToPort": "123",
-            "CidrIp": "0.0.0.0/0"
           }
         ],
         "Tags": [
@@ -727,26 +705,6 @@
         "IpProtocol": "tcp",
         "FromPort": "443",
         "ToPort": "443",
-        "SourceSecurityGroupId": {
-          "Fn::GetAtt": [
-            "SgPrivate",
-            "GroupId"
-          ]
-        },
-        "GroupId": {
-          "Fn::GetAtt": [
-            "SgNat",
-            "GroupId"
-          ]
-        }
-      }
-    },
-    "SgNatInboundRule3": {
-      "Type": "AWS::EC2::SecurityGroupIngress",
-      "Properties": {
-        "IpProtocol": "udp",
-        "FromPort": "123",
-        "ToPort": "123",
         "SourceSecurityGroupId": {
           "Fn::GetAtt": [
             "SgPrivate",

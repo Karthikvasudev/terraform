@@ -1,19 +1,19 @@
 [
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-184d207c"
+    "ParameterValue": "vpc-5e6f043a"
   },
   {
     "ParameterKey": "WebSecurityGroup",
-    "ParameterValue": "sg-1fb76e66"
+    "ParameterValue": "sg-4452ee3d"
   },  
   {
     "ParameterKey": "DatabaseSubnet1",
-    "ParameterValue": "subnet-a5c7278f"
+    "ParameterValue": "subnet-7529c65f"
   },  
   {
     "ParameterKey": "DatabaseSubnet2",
-    "ParameterValue": "subnet-81018dbc"
+    "ParameterValue": "subnet-f9db53c4"
   },        
   {
     "ParameterKey": "Environment",

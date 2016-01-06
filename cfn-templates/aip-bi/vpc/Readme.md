@@ -105,6 +105,15 @@ aws cloudformation create-stack \
 --parameters file://aip-vpc-qa-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
+## Update Stack
+aws cloudformation update-stack \
+--stack-name aip-qa-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-qa-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
+
+
+
 ##
 ## -- Prod --
 ### BI VPC Environments -- Use update-stack once create-stack succeeds
@@ -113,6 +122,13 @@ aws cloudformation create-stack \
 --template-body file://aip-vpc.cfn.json \
 --parameters file://aip-vpc-prod-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
+
+## Update Stack
+aws cloudformation update-stack \
+--stack-name aip-prod-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-prod-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
 
 
 ##
@@ -124,15 +140,29 @@ aws cloudformation create-stack \
 --parameters file://aip-vpc-beta-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
 
+## Update Stack
+aws cloudformation update-stack \
+--stack-name aip-beta-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-beta-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM 
 
 ##
 ## -- DevOps --
-### BI VPC Environments -- Use update-stack once create-stack succeeds
+### BI VPC Environments --Create-stack 
 aws cloudformation create-stack \
 --stack-name aip-devops-vpc \
 --template-body file://aip-vpc.cfn.json \
 --parameters file://aip-vpc-devops-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback 
+
+### BI VPC Environments -- Update-stack
+aws cloudformation update-stack \
+--stack-name aip-devops-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM  
+
 
 
 

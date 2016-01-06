@@ -21,7 +21,7 @@
   },
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-184d207c"
+    "ParameterValue": "vpc-5e6f043a"
   },
   {
     "ParameterKey": "VpcName",
@@ -53,14 +53,14 @@
   },
   {
     "ParameterKey": "PublicSubnets",
-    "ParameterValue": "subnet-b8c72792,subnet-80018dbd"
+    "ParameterValue": "subnet-4c29c666,subnet-fbdb53c6"
   },
   {
     "ParameterKey": "PrivateSubnets",
-    "ParameterValue": "subnet-bbc72791,subnet-83018dbe"
+    "ParameterValue": "subnet-4b29c661,subnet-ffdb53c2"
   },   
   {
     "ParameterKey": "InstanceSecurityGroups",
-    "ParameterValue": "sg-1fb76e66"
+    "ParameterValue": "sg-4452ee3d"
   }
 ]
