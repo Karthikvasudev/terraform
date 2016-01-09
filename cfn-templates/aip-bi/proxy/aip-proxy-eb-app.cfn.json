@@ -161,7 +161,7 @@
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
                         "OptionName": "IamInstanceProfile",
-                        "Value": "aws-elasticbeanstalk-ec2-role"
+                        "Value": { "Ref": "BeanstalkEC2InstancProfile"}
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",
@@ -326,6 +326,62 @@
                     }
                 }]
             }
+        },
+
+        "BeanstalkEC2Role": {
+             "Type": "AWS::IAM::Role",
+             "Properties": {
+                "AssumeRolePolicyDocument": {
+                   "Version" : "2012-10-17",
+                   "Statement": [ {
+                      "Effect": "Allow",
+                      "Principal": {
+                         "Service": [ "ec2.amazonaws.com" ]
+                      },
+                      "Action": [ "sts:AssumeRole" ]
+                   } ]
+                },
+                "Policies" : [{
+                   "PolicyName": "EB_MultiContainer_App_ECS",
+                   "PolicyDocument": {
+                     "Version": "2012-10-17",
+                     "Statement" : [ {
+                        "Effect" : "Allow",
+                        "Action" : [ 
+                                "ecs:StartTask",
+                                "ecs:StopTask",
+                                "ecs:RegisterContainerInstance",
+                                "ecs:DeregisterContainerInstance",
+                                "ecs:DescribeContainerInstances",
+                                "ecs:DiscoverPollEndpoint",
+                                "ecs:Submit*",
+                                "ecs:CreateCluster",
+                                "ecs:Poll"
+                                ],
+                    "Resource" : "*"
+                 },
+                 {
+                    "Effect" : "Allow",
+                    "Action" : [ "s3:PutObject" ],
+                    "Resource" : "arn:aws:s3:::elasticbeanstalk-*/resources/environments/logs/*"
+                 }]
+               }
+              }],
+                "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonS3FullAccess",
+                                    "arn:aws:iam::aws:policy/AmazonSQSFullAccess", 
+                                    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess",
+                                    "arn:aws:iam::aws:policy/AmazonSNSFullAccess",
+                                    "arn:aws:iam::aws:policy/CloudWatchFullAccess",
+                                    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"],
+                "Path": "/"
+             }        
+        },
+        "BeanstalkEC2InstancProfile" : {
+           "Type": "AWS::IAM::InstanceProfile",
+           "Properties": {
+              "Path": "/",
+              "Roles": [ { "Ref": "BeanstalkEC2Role" } ]
+           }
         }			
     },
 
