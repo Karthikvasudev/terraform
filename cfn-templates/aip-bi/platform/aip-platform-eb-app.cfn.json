@@ -268,11 +268,36 @@
                         "OptionName": "CrossZone",
                         "Value": "true"
                     },
-                    {
-                        "Namespace": "aws:elb:loadbalancer",
-                        "OptionName": "LoadBalancerHTTPPort",
-                        "Value": "80"
+			        {
+                        "OptionName": "LoadBalancerSSLPortProtocol", 
+                        "Namespace": "aws:elb:loadbalancer", 
+                        "Value": "HTTPS"
                     },
+                    {
+                        "OptionName": "Target", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "TCP:443"
+                    }, 
+                    {
+                        "OptionName": "InstancePort", 
+                        "Namespace": "aws:elb:listener:443", 
+                        "Value": "443"
+                    },
+                    {
+                        "OptionName": "InstanceProtocol", 
+                        "Namespace": "aws:elb:listener:443", 
+                        "Value": "TCP"
+                    }, 
+                    {
+                        "OptionName": "ListenerEnabled", 
+                        "Namespace": "aws:elb:listener:443", 
+                        "Value": "true"
+                    }, 
+					{
+                        "OptionName": "ListenerProtocol", 
+                        "Namespace": "aws:elb:listener:443", 
+                        "Value": "TCP"
+                    }, 
                     {
                         "Namespace": "aws:elb:policies",
                         "OptionName": "ConnectionDrainingEnabled",
