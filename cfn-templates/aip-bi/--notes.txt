@@ -128,3 +128,40 @@ bi-datapipeline SQSQ removed per Adam Levar email 12/17/15
                                     ]
                               }
                             }
+----
+aws elasticbeanstalk describe-configuration-settings --environment-name dev-etl-us-east-1 --application-name etl-us-east-1
+
+------------------
+"64bit Amazon Linux 2015.09 v2.0.6 running Multi-container Docker 1.7.1 (Generic)"
+
+Matches Docker AMI:
+
+AMI ID
+ami-27affd4d
+
+AMI Name
+aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201512302102
+
+Owner
+102837901569
+
+Source
+amazon/aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201512302102
+
+Creation date
+December 30, 2015 at 1:05:34 PM UTC-8
+
+Platform
+Amazon Linux
+
+Architecture
+x86_64
+
+Image Type
+machine
+
+Virtualization type
+paravirtual
+
+
+

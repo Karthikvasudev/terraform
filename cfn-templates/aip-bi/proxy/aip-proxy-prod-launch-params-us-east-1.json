@@ -56,8 +56,8 @@
     "ParameterValue": "aliniqbis.com."
   },
   {
-    "ParameterKey": "R53RecordSetNamePrefix",
-    "ParameterValue": "proxy"
+    "ParameterKey": "R53HostedZoneID",
+    "ParameterValue": "Z35SXDOTRQ7X7K"
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",

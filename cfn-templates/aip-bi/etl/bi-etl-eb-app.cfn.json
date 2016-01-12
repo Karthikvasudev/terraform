@@ -258,22 +258,22 @@
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "HttpConnections",
-						"Value": "75"
+						"Value": "4"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "ConnectTimeout",
-						"Value": "10"
+						"Value": "20"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "InactivityTimeout",
-						"Value": "10"
+						"Value": "20"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "VisibilityTimeout",
-						"Value": "300"
+						"Value": "600"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
@@ -289,7 +289,12 @@
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "HttpPath",
 						"Value": "/etl/sqs"
-					}	
+					},
+                    {
+                        "Namespace": "aws:elasticbeanstalk:sqsd",
+                        "OptionName": "ErrorVisibilityTimeout",
+                        "Value": "10"
+                    }
                 ]
             }
         },
