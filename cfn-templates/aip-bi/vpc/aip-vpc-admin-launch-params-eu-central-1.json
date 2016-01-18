@@ -1,15 +1,15 @@
 [
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-adm-keys-eu1"
+    "ParameterValue": "aip-adm-keys-eu-cent-1"
   },
   {
     "ParameterKey": "VpcName",
-    "ParameterValue": "aip-adm-vpc-eu-central-1"
+    "ParameterValue": "aip-adm-vpc-eu-cent-1"
   },
   {
     "ParameterKey": "VpcAvailabilityZone1",
-    "ParameterValue": "us-central-1a"
+    "ParameterValue": "us-cent-1a"
   },
   {
     "ParameterKey": "VpcNetworkCIDR",
@@ -17,7 +17,7 @@
   },
   {
     "ParameterKey": "VpcSubnet1Name",
-    "ParameterValue": "aip-adm-sn-public-eu-central-1a"
+    "ParameterValue": "aip-adm-sn-public-eu-cent-1a"
   },
   {
     "ParameterKey": "VpcSubnet1CIDR",
@@ -25,7 +25,7 @@
   },
   {
     "ParameterKey": "VpcSubnet2Name",
-    "ParameterValue": "aip-adm-sn-private-eu-central-1a"
+    "ParameterValue": "aip-adm-sn-private-eu-cent-1a"
   },
   {
     "ParameterKey": "VpcSubnet2CIDR",
@@ -33,7 +33,7 @@
   },
   {
     "ParameterKey": "VpcSubnet3Name",
-    "ParameterValue": "aip-adm-sn-private-workspaces-eu-central-1a"
+    "ParameterValue": "aip-adm-sn-private-workspaces-eu-cent-1a"
   },
   {
     "ParameterKey": "VpcSubnet3CIDR",
@@ -41,7 +41,7 @@
   },
   {
     "ParameterKey": "VpcSubnet4Name",
-    "ParameterValue": "aip-adm-sn-private-workspaces-eu-central-1b"
+    "ParameterValue": "aip-adm-sn-private-workspaces-eu-cent-1b"
   },
   {
     "ParameterKey": "VpcSubnet4CIDR",

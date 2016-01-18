@@ -2,9 +2,9 @@
 
 run AWS CloudFormation Stack commands for BI Environments
 Copy/Paste into bash shell window
-Note: include --profile sandbox when testing only. Included for safety reasons
-Note: The Dev VPC must be created before the 'test, qa, or prod' environments. It establishes the BI Application, while the others attach 'Environments' to the BI Application.
+Note: include --profile sandbox when testing only.
 
+# ------ US-East-1 Region ------
 
 ### Administration VPC -- 
 aws cloudformation create-stack \
@@ -165,12 +165,6 @@ aws cloudformation update-stack \
 
 
 
-
-
-
-
-
-
 #### --------------------------
 
 
@@ -200,11 +194,118 @@ aws cloudformation create-stack \
 
 
 
-
 Testing / Debugging
 ## -- Create Abbott AWS: Prod environment --
 aws cloudformation create-stack \
 --stack-name aip-roles-master \
 --template-body file://aip-eb-roles.cfn.json \
 --capabilities CAPABILITY_IAM --disable-rollback
+
+
+###################################
+# ------ EU-Central-1 Region ------
+###################################
+
+
+aws cloudformation create-stack \
+--stack-name aip-admin-vpc \
+--template-body file://aip-vpc-admin.cfn.json \
+--parameters file://aip-vpc-admin-launch-params-eu-central-1.json \
+--capabilities CAPABILITY_IAM --profile sandbox
+
+aws cloudformation update-stack \
+--stack-name aip-admin-vpc \
+--template-body file://aip-vpc-admin.cfn.json \
+--parameters file://aip-vpc-admin-launch-params-eu-central-1.json \
+--capabilities CAPABILITY_IAM --profile sandbox
+
+
+##
+## -- QA --
+### BI VPC Environments -- Use update-stack once create-stack succeeds
+aws cloudformation create-stack \
+--stack-name aip-qa-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-qa-launch-params-eu-central-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## Update Stack
+aws cloudformation update-stack \
+--stack-name aip-qa-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-qa-launch-params-eu-central-1.json \
+--capabilities CAPABILITY_IAM 
+
+
+
+##
+## -- Prod --
+### BI VPC Environments -- Use update-stack once create-stack succeeds
+aws cloudformation create-stack \
+--stack-name aip-prod-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-prod-launch-params-eu-central-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## Update Stack
+aws cloudformation update-stack \
+--stack-name aip-prod-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-prod-launch-params-eu-central-1.json \
+--capabilities CAPABILITY_IAM 
+
+
+
+
+###################################
+# ------ EU-west-1 Region ------
+###################################
+
+aws cloudformation create-stack \
+--stack-name aip-admin-vpc \
+--template-body file://aip-vpc-admin.cfn.json \
+--parameters file://aip-vpc-admin-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM --profile sandbox
+
+aws cloudformation update-stack \
+--stack-name aip-admin-vpc \
+--template-body file://aip-vpc-admin.cfn.json \
+--parameters file://aip-vpc-admin-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM --profile sandbox
+
+
+##
+## -- QA --
+### BI VPC Environments -- Use update-stack once create-stack succeeds
+aws cloudformation create-stack \
+--stack-name aip-qa-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-qa-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## Update Stack
+aws cloudformation update-stack \
+--stack-name aip-qa-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-qa-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM 
+
+
+
+##
+## -- Prod --
+### BI VPC Environments -- Use update-stack once create-stack succeeds
+aws cloudformation create-stack \
+--stack-name aip-prod-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-prod-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback 
+
+## Update Stack
+aws cloudformation update-stack \
+--stack-name aip-prod-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-prod-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM 
+
 
