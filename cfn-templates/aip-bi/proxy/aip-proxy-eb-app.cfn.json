@@ -307,6 +307,16 @@
                         "Namespace": "aws:elb:policies",
                         "OptionName": "ConnectionDrainingEnabled",
                         "Value": "true"
+                    },
+                    {
+                        "Namespace": "aws:elb:policies:EnableProxyProtocol",
+                        "OptionName": "InstancePorts",
+                        "Value": "80,443"
+                    },
+                    {
+                        "Namespace": "aws:elb:policies:EnableProxyProtocol",
+                        "OptionName": "ProxyProtocol",
+                        "Value": "true"
                     }
                 ]
             }
