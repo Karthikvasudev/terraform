@@ -102,3 +102,28 @@ aws cloudformation update-stack \
 --parameters file://aip-chronos-devops-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM
 
+
+
+
+
+########################################
+# ------ Ireland EU-west-1 Region ------
+########################################
+
+
+### Prod
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name aip-chronos-prod-master \
+--template-body file://aip-chronos-master.cfn.json \
+--parameters file://aip-chronos-prod-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region eu-west-1
+
+## -- Update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name aip-chronos-prod-master \
+--template-body file://aip-chronos-master.cfn.json \
+--parameters file://aip-chronos-prod-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM \
+--region eu-west-1

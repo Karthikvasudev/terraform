@@ -3,6 +3,13 @@
   "Description": "Provision a the Administration VPC, VPN, VPC Peering - This template provisions a the Administration VPC (single AZ), with a NAT instance in public subnet and all other instances in the private subnet. Internet connectivity is only allowed outbound via the NAT instance. Private subnet instances communicate to the internat via the NAT. There is No Bastion instance. Access to instances via SSH is via Abbott network over the VPN. VPN configuration only allows Abbott --> AWS VPC, not inbound Abbott (security constraint). Output the VPC, Subnets, and SG IDs.",
 
   "Parameters": {
+
+    "Environment": {
+      "Description": "name of the VPC Environment (dev, test, qa, prod)",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
     "KeyName": {
       "Description": "Name of an existing EC2 KeyPair to enable SSH access all hosts",
       "Type": "String",
@@ -18,6 +25,12 @@
       "MaxLength": "255"
     },
     "VpcAvailabilityZone1": {
+      "Description": "One of two Availability Zones that will be used to create subnets.",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcAvailabilityZone2": {
       "Description": "One of two Availability Zones that will be used to create subnets.",
       "Type": "String",
       "MinLength": "1",
@@ -53,145 +66,46 @@
       "MinLength": "1",
       "MaxLength": "255"
     },
+    "VpcSubnet3Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet3CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet4Name": {
+      "Description": "Subnet name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcSubnet4CIDR": {
+      "Description": "Subnet CidrBlock",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
    "NatInstanceType": {
       "Description": "NAT Device EC2 instance type",
       "Type": "String",
       "Default": "m3.medium",
       "AllowedValues": ["t1.micro", "m1.small", "m1.medium", "m1.large", "m1.xlarge", "m2.xlarge", "m2.2xlarge", "m2.4xlarge", "m3.medium", "m3.xlarge", "m3.2xlarge", "c1.medium", "c1.xlarge", "cc1.4xlarge", "cc2.8xlarge", "cg1.4xlarge"],
       "ConstraintDescription": "must be a valid EC2 instance type."
+    },
+    "NatImageId": {
+      "Description": "NAT AMI Id",
+      "Type": "String",
+      "Default": "ami-c02b04a8",
+      "ConstraintDescription": "must be a valid EC2 AMI Id"
     }
   },
 
-  "Mappings": {
-    "AWSNATAMI": {
-      "us-east-1": {
-        "AMI": "ami-c02b04a8"
-      },
-      "us-west-2": {
-        "AMI": "ami-52ff7262"
-      },
-      "us-west-1": {
-        "AMI": "ami-3bcc9e7e"
-      },
-      "eu-west-1": {
-        "AMI": "ami-0b5b6c7f"
-      },
-      "ap-southeast-1": {
-        "AMI": "ami-02eb9350"
-      },
-      "ap-southeast-2": {
-        "AMI": "ami-ab990e91"
-      },
-      "ap-northeast-1": {
-        "AMI": "ami-14d86d15"
-      },
-      "sa-east-1": {
-        "AMI": "ami-0439e619"
-      }
-    },
-
-    "AWSInstanceType2Arch": {
-      "t1.micro": {
-        "Arch": "64"
-      },
-      "m1.small": {
-        "Arch": "64"
-      },
-      "m1.medium": {
-        "Arch": "64"
-      },
-      "m1.large": {
-        "Arch": "64"
-      },
-      "m1.xlarge": {
-        "Arch": "64"
-      },
-      "m2.xlarge": {
-        "Arch": "64"
-      },
-      "m2.2xlarge": {
-        "Arch": "64"
-      },
-      "m2.4xlarge": {
-        "Arch": "64"
-      },
-      "m3.medium": {
-        "Arch": "64"
-      },
-      "m3.xlarge": {
-        "Arch": "64"
-      },
-      "m3.2xlarge": {
-        "Arch": "64"
-      },
-      "c1.medium": {
-        "Arch": "64"
-      },
-      "c1.xlarge": {
-        "Arch": "64"
-      },
-      "cc1.4xlarge": {
-        "Arch": "64Cluster"
-      },
-      "cc2.8xlarge": {
-        "Arch": "64Cluster"
-      },
-      "cg1.4xlarge": {
-        "Arch": "64GPU"
-      }
-    },
-
-    "AWSRegionArch2AMI": {
-      "us-east-1": {
-        "32": "ami-a0cd60c9",
-        "64": "ami-aecd60c7",
-        "64Cluster": "ami-a8cd60c1",
-        "64GPU": "ami-eccf6285"
-      },
-      "us-west-2": {
-        "32": "ami-46da5576",
-        "64": "ami-48da5578",
-        "64Cluster": "NOT_YET_SUPPORTED",
-        "64GPU": "NOT_YET_SUPPORTED"
-      },
-      "us-west-1": {
-        "32": "ami-7d4c6938",
-        "64": "ami-734c6936",
-        "64Cluster": "NOT_YET_SUPPORTED",
-        "64GPU": "NOT_YET_SUPPORTED"
-      },
-      "eu-west-1": {
-        "32": "ami-61555115",
-        "64": "ami-6d555119",
-        "64Cluster": "ami-67555113",
-        "64GPU": "NOT_YET_SUPPORTED"
-      },
-      "ap-southeast-1": {
-        "32": "ami-220b4a70",
-        "64": "ami-3c0b4a6e",
-        "64Cluster": "NOT_YET_SUPPORTED",
-        "64GPU": "NOT_YET_SUPPORTED"
-      },
-      "ap-southeast-2": {
-        "32": "ami-b3990e89",
-        "64": "ami-bd990e87",
-        "64Cluster": "NOT_YET_SUPPORTED",
-        "64GPU": "NOT_YET_SUPPORTED"
-      },
-      "ap-northeast-1": {
-        "32": "ami-2a19aa2b",
-        "64": "ami-2819aa29",
-        "64Cluster": "NOT_YET_SUPPORTED",
-        "64GPU": "NOT_YET_SUPPORTED"
-      },
-      "sa-east-1": {
-        "32": "ami-f836e8e5",
-        "64": "ami-fe36e8e3",
-        "64Cluster": "NOT_YET_SUPPORTED",
-        "64GPU": "NOT_YET_SUPPORTED"
-      }
-    }
-  },
+  
 
   "Resources": {
 
@@ -203,12 +117,10 @@
         },
         "EnableDnsSupport" : "true",
         "EnableDnsHostnames" : "true",
-        "Tags": [{
-          "Key": "Name",
-          "Value": {
-            "Ref": "VpcName"
-          }
-        }]
+        "Tags": [
+          {"Key": "Name", "Value": { "Ref": "VpcName" }},
+          {"Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
       }
     },
 
@@ -224,12 +136,10 @@
         "AvailabilityZone": {
           "Ref": "VpcAvailabilityZone1"
         },
-        "Tags": [{
-          "Key": "Name",
-          "Value": {
-            "Ref": "VpcSubnet1Name"
-           }
-        }]
+        "Tags": [
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet1Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
       }
     },
 
@@ -245,23 +155,59 @@
         "AvailabilityZone": {
           "Ref": "VpcAvailabilityZone1"
         },
-        "Tags": [{
-          "Key": "Name",
-          "Value": {
-            "Ref": "VpcSubnet2Name"
-           }
-        }]
+        "Tags": [
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet2Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
       }
     },
+    "VpcSubnet3": {
+      "Type": "AWS::EC2::Subnet",
+      "Metadata" : { "Comment" : "Private Subnet"},
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet3CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone1"
+        },
+        "Tags": [
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet3Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
+      }
+    },
+    "VpcSubnet4": {
+      "Type": "AWS::EC2::Subnet",
+      "Metadata" : { "Comment" : "Private Subnet"},
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "CidrBlock": {
+          "Ref": "VpcSubnet4CIDR"
+        },
+        "AvailabilityZone": {
+          "Ref": "VpcAvailabilityZone2"
+        },
+        "Tags": [
+          { "Key": "Name", "Value": { "Ref": "VpcSubnet4Name" }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
+      }
+    },
+
 
     "InternetGateway": {
       "Type": "AWS::EC2::InternetGateway",
       "Properties": {
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": "aip-adm-igw"
-          }]
+          {"Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-igw"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
       }
     },
 
@@ -281,8 +227,8 @@
     "NatInstance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "NATImageId": {"Ref": "NATImageId"},
-        "NATInstanceType": {"Ref": "NATInstanceType"},
+        "ImageId": {"Ref": "NatImageId"},
+        "InstanceType": {"Ref": "NatInstanceType"},
         "KeyName": {"Ref": "KeyName"},
         "Monitoring": "false",
         "AvailabilityZone" :  {"Ref": "VpcAvailabilityZone1"},
@@ -290,10 +236,8 @@
         "SourceDestCheck" : "false",
         "SecurityGroupIds": [{ "Ref": "SgNat" }],
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": "aip-adm-nat"
-          }
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-nat"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -322,6 +266,13 @@
           "FromPort": "80",
           "ToPort": "80",
           "SourceSecurityGroupId": {"Ref": "SgNat"}
+          },{
+            "IpProtocol": "udp",
+            "FromPort": "123",
+            "ToPort": "123",
+            "SourceSecurityGroupId": {
+              "Ref": "SgNat"
+            }
           },{  
           "IpProtocol": "icmp",
           "FromPort": "-1",
@@ -366,6 +317,14 @@
           },{
           "IpProtocol": "-1",
           "DestinationSecurityGroupId": {"Ref": "SgNat"}
+          },
+          {
+            "IpProtocol": "udp",
+            "FromPort": "123",
+            "ToPort": "123",
+            "DestinationSecurityGroupId": {
+              "Ref": "SgNat"
+            }
           },{
           "IpProtocol": "-1",
           "CidrIp": "10.0.0.0/8"
@@ -382,10 +341,9 @@
             "CidrIp": "10.0.0.0/8"
           }],
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": "aip-adm-sg-private"
-          }]
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-private"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
       }
     },
 
@@ -436,12 +394,16 @@
             "FromPort": "22",
             "ToPort": "22",
             "CidrIp": "0.0.0.0/0"      
-            }],        
+            },{
+            "IpProtocol": "udp",
+            "FromPort": "123",
+            "ToPort": "123",
+            "CidrIp": "0.0.0.0/0"
+          }],        
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": "aip-adm-sg-nat"
-          }]
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-nat"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
       }
     },
 
@@ -456,8 +418,6 @@
           "GroupId": {"Fn::GetAtt": ["SgNat", "GroupId"] }
       }
     },
-
-
     "SgNatInboundRule2": {
       "Type": "AWS::EC2::SecurityGroupIngress",
       "Properties":{
@@ -469,6 +429,26 @@
           "GroupId": {"Fn::GetAtt": ["SgNat", "GroupId"] }
       }
     },
+    "SgNatInboundRule3": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "udp",
+        "FromPort": "123",
+        "ToPort": "123",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "SgPrivate",
+            "GroupId"
+          ]
+        },
+        "GroupId": {
+          "Fn::GetAtt": [
+            "SgNat",
+            "GroupId"
+          ]
+        }
+      }
+    },
 
 
     "RouteTablePrivateSubnets": {
@@ -478,10 +458,9 @@
           "Ref": "Vpc"
         },
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": "aip-adm-rtb-private-us-east-1"
-          }
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
+                        "-rtb-private-", { "Ref": "AWS::Region" }]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -493,10 +472,9 @@
           "Ref": "Vpc"
         },
         "Tags": [
-          {
-            "Key": "Name",
-            "Value": "aip-adm-rtb-public-us-east-1"
-          }
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
+                        "-rtb-public-", { "Ref": "AWS::Region" }]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
         ]
       }
     },
@@ -512,7 +490,6 @@
         }
       }
     },
-
     "VpcSubnet2RouteAssociation": {
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
       "Properties": {
@@ -524,7 +501,20 @@
         }
       }
     },
-
+    "VpcSubnet3RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": { "Ref": "RouteTablePrivateSubnets" },
+        "SubnetId": { "Ref": "VpcSubnet3" }
+      }
+    },    
+    "VpcSubnet4RouteAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": { "Ref": "RouteTablePrivateSubnets" },
+        "SubnetId": { "Ref": "VpcSubnet4" }
+      }
+    },
 
     "route1": {
       "Type": "AWS::EC2::Route",
@@ -572,11 +562,13 @@
         "VpcId": {
           "Ref": "Vpc"
         },
-        "Tags": [{ "Key": "Name", "Value": "aip-adm-nacl" }]
+        "Tags": [ { "Key": "Name",
+                    "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-nacl-public-", 
+                    { "Ref": "AWS::Region" }]] }}]
       }
     },
 
-    "aclEntry1": {
+    "aclEntryPublic1": {
       "Type": "AWS::EC2::NetworkAclEntry",
       "Properties": {
         "CidrBlock": "0.0.0.0/0",
@@ -588,7 +580,7 @@
       }
     },
 
-    "aclEntry2": {
+    "aclEntryPublic2": {
       "Type": "AWS::EC2::NetworkAclEntry",
       "Properties": {
         "CidrBlock": "0.0.0.0/0",
@@ -608,13 +600,68 @@
        }
     },
 
+
+
+    "PrivateNetworkAcl": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc"
+        },
+        "Tags": [{
+            "Key": "Name",
+            "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, 
+                        "-nacl-private-", { "Ref": "AWS::Region" }]] }}]
+      }
+    },
+
+    "aclEntryPrivate1": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "true",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": { "Ref": "PrivateNetworkAcl" }
+      }
+    },
+
+    "aclEntryPrivate2": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "false",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": { "Ref": "PrivateNetworkAcl" }
+      }
+    },
+
     "PrivateNetworkAclAssoc2": {
       "Type" : "AWS::EC2::SubnetNetworkAclAssociation",
       "Properties" : {
          "SubnetId" : { "Ref": "VpcSubnet2" },
-         "NetworkAclId" : { "Ref": "PublicNetworkAcl" }
+         "NetworkAclId" : { "Ref": "PrivateNetworkAcl" }
+       }
+    },
+    "PrivateNetworkAclAssoc3": {
+      "Type" : "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties" : {
+         "SubnetId" : { "Ref": "VpcSubnet3" },
+         "NetworkAclId" : { "Ref": "PrivateNetworkAcl" }
+       }
+    },
+    "PrivateNetworkAclAssoc4": {
+      "Type" : "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties" : {
+         "SubnetId" : { "Ref": "VpcSubnet4" },
+         "NetworkAclId" : { "Ref": "PrivateNetworkAcl" }
        }
     }
+
+
 
   },
     
@@ -625,12 +672,24 @@
       "Value" : { "Ref" : "Vpc" }
     },
     "VpcSubnet1" : {
-      "Description" : "VPC subnet ID.",
+      "Description" : "RouteTableId",
+      "Value" : { "Ref" : "RouteTablePrivateSubnets" }
+    },
+    "VpcSubnet1" : {
+      "Description" : "VPC subnet - Public",
       "Value" : { "Ref" : "VpcSubnet1" }
     },
     "VpcSubnet2" : {
-      "Description" : "VPC subnet ID",
-      "Value" : {"Ref" : "VpcSubnet2" }
+      "Description" : "VPC subnet - Private",
+      "Value" : { "Ref" : "VpcSubnet2" }
+    },
+    "VpcSubnet3" : {
+      "Description" : "VPC subnet - WorkSpaces 1",
+      "Value" : { "Ref" : "VpcSubnet3" }
+    },
+    "VpcSubnet4" : {
+      "Description" : "VPC subnet - WorkSpaces 2",
+      "Value" : { "Ref" : "VpcSubnet4" }
     }
   }
 }

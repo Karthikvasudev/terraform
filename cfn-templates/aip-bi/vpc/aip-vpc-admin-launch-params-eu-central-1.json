@@ -53,7 +53,7 @@
   },
   {
     "ParameterKey": "NATImageId",
-    "ParameterValue": "ami-46073a5b"
+    "ParameterValue": "ami-"
   }
 ]
 
