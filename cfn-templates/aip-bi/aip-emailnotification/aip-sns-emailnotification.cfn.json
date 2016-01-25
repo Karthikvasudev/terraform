@@ -1,0 +1,123 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "aip-sns-emailnotification.cfn.json",
+    "Description": "This template defines the sns- sqs integration for ses notification ICP -2331 ",
+	"Parameters": {
+		"Environment": {
+			"Description": "name of the VPC Environment (dev, devops, test, qa, prod)",
+			"MaxLength": "255",
+			"MinLength": "1",
+			"Type": "String"
+		}
+	},
+	"Resources": {
+		"aipSnsEmailBounce": {
+			"Type": "AWS::SNS::Topic",
+			"Properties": {
+				"Subscription": [{
+					"Endpoint": {
+						"Fn::GetAtt": ["aipSqsEmailServiceQ", "Arn"]
+					},
+					"Protocol": "sqs"
+				}],
+				"TopicName": {
+					"Fn::Join": ["", ["aip-", {
+						"Ref": "Environment"
+					}, "-sns-email-bounce"]]
+				}
+			}
+		},
+		"aipSnsEmailComplaint": {
+			"Type": "AWS::SNS::Topic",
+			"Properties": {
+				"Subscription": [{
+					"Endpoint": {
+						"Fn::GetAtt": ["aipSqsEmailServiceQ", "Arn"]
+					},
+					"Protocol": "sqs"
+				}],
+				"TopicName": {
+					"Fn::Join": ["", ["aip-", {
+						"Ref": "Environment"
+					}, "-sns-email-complaint"]]
+				}
+			}
+		},
+		"aipSnsEmailDelivery": {
+			"Type": "AWS::SNS::Topic",
+			"Properties": {
+				"Subscription": [{
+					"Endpoint": {
+						"Fn::GetAtt": ["aipSqsEmailServiceQ", "Arn"]
+					},
+					"Protocol": "sqs"
+				}],
+				"TopicName": {
+					"Fn::Join": ["", ["aip-", {
+						"Ref": "Environment"
+					}, "-sns-email-delivery"]]
+				}
+			}
+		},
+		"aipSqsEmailServiceQ": {
+			"Properties": {
+				"QueueName": {
+					"Fn::Join": [
+						"", [
+							"aip-", {
+								"Ref": "Environment"
+							},
+							"-sqs-email-service"
+						]
+					]
+				},
+				"ReceiveMessageWaitTimeSeconds": 0,
+				"VisibilityTimeout": 1800,
+				"MaximumMessageSize": 262144,
+				"MessageRetentionPeriod": 1209600,
+				"DelaySeconds": 0,
+				"RedrivePolicy": {
+					"deadLetterTargetArn": {
+						"Fn::GetAtt": ["aipSqsEmailServiceDeadQ", "Arn"]
+					},
+					"maxReceiveCount": 5
+				}
+			},
+			"Type": "AWS::SQS::Queue"
+		},
+		"aipSqsEmailServiceQueuePolicy": {
+			"DependsOn": "aipSqsEmailServiceQ",
+			"Properties": {
+				"PolicyDocument": {
+					"Version": "2008-10-17",
+					"Id": "aipSqsEmailServiceQueuePolicyId",
+					"Statement": [{
+						"Sid": "aipSqsEmailServiceQueuePolicyStmtId",
+						"Effect": "Allow",
+						"Principal": {
+							"AWS": "*"
+						},
+						"Action": ["SQS:SendMessage"],
+						"Resource": {
+							"Fn::GetAtt": ["aipSqsEmailServiceQ", "Arn"]
+						}
+					}]
+				},
+				"Queues": [{
+					"Ref": "aipSqsEmailServiceQ"
+				}]
+			},
+			"Type": "AWS::SQS::QueuePolicy"
+		},
+		"aipSqsEmailServiceDeadQ": {
+			"Type": "AWS::SQS::Queue",
+			"Properties": {
+				"QueueName": {
+					"Fn::Join": ["", ["aip-", {
+						"Ref": "Environment"
+					}, "-sqs-email-service-dead"]]
+				}
+			}
+		}
+	}
+}
