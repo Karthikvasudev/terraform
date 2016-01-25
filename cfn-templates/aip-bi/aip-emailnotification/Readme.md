@@ -1,0 +1,1 @@
+aws cloudformation create-stack \ --stack-name aip-admin-vpc \ --template-body file://aip-sns-emailnotification.cfn.json \ --parameters file://aip-sns-emailnotification-params.json \ --capabilities CAPABILITY_IAM --disable-rollback --profile sandbox
