@@ -9,15 +9,15 @@
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-aws-resources.cfn.json"
+    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-aws-resources.cfn.json"
   },
   {
     "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-eb-app.cfn.json"
+    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-eb-app.cfn.json"
   },  
   {
     "ParameterKey": "InstanceType",
-    "ParameterValue": "m3.medium"
+    "ParameterValue": "m3.xlarge"
   },
   {
     "ParameterKey": "VpcId",
@@ -29,11 +29,11 @@
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "prod-aip-chronos-app"
+    "ParameterValue": "prod-etl-app"
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "aip-chronos"
+    "ParameterValue": "etl"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
@@ -53,7 +53,7 @@
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
-    "ParameterValue": "aip-chro"
+    "ParameterValue": "etl"
   },
   {
     "ParameterKey": "PublicSubnets",

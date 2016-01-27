@@ -15,14 +15,16 @@ aws cloudformation create-stack \
 --stack-name aip-chronos-dev-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-dev-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback 
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 ## -- Update Abbott AWS: Dev environment --
 aws cloudformation update-stack \
 --stack-name aip-chronos-dev-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-dev-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 ### Test
 ## -- Create Abbott AWS: Test environment --
@@ -30,14 +32,16 @@ aws cloudformation create-stack \
 --stack-name aip-chronos-test-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-test-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback 
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 ## -- Update Abbott AWS: Test environment --
 aws cloudformation update-stack \
 --stack-name aip-chronos-test-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-test-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 ### QA
 ## -- Create Abbott AWS: QA environment --
@@ -45,14 +49,16 @@ aws cloudformation create-stack \
 --stack-name aip-chronos-qa-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-qa-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback 
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 ## -- Update Abbott AWS: QA environment --
 aws cloudformation update-stack \
 --stack-name aip-chronos-qa-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-qa-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 ### Prod
@@ -61,14 +67,16 @@ aws cloudformation create-stack \
 --stack-name aip-chronos-prod-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-prod-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback 
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 ## -- Update Abbott AWS: Prod environment --
 aws cloudformation update-stack \
 --stack-name aip-chronos-prod-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-prod-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 ### Beta
@@ -77,14 +85,16 @@ aws cloudformation create-stack \
 --stack-name aip-chronos-beta-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-beta-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback 
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 ## -- Update Abbott AWS: Beta environment --
 aws cloudformation update-stack \
 --stack-name aip-chronos-beta-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-beta-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 ### DevOps
@@ -93,14 +103,16 @@ aws cloudformation create-stack \
 --stack-name aip-chronos-devops-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback 
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 ## -- Update Abbott AWS: devops environment --
 aws cloudformation update-stack \
 --stack-name aip-chronos-devops-master \
 --template-body file://aip-chronos-master.cfn.json \
 --parameters file://aip-chronos-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 

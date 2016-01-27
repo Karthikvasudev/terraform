@@ -9,11 +9,11 @@
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-aws-resources.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-proxy/aip-proxy-aws-resources.cfn.json"
   },
   {
     "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-eb-app.cfn.json"
+    "ParameterValue": "/cfn-templates/aip-proxy/aip-proxy-eb-app.cfn.json"
   },  
   {
     "ParameterKey": "InstanceType",
@@ -29,11 +29,11 @@
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "prod-aip-chronos-app"
+    "ParameterValue": "prod-proxy-app"
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "aip-chronos"
+    "ParameterValue": "proxy"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
@@ -46,14 +46,26 @@
   {
     "ParameterKey": "SolutionStackName",
     "ParameterValue": "64bit Amazon Linux 2015.09 v2.0.6 running Multi-container Docker 1.7.1 (Generic)"
-  },
+  },  
   {
     "ParameterKey": "ImageId",
     "ParameterValue": "ami-5b63cc28"
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
-    "ParameterValue": "aip-chro"
+    "ParameterValue": "proxy"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.com."
+  },
+  {
+    "ParameterKey": "R53HostedZoneID",
+    "ParameterValue": "Z35SXDOTRQ7X7K"
+  },
+  {
+    "ParameterKey": "R53RecordSetNameSuffix",
+    "ParameterValue": "prod-eu-1.aliniqbis.com"
   },
   {
     "ParameterKey": "PublicSubnets",

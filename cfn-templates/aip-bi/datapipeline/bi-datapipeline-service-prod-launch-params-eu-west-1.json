@@ -9,15 +9,15 @@
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-aws-resources.cfn.json"
+    "ParameterValue": "/cfn-templates/bi-datapipeline-service/bi-datapipeline-service-aws-resources.cfn.json"
   },
   {
     "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-eb-app.cfn.json"
+    "ParameterValue": "/cfn-templates/bi-datapipeline-service/bi-datapipeline-service-eb-app.cfn.json"
   },  
   {
     "ParameterKey": "InstanceType",
-    "ParameterValue": "m3.medium"
+    "ParameterValue": "m3.xlarge"
   },
   {
     "ParameterKey": "VpcId",
@@ -29,11 +29,11 @@
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "prod-aip-chronos-app"
+    "ParameterValue": "prod-datapipeline-service-app"
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "aip-chronos"
+    "ParameterValue": "bi-datapipeline-service"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
@@ -46,14 +46,14 @@
   {
     "ParameterKey": "SolutionStackName",
     "ParameterValue": "64bit Amazon Linux 2015.09 v2.0.6 running Multi-container Docker 1.7.1 (Generic)"
-  },
+  },  
   {
     "ParameterKey": "ImageId",
     "ParameterValue": "ami-5b63cc28"
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
-    "ParameterValue": "aip-chro"
+    "ParameterValue": "bi-dp"
   },
   {
     "ParameterKey": "PublicSubnets",

@@ -1,35 +1,35 @@
 [
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-3517bf51"
+    "ParameterValue": "vpc-0f78576a"
   },
   {
     "ParameterKey": "WebSecurityGroup",
-    "ParameterValue": "sg-0211b164"
+    "ParameterValue": "sg-0ad9996e"
   },  
   {
     "ParameterKey": "WebSubnet1",
-    "ParameterValue": "subnet-c2b583e9"
+    "ParameterValue": "subnet-ea7223b3"
   },  
   {
     "ParameterKey": "WebSubnet2",
-    "ParameterValue": "subnet-8f29f3b2"
+    "ParameterValue": "subnet-5ce2f339"
   },  
   {
     "ParameterKey": "PublicSubnet1",
-    "ParameterValue": "subnet-c0b583eb"
+    "ParameterValue": "subnet-e87223b1"
   },
   {
     "ParameterKey": "PublicSubnet2",
-    "ParameterValue": "subnet-8929f3b4"
+    "ParameterValue": "subnet-5de2f338"
   },       
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-dev-keys"
+    "ParameterValue": "aip-bi-prod-keys-eu-west-1"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "dev"
+    "ParameterValue": "prod"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
@@ -53,7 +53,7 @@
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "aip-dev-eb-bi-app"
+    "ParameterValue": "aip-prod-eb-bi-app"
   },
   {
     "ParameterKey": "ApplicationName",
@@ -73,7 +73,7 @@
   },  
   {
     "ParameterKey": "ImageId",
-    "ParameterValue": "ami-27affd4d"
+    "ParameterValue": "ami-5b63cc28"
   },
   {
     "ParameterKey": "R53HostedZoneName",
@@ -85,6 +85,6 @@
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
-    "ParameterValue": "us-1.aliniqbis.local"
+    "ParameterValue": "eu-1.aliniqbis.local"
   }
 ]

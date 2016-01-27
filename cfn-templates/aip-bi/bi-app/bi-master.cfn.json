@@ -58,6 +58,10 @@
       "MinLength": "1",
       "MaxLength": "255"
     },
+    "SolutionStackName": {
+      "Description": "BeanstalkVersionString",
+      "Type": "String"
+    },
     "ImageId": {
       "Description": "name of the Image (AMI Info) - aws-elasticbeanstalk-amzn-2015.03.1.x86_64-ecs-hvm-201509182207",
       "Default": "ami-7da9d918",
@@ -144,7 +148,7 @@
       "Properties" : {
         "TemplateURL" : 
             { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
-            {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "ResourcesTemplateKey" }]]},
+            "us-east-1", "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "ResourcesTemplateKey" }]]},
         "Parameters" : {
           "Environment": { "Ref" : "Environment" }
         }
@@ -157,10 +161,10 @@
       "Properties" : {
         "TemplateURL" :         
             { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
-            {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "AppTemplateKey" }]]},
+            "us-east-1", "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "AppTemplateKey" }]]},
         "Parameters" : {
             "Environment"              : { "Ref" : "Environment"},
-
+            "SolutionStackName"        : { "Ref" : "SolutionStackName" },
             "ImageId"                  : { "Ref" : "ImageId" },
             "KeyName"                  : { "Ref" : "KeyName" },
             "InstanceType"             : { "Ref" : "InstanceType" },

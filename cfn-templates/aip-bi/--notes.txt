@@ -166,7 +166,8 @@ paravirtual
 
 
 andreas.rimbe@abbott.com, randolph.kelley@cognizant.com, rakesh.raghavan@cognizant.com
-
+---
+I see your existing environments are running on N. Virginia (us-east-1) and I can confirm to you that this beanstalk stack will launch the AMI ami-27affd4d (aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201512302102) on N. Virginia Region.
 ---
 NAT Instances by Region:
 us-east-1 amzn-ami-vpc-nat-pv-2015.03.0.x86_64-ebs (ami-c02b04a8)
@@ -184,5 +185,6 @@ eu-central-1
 - Once VPC (Admin and Prod) are created, update App parameter files with vpc, subnets, security group IDs. Also, associate VPCs with R53 (3 private zones).
 - Chronos 1st app:
 	edited aip-chronos-master.cfn.json - S3Bucket parameter changed from Region call to literal "us-east-1" in three locations (TemplateURL x2, S3Bucket)
+- Jenkins Deploy database Flyway app not able to network to eu-west-1
 
 

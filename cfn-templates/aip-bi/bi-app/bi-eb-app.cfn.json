@@ -62,6 +62,10 @@
             "MinLength": "1",
             "MaxLength": "255"
         },
+        "SolutionStackName": {
+            "Description": "BeanstalkVersionString",
+            "Type": "String"
+        },
         "VpcId": {
             "Description": "name of the VPC",
             "Type": "String",
@@ -129,7 +133,7 @@
             "DependsOn" : "BeanstalkEC2InstancProfile",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
-                "SolutionStackName": "64bit Amazon Linux 2015.09 v2.0.4 running Multi-container Docker 1.7.1 (Generic)",
+                "SolutionStackName": { "Ref": "SolutionStackName" },
                 "VersionLabel": {
                     "Ref": "BIAppVersion"
                 },
