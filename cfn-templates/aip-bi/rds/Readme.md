@@ -81,7 +81,7 @@ aws cloudformation update-stack \
 ### Beta
 ## -- Create Abbott AWS: Beta environment --
 aws cloudformation create-stack \
---stack-name bi-beta-rds-master \
+--stack-name bi-beta-rds-master2 \
 --template-body file://bi-rds.cfn.json \
 --parameters file://bi-rds-beta-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback \
