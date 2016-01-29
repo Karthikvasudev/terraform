@@ -273,7 +273,12 @@
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "HttpPath",
 						"Value": "/etl/sqs"
-					}					
+					},
+					{
+						"OptionName": "LogPublicationControl",
+						"Namespace": "aws:elasticbeanstalk:hostmanager",
+						"Value": "true"
+					}
                 ]
             }
         },

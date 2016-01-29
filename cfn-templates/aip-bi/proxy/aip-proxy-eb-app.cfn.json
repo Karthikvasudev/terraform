@@ -321,6 +321,11 @@
                         "Namespace": "aws:elb:policies:EnableProxyProtocol",
                         "OptionName": "ProxyProtocol",
                         "Value": "true"
+                    },
+                    {
+                        "OptionName": "LogPublicationControl",
+                        "Namespace": "aws:elasticbeanstalk:hostmanager",
+                        "Value": "true"
                     }
                 ]
             }

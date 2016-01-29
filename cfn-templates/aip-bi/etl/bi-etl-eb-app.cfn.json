@@ -274,11 +274,16 @@
 						"OptionName": "HttpPath",
 						"Value": "/etl/sqs"
 					},
-                    {
-                        "Namespace": "aws:elasticbeanstalk:sqsd",
-                        "OptionName": "ErrorVisibilityTimeout",
-                        "Value": "600"
-                    }
+					{
+						"Namespace": "aws:elasticbeanstalk:sqsd",
+						"OptionName": "ErrorVisibilityTimeout",
+						"Value": "600"
+					},
+					{
+						"OptionName": "LogPublicationControl",
+						"Namespace": "aws:elasticbeanstalk:hostmanager",
+						"Value": "true"
+					}
                 ]
             }
         },
