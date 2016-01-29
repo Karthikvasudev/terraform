@@ -1,5 +1,9 @@
 [
   {
+    "ParameterKey": "Environment",
+    "ParameterValue": "adm"
+  },
+  {
     "ParameterKey": "KeyName",
     "ParameterValue": "aip-adm-keys-eu-west-1"
   },
@@ -9,7 +13,11 @@
   },
   {
     "ParameterKey": "VpcAvailabilityZone1",
-    "ParameterValue": "us-west-1a"
+    "ParameterValue": "eu-west-1a"
+  },
+  {
+    "ParameterKey": "VpcAvailabilityZone2",
+    "ParameterValue": "eu-west-1b"
   },
   {
     "ParameterKey": "VpcNetworkCIDR",
@@ -52,8 +60,8 @@
     "ParameterValue": "m3.medium"
   },
   {
-    "ParameterKey": "NATImageId",
-    "ParameterValue": "ami-46073a5b"
+    "ParameterKey": "NatImageId",
+    "ParameterValue": "ami-cb7de3bc"
   }
 ]
 

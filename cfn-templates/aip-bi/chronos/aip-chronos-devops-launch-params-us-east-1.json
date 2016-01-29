@@ -44,8 +44,12 @@
     "ParameterValue": "eb-docker-template.zip"
   },  
   {
+    "ParameterKey": "SolutionStackName",
+    "ParameterValue": "64bit Amazon Linux 2015.09 v2.0.6 running Multi-container Docker 1.7.1 (Generic)"
+  },  
+  {
     "ParameterKey": "ImageId",
-    "ParameterValue": "ami-62027e08"
+    "ParameterValue": "ami-27affd4d"
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",

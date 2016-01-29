@@ -5,7 +5,7 @@
   }, 
   {
     "ParameterKey": "AdminVpcId",
-    "ParameterValue": "vpc-"
+    "ParameterValue": "vpc-627e5107"
   },
   {
     "ParameterKey": "AdminVpcCIDR",
@@ -13,7 +13,7 @@
   },
   {
     "ParameterKey": "AdminVpcPrivateRouteTableId",
-    "ParameterValue": "rtb-"
+    "ParameterValue": "rtb-214e5a44"
   },
   {
     "ParameterKey": "VpcName",
@@ -101,7 +101,7 @@
   },
   {
     "ParameterKey": "NatImageId",
-    "ParameterValue": "ami-c02b04a8"
+    "ParameterValue": "ami-cb7de3bc"
   },
   {
     "ParameterKey": "KeyName",

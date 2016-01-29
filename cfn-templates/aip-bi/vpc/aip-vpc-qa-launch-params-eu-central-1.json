@@ -101,7 +101,7 @@
   },
   {
     "ParameterKey": "NatImageId",
-    "ParameterValue": "ami-c02b04a8"
+    "ParameterValue": "ami-"
   },
   {
     "ParameterKey": "KeyName",

@@ -15,14 +15,16 @@ aws cloudformation create-stack \
 --stack-name aip-proxy-dev-master2 \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-dev-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 ## -- Update Abbott AWS: Dev environment --
 aws cloudformation update-stack \
 --stack-name aip-proxy-dev-master2 \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-dev-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM 
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 ### Test
@@ -31,14 +33,16 @@ aws cloudformation create-stack \
 --stack-name aip-proxy-test-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-test-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 ## -- update Abbott AWS: Test environment --
 aws cloudformation update-stack \
 --stack-name aip-proxy-test-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-test-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM 
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 ### QA
@@ -47,14 +51,16 @@ aws cloudformation create-stack \
 --stack-name aip-proxy-qa-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-qa-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 ## -- update Abbott AWS: QA environment --
 aws cloudformation update-stack \
 --stack-name aip-proxy-qa-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-qa-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM 
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 ### Prod
@@ -63,7 +69,8 @@ aws cloudformation create-stack \
 --stack-name aip-proxy-prod-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-prod-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 
 ## -- Update Abbott AWS: Prod environment --
@@ -71,7 +78,8 @@ aws cloudformation update-stack \
 --stack-name aip-proxy-prod-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-prod-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM 
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 ### Beta
@@ -80,7 +88,8 @@ aws cloudformation create-stack \
 --stack-name aip-proxy-beta-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-beta-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 
 ## -- Update Abbott AWS: Beta environment --
@@ -88,7 +97,8 @@ aws cloudformation update-stack \
 --stack-name aip-proxy-beta-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-beta-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM 
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 
@@ -99,17 +109,46 @@ aws cloudformation create-stack \
 --stack-name aip-proxy-devops-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 
 ## -- Update Abbott AWS: DevOps environment --
 aws cloudformation update-stack \
 --stack-name aip-proxy-devops-master \
 --template-body file://aip-proxy-master.cfn.json \
+<<<<<<< HEAD
 --parameters file://aip-proxy-devops-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 
+=======
+--parameters file://aip-proxy-prod-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+>>>>>>> feature/ICP-777
 
 
 
 
 
+########################################
+# ------ Ireland EU-west-1 Region ------
+########################################
+
+
+### Prod
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name aip-proxy-prod-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-prod-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region eu-west-1
+
+
+## -- Update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name aip-proxy-prod-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-prod-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM \
+--region eu-west-1

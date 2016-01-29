@@ -2,7 +2,7 @@
     "AWSTemplateFormatVersion": "2010-09-09",
 
     "Description": "aip-base-app.cfn.json",
-    "Description": "This template defines the Beanstalk App for proxy services",
+    "Description": "This template defines the Beanstalk App for platform services",
 
     "Parameters": {
 
@@ -15,14 +15,10 @@
         },
         "AppEnvironmentSuffix": {
             "Description": "application environment suffix [ENV-'aip'-REGION or ENV-'bi-app'-REGION]",
-            "Default": "proxy",
+            "Default": "aip",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
-        },
-        "SolutionStackName": {
-            "Description": "Beanstalk Solution Stack Version",
-            "Type": "String"
         },		
         "ImageId": {
             "Description": "name of the Image (AMI Info)",
@@ -88,19 +84,22 @@
             "Type": "String"
         },
         "R53HostedZoneName": {
-            "Description": "Name of the R53 HostedZone[aip.local.]",
+            "Description": "Name of the R53 HostedZone",
+			"Default": "aliniqbis.local.",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
         },
-		"R53HostedZoneID": {
-			"Description": "R53 Zone ID",
+		"R53RecordSetNamePrefix": {
+			"Description": "Name of the R53 Record Set[proxy,bi,aip]",
+			"Default": "aip",
 			"Type": "String",
 			"MinLength": "1",
 			"MaxLength": "255"
 		},
 		"R53RecordSetNameSuffix": {
-			"Description": "Name of the R53 Record Set",
+			"Description": "Name of the R53 Record Set[us-1.aliniqbis.local]",
+			"Default": "aliniqbis.local",
 			"Type": "String",
 			"MinLength": "1",
 			"MaxLength": "255"
@@ -134,9 +133,10 @@
 
         "APPEnvironment": {
             "Type": "AWS::ElasticBeanstalk::Environment",
+            "DependsOn" : "BeanstalkEC2InstancProfile",
             "Properties": {
                 "ApplicationName": { "Ref": "ApplicationName" },
-                "SolutionStackName": { "Ref": "SolutionStackName" },
+                "SolutionStackName": "64bit Amazon Linux 2015.09 v2.0.4 running Multi-container Docker 1.7.1 (Generic)",
                 "VersionLabel": {
                     "Ref": "AppVersion"
                 },
@@ -233,6 +233,11 @@
                         "Value": { "Ref": "VpcId" }
                     },
                     {
+                        "Namespace": "aws:ec2:vpc",
+                        "OptionName": "ELBScheme",
+                        "Value": "internal"
+                    },
+                    {
                         "Namespace": "aws:elasticbeanstalk:command",
                         "OptionName": "BatchSize",
                         "Value": "30"
@@ -247,51 +252,12 @@
                         "OptionName": "SystemType",
                         "Value": "enhanced"
                     },
-			        {
-                        "OptionName": "LoadBalancerSSLPortProtocol", 
-                        "Namespace": "aws:elb:loadbalancer", 
-                        "Value": "HTTPS"
-                    },
-                    {
-                        "Namespace": "aws:elb:loadbalancer",
-                        "OptionName": "CrossZone",
-                        "Value": "true"
-                    },
-                    {
-                        "OptionName": "Target", 
-                        "Namespace": "aws:elb:healthcheck", 
-                        "Value": "TCP:443"
-                    }, 
-                    {
-                        "OptionName": "InstancePort", 
-                        "Namespace": "aws:elb:listener:443", 
-                        "Value": "443"
-                    },
-                    {
-                        "OptionName": "InstanceProtocol", 
-                        "Namespace": "aws:elb:listener:443", 
-                        "Value": "TCP"
-                    }, 
-                    {
-                        "OptionName": "ListenerEnabled", 
-                        "Namespace": "aws:elb:listener:443", 
-                        "Value": "true"
-                    }, 
-					{
-                        "OptionName": "ListenerProtocol", 
-                        "Namespace": "aws:elb:listener:443", 
-                        "Value": "TCP"
-                    }, 
-                    {
-                        "OptionName": "Interval", 
-                        "Namespace": "aws:elb:healthcheck", 
-                        "Value": "10"
-                    }, 
                     {
                         "OptionName": "Timeout", 
+                        "ResourceName": "AWSEBLoadBalancer", 
                         "Namespace": "aws:elb:healthcheck", 
                         "Value": "5"
-                    },
+                    },   
                     {
                         "Namespace": "aws:elb:healthcheck",
                         "OptionName": "Interval",
@@ -313,32 +279,52 @@
                         "Value": "true"
                     },
                     {
-                        "Namespace": "aws:elb:policies:EnableProxyProtocol",
-                        "OptionName": "InstancePorts",
-                        "Value": "80,443"
-                    },
+                        "OptionName": "HealthyThreshold", 
+                        "ResourceName": "AWSEBLoadBalancer", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "3"
+                    }, 
                     {
-                        "Namespace": "aws:elb:policies:EnableProxyProtocol",
-                        "OptionName": "ProxyProtocol",
-                        "Value": "true"
+                        "OptionName": "Interval", 
+                        "ResourceName": "AWSEBLoadBalancer", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "10"
+                    }, 
+                    {
+                        "OptionName": "Target", 
+                        "ResourceName": "AWSEBLoadBalancer", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "TCP:80"
+                    }, 
+                    {
+                        "OptionName": "Timeout", 
+                        "ResourceName": "AWSEBLoadBalancer", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "5"
+                    }, 
+                    {
+                        "OptionName": "UnhealthyThreshold", 
+                        "ResourceName": "AWSEBLoadBalancer", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "5"
                     }
                 ]
             }
         },
-	    "AppR53Entry" : {
+	    "AppAccessCname" : {
             "Type" : "AWS::Route53::RecordSetGroup",
 			"DependsOn" : "APPEnvironment",
             "Properties" : {
                 "HostedZoneName" : { "Ref": "R53HostedZoneName" },
-                "Comment"   : "Assigning route 53 A record for ELB's DNS record.",
-                "RecordSets" : [ {
-                    "Name"      : {"Ref" : "R53RecordSetNameSuffix"},
-                    "Type": "A",
-                    "AliasTarget" : {
-                      "HostedZoneId" : { "Ref" : "R53HostedZoneID"},
-                      "DNSName" : {"Fn::Join": ["", ["dualstack.", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]] }
-                    }
-                }]
+                "Comment" : "Assigning route 53 cname for ELB's DNS record.",
+                "RecordSets" : [
+                  {
+                    "Name" : { "Fn::Join": ["-", [{ "Ref": "R53RecordSetNamePrefix" },{"Ref": "Environment"}, {"Ref": "R53RecordSetNameSuffix"}]]},
+                    "Type" : "CNAME",
+                    "TTL" : "900",
+                    "ResourceRecords" : [{"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]}]
+                  }
+                  ]
             }
         },
 
@@ -388,7 +374,7 @@
                                     "arn:aws:iam::aws:policy/CloudWatchFullAccess",
                                     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"],
                 "Path": "/"
-             }        
+             }
         },
         "BeanstalkEC2InstancProfile" : {
            "Type": "AWS::IAM::InstanceProfile",
@@ -396,12 +382,17 @@
               "Path": "/",
               "Roles": [ { "Ref": "BeanstalkEC2Role" } ]
            }
-        }			
+        }
     },
 
     "Outputs": {
         "URL": {
             "Description": "URL of the AWS Elastic Beanstalk Environment",
-            "Value": {"Fn::Join": ["", ["http://", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]] }}
+            "Value": {"Fn::Join": ["", ["http://", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]]}
+        },
+        "BeanstalkEC2Role": {
+            "Description": "Beanstalk EC2 Instance Role",
+            "Value": {"Ref" : "BeanstalkEC2Role"}
+        }
     }
 }

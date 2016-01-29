@@ -1,39 +1,39 @@
 [
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "aip-bi-test-keys"
+    "ParameterValue": "aip-bi-prod-keys-eu-west-1"
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "test"
+    "ParameterValue": "prod"
   },
   {
     "ParameterKey": "ResourcesTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-aws-resources.cfn.json"
+    "ParameterValue": "/cfn-templates/bi-datapipeline-service/bi-datapipeline-service-aws-resources.cfn.json"
   },
   {
     "ParameterKey": "AppTemplateKey",
-    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-eb-app.cfn.json"
+    "ParameterValue": "/cfn-templates/bi-datapipeline-service/bi-datapipeline-service-eb-app.cfn.json"
   },  
   {
     "ParameterKey": "InstanceType",
-    "ParameterValue": "m3.medium"
+    "ParameterValue": "m3.xlarge"
   },
   {
     "ParameterKey": "VpcId",
-    "ParameterValue": "vpc-185df67c"
+    "ParameterValue": "vpc-0f78576a"
   },
   {
     "ParameterKey": "VpcName",
-    "ParameterValue": "aip-test-vpc-us-east-1"
+    "ParameterValue": "aip-prod-vpc-eu-west-1"
   },
   {
     "ParameterKey": "ApplicationURL",
-    "ParameterValue": "test-aip-chronos-app"
+    "ParameterValue": "prod-datapipeline-service-app"
   },
   {
     "ParameterKey": "ApplicationName",
-    "ParameterValue": "aip-chronos"
+    "ParameterValue": "bi-datapipeline-service"
   },  
   {
     "ParameterKey": "ApplicationSourceBundle",
@@ -41,30 +41,30 @@
   },  
   {
     "ParameterKey": "S3Key",
-    "ParameterValue": "eb-docker-template.zip"
-  },  
+    "ParameterValue": "eb-app-golden-012516.zip"
+  },
   {
     "ParameterKey": "SolutionStackName",
     "ParameterValue": "64bit Amazon Linux 2015.09 v2.0.6 running Multi-container Docker 1.7.1 (Generic)"
   },  
   {
     "ParameterKey": "ImageId",
-    "ParameterValue": "ami-27affd4d"
+    "ParameterValue": "ami-5b63cc28"
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
-    "ParameterValue": "aip-chro"
+    "ParameterValue": "bi-dp"
   },
   {
     "ParameterKey": "PublicSubnets",
-    "ParameterValue": "subnet-285b6a03,subnet-15fb5e28"
+    "ParameterValue": "subnet-e87223b1,subnet-5de2f338"
   },
   {
     "ParameterKey": "PrivateSubnets",
-    "ParameterValue": "subnet-2a5b6a01,subnet-1bfb5e26"
+    "ParameterValue": "subnet-ea7223b3,subnet-5ce2f339"
   },   
   {
     "ParameterKey": "InstanceSecurityGroups",
-    "ParameterValue": "sg-8611b2e0"
+    "ParameterValue": "sg-0ad9996e"
   }
 ]
