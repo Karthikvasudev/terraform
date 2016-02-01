@@ -257,16 +257,51 @@
                         "Value": "enhanced"
                     },
                     {
+                        "OptionName": "Application Healthcheck URL", 
+                        "Namespace": "aws:elasticbeanstalk:application", 
+                        "Value": "/api/aip/v1/health"
+                    }, 
+                    {
+                        "OptionName": "Automatically Terminate Unhealthy Instances", 
+                        "Namespace": "aws:elasticbeanstalk:monitoring", 
+                        "Value": "true"
+                    },
+                    {
+                        "OptionName": "Target",
+                        "ResourceName": "AWSEBLoadBalancer",
+                        "Namespace": "aws:elb:healthcheck",
+                        "Value": "HTTP:80/api/aip/v1/health"
+                    },
+                    {
+                        "OptionName": "Interval", 
+                        "ResourceName": "AWSEBLoadBalancer", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "10"
+                    }, 
+                    {
+                        "OptionName": "Target", 
+                        "ResourceName": "AWSEBLoadBalancer", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "TCP:80"
+                    }, 
+                    {
                         "OptionName": "Timeout", 
                         "ResourceName": "AWSEBLoadBalancer", 
                         "Namespace": "aws:elb:healthcheck", 
-                        "Value": "30"
-                    },   
+                        "Value": "5"
+                    }, 
                     {
-                        "Namespace": "aws:elb:healthcheck",
-                        "OptionName": "Interval",
-                        "Value": "60"
-                    },
+                        "OptionName": "HealthyThreshold", 
+                        "ResourceName": "AWSEBLoadBalancer", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "3"
+                    }, 
+                    {
+                        "OptionName": "UnhealthyThreshold", 
+                        "ResourceName": "AWSEBLoadBalancer", 
+                        "Namespace": "aws:elb:healthcheck", 
+                        "Value": "5"
+                    }, 
                     {
                         "Namespace": "aws:elb:loadbalancer",
                         "OptionName": "CrossZone",
@@ -277,11 +312,6 @@
                         "Namespace": "aws:elb:loadbalancer", 
                         "Value": "HTTPS"
                     },
-                    {
-                        "OptionName": "Target", 
-                        "Namespace": "aws:elb:healthcheck", 
-                        "Value": "TCP:443"
-                    }, 
                     {
                         "OptionName": "InstancePort", 
                         "Namespace": "aws:elb:listener:443", 

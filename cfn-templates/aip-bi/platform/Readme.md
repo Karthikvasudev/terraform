@@ -122,7 +122,13 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-
+### DynamoDB resource
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-devops-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=devops \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 
 
@@ -131,7 +137,7 @@ aws cloudformation update-stack \
 ########################################
 
 
-### Prod
+# Prod
 
 ## -- Create Abbott AWS: Prod environment --
 aws cloudformation create-stack \
@@ -148,4 +154,14 @@ aws cloudformation update-stack \
 --parameters file://aip-platform-prod-launch-params-eu-west-1.json \
 --capabilities CAPABILITY_IAM \
 --region eu-west-1
+
+
+## DynamoDB resource
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-devops-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region eu-west-1
+
 
