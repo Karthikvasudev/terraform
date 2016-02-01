@@ -293,6 +293,11 @@
                         "Namespace": "aws:elb:policies",
                         "OptionName": "ConnectionDrainingEnabled",
                         "Value": "true"
+                    },
+                    {
+                        "OptionName": "LogPublicationControl",
+                        "Namespace": "aws:elasticbeanstalk:hostmanager",
+                        "Value": "true"
                     }
                 ]
             }

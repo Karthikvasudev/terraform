@@ -294,7 +294,12 @@
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "HttpPath",
 						"Value": "/api/bi-datapipeline-service/v1/event/"
-					}					
+					},
+					{
+						"OptionName": "LogPublicationControl",
+						"Namespace": "aws:elasticbeanstalk:hostmanager",
+						"Value": "true"
+					}
                 ]
             }
         },
