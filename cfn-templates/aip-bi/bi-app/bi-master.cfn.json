@@ -142,19 +142,6 @@
 
   "Resources": {
 
-    "AppResources" : {
-      "Type" : "AWS::CloudFormation::Stack",
-      "Metadata" : { "Comment" : "Build AWS Resources per Environment, e.g., S3, RDS" },
-      "Properties" : {
-        "TemplateURL" : 
-            { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
-            "us-east-1", "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "ResourcesTemplateKey" }]]},
-        "Parameters" : {
-          "Environment": { "Ref" : "Environment" }
-        }
-      }
-    },
-
     "BeanstalkApp1" : {
       "Type" : "AWS::CloudFormation::Stack",
       "Metadata" : { "Comment" : "Beanstalk App - configure, build, deploy" },

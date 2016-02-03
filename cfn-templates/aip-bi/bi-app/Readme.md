@@ -27,6 +27,17 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+## DynamoDB resource
+aws cloudformation create-stack \
+--stack-name bi-aws-resources-dev-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=dev \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+
+
 ### Test
 ## -- Create Abbott AWS: Test environment --
 aws cloudformation create-stack \
@@ -43,6 +54,16 @@ aws cloudformation update-stack \
 --parameters file://bi-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 
 --region us-east-1
+
+
+## DynamoDB resource
+aws cloudformation create-stack \
+--stack-name bi-aws-resources-test-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=test \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
 
 
 ### QA
@@ -63,6 +84,16 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+## DynamoDB resource
+aws cloudformation create-stack \
+--stack-name bi-aws-resources-qa-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=qa \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+
 ### Prod
 ## -- Create Abbott AWS: Prod environment --
 aws cloudformation create-stack \
@@ -79,6 +110,17 @@ aws cloudformation update-stack \
 --parameters file://bi-prod-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
+
+
+## DynamoDB resource
+aws cloudformation create-stack \
+--stack-name bi-aws-resources-prod-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
 
 
 ### Beta
@@ -99,6 +141,14 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+## DynamoDB resource
+aws cloudformation create-stack \
+--stack-name bi-aws-resources-beta-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=beta \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
 
 
 
@@ -117,6 +167,15 @@ aws cloudformation update-stack \
 --template-body file://bi-master.cfn.json \
 --parameters file://bi-devops-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
+## DynamoDB resource
+aws cloudformation create-stack \
+--stack-name bi-aws-resources-devops-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=devops \
+--capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
 
@@ -143,3 +202,13 @@ aws cloudformation update-stack \
 --parameters file://bi-prod-launch-params-eu-west-1.json \
 --capabilities CAPABILITY_IAM \
 --region eu-west-1
+
+
+## DynamoDB resource
+aws cloudformation create-stack \
+--stack-name bi-aws-resources-prod-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region eu-west-1
+

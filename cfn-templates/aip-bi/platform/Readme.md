@@ -27,6 +27,17 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+### DynamoDB resource
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-dev-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=dev \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+
+
 ## -- Create Abbott AWS: Test environment --
 aws cloudformation create-stack \
 --stack-name aip-platform-test-master \
@@ -45,6 +56,17 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+### DynamoDB resource
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-test-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=test \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+
+
 ## -- Create Abbott AWS: QA environment --
 aws cloudformation create-stack \
 --stack-name aip-platform-qa-master \
@@ -60,6 +82,15 @@ aws cloudformation update-stack \
 --template-body file://aip-platform-master.cfn.json \
 --parameters file://aip-platform-qa-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
+### DynamoDB resource
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-qa-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=qa \
+--capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
 
@@ -82,6 +113,16 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+### DynamoDB resource
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-prod-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+
 
 ## -- Create Abbott AWS: Beta environment --
 aws cloudformation create-stack \
@@ -100,6 +141,14 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
+
+### DynamoDB resource
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-beta-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=beta \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 
 
@@ -158,7 +207,7 @@ aws cloudformation update-stack \
 
 ## DynamoDB resource
 aws cloudformation create-stack \
---stack-name aip-platform-resources-devops-master \
+--stack-name aip-platform-resources-prod-master \
 --template-body file://aip-platform-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=prod \
 --capabilities CAPABILITY_IAM --disable-rollback \
