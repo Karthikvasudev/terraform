@@ -13,17 +13,17 @@
         "biETLQueue": {
             "Properties": {
                 "QueueName": {
-					"Fn::Join": [
-						"",
-						[
-							"bi-",
-							{
-								"Ref": "Environment"
-							},
-							"-sqs-etl-dataprocess"
-						]
-					]				
-				},
+                                        "Fn::Join": [
+                                                "",
+                                                [
+                                                        "bi-",
+                                                        {
+                                                                "Ref": "Environment"
+                                                        },
+                                                        "-sqs-etl-dataprocess"
+                                                ]
+                                        ]
+                                },
                 "ReceiveMessageWaitTimeSeconds": 20,
                 "VisibilityTimeout": 300,
                 "DelaySeconds": 0,
@@ -71,23 +71,56 @@
             "DependsOn": "biETLQueuePolicy",
             "Properties": {
                 "BucketName": {
-					"Fn::Join": [
-						"",
-						[
-												"bi-",
-   											    	{
-													"Ref": "Environment"
-												},
-												"-s3-dataprocess-fileupload-",
-												{
-													"Ref": "AWS::Region"
-												},
-												"-",
-												{
-													"Ref" : "AWS::AccountId"
-												}
-						]
-					]
+                                        "Fn::Join": [
+                                                "",
+                                                [
+                                                                                                "bi-",
+                                                                                                {
+                                                                                                        "Ref": "Environment"
+                                                                                                },
+                                                                                                "-s3-dataprocess-fileupload-",
+                                                                                                {
+                                                                                                        "Ref": "AWS::Region"
+                                                                                                },
+                                                                                                "-",
+                                                                                                {
+                                                                                                        "Ref" : "AWS::AccountId"
+                                                                                                }
+                                                ]
+                                        ]
+                },
+                "PolicyDocument" : {
+                 "Id" : "etlBucketPolicy",
+                 "Statement": [
+                                        {
+                                        "Sid": "etlbcuketStatement",
+                                        "Effect": "Deny",
+                                        "Principal": "*",
+                                        "Action": "s3:PutObject",
+                                        "Resource":{
+                                                "Fn::Join": ["", ["arn:aws:s3:::", 
+																				"bi-", 
+																				{																			
+																					"Ref": "Environment"
+																				},
+																				"-s3-dataprocess-fileupload-",
+                                                                                {
+																					"Ref": "AWS::Region"
+                                                                                },
+                                                                                "-",
+                                                                                {
+                                                                                    "Ref" : "AWS::AccountId"
+                                                                                }
+																, "/*" ]
+															]
+                                        },
+                                        "Condition": {
+                                        "StringNotEquals": {
+                                                "s3:x-amz-server-side-encryption": "AES256"
+                                                }
+                                        }
+                                }
+                        ]
                 },
                 "CorsConfiguration" : {
                     "CorsRules": [{
