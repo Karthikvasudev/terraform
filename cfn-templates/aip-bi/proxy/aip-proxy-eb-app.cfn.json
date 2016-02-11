@@ -250,7 +250,7 @@
                     {
                         "OptionName": "Application Healthcheck URL",
                         "Namespace": "aws:elasticbeanstalk:application",
-                        "Value": "/status"
+                        "Value": "HTTP:8080/status"
                     },
                     {
                         "OptionName": "Automatically Terminate Unhealthy Instances",
@@ -261,7 +261,7 @@
                         "OptionName": "Target",
                         "ResourceName": "AWSEBLoadBalancer",
                         "Namespace": "aws:elb:healthcheck",
-                        "Value": "HTTP:80/status"
+                        "Value": "HTTP:8080/status"
                     },
                     {
                         "OptionName": "Interval",
@@ -288,12 +288,6 @@
                         "Value": "5"
                     },
                     {
-                        "OptionName": "Target",
-                        "ResourceName": "AWSEBLoadBalancer",
-                        "Namespace": "aws:elb:healthcheck",
-                        "Value": "TCP:443"
-                    },
-                    {
                         "OptionName": "LoadBalancerSSLPortProtocol", 
                         "Namespace": "aws:elb:loadbalancer", 
                         "Value": "HTTPS"
@@ -303,6 +297,16 @@
                         "OptionName": "CrossZone",
                         "Value": "true"
                     },
+					{
+                        "OptionName": "InstancePort", 
+                        "Namespace": "aws:elb:listener:80", 
+                        "Value": "80"
+                    },
+                    {
+                        "OptionName": "InstancePort", 
+                        "Namespace": "aws:elb:listener:8080", 
+                        "Value": "8080"
+                    },					
                     {
                         "OptionName": "InstancePort", 
                         "Namespace": "aws:elb:listener:443", 
