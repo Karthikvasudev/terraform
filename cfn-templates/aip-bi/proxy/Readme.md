@@ -152,3 +152,4 @@ aws cloudformation update-stack \
 --parameters file://aip-proxy-prod-launch-params-eu-west-1.json \
 --capabilities CAPABILITY_IAM \
 --region eu-west-1
+

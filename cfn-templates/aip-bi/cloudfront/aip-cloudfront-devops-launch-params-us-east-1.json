@@ -1,0 +1,19 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "devops"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.com."
+  },
+  {
+    "ParameterKey": "ServerCertificateId",
+    "ParameterValue": "ASCAI6DIHMLCEDXKCUWBS"
+  },
+  {
+    "ParameterKey": "DomainName",
+    "ParameterValue": "api-devops-us-1.aliniqbis.com"
+  }
+  
+]

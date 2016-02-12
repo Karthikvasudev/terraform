@@ -1,0 +1,230 @@
+{
+    "DistributionList": {
+        "Items": [
+            {
+                "Status": "Deployed", 
+                "CacheBehaviors": {
+                    "Items": [
+                        {
+                            "TrustedSigners": {
+                                "Enabled": false, 
+                                "Quantity": 0
+                            }, 
+                            "TargetOriginId": "Custom-proxy-devops-us-1.aliniqbis.com", 
+                            "ViewerProtocolPolicy": "https-only", 
+                            "ForwardedValues": {
+                                "Headers": {
+                                    "Items": [
+                                        "Authorization"
+                                    ], 
+                                    "Quantity": 1
+                                }, 
+                                "Cookies": {
+                                    "Forward": "none"
+                                }, 
+                                "QueryString": false
+                            }, 
+                            "MaxTTL": 0, 
+                            "PathPattern": "/api/*", 
+                            "SmoothStreaming": false, 
+                            "DefaultTTL": 0, 
+                            "AllowedMethods": {
+                                "Items": [
+                                    "HEAD", 
+                                    "DELETE", 
+                                    "POST", 
+                                    "GET", 
+                                    "OPTIONS", 
+                                    "PUT", 
+                                    "PATCH"
+                                ], 
+                                "CachedMethods": {
+                                    "Items": [
+                                        "HEAD", 
+                                        "GET"
+                                    ], 
+                                    "Quantity": 2
+                                }, 
+                                "Quantity": 7
+                            }, 
+                            "MinTTL": 0, 
+                            "Compress": true
+                        }, 
+                        {
+                            "TrustedSigners": {
+                                "Items": [
+                                    "self"
+                                ], 
+                                "Enabled": true, 
+                                "Quantity": 1
+                            }, 
+                            "TargetOriginId": "S3-aliniqbis-devops-web-app", 
+                            "ViewerProtocolPolicy": "https-only", 
+                            "ForwardedValues": {
+                                "Headers": {
+                                    "Quantity": 0
+                                }, 
+                                "Cookies": {
+                                    "Forward": "none"
+                                }, 
+                                "QueryString": false
+                            }, 
+                            "MaxTTL": 31536000, 
+                            "PathPattern": "/bi/help/*", 
+                            "SmoothStreaming": false, 
+                            "DefaultTTL": 86400, 
+                            "AllowedMethods": {
+                                "Items": [
+                                    "HEAD", 
+                                    "GET"
+                                ], 
+                                "CachedMethods": {
+                                    "Items": [
+                                        "HEAD", 
+                                        "GET"
+                                    ], 
+                                    "Quantity": 2
+                                }, 
+                                "Quantity": 2
+                            }, 
+                            "MinTTL": 0, 
+                            "Compress": true
+                        }, 
+                        {
+                            "TrustedSigners": {
+                                "Items": [
+                                    "self"
+                                ], 
+                                "Enabled": true, 
+                                "Quantity": 1
+                            }, 
+                            "TargetOriginId": "S3-aliniqbis-devops-web-app", 
+                            "ViewerProtocolPolicy": "https-only", 
+                            "ForwardedValues": {
+                                "Headers": {
+                                    "Quantity": 0
+                                }, 
+                                "Cookies": {
+                                    "Forward": "none"
+                                }, 
+                                "QueryString": false
+                            }, 
+                            "MaxTTL": 60, 
+                            "PathPattern": "/admin/*", 
+                            "SmoothStreaming": false, 
+                            "DefaultTTL": 60, 
+                            "AllowedMethods": {
+                                "Items": [
+                                    "HEAD", 
+                                    "GET"
+                                ], 
+                                "CachedMethods": {
+                                    "Items": [
+                                        "HEAD", 
+                                        "GET"
+                                    ], 
+                                    "Quantity": 2
+                                }, 
+                                "Quantity": 2
+                            }, 
+                            "MinTTL": 0, 
+                            "Compress": true
+                        }
+                    ], 
+                    "Quantity": 3
+                }, 
+                "WebACLId": "e3a42786-374b-48ed-b06c-b16ec079d463", 
+                "Origins": {
+                    "Items": [
+                        {
+                            "OriginPath": "", 
+                            "CustomOriginConfig": {
+                                "OriginProtocolPolicy": "http-only", 
+                                "HTTPPort": 80, 
+                                "HTTPSPort": 443
+                            }, 
+                            "Id": "S3-aliniqbis-devops-web-app", 
+                            "DomainName": "aliniqbis-devops-web-app.s3-website-us-east-1.amazonaws.com"
+                        }, 
+                        {
+                            "OriginPath": "", 
+                            "CustomOriginConfig": {
+                                "OriginProtocolPolicy": "https-only", 
+                                "HTTPPort": 80, 
+                                "HTTPSPort": 443
+                            }, 
+                            "Id": "Custom-proxy-devops-us-1.aliniqbis.com", 
+                            "DomainName": "proxy-devops-us-1.aliniqbis.com"
+                        }
+                    ], 
+                    "Quantity": 2
+                }, 
+                "DomainName": "d2giryatiql3cy.cloudfront.net", 
+                "PriceClass": "PriceClass_100", 
+                "Enabled": true, 
+                "DefaultCacheBehavior": {
+                    "TrustedSigners": {
+                        "Enabled": false, 
+                        "Quantity": 0
+                    }, 
+                    "TargetOriginId": "S3-aliniqbis-devops-web-app", 
+                    "ViewerProtocolPolicy": "redirect-to-https", 
+                    "ForwardedValues": {
+                        "Headers": {
+                            "Quantity": 0
+                        }, 
+                        "Cookies": {
+                            "Forward": "none"
+                        }, 
+                        "QueryString": false
+                    }, 
+                    "MaxTTL": 31536000, 
+                    "SmoothStreaming": false, 
+                    "DefaultTTL": 86400, 
+                    "AllowedMethods": {
+                        "Items": [
+                            "HEAD", 
+                            "GET"
+                        ], 
+                        "CachedMethods": {
+                            "Items": [
+                                "HEAD", 
+                                "GET"
+                            ], 
+                            "Quantity": 2
+                        }, 
+                        "Quantity": 2
+                    }, 
+                    "MinTTL": 0, 
+                    "Compress": true
+                }, 
+                "Comment": "", 
+                "ViewerCertificate": {
+                    "SSLSupportMethod": "sni-only", 
+                    "MinimumProtocolVersion": "TLSv1", 
+                    "IAMCertificateId": "ASCAI6DIHMLCEDXKCUWBS", 
+                    "Certificate": "ASCAI6DIHMLCEDXKCUWBS", 
+                    "CertificateSource": "iam"
+                }, 
+                "CustomErrorResponses": {
+                    "Quantity": 0
+                }, 
+                "LastModifiedTime": "2016-02-10T23:52:09.898Z", 
+                "Id": "E12XI3HQP4EA0D", 
+                "Restrictions": {
+                    "GeoRestriction": {
+                        "RestrictionType": "none", 
+                        "Quantity": 0
+                    }
+                }, 
+                "Aliases": {
+                    "Items": [
+                        "customer1-devops.aliniqbis.com", 
+                        "customer2-devops.aliniqbis.com"
+                    ], 
+                    "Quantity": 2
+                }
+            }
+        ]
+    }
+}

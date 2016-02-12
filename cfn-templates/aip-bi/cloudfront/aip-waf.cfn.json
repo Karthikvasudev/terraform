@@ -1,0 +1,140 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+
+    "Description": "aip-cloudfront.cfn.json",
+    "Description": "This template defines the CloudFront configuration",
+
+    "Parameters": {
+
+        "Environment": {
+            "Description": "name of the environment (dev, test, qa, prod)",
+            "Default": "dev",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        }
+    },
+
+
+    "Resources": {
+
+
+        "aliniqbisWebACL": {
+          "Type": "AWS::WAF::WebACL",
+          "Properties": {
+            "Name": {"Fn::Join": ["", ["aliniqbis-RK-", {"Ref": "Environment"}, "-waf-", {"Ref": "AWS::Region"} ]]},
+            "DefaultAction": {
+              "Type": "BLOCK"
+            },
+            "MetricName" : "AbbottWebACL",
+                "Rules": [
+                  {
+                    "Action" : {
+                      "Type" : "ALLOW"
+                    },
+                    "Priority" : 1,
+                    "RuleId" : { "Ref" : "Rule1" }
+                  },
+                  {
+                    "Action" : {
+                      "Type" : "ALLOW"
+                    },
+                    "Priority" : 2,
+                    "RuleId" : { "Ref" : "Rule2" }
+                  },
+                  {
+                    "Action" : {
+                      "Type" : "ALLOW"
+                    },
+                    "Priority" : 3,
+                    "RuleId" : { "Ref" : "Rule3" }
+                  }
+                ]
+
+          }      
+        },
+
+
+        "Rule1" : {
+            "Type" : "AWS::WAF::Rule",
+            "Properties" : {
+                "MetricName" : "AdminAccess",
+                "Name"       : "AdminAccess",
+                "Predicates" : [ 
+                    { 
+                        "Type" : "IPMatch", 
+                        "Negated" : "false",
+                        "DataId" : {"Ref" : "IPSetAbbottNetworks"}  
+                    },
+                    { 
+                        "Type" : "ByteMatch", 
+                        "Negated" : "false",
+                        "DataId" : {"Ref" : "AdminAccessByteMatchSet"}  
+                    }
+                ]
+            }
+        },
+        "Rule2" : {
+            "Type" : "AWS::WAF::Rule",
+            "Properties" : {
+                "MetricName" : "AllowAccessFromAbbott",
+                "Name"       : "AllowAccessFromAbbott",
+                "Predicates" : [ 
+                    { 
+                        "Type" : "IPMatch", 
+                        "Negated" : "false",
+                        "DataId" : {"Ref" : "IPSetAbbottNetworks"} 
+                    }
+                ]
+            }
+        },
+        "Rule3" : {
+            "Type" : "AWS::WAF::Rule",
+            "Properties" : {
+                "MetricName" : "PublicAccess",
+                "Name"       : "PublicAccess",
+                "Predicates" : [ 
+                    { 
+                        "Type" : "IPMatch", 
+                        "Negated" : "false",
+                        "DataId" : {"Ref" : "IPSetPublicNetwork"} 
+                    }
+                 ]
+            }
+        },
+
+        "IPSetAbbottNetworks": {
+            "Type" : "AWS::WAF::IPSet",
+            "Properties" : {
+                "Name"   : "AbbottNetwork",
+                "IPSetDescriptors": [
+                    {"Type":"IPV4", "Value":"130.36.0.0/16"}
+                ]
+            }
+        },
+        "IPSetPublicNetwork": {
+            "Type" : "AWS::WAF::IPSet",
+            "Properties" : {
+                "Name"   : "PuclicNetwork",
+                "IPSetDescriptors": [
+                    {"Type":"IPV4", "Value":"130.36.0.0/16"}
+                ]
+            }
+        },
+        "AdminAccessByteMatchSet": {
+            "Type" : "AWS::WAF::ByteMatchSet",
+            "Properties" : {
+                "Name"   : "AdminPath",
+                "ByteMatchTuples": [
+                    {
+                        "FieldToMatch" : {"Type": "URI"},
+                        "PositionalConstraint" : "STARTS_WITH",
+                        "TargetString" : "/admin",
+                        "TextTransformation" : "NONE"
+                    }
+                ]
+
+            }
+        }
+    }
+}

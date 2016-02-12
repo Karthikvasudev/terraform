@@ -10,7 +10,6 @@
         }
     },
     "Resources": {
-
         "aipChronosQ": {
             "Properties": {
                 "QueueName": {
@@ -32,6 +31,26 @@
                 "DelaySeconds": 0
             },
             "Type": "AWS::SQS::Queue"
+        },
+        "aipChronosQueuePolicy": {
+            "DependsOn": "aipChronosQ",
+            "Properties": {
+                "PolicyDocument": {
+                    "Version": "2008-10-17",
+                    "Id": "aipChronosQueuePolicyId",
+                    "Statement": [
+                        {
+                            "Sid": "aipChronosQPolicyStmtId",
+                            "Effect": "Allow",
+                            "Principal": { "AWS": "*" },
+                            "Action": [ "SQS:SendMessage" ],
+                            "Resource": { "Fn::GetAtt": [ "aipChronosQ", "Arn" ] }
+                        }
+                    ]
+                },
+                "Queues": [{"Ref": "aipChronosQ"}]
+            },
+            "Type": "AWS::SQS::QueuePolicy"
         },
 		"aipSnsTimeChanged" : {
 		   "Type" : "AWS::SNS::Topic",
