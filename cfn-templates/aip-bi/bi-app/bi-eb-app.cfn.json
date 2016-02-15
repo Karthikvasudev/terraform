@@ -250,9 +250,44 @@
                         "Value": "enhanced"
                     },
                     {
+                        "OptionName": "Application Healthcheck URL",
+                        "Namespace": "aws:elasticbeanstalk:application",
+                        "Value": "HTTP:80/api/bi/v1/health"
+                    },
+                    {
+                        "OptionName": "Automatically Terminate Unhealthy Instances",
+                        "Namespace": "aws:elasticbeanstalk:monitoring",
+                        "Value": "true"
+                    },
+                    {
+                        "OptionName": "Target",
+                        "ResourceName": "AWSEBLoadBalancer",
                         "Namespace": "aws:elb:healthcheck",
+                        "Value": "HTTP:80/api/bi/v1/health"
+                    },
+                    {
                         "OptionName": "Interval",
+                        "ResourceName": "AWSEBLoadBalancer",
+                        "Namespace": "aws:elb:healthcheck",
                         "Value": "10"
+                    },
+                    {
+                        "OptionName": "Timeout",
+                        "ResourceName": "AWSEBLoadBalancer",
+                        "Namespace": "aws:elb:healthcheck",
+                        "Value": "5"
+                    },
+                    {
+                        "OptionName": "HealthyThreshold",
+                        "ResourceName": "AWSEBLoadBalancer",
+                        "Namespace": "aws:elb:healthcheck",
+                        "Value": "3"
+                    },
+                    {
+                        "OptionName": "UnhealthyThreshold",
+                        "ResourceName": "AWSEBLoadBalancer",
+                        "Namespace": "aws:elb:healthcheck",
+                        "Value": "5"
                     },
                     {
                         "Namespace": "aws:elb:loadbalancer",
