@@ -1,4 +1,4 @@
-Notes and To-Do list:
+dock and To-Do list:
 
 NAT instance type Allowed values - needs to be updated
 
@@ -188,4 +188,34 @@ eu-central-1
 	edited aip-chronos-master.cfn.json - S3Bucket parameter changed from Region call to literal "us-east-1" in three locations (TemplateURL x2, S3Bucket)
 - Jenkins Deploy database Flyway app not able to network to eu-west-1
 
+
+-----------------------
+JOB_NAME_ARR=($JOB_NAME)
+echo APP_NAME=${JOB_NAME_ARR[1]}
+
+case $REGION in
+    us-east-1)
+        REGION2=us-1
+        DATABASE_URL=postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-us-east-1.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres
+        if [ "$ENV" == "test" ]; then
+            DATABASE_URLS_READ='postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r1-us-east-1d.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres'
+        else
+            DATABASE_URLS_READ='postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r1-us-east-1d.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres,postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r2-us-east-1e.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres'
+        fi
+        ;;
+    eu-west-1)
+        REGION2=eu-1
+        DATABASE_URL=postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-eu-west-1.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres
+        DATABASE_URLS_READ='postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r1-eu-west-1a.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres,postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r2-eu-west-1b.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres'
+        ;;
+esac
+
+echo REGION2=$REGION2
+echo DATABASE_URL=$DATABASE_URL
+echo DATABASE_URLS_READ=$DATABASE_URLS_READ
+
+---------------------- New Docker 1.9.1 beanstalk multi-container ---
+
+64bit Amazon Linux 2015.09 v2.0.7 running Multi-container Docker 1.9.1 (Generic)
+aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201602102343 (ami-a6cce6cc)
 

@@ -13,6 +13,28 @@
             "MinLength": "1",
             "MaxLength": "255"
         },
+        "CloudFrontHost": {
+            "Description": "Name of the CloudFront Distribution Host",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+        "ApiHost" : {
+            "Description": "Dynamic site Fully Qualified Domain Name",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+        "StaticHost" : {
+            "Description": "S3 Static site Fully Qualified Domain Name",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+        "Aliases" : {
+            "Description": "Client CNAMES comma separated list for the Distribution",
+            "Type": "CommaDelimitedList"
+        },
         "R53HostedZoneName": {
             "Description": "Name of the R53 HostedZone[aip.local.]",
             "Type": "String",
@@ -21,12 +43,6 @@
         },
         "ServerCertificateId": {
             "Description": "IAM Certificate ID number",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        },
-        "DomainName": {
-            "Description": "Fully Qualified Domain Name",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -40,25 +56,26 @@
             "Type": "AWS::CloudFront::Distribution",
             "Properties": {
                 "DistributionConfig": {
-                    "WebACLId" : { "Ref": "aliniqbisWebACL" },
+                    "WebACLId" : { "Ref": "WebACL" },
                     "Origins": [
-                            {
-                                "Id": "aliniqbisOrigin",
-                                "DomainName": { "Ref" : "DomainName" },
-                                "CustomOriginConfig": {
-                                    "HTTPPort": "80",
-                                    "HTTPSPort": "443",
-                                    "OriginProtocolPolicy": "https-only"
-                                }
-                            },
-                            {
-                                "Id": "S3-aliniqbis-devops-web-app",
-                                "DomainName": "aliniqbis-devops-web-app.s3-website-us-east-1.amazonaws.com",
-                                "S3OriginConfig": {
-                                    "OriginAccessIdentity": "origin-access-identify/cloudfront/E3RZ9X9R9VK7UA"
-                                }
+                        {
+                            "Id": { "Ref" : "ApiHost" },
+                            "DomainName": { "Ref" : "ApiHost" },
+                            "CustomOriginConfig": {
+                                "HTTPPort": "80",
+                                "HTTPSPort": "443",
+                                "OriginProtocolPolicy": "https-only"
                             }
-                        
+                        },
+                        {
+                            "Id": { "Ref" : "StaticHost" },
+                            "DomainName": { "Ref" : "StaticHost" }, 
+                            "CustomOriginConfig": {
+                                "HTTPPort": "80",
+                                "HTTPSPort": "443",
+                                "OriginProtocolPolicy": "http-only"
+                            }
+                        }
                     ],
                     "Enabled" : "true",
                     "Comment" : "CloudFront Distribution for the Abbott Informatics Platform",
@@ -68,12 +85,9 @@
                         "Bucket" : "aip-devops-s3-logs-us-east-1-661072482170.s3.amazonaws.com",
                         "Prefix" : "cloudfront"
                     },
-                    "Aliases": [
-                        {"Ref" : "R53HostedZoneName"},
-                        {"Fn::Join": ["", ["*.", {"Ref": "R53HostedZoneName"} ]]}
-                    ],
+                    "Aliases": {"Ref" : "Aliases"},
                     "DefaultCacheBehavior": {
-                        "TargetOriginId" : "aliniqbisOrigin",
+                        "TargetOriginId" : { "Ref" : "StaticHost" },
                         "SmoothStreaming" : "false",  
                         "ForwardedValues" : {
                             "QueryString" : "false",
@@ -96,12 +110,12 @@
                     "CacheBehaviors" : [
                         {
                             "PathPattern" : "/api/*",
-                            "TargetOriginId" : "aliniqbisOrigin",
+                            "TargetOriginId" : { "Ref" : "ApiHost" },
                             "AllowedMethods" : [ "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT" ],  
                             "CachedMethods"  : [ "HEAD", "GET" ],
                             "ForwardedValues" : {
-                                "QueryString" : "false",
-                                "Headers": [ "Authorization" ],
+                                "QueryString" : "true",
+                                "Headers": [ "Authorization", "Host" ],
                                 "Cookies": { "Forward": "none" }
                             },
                             "TrustedSigners": [
@@ -111,7 +125,7 @@
                             "MinTTL": 0
                         },
                         {
-                            "TargetOriginId": "S3-aliniqbis-devops-web-app",
+                            "TargetOriginId": { "Ref" : "StaticHost" },
                             "PathPattern": "/bi/help/*",
                             "ViewerProtocolPolicy": "https-only",
                             "MinTTL": 0,
@@ -126,11 +140,76 @@
                                 "HEAD",
                                 "GET"
                             ],
-                            "ForwardedValues": {
+                            "ForwardedValues" : {
                                 "QueryString" : "false",
-                                "Cookies": {
-                                  "Forward": "none"
-                                }
+                                "Headers": [],
+                                "Cookies": { "Forward": "none" }
+                            }
+                        },
+                        {
+                            "TargetOriginId": { "Ref" : "StaticHost" },
+                            "PathPattern": "/admin/*",
+                            "ViewerProtocolPolicy": "https-only",
+                            "MinTTL": 0,
+                            "TrustedSigners": [
+                                "self"
+                            ],
+                            "AllowedMethods": [
+                                "HEAD",
+                                "GET"
+                            ],
+                            "CachedMethods": [
+                                "HEAD",
+                                "GET"
+                            ],
+                            "ForwardedValues" : {
+                                "QueryString" : "false",
+                                "Headers": [],
+                                "Cookies": { "Forward": "none" }
+                            }
+                        },
+                        {
+                            "TargetOriginId": { "Ref" : "StaticHost" },
+                            "PathPattern": "/login/*",
+                            "ViewerProtocolPolicy": "https-only",
+                            "MinTTL": 0,
+                            "TrustedSigners": [
+                                "self"
+                            ],
+                            "AllowedMethods": [
+                                "HEAD",
+                                "GET"
+                            ],
+                            "CachedMethods": [
+                                "HEAD",
+                                "GET"
+                            ],
+                            "ForwardedValues" : {
+                                "QueryString" : "false",
+                                "Headers": [],
+                                "Cookies": { "Forward": "none" }
+                            }
+                        },
+                        {
+                            "TargetOriginId": { "Ref" : "StaticHost" },
+                            "PathPattern": "/*",
+                            "ViewerProtocolPolicy": "https-only",
+                            "MinTTL": 0,
+                            "TrustedSigners": [
+                                "self"
+                            ],
+                            "AllowedMethods": [
+                                "HEAD",
+                                "GET"
+                            ],
+                            "CachedMethods": [
+                                "HEAD",
+                                "GET"
+                            ],
+                            "ForwardedValues" : {
+                                "QueryString" : "false",
+                                "Headers": [],
+                                "Cookies": { "Forward": "none" }
                             }
                         }
                     ],
@@ -149,9 +228,22 @@
                 }
             }
         },
+        "AppR53EntryCloudFront" : {
+            "Type" : "AWS::Route53::RecordSetGroup",
+            "DependsOn" : "AliniqbisCloudFrontDistribution",
+            "Properties" : {
+                "HostedZoneName" : { "Ref": "R53HostedZoneName" },
+                "Comment"   : "Assigning route 53 A record for ELB's DNS record.",
+                "RecordSets" : [{
+                    "Name"      : {"Ref" : "CloudFrontHost"}, 
+                    "Type": "CNAME", 
+                    "TTL" : "900",
+                    "ResourceRecords" : [ {"Fn::GetAtt": ["AliniqbisCloudFrontDistribution", "DomainName"]} ]
+                }]
+            }
+        },
 
-
-        "aliniqbisWebACL": {
+                "WebACL": {
           "Type": "AWS::WAF::WebACL",
           "Properties": {
             "Name": {"Fn::Join": ["", ["aliniqbis-RK-", {"Ref": "Environment"}, "-waf-", {"Ref": "AWS::Region"} ]]},
@@ -267,6 +359,14 @@
                 ]
 
             }
+        }
+    },
+
+
+    "Outputs": {
+        "URL": {
+          "Description": "URL of the CloudFront Distribution",
+          "Value": { "Fn::GetAtt": ["AliniqbisCloudFrontDistribution", "DomainName"] }
         }
     }
 }

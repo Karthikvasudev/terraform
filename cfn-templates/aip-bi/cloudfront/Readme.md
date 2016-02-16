@@ -20,21 +20,9 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
-# WAF
-## DevOps
-aws cloudformation create-stack \
---stack-name aip-waf-devops-master \
---template-body file://aip-waf.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=devops \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
 
-aws cloudformation update-stack \
---stack-name aip-waf-devops-master \
---template-body file://aip-waf.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=devops \
---capabilities CAPABILITY_IAM \
---region us-east-1
+
+
 
 ########################################
 # ------ Ireland EU-west-1 Region ------

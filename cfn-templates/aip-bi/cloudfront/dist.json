@@ -195,8 +195,7 @@
                         }, 
                         "Quantity": 2
                     }, 
-                    "MinTTL": 0, 
-                    "Compress": true
+                    "MinTTL": 0
                 }, 
                 "Comment": "", 
                 "ViewerCertificate": {

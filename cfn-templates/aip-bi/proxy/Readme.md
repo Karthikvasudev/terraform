@@ -117,14 +117,10 @@ aws cloudformation create-stack \
 aws cloudformation update-stack \
 --stack-name aip-proxy-devops-master \
 --template-body file://aip-proxy-master.cfn.json \
-<<<<<<< HEAD
 --parameters file://aip-proxy-devops-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 
-=======
---parameters file://aip-proxy-prod-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM \
 --region us-east-1
->>>>>>> feature/ICP-777
+
 
 
 

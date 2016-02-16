@@ -347,22 +347,7 @@
             }
         },
 
-        "AppR53EntryCloudFront" : {
-            "Type" : "AWS::Route53::RecordSetGroup",
-            "DependsOn" : "APPEnvironment",
-            "Properties" : {
-                "HostedZoneName" : { "Ref": "R53HostedZoneName" },
-                "Comment"   : "Assigning route 53 A record for ELB's DNS record.",
-                "RecordSets" : [ {
-                    "Name"      : {"Ref" : "R53RecordSetNameSuffix"},
-                    "Type": "A",
-                    "AliasTarget" : {
-                      "HostedZoneId" : { "Ref" : "R53HostedZoneID"},
-                      "DNSName" : { "Fn::Join": ["", ["dualstack.", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]]}
-                    }
-                }]
-            }
-        },
+
         "BeanstalkEC2Role": {
              "Type": "AWS::IAM::Role",
              "Properties": {

@@ -12,11 +12,143 @@
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
+        },
+        "R53HostedZoneName": {
+            "Description": "Name of the R53 HostedZone[aip.local.]",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+        "ServerCertificateId": {
+            "Description": "IAM Certificate ID number",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+        "DomainName": {
+            "Description": "Fully Qualified Domain Name",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
         }
     },
 
 
     "Resources": {
+
+        "AliniqbisCloudFrontDistribution": {
+            "Type": "AWS::CloudFront::Distribution",
+            "Properties": {
+                "DistributionConfig": {
+                    "WebACLId" : { "Ref": "aliniqbisWebACL" },
+                    "Origins": [
+                            {
+                                "Id": "aliniqbisOrigin",
+                                "DomainName": { "Ref" : "DomainName" },
+                                "CustomOriginConfig": {
+                                    "HTTPPort": "80",
+                                    "HTTPSPort": "443",
+                                    "OriginProtocolPolicy": "https-only"
+                                }
+                            },
+                            {
+                                "Id": "S3-aliniqbis-devops-web-app",
+                                "DomainName": "static-devops-us-1.aliniqbis.com.s3-website-us-east-1.amazonaws.com", 
+                                "CustomOriginConfig": {
+                                    "OriginAccessIdentity": "origin-access-identify/cloudfront/E3RZ9X9R9VK7UA"
+                                }
+                            }
+                        
+                    ],
+                    "Enabled" : "true",
+                    "Comment" : "CloudFront Distribution for the Abbott Informatics Platform",
+                    "DefaultRootObject" : "index.html",
+                    "Logging" : {
+                        "IncludeCookies" : "true",
+                        "Bucket" : "aip-devops-s3-logs-us-east-1-661072482170.s3.amazonaws.com",
+                        "Prefix" : "cloudfront"
+                    },
+                    "Aliases": [
+                        {"Ref" : "R53HostedZoneName"},
+                        {"Fn::Join": ["", ["*.", {"Ref": "R53HostedZoneName"} ]]}
+                    ],
+                    "DefaultCacheBehavior": {
+                        "TargetOriginId" : "aliniqbisOrigin",
+                        "SmoothStreaming" : "false",  
+                        "ForwardedValues" : {
+                            "QueryString" : "false",
+                            "Cookies" : { "Forward" : "none" }
+                        },
+                        "TrustedSigners": [
+                            "self"
+                        ],
+                        "ViewerProtocolPolicy" : "https-only",
+                        "MinTTL": 0,
+                        "AllowedMethods": [
+                          "HEAD",
+                          "GET"
+                        ],
+                        "CachedMethods": [
+                          "HEAD",
+                          "GET"
+                        ]
+                    },
+                    "CacheBehaviors" : [
+                        {
+                            "PathPattern" : "/api/*",
+                            "TargetOriginId" : "aliniqbisOrigin",
+                            "AllowedMethods" : [ "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT" ],  
+                            "CachedMethods"  : [ "HEAD", "GET" ],
+                            "ForwardedValues" : {
+                                "QueryString" : "false",
+                                "Headers": [ "Authorization" ],
+                                "Cookies": { "Forward": "none" }
+                            },
+                            "TrustedSigners": [
+                                "self"
+                            ],
+                            "ViewerProtocolPolicy" : "https-only",
+                            "MinTTL": 0
+                        },
+                        {
+                            "TargetOriginId": "S3-aliniqbis-devops-web-app",
+                            "PathPattern": "/bi/help/*",
+                            "ViewerProtocolPolicy": "https-only",
+                            "MinTTL": 0,
+                            "TrustedSigners": [
+                                "self"
+                            ],
+                            "AllowedMethods": [
+                                "HEAD",
+                                "GET"
+                            ],
+                            "CachedMethods": [
+                                "HEAD",
+                                "GET"
+                            ],
+                            "ForwardedValues": {
+                                "QueryString" : "false",
+                                "Cookies": {
+                                  "Forward": "none"
+                                }
+                            }
+                        }
+                    ],
+                    "PriceClass" : "PriceClass_All",
+                    "Restrictions" : {
+                       "GeoRestriction" : {
+                            "RestrictionType" : "none",
+                            "Locations": []
+                       }
+                    },
+                    "ViewerCertificate" : { 
+                        "IamCertificateId" : { "Ref" : "ServerCertificateId" },
+                        "SslSupportMethod": "sni-only",
+                        "MinimumProtocolVersion": "TLSv1"
+                    }
+                }
+            }
+        },
 
 
         "aliniqbisWebACL": {
@@ -138,3 +270,21 @@
         }
     }
 }
+
+        "AppR53EntryCloudFront" : {
+            "Type" : "AWS::Route53::RecordSetGroup",
+            "DependsOn" : "APPEnvironment",
+            "Properties" : {
+                "HostedZoneName" : { "Ref": "R53HostedZoneName" },
+                "Comment"   : "Assigning route 53 A record for ELB's DNS record.",
+                "RecordSets" : [ {
+                    "Name"      : {"Ref" : "CloudFrontHost"}, 
+                    "Type": "CNAME", 
+                    "AliasTarget" : {
+                      "HostedZoneId" : { "Ref" : "R53HostedZoneID"},
+                      "DNSName" : { "Fn::Join": ["", [{"Fn::GetAtt": ["AliniqbisCloudFrontDistribution", "DomainName"]} ]]}
+                    }
+                }]
+            }
+        },
+
