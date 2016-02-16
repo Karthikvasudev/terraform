@@ -318,13 +318,25 @@
                                 "ecs:CreateCluster",
                                 "ecs:Poll"
                                 ],
-                    "Resource" : "*"
-                 },
-                 {
-                    "Effect" : "Allow",
-                    "Action" : [ "s3:PutObject" ],
-                    "Resource" : "arn:aws:s3:::elasticbeanstalk-*/resources/environments/logs/*"
-                 }]
+                         "Resource" : "*"
+                    },
+                    {
+                        "Effect" : "Allow",
+                        "Action" : [ "s3:PutObject" ],
+                        "Resource" : "arn:aws:s3:::elasticbeanstalk-*/resources/environments/logs/*"
+                    },
+				    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "logs:CreateLogGroup",
+                            "logs:CreateLogStream",
+                            "logs:PutLogEvents",
+                            "logs:DescribeLogStreams"
+                        ],
+                        "Resource": [
+                            "arn:aws:logs:*:*:*"
+                        ]
+                    }]
                }
               }],
                 "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonS3FullAccess",
