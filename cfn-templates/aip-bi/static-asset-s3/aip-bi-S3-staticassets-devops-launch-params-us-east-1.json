@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "R53HostedZoneName",
-    "ParameterValue": "aliniqbis.com."
+    "ParameterValue": "aliniqbis.com"
   },
   {
     "ParameterKey": "WebSiteName",
