@@ -16,13 +16,13 @@
     },
 
 	"Parameters": {
-		"Domain": {
+		"WebSiteName": {
 			"Description": "Static Web app name ex. static-devops-us-1",
 			"Type": "String",
 			"MinLength": "1",
 			"MaxLength": "255"
 		},
-		"RootDomainName": {
+		"R53HostedZoneName": {
 			"Description": "Root domain name ex. aliniqbis.com",
 			"Default": "aliniqbis.com",
 			"Type": "String",
@@ -33,40 +33,20 @@
 
 
 	"Resources": {
-		"staticwebsite": {
+		"BucketName": {
 			"Type": "AWS::S3::Bucket",
 			"Properties": {
 				"BucketName": {
 					"Fn::Join": ["", [{
-						"Ref": "Domain"
+						"Ref": "WebSiteName"
 					}, ".", {
-						"Ref": "RootDomainName"
+						"Ref": "R53HostedZoneName"
 					}
 					]]
 				},
 				"WebsiteConfiguration": {
 					"IndexDocument": "index.html",
-					"ErrorDocument": "error.html",
-				"RoutingRules": [
-                {
-                    "RoutingRuleCondition": {
-                        "HttpErrorCodeReturnedEquals": "404"
-						
-                        
-                    },
-                    "RedirectRule": {
-                        "HostName": {
-					"Fn::Join": ["", [{
-						"Ref": "Domain"
-					}, ".", {
-						"Ref": "RootDomainName"
-					}
-					]]
-				},
-					    "ReplaceKeyPrefixWith": "bi/"
-                    }
-                }
-				]
+					"ErrorDocument": "error.html"
 				}
             
 				 
@@ -74,11 +54,11 @@
 			
 			},
 		
-		"staticwebsitePolicy": {
+		"BucketPolicy": {
             "Type": "AWS::S3::BucketPolicy",
             "Properties": {
                 "Bucket": {
-                    "Ref": "staticwebsite"
+                    "Ref": "BucketName"
                 },
                 "PolicyDocument": {
 				
@@ -90,7 +70,7 @@
                                 
                             ],
                             "Effect": "Allow",
-                            "Resource": {"Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "staticwebsite"}, "/*"]]},
+                            "Resource": {"Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "BucketName"}, "/*"]]},
                             "Principal": "*"
                         }
                     ]
@@ -102,16 +82,16 @@
 "StaticDNS": {
             "Type": "AWS::Route53::RecordSet",
             "Properties": {
-			"HostedZoneName" : { "Fn::Join" : [ "", [{ "Ref" : "RootDomainName" }, "."]]},
+			"HostedZoneName" : { "Fn::Join" : [ "", [{ "Ref" : "R53HostedZoneName" }, "."]]},
                 
 			
                 "Name": {
-                            "Fn::Join": ["",[{"Ref":"Domain"}, ".", { "Ref" : "RootDomainName" }]]},
+                            "Fn::Join": ["",[{"Ref":"WebSiteName"}, ".", { "Ref" : "R53HostedZoneName" }]]},
                         
                         "Type": "CNAME",
                         "TTL" : "900",
                          "ResourceRecords" : [
-                          {"Fn::Join": ["",[{"Ref":"staticwebsite"}, ".", {"Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "websiteendpoint"]} ]]}
+                          {"Fn::Join": ["",[{"Ref":"BucketName"}, ".", {"Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "websiteendpoint"]} ]]}
                         
                         ]
 				
@@ -132,14 +112,14 @@
 "Outputs": {
 		"WebsiteURL": {
 			"Value": {
-				"Fn::GetAtt": ["staticwebsite", "WebsiteURL"]
+				"Fn::GetAtt": ["BucketName", "WebsiteURL"]
 			},
 			"Description": "URL for website hosted on S3"
 		},
 		"S3BucketSecureURL": {
 			"Value": {
 				"Fn::Join": ["", ["https://", {
-					"Fn::GetAtt": ["staticwebsite", "DomainName"]
+					"Fn::GetAtt": ["BucketName", "DomainName"]
 				}]]
 			},
 			"Description": "Name of S3 bucket to hold website content"
