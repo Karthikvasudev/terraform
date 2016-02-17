@@ -219,3 +219,12 @@ echo DATABASE_URLS_READ=$DATABASE_URLS_READ
 64bit Amazon Linux 2015.09 v2.0.7 running Multi-container Docker 1.9.1 (Generic)
 aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201602102343 (ami-a6cce6cc)
 
+-------- CloudFront ---- Property not yet supported
+                                "OriginSslProtocols": {
+                                    "Quantity": 3,
+                                    "Items": ["TLSv1", "TLSv1.1", "TLSv1.2"]
+                                }
+        Also: "Compress": "true"
+
+
+        

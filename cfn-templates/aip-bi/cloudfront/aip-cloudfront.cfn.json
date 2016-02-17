@@ -56,7 +56,6 @@
             "Type": "AWS::CloudFront::Distribution",
             "Properties": {
                 "DistributionConfig": {
-                    "WebACLId" : { "Ref": "WebACL" },
                     "Origins": [
                         {
                             "Id": { "Ref" : "ApiHost" },
@@ -93,11 +92,7 @@
                             "QueryString" : "false",
                             "Cookies" : { "Forward" : "none" }
                         },
-                        "TrustedSigners": [
-                            "self"
-                        ],
                         "ViewerProtocolPolicy" : "https-only",
-                        "MinTTL": 0,
                         "AllowedMethods": [
                           "HEAD",
                           "GET"
@@ -105,11 +100,14 @@
                         "CachedMethods": [
                           "HEAD",
                           "GET"
-                        ]
+                        ],
+                        "MinTTL": 0,
+                        "MaxTTL": 0,
+                        "DefaultTTL": 0
                     },
                     "CacheBehaviors" : [
                         {
-                            "PathPattern" : "/api/*",
+                            "PathPattern" : "/api*",
                             "TargetOriginId" : { "Ref" : "ApiHost" },
                             "AllowedMethods" : [ "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT" ],  
                             "CachedMethods"  : [ "HEAD", "GET" ],
@@ -118,20 +116,15 @@
                                 "Headers": [ "Authorization", "Host" ],
                                 "Cookies": { "Forward": "none" }
                             },
-                            "TrustedSigners": [
-                                "self"
-                            ],
                             "ViewerProtocolPolicy" : "https-only",
-                            "MinTTL": 0
+                            "MinTTL": 0,
+                            "MaxTTL": 0,
+                            "DefaultTTL": 0
                         },
                         {
                             "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/bi/help/*",
+                            "PathPattern": "/help/*",
                             "ViewerProtocolPolicy": "https-only",
-                            "MinTTL": 0,
-                            "TrustedSigners": [
-                                "self"
-                            ],
                             "AllowedMethods": [
                                 "HEAD",
                                 "GET"
@@ -144,16 +137,36 @@
                                 "QueryString" : "false",
                                 "Headers": [],
                                 "Cookies": { "Forward": "none" }
-                            }
+                            },
+                            "MinTTL": 0,
+                            "MaxTTL": 0,
+                            "DefaultTTL": 0
+                        },
+                        {
+                            "TargetOriginId": { "Ref" : "StaticHost" },
+                            "PathPattern": "/help/",
+                            "ViewerProtocolPolicy": "redirect-to-https",
+                            "AllowedMethods": [
+                                "HEAD",
+                                "GET"
+                            ],
+                            "CachedMethods": [
+                                "HEAD",
+                                "GET"
+                            ],
+                            "ForwardedValues" : {
+                                "QueryString" : "false",
+                                "Headers": [],
+                                "Cookies": { "Forward": "none" }
+                            },
+                            "MinTTL": 60,
+                            "MaxTTL": 60,
+                            "DefaultTTL": 60
                         },
                         {
                             "TargetOriginId": { "Ref" : "StaticHost" },
                             "PathPattern": "/admin/*",
-                            "ViewerProtocolPolicy": "https-only",
-                            "MinTTL": 0,
-                            "TrustedSigners": [
-                                "self"
-                            ],
+                            "ViewerProtocolPolicy": "redirect-to-https",
                             "AllowedMethods": [
                                 "HEAD",
                                 "GET"
@@ -166,16 +179,15 @@
                                 "QueryString" : "false",
                                 "Headers": [],
                                 "Cookies": { "Forward": "none" }
-                            }
+                            },
+                            "MinTTL": 60,
+                            "MaxTTL": 60,
+                            "DefaultTTL": 60
                         },
                         {
                             "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/login/*",
-                            "ViewerProtocolPolicy": "https-only",
-                            "MinTTL": 0,
-                            "TrustedSigners": [
-                                "self"
-                            ],
+                            "PathPattern": "/login/",
+                            "ViewerProtocolPolicy": "redirect-to-https",
                             "AllowedMethods": [
                                 "HEAD",
                                 "GET"
@@ -188,16 +200,15 @@
                                 "QueryString" : "false",
                                 "Headers": [],
                                 "Cookies": { "Forward": "none" }
-                            }
+                            },
+                            "MinTTL": 60,
+                            "MaxTTL": 60,
+                            "DefaultTTL": 60
                         },
                         {
                             "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/*",
-                            "ViewerProtocolPolicy": "https-only",
-                            "MinTTL": 0,
-                            "TrustedSigners": [
-                                "self"
-                            ],
+                            "PathPattern": "/",
+                            "ViewerProtocolPolicy": "redirect-to-https",
                             "AllowedMethods": [
                                 "HEAD",
                                 "GET"
@@ -210,7 +221,10 @@
                                 "QueryString" : "false",
                                 "Headers": [],
                                 "Cookies": { "Forward": "none" }
-                            }
+                            },
+                            "MinTTL": 60,
+                            "MaxTTL": 60,
+                            "DefaultTTL": 60
                         }
                     ],
                     "PriceClass" : "PriceClass_All",
@@ -224,7 +238,8 @@
                         "IamCertificateId" : { "Ref" : "ServerCertificateId" },
                         "SslSupportMethod": "sni-only",
                         "MinimumProtocolVersion": "TLSv1"
-                    }
+                    },
+                    "WebACLId" : { "Ref": "WebACL" }
                 }
             }
         },
@@ -243,10 +258,10 @@
             }
         },
 
-                "WebACL": {
+        "WebACL": {
           "Type": "AWS::WAF::WebACL",
           "Properties": {
-            "Name": {"Fn::Join": ["", ["aliniqbis-RK-", {"Ref": "Environment"}, "-waf-", {"Ref": "AWS::Region"} ]]},
+            "Name": {"Fn::Join": ["", ["aliniqbis-", {"Ref": "Environment"}, "-waf-", {"Ref": "AWS::Region"} ]]},
             "DefaultAction": {
               "Type": "BLOCK"
             },
