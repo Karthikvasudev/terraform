@@ -27,7 +27,7 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-## DynamoDB resource
+## AWS resources
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-dev-master \
 --template-body file://bi-aws-resources.cfn.json \
@@ -56,7 +56,7 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-## DynamoDB resource
+## AWS resources
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-test-master \
 --template-body file://bi-aws-resources.cfn.json \
@@ -84,7 +84,7 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-## DynamoDB resource
+## AWS resources
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-qa-master \
 --template-body file://bi-aws-resources.cfn.json \
@@ -112,7 +112,7 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-## DynamoDB resource
+## AWS resources
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-prod-master \
 --template-body file://bi-aws-resources.cfn.json \
@@ -141,7 +141,7 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-## DynamoDB resource
+## AWS resources
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-beta-master \
 --template-body file://bi-aws-resources.cfn.json \
@@ -170,7 +170,7 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-## DynamoDB resource
+## AWS resources
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-devops-master \
 --template-body file://bi-aws-resources.cfn.json \
@@ -204,7 +204,7 @@ aws cloudformation update-stack \
 --region eu-west-1
 
 
-## DynamoDB resource
+## AWS resources
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-prod-master \
 --template-body file://bi-aws-resources.cfn.json \

@@ -371,11 +371,12 @@
                     "Type": "A",
                     "AliasTarget" : {
                       "HostedZoneId" : { "Ref" : "R53HostedZoneID"},
-                      "DNSName" : {"Fn::Join": ["", ["dualstack.", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]] }
+                      "DNSName" : { "Fn::Join": ["", ["dualstack.", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]]}
                     }
                 }]
             }
         },
+
 
         "BeanstalkEC2Role": {
              "Type": "AWS::IAM::Role",
