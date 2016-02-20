@@ -245,11 +245,11 @@
 												{
 													"Ref": "AWS::AccountId"
 												},
-												"/bi-",
+												"/aip-",
 												{
 													"Ref" : "Environment"
 												},
-												"-sqs-datapipeline-service"
+												"-sqs-chronos"
                                             ]
                                         ]
 						
