@@ -1,0 +1,26 @@
+[
+    {
+        "ParameterKey": "Environment",
+        "ParameterValue": "test"
+    },
+    {
+        "ParameterKey": "Subnets",
+        "ParameterValue": "subnet-285b6a03,subnet-15fb5e28"
+    },
+    {
+        "ParameterKey": "Zones",
+        "ParameterValue": "us-east-1d,us-east-1e"
+    },
+    {
+        "ParameterKey": "R53HostedZoneName",
+        "ParameterValue": "aliniqbis.local."
+    },
+    {
+        "ParameterKey": "R53HostedZoneID",
+        "ParameterValue": "Z1GAOBNRO1KT3U"
+    },
+    {
+        "ParameterKey": "R53RecordSetNameSuffix",
+        "ParameterValue": "us-1.aliniqbis.local"
+    }
+]

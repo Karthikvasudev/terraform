@@ -1,0 +1,26 @@
+[
+    {
+        "ParameterKey": "Environment",
+        "ParameterValue": "devops"
+    },
+    {
+        "ParameterKey": "Subnets",
+        "ParameterValue": "subnet-53a01a6e,subnet-42534069"
+    },
+    {
+        "ParameterKey": "Zones",
+        "ParameterValue": "us-east-1d,us-east-1e"
+    },
+    {
+        "ParameterKey": "R53HostedZoneName",
+        "ParameterValue": "aliniqbis.local."
+    },
+    {
+        "ParameterKey": "R53HostedZoneID",
+        "ParameterValue": "Z1GAOBNRO1KT3U"
+    },
+    {
+        "ParameterKey": "R53RecordSetNameSuffix",
+        "ParameterValue": "us-1.aliniqbis.local"
+    }
+]
