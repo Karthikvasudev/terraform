@@ -1,0 +1,94 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+
+    "Description": "aip-redis-cluster.cfn.json",
+    "Description": "This template defines the Redis-Cluster configuration",
+
+    "Parameters": {
+        "Environment": {
+            "Description": "name of the environment (devops, dev, test, qa, beta, prod)",
+            "Default": "devops",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+        "Subnets": {
+            "Description": "Redis cluster will be formed within these subnets.",
+            "Type": "CommaDelimitedList"
+        },
+        "Zones": {
+            "Description": "Redis cluster will be formed within these zones.",
+            "Type": "CommaDelimitedList"
+        },
+        "R53HostedZoneName": {
+            "Description": "Name of the R53 HostedZone[aip.local.]",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+		"R53HostedZoneID": {
+			"Description": "R53 Zone ID",
+			"Type": "String",
+			"MinLength": "1",
+			"MaxLength": "255"
+		},
+		"R53RecordSetNameSuffix": {
+			"Description": "Name of the R53 Record Set",
+			"Type": "String",
+			"MinLength": "1",
+			"MaxLength": "255"
+		}		
+    },
+    "Resources": {
+		"SubnetGroup" : {
+            "Type" : "AWS::ElastiCache::SubnetGroup",
+            "Properties" : {
+                "Description" : "Cache Subnet Group",
+                "SubnetIds" : { "Ref" : "Subnets" }
+            }
+        },	
+        "RedisReplicationGroup" : {
+            "Type": "AWS::ElastiCache::ReplicationGroup",
+            "Properties": {
+                "ReplicationGroupDescription" : "Redis Replication Group",
+                "NumCacheClusters" : "2",
+                "Engine" : "redis",
+                "CacheNodeType" : "cache.m3.medium",
+                "AutoMinorVersionUpgrade" : "false",
+                "AutomaticFailoverEnabled" : "true",
+                "CacheSubnetGroupName" : { "Ref": "SubnetGroup" },
+                "EngineVersion" : "2.8.24",
+                "PreferredMaintenanceWindow" : "sat:15:00-sat:16:00",
+                "PreferredCacheClusterAZs": { "Ref" : "Zones" }
+            }
+        },
+	    "RedisR53Entry" : {
+            "Type" : "AWS::Route53::RecordSetGroup",
+			"DependsOn" : "RedisReplicationGroup",
+            "Properties" : {
+                "HostedZoneName" : { "Ref": "R53HostedZoneName" },
+                "Comment"   : "Assigning route 53 CNAME record for Redis Cluster.",
+                "RecordSets" : [
+				    {
+                        "Name": { "Fn::Join": ["", [ "aip-", { "Ref": "Environment" }, "-ec-redis-master-", { "Ref": "R53RecordSetNameSuffix" } ]]},
+                        "Type": "CNAME",
+                        "TTL" : "900",
+                        "ResourceRecords" : [{ "Fn::Join": ["", [{ "Ref": "RedisReplicationGroup" }, "-001.hpmwcu.0001.use1.cache.amazonaws.com" ]]}]
+                    },
+				    {
+                        "Name": { "Fn::Join": ["", [ "aip-", { "Ref": "Environment" }, "-ec-redis-slave-", { "Ref": "R53RecordSetNameSuffix" } ]]},
+                        "Type": "CNAME",
+						"TTL" : "900",
+                        "ResourceRecords" : [{ "Fn::Join": ["", [{ "Ref": "RedisReplicationGroup" }, "-002.hpmwcu.0001.use1.cache.amazonaws.com" ]]}]
+                    }
+				]
+            }
+        }		
+    },
+    "Outputs": {
+        "ReplicationGroup": {
+            "Description": "Redis Replication Group",
+            "Value": { "Ref": "RedisReplicationGroup" }
+        }
+    }
+}
