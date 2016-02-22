@@ -1,0 +1,50 @@
+[
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-2cd74548"
+  },
+  {
+    "ParameterKey": "WebSecurityGroup",
+    "ParameterValue": "sg-d0b8b8b6"
+  },  
+  {
+    "ParameterKey": "DatabaseSubnet1",
+    "ParameterValue": "subnet-4053406b"
+  },  
+  {
+    "ParameterKey": "DatabaseSubnet2",
+    "ParameterValue": "subnet-4da01a70"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "devops"
+  },
+  {
+    "ParameterKey": "DatabaseUser",
+    "ParameterValue": "sa"
+  },  
+  {
+    "ParameterKey": "DatabasePassword",
+    "ParameterValue": "Pr0jectOnT!me"
+  },
+  {
+    "ParameterKey": "AZforReplica1",
+    "ParameterValue": "us-east-1d"
+  },
+  {
+    "ParameterKey": "AZforReplica2",
+    "ParameterValue": "us-east-1e"
+  },
+  {
+    "ParameterKey": "DBInstanceClass",
+    "ParameterValue": "db.r3.2xlarge"
+  },   
+  {
+    "ParameterKey": "DBAllocatedStorage",
+    "ParameterValue": "1000"
+  },
+  {
+    "ParameterKey": "DBStorageType",
+    "ParameterValue": "gp2"
+  }
+]

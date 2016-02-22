@@ -1,0 +1,90 @@
+[
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-e4205081"
+  },
+  {
+    "ParameterKey": "WebSecurityGroup",
+    "ParameterValue": "sg-f5c83891"
+  },  
+  {
+    "ParameterKey": "WebSubnet1",
+    "ParameterValue": "subnet-72471505"
+  },  
+  {
+    "ParameterKey": "WebSubnet2",
+    "ParameterValue": "subnet-ec7b11b5"
+  },  
+  {
+    "ParameterKey": "PublicSubnet1",
+    "ParameterValue": "subnet-73471504"
+  },
+  {
+    "ParameterKey": "PublicSubnet2",
+    "ParameterValue": "subnet-ed7b11b4"
+  },       
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-prod-keys-ap-ne-1"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "prod"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-bi/bi-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-bi/bi-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m3.large"
+  },
+  {
+    "ParameterKey": "CWatchLogGrpName",
+    "ParameterValue": "aip-bi-logs"
+  },  
+  {
+    "ParameterKey": "CWatchLogGrpRetention",
+    "ParameterValue": "14"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "aip-prod-eb-bi-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "bi-app"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "golden"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "eb-app-golden-012516.zip"
+  },
+  {
+    "ParameterKey": "SolutionStackName",
+    "ParameterValue": "64bit Amazon Linux 2015.09 v2.0.6 running Multi-container Docker 1.7.1 (Generic)"
+  },  
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-xxx"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.local."
+  },
+  {
+    "ParameterKey": "R53RecordSetNamePrefix",
+    "ParameterValue": "bi"
+  },
+  {
+    "ParameterKey": "R53RecordSetNameSuffix",
+    "ParameterValue": "ap-1.aliniqbis.local"
+  }
+]
