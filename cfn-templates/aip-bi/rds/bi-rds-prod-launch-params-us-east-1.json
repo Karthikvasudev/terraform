@@ -37,7 +37,7 @@
   },
   {
     "ParameterKey": "DBInstanceClass",
-    "ParameterValue": "db.r3.2xlarge"
+    "ParameterValue": "db.r3.8xlarge"
   },   
   {
     "ParameterKey": "DBAllocatedStorage",

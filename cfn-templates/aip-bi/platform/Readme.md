@@ -214,3 +214,37 @@ aws cloudformation create-stack \
 --region eu-west-1
 
 
+
+########################################
+# ------- Tokyo EU-west-1 Region -------
+########################################
+
+
+# Prod
+
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name aip-platform-prod-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region ap-northeast-1
+
+## -- update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name aip-platform-prod-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM \
+--region ap-northeast-1
+
+
+## DynamoDB resource
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-prod-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region ap-northeast-1
+
+

@@ -174,6 +174,7 @@ NAT Instances by Region:
 us-east-1 amzn-ami-vpc-nat-pv-2015.03.0.x86_64-ebs (ami-c02b04a8)
 eu-west-1 amzn-ami-vpc-nat-pv-2015.03.0.x86_64-ebs (ami-cb7de3bc)
 eu-central-1 
+ap-northeast-1 amzn-ami-vpc-nat-pv-2015.03.0.x86_64-ebs (ami-c7e016c7)
 
 --- eu-west-1 Porting notes ---
 - Select NAT AMI for templates
@@ -189,7 +190,7 @@ eu-central-1
 - Jenkins Deploy database Flyway app not able to network to eu-west-1
 
 
------------------------
+----------------------- Test Env with ONE Read Replica -----------------
 JOB_NAME_ARR=($JOB_NAME)
 echo APP_NAME=${JOB_NAME_ARR[1]}
 
@@ -202,6 +203,27 @@ case $REGION in
         else
             DATABASE_URLS_READ='postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r1-us-east-1d.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres,postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r2-us-east-1e.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres'
         fi
+        ;;
+    eu-west-1)
+        REGION2=eu-1
+        DATABASE_URL=postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-eu-west-1.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres
+        DATABASE_URLS_READ='postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r1-eu-west-1a.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres,postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r2-eu-west-1b.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres'
+        ;;
+esac
+
+echo REGION2=$REGION2
+echo DATABASE_URL=$DATABASE_URL
+echo DATABASE_URLS_READ=$DATABASE_URLS_READ
+
+-------------------------- All Envs with TWO Read Replica -----------------
+JOB_NAME_ARR=($JOB_NAME)
+echo APP_NAME=${JOB_NAME_ARR[1]}
+
+case $REGION in
+    us-east-1)
+        REGION2=us-1
+        DATABASE_URL=postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-us-east-1.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres
+        DATABASE_URLS_READ='postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r1-us-east-1d.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres,postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r2-us-east-1e.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres'
         ;;
     eu-west-1)
         REGION2=eu-1
@@ -228,3 +250,10 @@ aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201602102343 (ami-a6cce6cc)
 
 
         
+-------------------
+aws cloudfront get-distribution-config --id E1O9D82OFKC258
+-------------------
+UPDATE_ROLLBACK_FAILED state: https://blogs.aws.amazon.com/application-management/post/Tx11YT4MHFDZMK6/Continue-Rolling-Back-an-Update-for-AWS-CloudFormation-stacks-in-the-UPDATE-ROLL
+
+AWS CloudFormation now offers a third option: continue update rollback, which you can initiate from the AWS CloudFormation console or with the continue-update-rollback command in the AWS Command Line Interface (CLI). This functionality is enabled for all the stacks in the UPDATE_ROLLBACK_FAILED state.
+-------------------
