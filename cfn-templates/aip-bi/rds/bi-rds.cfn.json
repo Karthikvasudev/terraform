@@ -212,7 +212,7 @@
     "DBParameterGroup" : {
        "Type": "AWS::RDS::DBParameterGroup",
        "Properties" : {
-          "Description" : { "Fn::Join": ["", [{ "Ref": "Environment" }, "RDS Postgres Param Group"]]},
+          "Description" : { "Fn::Join": ["", [{ "Ref": "Environment" }, " RDS Postgres Param Group"]]},
           "Family" : "postgres9.4",
           "Parameters" : {
             "log_autovacuum_min_duration" : "500", 
