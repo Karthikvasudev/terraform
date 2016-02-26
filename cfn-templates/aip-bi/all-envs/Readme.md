@@ -52,3 +52,21 @@ aws cloudformation create-stack \
 
 
 
+
+
+########################################
+# ---- Tokyo AP-NorthEast-1 Region -----
+########################################
+
+
+### Elastic Beanstalk App Environments
+
+Testing / Debugging
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name aip-eb-apps-master \
+--template-body file://aip-eb-apps.cfn.json \
+--capabilities CAPABILITY_IAM --disable-rollback --region ap-northeast-1 
+
+
+
