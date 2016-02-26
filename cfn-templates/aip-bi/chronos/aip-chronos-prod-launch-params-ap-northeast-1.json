@@ -1,0 +1,70 @@
+[
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-prod-keys-ap-ne-1"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "prod"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-chronos/aip-chronos-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m3.medium"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-e4205081"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-prod-vpc-ap-ne-1"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "prod-aip-chronos-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "aip-chronos"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "golden"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "eb-app-golden-012516.zip"
+  },
+  {
+    "ParameterKey": "SolutionStackName",
+    "ParameterValue": "64bit Amazon Linux 2015.09 v2.0.7 running Multi-container Docker 1.9.1 (Generic)"
+  },
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-a98d89c7"
+  },
+  {
+    "ParameterKey": "AppEnvironmentSuffix",
+    "ParameterValue": "aip-chro"
+  },
+  {
+    "ParameterKey": "PublicSubnets",
+    "ParameterValue": "subnet-73471504,subnet-ed7b11b4"
+  },
+  {
+    "ParameterKey": "PrivateSubnets",
+    "ParameterValue": "subnet-72471505,subnet-ec7b11b5"
+  },   
+  {
+    "ParameterKey": "InstanceSecurityGroups",
+    "ParameterValue": "sg-f5c83891"
+  }
+]

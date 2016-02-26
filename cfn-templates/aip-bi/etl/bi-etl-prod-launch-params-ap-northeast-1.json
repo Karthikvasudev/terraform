@@ -1,0 +1,70 @@
+[
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-prod-keys-ap-ne-1"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "prod"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "/cfn-templates/bi-etl/bi-etl-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m3.xlarge"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-e4205081"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-prod-vpc-ap-ne-1"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "prod-etl-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "etl"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "golden"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "eb-docker-template.zip"
+  },  
+  {
+    "ParameterKey": "SolutionStackName",
+    "ParameterValue": "64bit Amazon Linux 2015.09 v2.0.7 running Multi-container Docker 1.9.1 (Generic)"
+  },   
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-a98d89c7"
+  },
+  {
+    "ParameterKey": "AppEnvironmentSuffix",
+    "ParameterValue": "etl"
+  },
+  {
+    "ParameterKey": "PublicSubnets",
+    "ParameterValue": "subnet-73471504,subnet-ed7b11b4"
+  },
+  {
+    "ParameterKey": "PrivateSubnets",
+    "ParameterValue": "subnet-72471505,subnet-ec7b11b5"
+  },   
+  {
+    "ParameterKey": "InstanceSecurityGroups",
+    "ParameterValue": "sg-f5c83891"
+  }
+]

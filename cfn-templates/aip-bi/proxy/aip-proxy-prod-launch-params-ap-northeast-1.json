@@ -1,0 +1,82 @@
+[
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-prod-keys-ap-ne-1"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "prod"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-proxy/aip-proxy-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "/cfn-templates/aip-proxy/aip-proxy-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m3.medium"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-e4205081"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-prod-vpc-ap-ne-1"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "prod-proxy-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "proxy"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "golden"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "eb-app-golden-012516.zip"
+  },  
+  {
+    "ParameterKey": "SolutionStackName",
+    "ParameterValue": "64bit Amazon Linux 2015.09 v2.0.7 running Multi-container Docker 1.9.1 (Generic)"
+  },   
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-a98d89c7"
+  },
+  {
+    "ParameterKey": "AppEnvironmentSuffix",
+    "ParameterValue": "proxy"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.com."
+  },
+  {
+    "ParameterKey": "R53HostedZoneID",
+    "ParameterValue": "Z2YN17T5R711GT"
+  },
+  {
+    "ParameterKey": "R53RecordSetNameSuffix",
+    "ParameterValue": "prod-ap-1.aliniqbis.com"
+  },
+  {
+    "ParameterKey": "PublicSubnets",
+    "ParameterValue": "subnet-73471504,subnet-ed7b11b4"
+  },
+  {
+    "ParameterKey": "PrivateSubnets",
+    "ParameterValue": "subnet-72471505,subnet-ec7b11b5"
+  },   
+  {
+    "ParameterKey": "InstanceSecurityGroups",
+    "ParameterValue": "sg-f5c83891"
+  }
+]

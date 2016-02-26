@@ -1,0 +1,110 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "prod"
+  }, 
+  {
+    "ParameterKey": "AdminVpcId",
+    "ParameterValue": "vpc-193f4f7c"
+  },
+  {
+    "ParameterKey": "AdminVpcCIDR",
+    "ParameterValue": "10.166.0.0/21"
+  },
+  {
+    "ParameterKey": "AdminVpcPrivateRouteTableId",
+    "ParameterValue": "rtb-3e7d2c5b"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-prod-vpc-ap-ne-1"
+  },
+  {
+    "ParameterKey": "VpcAvailabilityZone1",
+    "ParameterValue": "ap-northeast-1a"
+  },
+  {
+    "ParameterKey": "VpcAvailabilityZone2",
+    "ParameterValue": "ap-northeast-1c"
+  },
+  {
+    "ParameterKey": "VpcNetworkCIDR",
+    "ParameterValue": "10.166.32.0/21"
+  },
+  {
+    "ParameterKey": "VpcSubnet1Name",
+    "ParameterValue": "aip-prod-sn-pub-ap-ne-1a"
+  },
+  {
+    "ParameterKey": "VpcSubnet1CIDR",
+    "ParameterValue": "10.166.32.0/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet2Name",
+    "ParameterValue": "aip-prod-sn-web-ap-ne-1a"
+  },
+  {
+    "ParameterKey": "VpcSubnet2CIDR",
+    "ParameterValue": "10.166.32.128/25"
+  },  
+  {
+    "ParameterKey": "VpcSubnet3Name",
+    "ParameterValue": "aip-prod-sn-data-ap-ne-1a"
+  },
+  {
+    "ParameterKey": "VpcSubnet3CIDR",
+    "ParameterValue": "10.166.33.0/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet4Name",
+    "ParameterValue": "aip-prod-sn-etl-ap-ne-1a"
+  },
+  {
+    "ParameterKey": "VpcSubnet4CIDR",
+    "ParameterValue": "10.166.33.128/25"
+  },  
+  {
+    "ParameterKey": "VpcSubnet5Name",
+    "ParameterValue": "aip-prod-sn-pub-ap-ne-1c"
+  },
+  {
+    "ParameterKey": "VpcSubnet5CIDR",
+    "ParameterValue": "10.166.34.0/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet6Name",
+    "ParameterValue": "aip-prod-sn-web-ap-ne-1c"
+  },
+  {
+    "ParameterKey": "VpcSubnet6CIDR",
+    "ParameterValue": "10.166.34.128/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet7Name",
+    "ParameterValue": "aip-prod-sn-data-ap-ne-1c"
+  },
+  {
+    "ParameterKey": "VpcSubnet7CIDR",
+    "ParameterValue": "10.166.35.0/25"
+  },
+  {
+    "ParameterKey": "VpcSubnet8Name",
+    "ParameterValue": "aip-prod-sn-etl-ap-ne-1c"
+  },
+  {
+    "ParameterKey": "VpcSubnet8CIDR",
+    "ParameterValue": "10.166.35.128/25"
+  },
+  {
+    "ParameterKey": "NatInstanceType",
+    "ParameterValue": "m3.medium"
+  },
+  {
+    "ParameterKey": "NatImageId",
+    "ParameterValue": "ami-c7e016c7"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-prod-keys-ap-ne-1"
+  }
+]
