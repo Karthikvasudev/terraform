@@ -10,18 +10,6 @@
 
   "Resources": {
 
-    "VpnGatewayToEnterpriseNetwork": {
-      "Type": "AWS::EC2::VPCGatewayAttachment",
-      "Properties": {
-        "VpcId": {
-          "Ref": "VpcID"
-        },
-        "InternetGatewayId": {
-          "Ref": "VpnGateway"
-        }
-      }
-    },
-
     "CustomerGateway": {
       "Type": "AWS::EC2::CustomerGateway",
       "Properties": {
@@ -32,7 +20,7 @@
           }
         ],
         "Type": "ipsec.1",
-        "IpAddress": "130.36.62.210",
+        "IpAddress": "130.36.87.237",
         "BgpAsn": "65000"
       }
     },
@@ -48,36 +36,7 @@
           }
         ]
       }
-    },
-
-    "VpnConnection": {
-      "Type": "AWS::EC2::VPNConnection",
-      "Properties": {
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "aip-all-vpn"
-          }
-        ],
-        "Type": "ipsec.1",
-        "StaticRoutesOnly": "true",
-        "VpnGatewayId": {
-          "Ref": "VpnGateway"
-        },
-        "CustomerGatewayId": {
-          "Ref": "CustomerGateway"
-        }
-      }
-    },
-
-    "croute1": {
-      "Type": "AWS::EC2::VPNConnectionRoute",
-      "Properties": {
-        "VpnConnectionId": {
-          "Ref": "VpnConnection"
-        },
-        "DestinationCidrBlock": "10.0.0.0/8"
-      }
     }
+
   }
 }

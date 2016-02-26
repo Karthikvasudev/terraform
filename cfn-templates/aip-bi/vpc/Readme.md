@@ -19,7 +19,7 @@ aws cloudformation update-stack \
 --parameters file://aip-vpc-admin-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --profile sandbox --region us-east-1
 
-###VPN connection for BI Administration VPC
+### VPN connection for BI Administration VPC
 aws cloudformation update-stack \
 --stack-name aip-admin-vpc-vpn \
 --template-body file://aip-vpc-admin-vpn.cfn.json \
@@ -284,6 +284,14 @@ aws cloudformation update-stack \
 --template-body file://aip-vpc-admin.cfn.json \
 --parameters file://aip-vpc-admin-launch-params-eu-west-1.json \
 --capabilities CAPABILITY_IAM --region eu-west-1
+
+### VPN connection for BI Administration VPC
+aws cloudformation update-stack \
+--stack-name aip-admin-vpc-vpn-ireland \
+--template-body file://aip-vpc-admin-vpn-ireland-ipam-DE-Wiesbaden-Delkenheim-G20.cfn.json \
+--parameters file://aip-vpc-admin-vpn-launch-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback --profile sandbox --region eu-west-1
+
 
 
 ##
