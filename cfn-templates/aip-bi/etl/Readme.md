@@ -151,3 +151,26 @@ aws cloudformation update-stack \
 
 
 
+########################################
+# ---- Tokyo AP-NorthEast-1 Region -----
+########################################
+
+
+### Prod
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name bi-etl-prod-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region ap-northeast-1
+
+
+## -- Update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name bi-etl-prod-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM \
+--region ap-northeast-1
+
+
+

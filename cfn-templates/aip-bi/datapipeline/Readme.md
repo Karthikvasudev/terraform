@@ -140,3 +140,26 @@ aws cloudformation update-stack \
 
 
 
+
+
+########################################
+# ---- Tokyo AP-NorthEast-1 Region -----
+########################################
+
+### Prod
+aws cloudformation create-stack \
+--stack-name bi-datapipeline-service-prod-master \
+--template-body file://bi-datapipeline-service-master.cfn.json \
+--parameters file://bi-datapipeline-service-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region ap-northeast-1
+
+## -- Update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name bi-datapipeline-service-prod-master \
+--template-body file://bi-datapipeline-service-master.cfn.json \
+--parameters file://bi-datapipeline-service-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM \
+--region ap-northeast-1
+
+

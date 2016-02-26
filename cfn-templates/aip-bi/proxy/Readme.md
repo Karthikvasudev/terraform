@@ -149,3 +149,27 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM \
 --region eu-west-1
 
+
+
+########################################
+# ------- Tokyo EU-west-1 Region -------
+########################################
+
+### Prod
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name aip-proxy-prod-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region ap-northeast-1
+
+
+## -- Update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name aip-proxy-prod-master \
+--template-body file://aip-proxy-master.cfn.json \
+--parameters file://aip-proxy-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM \
+--region ap-northeast-1
+

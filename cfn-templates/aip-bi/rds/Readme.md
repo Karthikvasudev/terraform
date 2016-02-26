@@ -138,3 +138,27 @@ aws cloudformation update-stack \
 --parameters file://bi-rds-prod-launch-params-eu-west-1.json \
 --capabilities CAPABILITY_IAM \
 --region eu-west-1
+
+
+
+
+########################################
+# ---- Tokyo AP-NorthEast-1 Region -----
+########################################
+
+### Prod
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name aip-rds-prod-master \
+--template-body file://bi-rds.cfn.json \
+--parameters file://bi-rds-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region ap-northeast-1
+
+## -- Update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name aip-rds-prod-master \
+--template-body file://bi-rds.cfn.json \
+--parameters file://bi-rds-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM \
+--region ap-northeast-1

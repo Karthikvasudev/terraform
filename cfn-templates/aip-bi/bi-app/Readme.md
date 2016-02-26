@@ -212,3 +212,36 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region eu-west-1
 
+
+
+########################################
+# ---- Tokyo AP-Northeast-1 Region -----
+########################################
+
+
+### Prod
+## -- Create Abbott AWS: Prod environment --
+aws cloudformation create-stack \
+--stack-name bi-app-prod-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region ap-northeast-1
+
+## -- Update Abbott AWS: Prod environment --
+aws cloudformation update-stack \
+--stack-name bi-app-prod-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-prod-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM \
+--region ap-northeast-1
+
+
+## AWS resources
+aws cloudformation create-stack \
+--stack-name bi-app-aws-resources-prod-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region ap-northeast-1
+
