@@ -153,6 +153,7 @@
         "PubliclyAccessible"    : "false",
         "StorageEncrypted"      : "true",
         "StorageType"           : { "Ref" : "DBStorageType" },
+        "DBParameterGroupName"  : { "Ref" : "DBParameterGroup" },
         "Tags" : [
             {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]] }},
             {"Key": "Environment", "Value": { "Ref": "Environment" }},
@@ -206,6 +207,37 @@
             {"Key": "Comment", "Value" : "Read Replica DB"}
             ]
       }
+    },
+    
+    "DBParameterGroup" : {
+       "Type": "AWS::RDS::DBParameterGroup",
+       "Properties" : {
+          "Description" : { "Fn::Join": ["", [{ "Ref": "Environment" }, " RDS Postgres Param Group"]]},
+          "Family" : "postgres9.4",
+          "Parameters" : {
+            "log_autovacuum_min_duration" : "500", 
+            "log_checkpoints" : "1", 
+            "log_connections" : "1", 
+            "log_disconnections": "1", 
+            "log_duration": "1", 
+            "log_error_verbosity": "verbose",
+            "log_executor_stats": "0", 
+            "log_lock_waits" : "1",
+            "log_min_duration_statement": "500",
+            "log_min_error_statement": "info",
+            "log_min_messages": "info",
+            "log_parser_stats": "0", 
+            "log_planner_stats": "0",    
+            "log_statement": "all",
+            "log_statement_stats": "0", 
+            "log_temp_files": "0"
+          },
+          "Tags" : [ 
+              {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-paramgrp-", {"Ref": "AWS::Region"}]]}},
+              {"Key": "Environment", "Value": { "Ref": "Environment" }},
+              {"Key": "Comment", "Value" : "Postgres DB Parameter Group"}
+           ]
+        }
     }
   },
 
@@ -240,6 +272,10 @@
     "DBSubnetGroup": {
       "Description" : "Database Subnet Group",
       "Value" : { "Ref": "DBSubnetGroup" }
+    },
+    "DBParamGroupName": {
+      "Description" : "Database Security Group",
+      "Value" : { "Ref": "DBParameterGroup" }
     }
   }
 }
