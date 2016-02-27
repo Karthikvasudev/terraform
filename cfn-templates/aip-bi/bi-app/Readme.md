@@ -35,7 +35,12 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
-
+aws cloudformation update-stack \
+--stack-name bi-app-aws-resources-dev-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=dev \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 
 ### Test
@@ -64,7 +69,12 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
-
+aws cloudformation update-stack \
+--stack-name bi-app-aws-resources-test-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=test \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 ### QA
 ## -- Create Abbott AWS: QA environment --
@@ -86,6 +96,13 @@ aws cloudformation update-stack \
 
 ## AWS resources
 aws cloudformation create-stack \
+--stack-name bi-app-aws-resources-qa-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=qa \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-qa-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=qa \
@@ -120,6 +137,12 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
+aws cloudformation update-stack \
+--stack-name bi-app-aws-resources-prod-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 
 
@@ -149,6 +172,12 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
+aws cloudformation update-stack \
+--stack-name bi-app-aws-resources-beta-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=beta \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 
 
@@ -172,6 +201,13 @@ aws cloudformation update-stack \
 
 ## AWS resources
 aws cloudformation create-stack \
+--stack-name bi-app-aws-resources-devops-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=devops \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-devops-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=devops \
@@ -212,6 +248,13 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region eu-west-1
 
+aws cloudformation update-stack \
+--stack-name bi-app-aws-resources-prod-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region eu-west-1
+
 
 
 ########################################
@@ -245,3 +288,10 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region ap-northeast-1
 
+
+aws cloudformation update-stack \
+--stack-name bi-app-aws-resources-prod-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region ap-northeast-1
