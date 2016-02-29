@@ -4,6 +4,20 @@
     "Description": "bi-datapipeline-service.cfn.json",
     "Description": "This template defines the Beanstalk App for aip chronos",
 
+    "Mappings" : {
+        "RegionMap" : {
+          "us-east-1"      : { "dropregion" : "false"},
+          "us-west-1"      : { "dropregion" : "true" },
+          "us-west-2"      : { "dropregion" : "true" },
+          "eu-west-1"      : { "dropregion" : "false" },
+          "eu-central-1"   : { "dropregion" : "true" },
+          "sa-east-1"      : { "dropregion" : "true" },
+          "ap-southeast-1" : { "dropregion" : "true" },
+          "ap-southeast-2" : { "dropregion" : "true" },
+          "ap-northeast-1" : { "dropregion" : "true" },
+          "ap-northeast-2" : { "dropregion" : "true" }
+        }
+    },
     "Parameters": {
 
         "Environment": {
@@ -86,8 +100,12 @@
         "PrivateSubnets": {
             "Description": "A comma-delimited list of private VPC subnets. Auto Scaling and RDS will be launched into this subnet.",
             "Type": "String"
-        }
-	
+        }	
+    },
+
+    "Conditions" : {
+        "ShortEnvironmentName" : {"Fn::Equals" : [
+            {"Fn::FindInMap" : ["RegionMap", { "Ref" : "AWS::Region" }, "dropregion" ]}, "true"]}
     },
 
     "Resources": {
@@ -127,7 +145,12 @@
                     "Type": "SQS/HTTP",
                     "Version": ""
                 },
-                "EnvironmentName": {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}, "-",{"Ref": "AWS::Region"}]]},
+                "EnvironmentName": {
+                    "Fn::If" : [ "ShortEnvironmentName",
+                        {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}]]},
+                        {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}, "-",{"Ref": "AWS::Region"}]]}
+                    ]
+                },
                 "OptionSettings": [
                     {
                         "Namespace": "aws:autoscaling:asg",

@@ -258,6 +258,9 @@ UPDATE_ROLLBACK_FAILED state: https://blogs.aws.amazon.com/application-managemen
 AWS CloudFormation now offers a third option: continue update rollback, which you can initiate from the AWS CloudFormation console or with the continue-update-rollback command in the AWS Command Line Interface (CLI). This functionality is enabled for all the stacks in the UPDATE_ROLLBACK_FAILED state.
 -------------------
 Tokyo porting notes:
+    "64bit Amazon Linux 2015.09 v2.0.8 running Multi-container Docker 1.9.1 (Generic)",
+    aws-elasticbeanstalk-amzn-2015.09.2.x86_64-ecs-pv-201602242103 (ami-d2f9fabc)
+    ---
     64bit Amazon Linux 2015.09 v2.0.7 running Multi-container Docker 1.9.1 (Generic)
     aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201602101816 (ami-a98d89c7)
     ---
@@ -265,3 +268,123 @@ Tokyo porting notes:
     aws-elasticbeanstalk-amzn-2015.09.1.x86_64-ecs-pv-201512301911 (ami-9e5a6bf0)
 -------------------
     No Solution Stack named '64bit Amazon Linux 2015.09 v2.0.6 running Multi-container Docker 1.7.1 (Generic)' found.
+
+bi jenkins--------------------
+JOB_NAME_ARR=($JOB_NAME)
+echo APP_NAME=${JOB_NAME_ARR[1]}
+
+case $REGION in
+    us-east-1)
+        REGION2=us-1
+        DATABASE_URL=postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-us-east-1.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres
+        if [ "$ENV" == "dev" ]; then
+            DATABASE_URLS_READ='postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r1-us-east-1d.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres'
+        else
+            DATABASE_URLS_READ='postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r1-us-east-1d.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres,postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r2-us-east-1e.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres'
+        fi
+        ;;
+    eu-west-1)
+        REGION2=eu-1
+        DATABASE_URL=postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-eu-west-1.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres
+        DATABASE_URLS_READ='postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r1-eu-west-1a.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres,postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-r2-eu-west-1b.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres'
+        ;;
+esac
+
+echo REGION2=$REGION2
+echo DATABASE_URL=$DATABASE_URL
+echo DATABASE_URLS_READ=$DATABASE_URLS_READ
+------------------
+JOB_NAME_ARR=($JOB_NAME)
+echo APP_NAME=${JOB_NAME_ARR[1]}
+
+case $REGION in
+    us-east-1)
+        REGION2=us-1
+        DATABASE_URL=postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-us-east-1.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres
+        ;;
+    eu-west-1)
+        REGION2=eu-1
+        DATABASE_URL=postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-eu-west-1.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres
+        ;;
+    ap-northeast-1)
+        REGION2=eu-1
+        DATABASE_URL=postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@bi-$ENV-rds-dw-ap-northeast-1.csujpxqaws2p.ap-northeast-1.rds.amazonaws.com:5432/postgres
+        ;;
+esac
+
+echo REGION2=$REGION2
+echo DATABASE_URL=$DATABASE_URL
+---
+# Elastic Beanstalk parameters
+EB_APP_NAME=$APP_NAME-$REGION
+EB_ENV_NAME=$ENV-bi-dp-$REGION
+EB_APP_VERSION=$BI_DATAPIPELINE_SERVICE_VERSION-$ENV+deploy.$BUILD_NUMBER
+
+# Dockerrun.aws.json parameters
+AIP_HOSTNAME=aip-$ENV-$REGION2.aliniqbis.local
+DATAPIPELINE_SERVICE_QUEUE=https://sqs.$REGION.amazonaws.com/661072482170/bi-$ENV-sqs-datapipeline-service
+DATAPIPELINE_QUEUE_TIMEOUT=$DATAPIPELINE_QUEUE_TIMEOUT
+-----------------------------------
+ETL: 
+---
+case $REGION in
+    us-east-1)
+        REGION2=us-1
+        DATABASE_URL=jdbc:postgresql://bi-$ENV-rds-dw-us-east-1.c1lwzjddrfro.us-east-1.rds.amazonaws.com:5432/postgres
+        ;;
+    eu-west-1)
+        REGION2=eu-1
+        DATABASE_URL=jdbc:postgresql://bi-$ENV-rds-dw-eu-west-1.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres
+        ;;
+esac
+
+echo REGION2=$REGION2
+echo DATABASE_URL=$DATABASE_URL
+---
+# Directory name with the app config in the microservice-configs git repo
+APP_NAME=bi-dataprocess-service
+
+# Elastic Beanstalk parameters
+EB_APP_NAME=etl-$REGION
+EB_ENV_NAME=$ENV-$EB_APP_NAME
+EB_APP_VERSION=$BI_DATAPROCESS_SERVICE_VERSION-$ENV+deploy.$BUILD_NUMBER
+
+# Dockerrun.aws.json parameters
+BI_SNS_DATA_LOADED=arn:aws:sns:$REGION:661072482170:bi-$ENV-sns-data-loaded
+AIP_HOSTNAME=aip-$ENV-$REGION2.aliniqbis.local
+
+-----------------------------------
+
+
+---
+
+JOB_NAME_ARR=($JOB_NAME)
+echo APP_NAME=${JOB_NAME_ARR[1]}
+
+#Changing environment name for devops, as aws limits environment name  up to 23 characters
+echo EB_ENV_NAME=$ENV-aip-chro-$REGION
+if [[ $ENV = "devops" ]];
+then
+    echo EB_ENV_NAME=$ENV-chro-$REGION;
+fi
+
+case $REGION in
+    us-east-1)
+        REGION2=us-1
+        ;;
+    eu-west-1)
+        REGION2=eu-1
+        ;;
+    ap-northeast-1)
+        REGION2=ap-1
+        ;;
+esac
+
+echo REGION2=$REGION2
+
+---
+
+bi-prod-rds-dw-ap-northeast-1.csujpxqaws2p.ap-northeast-1.rds.amazonaws.com:5432
+
+
+--------

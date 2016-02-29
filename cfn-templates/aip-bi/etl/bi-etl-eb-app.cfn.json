@@ -4,6 +4,22 @@
     "Description": "bi-etl-app.cfn.json",
     "Description": "This template defines the Beanstalk App for ETL services",
 
+
+    "Mappings" : {
+        "RegionMap" : {
+          "us-east-1"      : { "dropregion" : "false"},
+          "us-west-1"      : { "dropregion" : "true" },
+          "us-west-2"      : { "dropregion" : "true" },
+          "eu-west-1"      : { "dropregion" : "false" },
+          "eu-central-1"   : { "dropregion" : "true" },
+          "sa-east-1"      : { "dropregion" : "true" },
+          "ap-southeast-1" : { "dropregion" : "true" },
+          "ap-southeast-2" : { "dropregion" : "true" },
+          "ap-northeast-1" : { "dropregion" : "true" },
+          "ap-northeast-2" : { "dropregion" : "true" }
+        }
+    },
+
     "Parameters": {
 
         "Environment": {
@@ -90,6 +106,13 @@
         }		
     },
 
+
+    "Conditions" : {
+        "ShortEnvironmentName" : {"Fn::Equals" : [
+            {"Fn::FindInMap" : ["RegionMap", { "Ref" : "AWS::Region" }, "dropregion" ]}, "true"]}
+    },
+
+
     "Resources": {
 	
         "AppEbEnv": {
@@ -127,7 +150,12 @@
                     "Type": "SQS/HTTP",
                     "Version": ""
                 },
-                "EnvironmentName": {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}, "-",{"Ref": "AWS::Region"}]]},
+                "EnvironmentName": {
+                    "Fn::If" : [ "ShortEnvironmentName",
+                        {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}]]},
+                        {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}, "-",{"Ref": "AWS::Region"}]]}
+                    ]
+                },
                 "OptionSettings": [
                     {
                         "Namespace": "aws:autoscaling:asg",
@@ -401,6 +429,15 @@
         "BeanstalkEC2InstancProfile": {
             "Description": "Beanstalk EC2 Instance Profile",
             "Value": {"Ref" : "BeanstalkEC2InstancProfile"}
+        },
+        "ShortNames": {
+            "Description": "Use EB Env Short Name Format",
+            "Value": {
+                    "Fn::If" : [ "ShortEnvironmentName",
+                        {"Fn::Join": ["", ["true: ", {"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}]]},
+                        {"Fn::Join": ["", ["false: ", {"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}, "-",{"Ref": "AWS::Region"}]]}
+                    ]
+            }
         }
     }
 }

@@ -4,6 +4,20 @@
     "Description": "aip-bi-eb-app.cfn.json",
     "Description": "This template defines the Beanstalk App",
 
+    "Mappings" : {
+        "RegionMap" : {
+          "us-east-1"      : { "dropregion" : "false"},
+          "us-west-1"      : { "dropregion" : "true" },
+          "us-west-2"      : { "dropregion" : "true" },
+          "eu-west-1"      : { "dropregion" : "false" },
+          "eu-central-1"   : { "dropregion" : "true" },
+          "sa-east-1"      : { "dropregion" : "true" },
+          "ap-southeast-1" : { "dropregion" : "true" },
+          "ap-southeast-2" : { "dropregion" : "true" },
+          "ap-northeast-1" : { "dropregion" : "true" },
+          "ap-northeast-2" : { "dropregion" : "true" }
+        }
+    },
     "Parameters": {
 
         "Environment": {
@@ -104,6 +118,12 @@
     },
 
 
+    "Conditions" : {
+        "ShortEnvironmentName" : {"Fn::Equals" : [
+            {"Fn::FindInMap" : ["RegionMap", { "Ref" : "AWS::Region" }, "dropregion" ]}, "true"]}
+    },
+
+
     "Resources": {
 
         "BIAppEbEnv": {
@@ -120,7 +140,7 @@
             "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
             "DependsOn" : "BIAppEbEnv",
             "Properties": {
-                "ApplicationName": { "Ref": "ApplicationName" },
+                "ApplicationName": { "Fn::Join": ["-", [{"Ref": "ApplicationName"}, {"Ref": "AWS::Region"}]]},
                 "SourceBundle": {
                     "S3Bucket"  : { "Ref" : "S3Bucket" }, 
                     "S3Key"     : { "Ref" : "S3Key" }
@@ -132,7 +152,7 @@
             "Type": "AWS::ElasticBeanstalk::Environment",
             "DependsOn" : "BeanstalkEC2InstancProfile",
             "Properties": {
-                "ApplicationName": { "Ref": "ApplicationName" },
+                "ApplicationName": { "Fn::Join": ["-", [{"Ref": "ApplicationName"}, {"Ref": "AWS::Region"}]]},
                 "SolutionStackName": { "Ref": "SolutionStackName" },
                 "VersionLabel": {
                     "Ref": "BIAppVersion"
@@ -142,7 +162,12 @@
                     "Type": "Standard",
                     "Version": " "
                 },
-                "EnvironmentName": {"Fn::Join": ["", [{"Ref": "Environment"}, "-bi-app-", {"Ref": "AWS::Region"}]]},
+                "EnvironmentName": {
+                    "Fn::If" : [ "ShortEnvironmentName",
+                        {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "ApplicationName"}]]},
+                        {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "ApplicationName"}, "-",{"Ref": "AWS::Region"}]]}
+                    ]
+                },
                 "OptionSettings": [
                     {
                         "Namespace": "aws:autoscaling:asg",
@@ -393,6 +418,15 @@
         "BeanstalkEC2Role": {
             "Description": "Beanstalk EC2 Instance Role",
             "Value": {"Ref" : "BeanstalkEC2Role"}
+        },
+        "ShortNames": {
+            "Description": "Use EB Env Short Name Format",
+            "Value": {
+                    "Fn::If" : [ "ShortEnvironmentName",
+                        "true - use short name",
+                        "false - don't use short name"
+                    ]
+            }
         }
     }
 
