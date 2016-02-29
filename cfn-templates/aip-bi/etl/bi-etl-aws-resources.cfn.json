@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Resources for ETL services includes S3,SQS and related policies for event notification to automatically post message",
+    "Description": "Resources for ETL services includes S3,SQS ,lambda and related policies for event notification to automatically post message",
     "Parameters": {
         "Environment": {
             "Description": "name of the VPC Environment (dev, test, qa, prod)",
@@ -130,15 +130,16 @@
                           "MaxAge" : "3000"
                     }]
                 },
+				"LifecycleConfiguration":{
+						  "Rules" : [ {
+								"ExpirationInDays" : 1,
+						  }]
+				},
                 "NotificationConfiguration": {
-                    "QueueConfigurations": [
+                    " ": [
                         {
                             "Event": "s3:ObjectCreated:*",
-                            "Queue": {
-                                "Fn::GetAtt": [
-                                    "biETLQueue",
-                                    "Arn"
-                                ]
+                            "Topic": { "arn:aws:sns:us-east-1:661072482170:s3-event-to-lambda-sqs"
                             }
                         }
                     ]
