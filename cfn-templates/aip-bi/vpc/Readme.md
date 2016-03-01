@@ -132,6 +132,23 @@ aws cloudformation update-stack \
 
 
 ##
+## -- Prod2 --
+### BI VPC Environments -- Use update-stack once create-stack succeeds
+aws cloudformation create-stack \
+--stack-name aip-prod2-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback --region us-east-1
+
+## Update Stack
+aws cloudformation update-stack \
+--stack-name aip-prod2-vpc \
+--template-body file://aip-vpc.cfn.json \
+--parameters file://aip-vpc-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --region us-east-1 
+
+
+##
 ## -- Beta --
 ### BI VPC Environments -- Use update-stack once create-stack succeeds
 aws cloudformation create-stack \

@@ -87,6 +87,21 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+## -- Create Abbott AWS: Prod2 environment --
+aws cloudformation create-stack \
+--stack-name bi-etl-prod2-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+## -- Update Abbott AWS: prod2 environment --
+aws cloudformation update-stack \
+--stack-name bi-etl-prod2-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
 ## -- Create Abbott AWS: Beta environment --
 aws cloudformation create-stack \
 --stack-name bi-etl-beta-master --template-body file://bi-etl-master.cfn.json \

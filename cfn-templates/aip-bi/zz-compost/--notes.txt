@@ -388,3 +388,52 @@ bi-prod-rds-dw-ap-northeast-1.csujpxqaws2p.ap-northeast-1.rds.amazonaws.com:5432
 
 
 --------
+
+case $REGION in
+    us-east-1)
+        REGION2=us-1
+        case $ENV in
+            dev)
+                RESOLVER=10.85.8.2
+                ;;
+            test)
+                RESOLVER=10.85.16.2
+                ;;
+            qa)
+                RESOLVER=10.85.24.2
+                ;;
+            prod)
+                RESOLVER=10.85.32.2
+                ;;
+            prod2)
+                RESOLVER=10.85.56.2
+                ;;
+            devops)
+                RESOLVER=10.85.48.2
+                ;;
+            beta)
+                RESOLVER=10.85.40.2
+                ;;
+        esac
+        ;;
+    eu-west-1)
+        REGION2=eu-1
+        case $ENV in
+            prod)
+                RESOLVER=10.42.32.2
+                ;;
+        esac
+        ;;
+    ap-northeast-1)
+        REGION2=ap-1
+        case $ENV in
+            prod)
+                RESOLVER=10.166.32.2
+                ;;
+        esac
+        ;;
+esac
+
+echo REGION2=$REGION2
+echo RESOLVER=$RESOLVER
+-----

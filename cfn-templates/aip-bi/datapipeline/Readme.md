@@ -79,6 +79,25 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+### Prod2
+## -- Create Abbott AWS: prod2 environment --
+aws cloudformation create-stack \
+--stack-name bi-datapipeline-service-prod2-master \
+--template-body file://bi-datapipeline-service-master.cfn.json \
+--parameters file://bi-datapipeline-service-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+## -- Update Abbott AWS: prod2 environment --
+aws cloudformation update-stack \
+--stack-name bi-datapipeline-service-prod2-master \
+--template-body file://bi-datapipeline-service-master.cfn.json \
+--parameters file://bi-datapipeline-service-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
+
 ### Beta
 ## -- Create Abbott AWS: Beta environment --
 aws cloudformation create-stack \

@@ -123,6 +123,35 @@ aws cloudformation create-stack \
 
 
 
+## -- Create Abbott AWS: prod2 environment --
+aws cloudformation create-stack \
+--stack-name aip-platform-prod2-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+## -- update Abbott AWS: prod2 environment --
+aws cloudformation update-stack \
+--stack-name aip-platform-prod2-master \
+--template-body file://aip-platform-master.cfn.json \
+--parameters file://aip-platform-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
+### DynamoDB resource
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-prod2-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod2 \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+
+
 
 ## -- Create Abbott AWS: Beta environment --
 aws cloudformation create-stack \

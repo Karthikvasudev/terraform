@@ -78,6 +78,24 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+### Prod2
+## -- Create Abbott AWS: prod2 environment --
+aws cloudformation create-stack \
+--stack-name bi-prod2-rds-master \
+--template-body file://bi-rds.cfn.json \
+--parameters file://bi-rds-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+## -- Update Abbott AWS: prod2 environment --
+aws cloudformation update-stack \
+--stack-name bi-prod2-rds-master \
+--template-body file://bi-rds.cfn.json \
+--parameters file://bi-rds-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
 ### Beta
 ## -- Create Abbott AWS: Beta environment --
 aws cloudformation create-stack \

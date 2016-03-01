@@ -128,7 +128,6 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
-
 ## AWS resources
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-prod-master \
@@ -143,6 +142,40 @@ aws cloudformation update-stack \
 --parameters ParameterKey=Environment,ParameterValue=prod \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
+
+
+### Prod2
+## -- Create Abbott AWS: prod2 environment --
+aws cloudformation create-stack \
+--stack-name bi-app-prod2-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+## -- Update Abbott AWS: prod2 environment --
+aws cloudformation update-stack \
+--stack-name bi-app-prod2-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-prod2-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+## AWS resources
+aws cloudformation create-stack \
+--stack-name bi-app-aws-resources-prod2-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod2 \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+aws cloudformation update-stack \
+--stack-name bi-app-aws-resources-prod2-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=prod2 \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
 
 
 
