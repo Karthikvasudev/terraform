@@ -1,0 +1,49 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+
+    "Description": "Elasticsearch-R53.cfn.json",
+    
+
+    "Parameters": {
+
+        "R53CName": {
+            "Description": "name of the domain - CName (Ex: logs-devops-us-1)",
+            "Default": "logs-devops-us-1",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+       "ESendpointurl" : {
+            "Description": "Elastic Search endpotin url",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+     
+      "R53HostedZoneName": {
+            "Description": "Name of the R53 HostedZone[aliniqbis.com]",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        }
+    },
+
+
+    "Resources": {
+
+        "R53EntryElasticsearch" :  {
+				"Type": "AWS::Route53::RecordSet",
+				"Properties": {
+				"HostedZoneName" : { "Fn::Join" : [ "", [{ "Ref" : "R53HostedZoneName" }, "."]]},
+                "Name": {"Fn::Join": ["", [{"Ref": "R53CName"}, ".", { "Ref" : "R53HostedZoneName" }]]},
+                "Type": "CNAME",
+                "TTL" : "900",
+                "ResourceRecords" : [ { "Fn::Join" : [ "", [{ "Ref" : "ESendpointurl" }]]} ]
+			}
+			}		
+        }
+    }
+		
+      
+       
+

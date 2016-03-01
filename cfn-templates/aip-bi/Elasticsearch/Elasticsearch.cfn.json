@@ -1,0 +1,108 @@
+{
+"AWSTemplateFormatVersion": "2010-09-09",
+
+    "Description": "Elasticsearch.cfn.json",
+    "Description": "This template defines the Elasticsearch configuration",
+
+    "Parameters": {
+
+        "Environment": {
+            "Description": "name of the environment (devops, dev, test, qa, prod)",
+            "Default": "devops",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+		"AbbottCIDR": {
+            "Description": "Abbott CIDR IP address",
+            "Default": "130.36.0.0/16",
+            "Type": "String"
+          },
+        "InstanceSize" : {
+      "Description" : "Elastic Search node instance type",
+      "Type" : "String",
+      "Default" : "m3.medium.elasticsearch",
+      "AllowedValues" : [ "t2.micro.elasticsearch", "t2.small.elasticsearch", "t2.medium.elasticsearch", "m3.medium.elasticsearch", "m3.large.elasticsearch",
+						  "m3.xlarge.elasticsearch", "m3.2xlarge.elasticsearch", "r3.large.elasticsearch", "r3.xlarge.elasticsearch", "r3.2xlarge.elasticsearch",
+						  "r3.4xlarge.elasticsearch", "r3.8xlarge.elasticsearch", "i2.xlarge.elasticsearch", "i2.2xlarge.elasticsearch"],
+      "ConstraintDescription" : "must be a valid Elasticsearch instance type."
+		},
+		 "NodeCount" : {
+      "Description" : "Number of node instances",
+      "Default": "2",
+      "MinValue": "1",
+      "MaxValue": "10",
+      "Type" : "Number"
+		},
+	   "DedicatedMasterSize" : {
+      "Description" : "Elastic Search node instance type",
+      "Type" : "String",
+      "Default" : "m3.medium.elasticsearch",
+      "AllowedValues" : [ "t2.micro.elasticsearch", "t2.small.elasticsearch", "t2.medium.elasticsearch", "m3.medium.elasticsearch", "m3.large.elasticsearch",
+						  "m3.xlarge.elasticsearch", "m3.2xlarge.elasticsearch", "r3.large.elasticsearch", "r3.xlarge.elasticsearch", "r3.2xlarge.elasticsearch",
+						  "r3.4xlarge.elasticsearch", "r3.8xlarge.elasticsearch", "i2.xlarge.elasticsearch", "i2.2xlarge.elasticsearch"],
+      "ConstraintDescription" : "must be a valid Elasticsearch Dedicated Master Type."
+		},
+		"MasterCount" : {
+      "Description" : "Number of master instances",
+      "Default": "3",
+      "MinValue": "2",
+      "MaxValue": "9",
+      "Type" : "Number"
+		},
+		"SSDVolumeSize" : {
+      "Description" : "EBS volume size",
+      "Default": "25",
+      "MinValue": "10",
+      "MaxValue": "100",
+      "Type" : "Number"
+		}
+		},
+"Resources" : {		
+"ElasticsearchDomain": {
+  "Type": "AWS::Elasticsearch::Domain",
+  "Properties": {
+      "DomainName" : {"Fn::Join": ["", ["es-", {"Ref": "Environment"}, "-", {"Ref": "AWS::Region"}]]},
+	  "ElasticsearchClusterConfig": {
+      "DedicatedMasterEnabled": "true",
+      "InstanceCount": {"Ref": "NodeCount"},
+      "ZoneAwarenessEnabled": "true",
+      "InstanceType": {"Ref": "InstanceSize"},
+      "DedicatedMasterType": {"Ref": "DedicatedMasterSize"},
+      "DedicatedMasterCount": {"Ref": "MasterCount"}
+	  },
+    "EBSOptions": {
+      "EBSEnabled": true,
+      "VolumeSize": {"Ref": "SSDVolumeSize"},
+      "VolumeType": "gp2"
+    },
+    "SnapshotOptions": {
+      "AutomatedSnapshotStartHour": "0"
+    },
+    "AccessPolicies": {
+      "Version": "2012-10-17",
+      "Statement": [{
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "*"
+        },
+        "Action": "es:*",
+        "Resource": {"Fn::Join": ["", ["arn:aws:es:", {"Ref": "AWS::Region"}, ":", {"Ref": "AWS::AccountId"}, ":domain/", "es-", {"Ref": "Environment"}, "-", {"Ref": "AWS::Region"}, "/*"]]},
+       "Condition": {
+        "IpAddress": {
+          "aws:SourceIp": {"Ref": "AbbottCIDR"}
+        }
+      }
+	  }]
+    },
+    "AdvancedOptions": {
+      "rest.action.multi.allow_explicit_index": "true"
+    },
+	"Tags": [{
+      "Key": "Name",
+      "Value": {"Fn::Join": ["", ["es-", {"Ref": "Environment"}, "-", {"Ref": "AWS::Region"}]]}
+    }]
+  }
+  }
+  }
+  }
