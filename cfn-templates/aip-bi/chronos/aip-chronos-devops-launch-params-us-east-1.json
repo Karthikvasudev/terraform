@@ -53,7 +53,7 @@
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
-    "ParameterValue": "chro"
+    "ParameterValue": "aip-chronos"
   },
   {
     "ParameterKey": "PublicSubnets",

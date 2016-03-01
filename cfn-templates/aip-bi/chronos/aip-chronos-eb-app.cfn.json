@@ -6,7 +6,7 @@
 
     "Mappings" : {
         "RegionMap" : {
-          "us-east-1"      : { "dropregion" : "false"},
+          "us-east-1"      : { "dropregion" : "true"},
           "us-west-1"      : { "dropregion" : "true" },
           "us-west-2"      : { "dropregion" : "true" },
           "eu-west-1"      : { "dropregion" : "false" },
