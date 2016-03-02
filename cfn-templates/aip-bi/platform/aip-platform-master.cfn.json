@@ -170,7 +170,8 @@
             "S3Bucket"                 : { "Fn::Join" : ["-", ["elasticbeanstalk", {"Ref" : "AWS::Region"}, {"Ref" : "AWS::AccountId"}]]},
             "S3Key"                    : { "Fn::Join" : ["", [{"Ref": "ApplicationSourceBundle"}, "/", {"Ref" : "S3Key"}]]},
             "AutoScaleMinSize"         : { "Ref" : "AutoScaleMinSize" },
-            "AutoScaleMaxSize"         : { "Ref" : "AutoScaleMaxSize" }
+            "AutoScaleMaxSize"         : { "Ref" : "AutoScaleMaxSize" },
+            "AppEnvironmentSuffix"     : { "Ref" : "AppEnvironmentSuffix"}
           }
         }
       }

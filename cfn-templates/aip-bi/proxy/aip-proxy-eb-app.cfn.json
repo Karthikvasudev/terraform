@@ -4,6 +4,23 @@
     "Description": "aip-base-app.cfn.json",
     "Description": "This template defines the Beanstalk App for proxy services",
 
+
+    "Mappings" : {
+        "RegionMap" : {
+          "us-east-1"      : { "dropregion" : "false"},
+          "us-west-1"      : { "dropregion" : "true" },
+          "us-west-2"      : { "dropregion" : "true" },
+          "eu-west-1"      : { "dropregion" : "false" },
+          "eu-central-1"   : { "dropregion" : "true" },
+          "sa-east-1"      : { "dropregion" : "true" },
+          "ap-southeast-1" : { "dropregion" : "true" },
+          "ap-southeast-2" : { "dropregion" : "true" },
+          "ap-northeast-1" : { "dropregion" : "true" },
+          "ap-northeast-2" : { "dropregion" : "true" }
+        }
+    },
+
+
     "Parameters": {
 
         "Environment": {
@@ -108,9 +125,13 @@
     },
 
 
-    "Resources": {
-	
+    "Conditions" : {
+        "ShortEnvironmentName" : {"Fn::Equals" : [
+            {"Fn::FindInMap" : ["RegionMap", { "Ref" : "AWS::Region" }, "dropregion" ]}, "true"]}
+    },
 
+
+    "Resources": {
         "AppEbEnv": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
@@ -145,7 +166,12 @@
                     "Type": "Standard",
                     "Version": " "
                 },
-                "EnvironmentName": {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}, "-",{"Ref": "AWS::Region"}]]},
+                "EnvironmentName": {
+                    "Fn::If" : [ "ShortEnvironmentName",
+                        {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}]]},
+                        {"Fn::Join": ["", [{"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}, "-",{"Ref": "AWS::Region"}]]}
+                    ]
+                },
                 "OptionSettings": [
                     {
                         "Namespace": "aws:autoscaling:asg",
@@ -438,6 +464,16 @@
     "Outputs": {
         "URL": {
             "Description": "URL of the AWS Elastic Beanstalk Environment",
-            "Value": {"Fn::Join": ["", ["http://", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]] }}
+            "Value": {"Fn::Join": ["", ["http://", {"Fn::GetAtt": ["APPEnvironment", "EndpointURL"]} ]] }
+            },
+        "ShortNames": {
+            "Description": "Use EB Env Short Name Format",
+            "Value": {
+                    "Fn::If" : [ "ShortEnvironmentName",
+                        {"Fn::Join": ["", ["true: ", {"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}]]},
+                        {"Fn::Join": ["", ["false: ", {"Ref": "Environment"}, "-",{"Ref": "AppEnvironmentSuffix"}, "-",{"Ref": "AWS::Region"}]]}
+                    ]
+            }
+        }
     }
 }

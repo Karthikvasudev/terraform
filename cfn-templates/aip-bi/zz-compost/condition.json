@@ -1,0 +1,50 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+
+    "Description": "bi-datapipeline-service.cfn.json",
+    "Description": "This template defines the Beanstalk App for aip chronos",
+
+    "Mappings" : {
+        "RegionMap" : {
+          "us-east-1"      : { "dropregion" : "false"},
+          "us-west-1"      : { "dropregion" : "true" },
+          "us-west-2"      : { "dropregion" : "true" },
+          "eu-west-1"      : { "dropregion" : "false" },
+          "eu-central-1"   : { "dropregion" : "true" },
+          "sa-east-1"      : { "dropregion" : "true" },
+          "ap-southeast-1" : { "dropregion" : "true" },
+          "ap-southeast-2" : { "dropregion" : "true" },
+          "ap-northeast-1" : { "dropregion" : "true" },
+          "ap-northeast-2" : { "dropregion" : "true" }
+        }
+    },
+
+
+    "Conditions" : {
+        "ShortEnvironmentName" : {"Fn::Equals" : [
+            {"Fn::FindInMap" : ["RegionMap", { "Ref" : "AWS::Region" }, "dropregion" ]}, "true"]}
+    },
+
+    "Resources": {
+	
+ 
+        "CondTest": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": {
+                    "Fn::If" : [ "ShortEnvironmentName",
+                        "zz09888-8-08-08-08-shortname",
+                        "zz09888-8-08-08-08-longname"
+                    ]
+                }
+            }
+        }
+    },
+
+    "Outputs": {
+        "CondTestOut": {
+            "Description": "bucket",
+            "Value": {"Ref" : "CondTest"}
+        }
+    }
+}
