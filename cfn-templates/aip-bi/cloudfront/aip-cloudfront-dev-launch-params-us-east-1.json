@@ -1,0 +1,31 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "dev"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.com."
+  },
+  {
+    "ParameterKey": "ServerCertificateId",
+    "ParameterValue": "ASCAI6DIHMLCEDXKCUWBS"
+  },
+  {
+    "ParameterKey": "CloudFrontHost",
+    "ParameterValue": "dev-us-1.aliniqbis.com"
+  },
+  {
+    "ParameterKey": "ApiHost",
+    "ParameterValue": "api-dev-us-1.aliniqbis.com"
+  },
+  {
+    "ParameterKey": "StaticHost",
+    "ParameterValue": "static-dev-us-1.aliniqbis.com"
+  },
+  {
+    "ParameterKey": "Aliases",
+    "ParameterValue": "dev-us-1.aliniqbis.com,customer1-dev.aliniqbis.com,customer2-dev.aliniqbis.com,customer3-dev.aliniqbis.com,customer4-dev.aliniqbis.com"
+  }
+  
+]

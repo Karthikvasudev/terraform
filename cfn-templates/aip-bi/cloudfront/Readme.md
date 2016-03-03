@@ -1,9 +1,9 @@
 #Readme.md
 
-# AWS CloudFormation Stack commands for CloudFront
+AWS CloudFormation Stack commands for CloudFront
 ##
 
-# Devops 
+# CloudFront
 ## -- Create Abbott AWS: DevOps environment --
 aws cloudformation create-stack \
 --stack-name aip-cloudfront-devops-master \
@@ -21,9 +21,8 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-
-# Dev 
-## -- Create Abbott AWS: dev environment --
+# Dev
+## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
 --stack-name aip-cloudfront-dev-master \
 --template-body file://aip-cloudfront.cfn.json \
@@ -31,7 +30,7 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
-## -- update Abbott AWS: dev environment --
+## -- update Abbott AWS: Dev environment --
 aws cloudformation update-stack \
 --stack-name aip-cloudfront-dev-master \
 --template-body file://aip-cloudfront.cfn.json \
