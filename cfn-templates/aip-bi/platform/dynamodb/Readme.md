@@ -33,6 +33,12 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
+aws cloudformation update-stack \
+--stack-name aip-platform-resources-dev-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-dev-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 
@@ -45,15 +51,21 @@ aws cloudformation create-stack \
 # ------ Ireland EU-west-1 Region ------
 ########################################
 
-
 # Prod
 
 ## DynamoDB resource
 aws cloudformation create-stack \
 --stack-name aip-platform-resources-prod-master \
 --template-body file://aip-platform-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=prod \
+--parameters file://aip-platform-resources-prod-params-eu-west-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback \
+--region eu-west-1
+
+aws cloudformation update-stack \
+--stack-name aip-platform-resources-dev-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-prod-params-eu-west-1.json \
+--capabilities CAPABILITY_IAM \
 --region eu-west-1
 
 
@@ -62,15 +74,20 @@ aws cloudformation create-stack \
 # ------- Tokyo EU-west-1 Region -------
 ########################################
 
-
 # Prod
 
 ## DynamoDB resource
 aws cloudformation create-stack \
 --stack-name aip-platform-resources-prod-master \
 --template-body file://aip-platform-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=prod \
+--parameters file://aip-platform-resources-prod-params-ap-northeast-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region ap-northeast-1
 
-
+## DynamoDB resource
+aws cloudformation update-stack \
+--stack-name aip-platform-resources-prod-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-prod-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM \
+--region ap-northeast-1

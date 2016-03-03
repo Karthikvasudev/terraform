@@ -47,6 +47,6 @@
   { "ParameterKey": "DdbCapacitySubscriptionRead",                   "ParameterValue": "3" },
   { "ParameterKey": "DdbCapacitySubscriptionWrite",                  "ParameterValue": "1" }
 
-  ]
+]
 
 
