@@ -9,15 +9,60 @@
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "255"
-    }
+    },
 
+  "DdbCapacityAuthAccessTokensRead": {"Type": "String"},               
+  "DdbCapacityAuthAccessTokensWrite": {"Type": "String"},              
+  "DdbCapacityAuthAccessTokensIdxUserIdRead": {"Type": "String"},      
+  "DdbCapacityAuthAccessTokensIdxUserIdWrite": {"Type": "String"},     
+  "DdbCapacityAuthAccessTokensIdxTokenHashRead": {"Type": "String"},   
+  "DdbCapacityAuthAccessTokensIdxTokenHashWrite": {"Type": "String"},  
+
+  "DdbCapacityAuthClientsRead": {"Type": "String"},                    
+  "DdbCapacityAuthClientsWrite": {"Type": "String"},                   
+
+  "DdbCapacityAuthRefreshTokensRead": {"Type": "String"},              
+  "DdbCapacityAuthRefreshTokensWrite": {"Type": "String"},             
+  "DdbCapacityAuthRefreshTokensIdxUserIdRead": {"Type": "String"},     
+  "DdbCapacityAuthRefreshTokensIdxUserIdWrite": {"Type": "String"},    
+  "DdbCapacityAuthRefreshTokensIdxTokenHashRead": {"Type": "String"},  
+  "DdbCapacityAuthRefreshTokensIdxTokenHashWrite": {"Type": "String"}, 
+
+  "DdbCapacityAccountRead": {"Type": "String"}, 
+  "DdbCapacityAccountWrite": {"Type": "String"},                      
+  "DdbCapacityAccountIdxEmailAddressRead": {"Type": "String"},         
+  "DdbCapacityAccountIdxEmailAddressWrite": {"Type": "String"},        
+  "DdbCapacityAccountIdxTenantRead": {"Type": "String"},               
+  "DdbCapacityAccountIdxTenantWrite": {"Type": "String"},              
+  "DdbCapacityAccountIdxAccountStatusRead": {"Type": "String"},        
+  "DdbCapacityAccountIdxAccountStatusWrite": {"Type": "String"},       
+
+  "DdbCapacityApplicationRead": {"Type": "String"},                    
+  "DdbCapacityApplicationWrite": {"Type": "String"},                   
+
+  "DdbCapacityConfigurationRead": {"Type": "String"},                  
+  "DdbCapacityConfigurationWrite": {"Type": "String"},                 
+
+  "DdbCapacityOrganizationRead": {"Type": "String"},                   
+  "DdbCapacityOrganizationWrite": {"Type": "String"},                  
+  "DdbCapacityOrganizationIdxTenantUrlRead": {"Type": "String"},       
+  "DdbCapacityOrganizationIdxTenantUrlWrite": {"Type": "String"},      
+
+  "DdbCapacityStoreRead": {"Type": "String"},                          
+  "DdbCapacityStoreWrite": {"Type": "String"},                         
+
+  "DdbCapacitySubscriptionRead": {"Type": "String"},                   
+  "DdbCapacitySubscriptionWrite": {"Type": "String"}
   },
+
+
   "Resources": {
+    
 	"ddbclients": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "AttributeDefinitions": [
-		  {
+    		  {
             "AttributeName": "clientId",
             "AttributeType": "S"
           }
@@ -29,8 +74,8 @@
           }
         ],
         "ProvisionedThroughput": {
-          "ReadCapacityUnits": "3",
-          "WriteCapacityUnits": "1"
+          "ReadCapacityUnits":  { "Ref": "DdbCapacityAuthClientsRead" },
+          "WriteCapacityUnits": { "Ref": "DdbCapacityAuthClientsWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-authentication-service.Clients"]] }
       }
@@ -39,7 +84,7 @@
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "AttributeDefinitions": [
-		  {
+    		  {
             "AttributeName": "clientId",
             "AttributeType": "S"
           },
@@ -63,11 +108,11 @@
           }
         ],
         "ProvisionedThroughput": {
-          "ReadCapacityUnits": "3",
-          "WriteCapacityUnits": "1"
+          "ReadCapacityUnits":  { "Ref": "DdbCapacityAuthAccessTokensRead" },
+          "WriteCapacityUnits": { "Ref": "DdbCapacityAuthAccessTokensWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-authentication-service.AccessTokens"]] },
-		"GlobalSecondaryIndexes": [
+    		"GlobalSecondaryIndexes": [
           {
             "IndexName": "userId-Index",
             "KeySchema": [
@@ -80,15 +125,15 @@
               "NonKeyAttributes": [
                 "clientId",
                 "tokenHash",
-				"scope",
-				"createdAt",
-				"expiresAt"
+        				"scope",
+        				"createdAt",
+        				"expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
             "ProvisionedThroughput": {
-              "ReadCapacityUnits": "1",
-              "WriteCapacityUnits": "1"
+              "ReadCapacityUnits":  { "Ref": "DdbCapacityAuthAccessTokensIdxUserIdRead" },
+              "WriteCapacityUnits": { "Ref": "DdbCapacityAuthAccessTokensIdxUserIdWrite" }
             }
           },
           {
@@ -103,15 +148,15 @@
               "NonKeyAttributes": [
                 "clientId",
                 "userId",
-				"scope",
-				"createdAt",
-				"expiresAt"
+        				"scope",
+        				"createdAt",
+        				"expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
             "ProvisionedThroughput": {
-              "ReadCapacityUnits": "1",
-              "WriteCapacityUnits": "1"
+              "ReadCapacityUnits":  { "Ref": "DdbCapacityAuthAccessTokensIdxTokenHashRead" },
+              "WriteCapacityUnits": { "Ref": "DdbCapacityAuthAccessTokensIdxTokenHashWrite" }
             }
           }
         ]
@@ -146,11 +191,11 @@
           }
         ],
         "ProvisionedThroughput": {
-          "ReadCapacityUnits": "3",
-          "WriteCapacityUnits": "1"
+          "ReadCapacityUnits":  { "Ref": "DdbCapacityAuthRefreshTokensRead" },
+          "WriteCapacityUnits": { "Ref": "DdbCapacityAuthRefreshTokensWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-authentication-service.RefreshTokens"]] },
-		"GlobalSecondaryIndexes": [
+    		"GlobalSecondaryIndexes": [
           {
             "IndexName": "userId-Index",
             "KeySchema": [
@@ -163,14 +208,14 @@
               "NonKeyAttributes": [
                 "clientId",
                 "tokenHash",
-				"createdAt",
-				"expiresAt"
+        				"createdAt",
+        				"expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
             "ProvisionedThroughput": {
-              "ReadCapacityUnits": "1",
-              "WriteCapacityUnits": "1"
+              "ReadCapacityUnits":  { "Ref": "DdbCapacityAuthRefreshTokensIdxUserIdRead" },
+              "WriteCapacityUnits": { "Ref": "DdbCapacityAuthRefreshTokensIdxUserIdWrite" }
             }
           },
           {
@@ -185,14 +230,14 @@
               "NonKeyAttributes": [
                 "clientId",
                 "userId",
-				"createdAt",
-				"expiresAt"
+        				"createdAt",
+        				"expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
             "ProvisionedThroughput": {
-              "ReadCapacityUnits": "1",
-              "WriteCapacityUnits": "1"
+              "ReadCapacityUnits":  { "Ref": "DdbCapacityAuthRefreshTokensIdxTokenHashRead" },
+              "WriteCapacityUnits": { "Ref": "DdbCapacityAuthRefreshTokensIdxTokenHashWrite" }
             }
           }
         ]
@@ -215,8 +260,8 @@
           }
         ],
         "ProvisionedThroughput": {
-          "ReadCapacityUnits": "3",
-          "WriteCapacityUnits": "1"
+          "ReadCapacityUnits":  { "Ref": "DdbCapacityConfigurationRead" },
+          "WriteCapacityUnits": { "Ref": "DdbCapacityConfigurationWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-configuration"]] }
       }
@@ -237,8 +282,8 @@
           }
         ],
         "ProvisionedThroughput": {
-          "ReadCapacityUnits": "3",
-          "WriteCapacityUnits": "1"
+          "ReadCapacityUnits":  { "Ref": "DdbCapacityStoreRead" },
+          "WriteCapacityUnits": { "Ref": "DdbCapacityStoreWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-store"]] }
       }
@@ -259,8 +304,8 @@
           }
         ],
         "ProvisionedThroughput": {
-          "ReadCapacityUnits": "3",
-          "WriteCapacityUnits": "1"
+          "ReadCapacityUnits":  { "Ref": "DdbCapacitySubscriptionRead" },
+          "WriteCapacityUnits": { "Ref": "DdbCapacitySubscriptionWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-subscription"]] }
       }
@@ -273,7 +318,7 @@
             "AttributeName": "appId",
             "AttributeType": "S"
           },
-		  {
+    		  {
             "AttributeName": "storeId",
             "AttributeType": "S"
           }
@@ -283,14 +328,14 @@
             "AttributeName": "appId",
             "KeyType": "HASH"
           },
-		  {
+    		  {
             "AttributeName": "storeId",
             "KeyType": "RANGE"
           }
         ],
         "ProvisionedThroughput": {
-          "ReadCapacityUnits": "3",
-          "WriteCapacityUnits": "1"
+          "ReadCapacityUnits":  { "Ref": "DdbCapacityApplicationRead" },
+          "WriteCapacityUnits": { "Ref": "DdbCapacityApplicationWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-application"]] }
       }
@@ -315,8 +360,8 @@
           }
         ],
         "ProvisionedThroughput": {
-          "ReadCapacityUnits": "3",
-          "WriteCapacityUnits": "1"
+          "ReadCapacityUnits":  { "Ref": "DdbCapacityOrganizationRead" },
+          "WriteCapacityUnits": { "Ref": "DdbCapacityOrganizationWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-organization"]] },
         "GlobalSecondaryIndexes": [
@@ -332,8 +377,8 @@
               "ProjectionType": "ALL"
             },
             "ProvisionedThroughput": {
-              "ReadCapacityUnits": "1",
-              "WriteCapacityUnits": "1"
+              "ReadCapacityUnits":  { "Ref": "DdbCapacityOrganizationIdxTenantUrlRead" },
+              "WriteCapacityUnits": { "Ref": "DdbCapacityOrganizationIdxTenantUrlWrite" }
             }
           }
         ]
@@ -355,7 +400,7 @@
             "AttributeName": "emailAddress",
             "AttributeType": "S"
           },
-		  {
+    		  {
             "AttributeName": "accountStatus",
             "AttributeType": "S"
           }
@@ -367,11 +412,11 @@
           }
         ],
         "ProvisionedThroughput": {
-          "ReadCapacityUnits": "3",
-          "WriteCapacityUnits": "1"
+          "ReadCapacityUnits":  { "Ref": "DdbCapacityAccountRead" },
+          "WriteCapacityUnits": { "Ref": "DdbCapacityAccountWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-account"]] },
-		"GlobalSecondaryIndexes": [
+    		"GlobalSecondaryIndexes": [
           {
             "IndexName": "emailAddress-index",
             "KeySchema": [
@@ -384,18 +429,18 @@
               "ProjectionType": "ALL"
             },
             "ProvisionedThroughput": {
-              "ReadCapacityUnits": "1",
-              "WriteCapacityUnits": "1"
+              "ReadCapacityUnits":  { "Ref": "DdbCapacityAccountIdxEmailAddressRead" },
+              "WriteCapacityUnits": { "Ref": "DdbCapacityAccountIdxEmailAddressWrite" }
             }
           },
-		  {
+    		  {
             "IndexName": "tenant-index",
             "KeySchema": [
               {
                 "AttributeName": "tenantId",
                 "KeyType": "HASH"
               },
-			  {
+      			  {
                 "AttributeName": "emailAddress",
                 "KeyType": "RANGE"
               }
@@ -404,18 +449,18 @@
               "ProjectionType": "ALL"
             },
             "ProvisionedThroughput": {
-              "ReadCapacityUnits": "1",
-              "WriteCapacityUnits": "1"
+              "ReadCapacityUnits":  { "Ref": "DdbCapacityAccountIdxTenantRead" },
+              "WriteCapacityUnits": { "Ref": "DdbCapacityAccountIdxTenantWrite" }
             }
           },
-		  {
+    		  {
             "IndexName": "accountStatus-index",
             "KeySchema": [
               {
                 "AttributeName": "accountId",
                 "KeyType": "HASH"
               },
-			  {
+      			  {
                 "AttributeName": "accountStatus",
                 "KeyType": "RANGE"
               }
@@ -424,14 +469,16 @@
               "ProjectionType": "ALL"
             },
             "ProvisionedThroughput": {
-              "ReadCapacityUnits": "1",
-              "WriteCapacityUnits": "1"
+              "ReadCapacityUnits":  { "Ref": "DdbCapacityAccountIdxAccountStatusRead" },
+              "WriteCapacityUnits": { "Ref": "DdbCapacityAccountIdxAccountStatusWrite" }
             }
           }
         ]
       }
     },
-	"snsappcreated": {
+
+
+  	"snsappcreated": {
       "Type": "AWS::SNS::Topic",
 		"Properties" : {
 		"TopicName" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-created"]] }
@@ -533,25 +580,26 @@
         "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-account-expired"]] }
       }
     },
-	"aipServerAppBucket": {
-		"Type": "AWS::S3::Bucket",
-		"Properties": {
-			"BucketName": {
-				"Fn::Join": [
-					"",
-					[
-						"aip-",
-						{
-							"Ref": "Environment"
-						},
-						"-s3-uploads-",
-						{
-							"Ref": "AWS::Region"
-						}
-					]
-				]
-			}
-		}
-	}	
+
+  	"aipServerAppBucket": {
+  		"Type": "AWS::S3::Bucket",
+  		"Properties": {
+  			"BucketName": {
+  				"Fn::Join": [
+  					"",
+  					[
+  						"aip-",
+  						{
+  							"Ref": "Environment"
+  						},
+  						"-s3-uploads-",
+  						{
+  							"Ref": "AWS::Region"
+  						}
+  					]
+  				]
+  			}
+  		}
+  	}	
   }
 }
