@@ -92,6 +92,14 @@
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "255"
+    },
+    "BackupRetentionPeriod" : {
+      "Description": "Backups - number of day to retain",
+      "Default": "5",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "2",
+      "AllowedPattern" : "[0-9][0-9]"
     }
   },
 
@@ -154,6 +162,7 @@
         "StorageEncrypted"      : "true",
         "StorageType"           : { "Ref" : "DBStorageType" },
         "DBParameterGroupName"  : { "Ref" : "DBParameterGroup" },
+        "BackupRetentionPeriod" : { "Ref" : "BackupRetentionPeriod"},
         "Tags" : [
             {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-", {"Ref": "AWS::Region"} ]] }},
             {"Key": "Environment", "Value": { "Ref": "Environment" }},
