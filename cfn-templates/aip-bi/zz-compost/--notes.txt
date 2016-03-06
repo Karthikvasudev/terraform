@@ -436,4 +436,19 @@ esac
 
 echo REGION2=$REGION2
 echo RESOLVER=$RESOLVER
------
+
+
+----- docker machine -----
+ssh -i ~/.docker/machine/machines/aip-adm-docker-machine-1-eu-west-1/id_rsa ubuntu@52.17.151.21
+
+
+export BI_DATABASE_URL=jdbc:postgresql://bi-prod-rds-dw-eu-west-1.czpjmzx3ykqm.eu-west-1.rds.amazonaws.com:5432/postgres
+$ export BI_DATABASE_USER=sa
+$ export BI_DATABASE_PASSWORD=password (may need to escape special characters like '!' as '\!')
+$ eval $(aws ecr get-login --region us-east-1)
+$ docker pull 661072482170.dkr.ecr.us-east-1.amazonaws.com/add/bi-database-pg:latest
+$ docker run --rm -ti 661072482170.dkr.ecr.us-east-1.amazonaws.com/add/bi-database-pg:latest flyway -url=$BI_DATABASE_URL -user=$BI_DATABASE_USER -password=$BI_DATABASE_PASSWORD -baselineOnMigrate=true -validateOnMigrate=false -target=20160301.35 migrate
+
+-------------
+
+

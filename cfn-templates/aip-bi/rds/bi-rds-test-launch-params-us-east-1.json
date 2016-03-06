@@ -46,6 +46,10 @@
   {
     "ParameterKey": "DBStorageType",
     "ParameterValue": "gp2"
+  },
+  {
+    "ParameterKey": "BackupRetentionPeriod",
+    "ParameterValue": "5"
   }
 
 ]
