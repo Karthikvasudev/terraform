@@ -120,7 +120,8 @@
                             },
                             "MinTTL": 0,
                             "MaxTTL": 31536000,
-                            "DefaultTTL": 86400
+                            "DefaultTTL": 86400,
+                            "TrustedSigners": ["self"]
                         },
                         {
                             "TargetOriginId": { "Ref" : "StaticHost" },
@@ -141,7 +142,8 @@
                             },
                             "MinTTL": 0,
                             "MaxTTL": 31536000,
-                            "DefaultTTL": 86400
+                            "DefaultTTL": 86400,
+                            "TrustedSigners": ["self"]
                         }
                     ],
                     "DefaultCacheBehavior": {
@@ -162,7 +164,8 @@
                         ],
                         "MinTTL": 0,
                         "MaxTTL": 31536000,
-                        "DefaultTTL": 86400
+                        "DefaultTTL": 86400,
+                        "TrustedSigners": ["self"]
                     },
                     "PriceClass" : "PriceClass_All",
                     "Restrictions" : {
