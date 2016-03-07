@@ -85,26 +85,6 @@
                         "Prefix" : "cloudfront"
                     },
                     "Aliases": {"Ref" : "Aliases"},
-                    "DefaultCacheBehavior": {
-                        "TargetOriginId" : { "Ref" : "StaticHost" },
-                        "SmoothStreaming" : "false",  
-                        "ForwardedValues" : {
-                            "QueryString" : "false",
-                            "Cookies" : { "Forward" : "none" }
-                        },
-                        "ViewerProtocolPolicy" : "https-only",
-                        "AllowedMethods": [
-                          "HEAD",
-                          "GET"
-                        ],
-                        "CachedMethods": [
-                          "HEAD",
-                          "GET"
-                        ],
-                        "MinTTL": 0,
-                        "MaxTTL": 0,
-                        "DefaultTTL": 0
-                    },
                     "CacheBehaviors" : [
                         {
                             "PathPattern" : "/api*",
@@ -123,7 +103,7 @@
                         },
                         {
                             "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/help/*",
+                            "PathPattern": "/bi/help/*",
                             "ViewerProtocolPolicy": "https-only",
                             "AllowedMethods": [
                                 "HEAD",
@@ -139,34 +119,13 @@
                                 "Cookies": { "Forward": "none" }
                             },
                             "MinTTL": 0,
-                            "MaxTTL": 0,
-                            "DefaultTTL": 0
-                        },
-                        {
-                            "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/help/",
-                            "ViewerProtocolPolicy": "redirect-to-https",
-                            "AllowedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "CachedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "ForwardedValues" : {
-                                "QueryString" : "false",
-                                "Headers": [],
-                                "Cookies": { "Forward": "none" }
-                            },
-                            "MinTTL": 60,
-                            "MaxTTL": 60,
-                            "DefaultTTL": 60
+                            "MaxTTL": 31536000,
+                            "DefaultTTL": 86400
                         },
                         {
                             "TargetOriginId": { "Ref" : "StaticHost" },
                             "PathPattern": "/admin/*",
-                            "ViewerProtocolPolicy": "redirect-to-https",
+                            "ViewerProtocolPolicy": "https-only",
                             "AllowedMethods": [
                                 "HEAD",
                                 "GET"
@@ -180,53 +139,31 @@
                                 "Headers": [],
                                 "Cookies": { "Forward": "none" }
                             },
-                            "MinTTL": 60,
-                            "MaxTTL": 60,
-                            "DefaultTTL": 60
-                        },
-                        {
-                            "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/login/",
-                            "ViewerProtocolPolicy": "redirect-to-https",
-                            "AllowedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "CachedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "ForwardedValues" : {
-                                "QueryString" : "false",
-                                "Headers": [],
-                                "Cookies": { "Forward": "none" }
-                            },
-                            "MinTTL": 60,
-                            "MaxTTL": 60,
-                            "DefaultTTL": 60
-                        },
-                        {
-                            "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/",
-                            "ViewerProtocolPolicy": "redirect-to-https",
-                            "AllowedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "CachedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "ForwardedValues" : {
-                                "QueryString" : "false",
-                                "Headers": [],
-                                "Cookies": { "Forward": "none" }
-                            },
-                            "MinTTL": 60,
-                            "MaxTTL": 60,
-                            "DefaultTTL": 60
+                            "MinTTL": 0,
+                            "MaxTTL": 31536000,
+                            "DefaultTTL": 86400
                         }
                     ],
+                    "DefaultCacheBehavior": {
+                        "TargetOriginId" : { "Ref" : "StaticHost" },
+                        "SmoothStreaming" : "false",  
+                        "ForwardedValues" : {
+                            "QueryString" : "false",
+                            "Cookies" : { "Forward" : "none" }
+                        },
+                        "ViewerProtocolPolicy": "redirect-to-https",
+                        "AllowedMethods": [
+                          "HEAD",
+                          "GET"
+                        ],
+                        "CachedMethods": [
+                          "HEAD",
+                          "GET"
+                        ],
+                        "MinTTL": 0,
+                        "MaxTTL": 31536000,
+                        "DefaultTTL": 86400
+                    },
                     "PriceClass" : "PriceClass_All",
                     "Restrictions" : {
                        "GeoRestriction" : {
