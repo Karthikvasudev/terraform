@@ -164,8 +164,7 @@
                         ],
                         "MinTTL": 0,
                         "MaxTTL": 31536000,
-                        "DefaultTTL": 86400,
-                        "TrustedSigners": ["self"]
+                        "DefaultTTL": 86400
                     },
                     "PriceClass" : "PriceClass_All",
                     "Restrictions" : {
