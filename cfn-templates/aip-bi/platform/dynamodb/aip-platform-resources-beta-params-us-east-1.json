@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "devops"
+    "ParameterValue": "beta"
   },
 
   { "ParameterKey": "DdbCapacityAuthAccessTokensRead",               "ParameterValue": "300" },
