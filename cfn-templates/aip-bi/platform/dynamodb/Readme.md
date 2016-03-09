@@ -2,17 +2,12 @@
 
 run AWS CloudFormation Stack commands for BI Environments
 Copy/Paste into bash shell window
-Note: include --profile sandbox when testing only. Included for safety reasons
 
-
-
-
-# Abbott AWS -- Beanstalk App -- Platform Services "aip-us-east-1"
-
+# Platform Services Resources (DynamoDB, SNS, S3, SQS, etc.)
 
 ## DevOps 
 aws cloudformation create-stack \
---stack-name aip-platform-resources-devops-master \
+--stack-name aip-plat form-resources-devops-master \
 --template-body file://aip-platform-aws-resources.cfn.json \
 --parameters file://aip-platform-resources-devops-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback \
@@ -41,9 +36,68 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+## Test
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-test-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-test-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+aws cloudformation update-stack \
+--stack-name aip-platform-resources-test-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-test-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 
+## QA
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-qa-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-qa-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+aws cloudformation update-stack \
+--stack-name aip-platform-resources-qa-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-qa-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
+## Prod
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-prod-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-prod-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+aws cloudformation update-stack \
+--stack-name aip-platform-resources-prod-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-prod-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+## Prod2
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-prod2-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-prod2-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+aws cloudformation update-stack \
+--stack-name aip-platform-resources-prod2-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-prod2-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
 
 
 
@@ -62,7 +116,7 @@ aws cloudformation create-stack \
 --region eu-west-1
 
 aws cloudformation update-stack \
---stack-name aip-platform-resources-dev-master \
+--stack-name aip-platform-resources-prod-master \
 --template-body file://aip-platform-aws-resources.cfn.json \
 --parameters file://aip-platform-resources-prod-params-eu-west-1.json \
 --capabilities CAPABILITY_IAM \
