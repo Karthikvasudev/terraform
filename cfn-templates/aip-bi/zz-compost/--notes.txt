@@ -437,3 +437,5 @@ esac
 echo REGION2=$REGION2
 echo RESOLVER=$RESOLVER
 -----
+Admin VPC NAT IP: 52.3.143.228/32
+-----

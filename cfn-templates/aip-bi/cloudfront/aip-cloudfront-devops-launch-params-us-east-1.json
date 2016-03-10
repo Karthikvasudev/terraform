@@ -25,7 +25,7 @@
   },
   {
     "ParameterKey": "Aliases",
-    "ParameterValue": "customer1-devops.aliniqbis.com,customer4-devops.aliniqbis.com"
+    "ParameterValue": "devops-us-1.aliniqbis.com,customer1-devops.aliniqbis.com,customer3-devops.aliniqbis.com,customer4-devops.aliniqbis.com"
   }
   
 ]
