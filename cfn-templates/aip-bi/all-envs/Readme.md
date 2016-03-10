@@ -68,5 +68,14 @@ aws cloudformation create-stack \
 --template-body file://aip-eb-apps.cfn.json \
 --capabilities CAPABILITY_IAM --disable-rollback --region ap-northeast-1 
 
+########################################
+# ---- aip-S3bucket-across region -----
+########################################
 
+aws cloudformation create-stack \ --stack-name aip-devops-s3-bucket-us-east-1 \ --template-body file://aip-S3bucket-Lifecycle.cfn.json \ --parameters file://aip-S3bucket-Lifecycle-launch-params.json \ --capabilities CAPABILITY_IAM --disable-rollback \ --region us-east-1
+
+
+-- update Abbott AWS: Devops environment --
+
+aws cloudformation update-stack \ --stack-name aip-devops-s3-bucket-us-east-1 \ --template-body file://aip-S3bucket-Lifecycle.cfn.json \ --parameters file://aip-S3bucket-Lifecycle-launch-params.json \ --capabilities CAPABILITY_IAM \ --region us-east-1
 
