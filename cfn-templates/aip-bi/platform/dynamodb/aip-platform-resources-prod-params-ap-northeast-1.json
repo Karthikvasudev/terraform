@@ -4,31 +4,32 @@
     "ParameterValue": "prod"
   },
 
+ 
   { "ParameterKey": "DdbCapacityAuthAccessTokensRead",               "ParameterValue": "300" },
   { "ParameterKey": "DdbCapacityAuthAccessTokensWrite",              "ParameterValue": "30" },
-  { "ParameterKey": "DdbCapacityAuthAccessTokensIdxUserIdRead",      "ParameterValue": "2" },
-  { "ParameterKey": "DdbCapacityAuthAccessTokensIdxUserIdWrite",     "ParameterValue": "2" },
-  { "ParameterKey": "DdbCapacityAuthAccessTokensIdxTokenHashRead",   "ParameterValue": "2" },
-  { "ParameterKey": "DdbCapacityAuthAccessTokensIdxTokenHashWrite",  "ParameterValue": "2" },
+  { "ParameterKey": "DdbCapacityAuthAccessTokensIdxUserIdRead",      "ParameterValue": "300" },
+  { "ParameterKey": "DdbCapacityAuthAccessTokensIdxUserIdWrite",     "ParameterValue": "30" },
+  { "ParameterKey": "DdbCapacityAuthAccessTokensIdxTokenHashRead",   "ParameterValue": "300" },
+  { "ParameterKey": "DdbCapacityAuthAccessTokensIdxTokenHashWrite",  "ParameterValue": "30" },
 
   { "ParameterKey": "DdbCapacityAuthClientsRead",                    "ParameterValue": "100" },
   { "ParameterKey": "DdbCapacityAuthClientsWrite",                   "ParameterValue": "10" },
 
   { "ParameterKey": "DdbCapacityAuthRefreshTokensRead",              "ParameterValue": "300" },
   { "ParameterKey": "DdbCapacityAuthRefreshTokensWrite",             "ParameterValue": "30" },
-  { "ParameterKey": "DdbCapacityAuthRefreshTokensIdxUserIdRead",     "ParameterValue": "2" },
-  { "ParameterKey": "DdbCapacityAuthRefreshTokensIdxUserIdWrite",    "ParameterValue": "2" },
-  { "ParameterKey": "DdbCapacityAuthRefreshTokensIdxTokenHashRead",  "ParameterValue": "2" },
-  { "ParameterKey": "DdbCapacityAuthRefreshTokensIdxTokenHashWrite", "ParameterValue": "2" },
+  { "ParameterKey": "DdbCapacityAuthRefreshTokensIdxUserIdRead",     "ParameterValue": "300" },
+  { "ParameterKey": "DdbCapacityAuthRefreshTokensIdxUserIdWrite",    "ParameterValue": "30" },
+  { "ParameterKey": "DdbCapacityAuthRefreshTokensIdxTokenHashRead",  "ParameterValue": "300" },
+  { "ParameterKey": "DdbCapacityAuthRefreshTokensIdxTokenHashWrite", "ParameterValue": "30" },
 
   { "ParameterKey": "DdbCapacityAccountRead",                        "ParameterValue": "400" },
   { "ParameterKey": "DdbCapacityAccountWrite",                       "ParameterValue": "50" },
-  { "ParameterKey": "DdbCapacityAccountIdxEmailAddressRead",         "ParameterValue": "3" },
-  { "ParameterKey": "DdbCapacityAccountIdxEmailAddressWrite",        "ParameterValue": "3" },
-  { "ParameterKey": "DdbCapacityAccountIdxTenantRead",               "ParameterValue": "3" },
-  { "ParameterKey": "DdbCapacityAccountIdxTenantWrite",              "ParameterValue": "3" },
-  { "ParameterKey": "DdbCapacityAccountIdxAccountStatusRead",        "ParameterValue": "3" },
-  { "ParameterKey": "DdbCapacityAccountIdxAccountStatusWrite",       "ParameterValue": "3" },
+  { "ParameterKey": "DdbCapacityAccountIdxEmailAddressRead",         "ParameterValue": "400" },
+  { "ParameterKey": "DdbCapacityAccountIdxEmailAddressWrite",        "ParameterValue": "50" },
+  { "ParameterKey": "DdbCapacityAccountIdxTenantRead",               "ParameterValue": "400" },
+  { "ParameterKey": "DdbCapacityAccountIdxTenantWrite",              "ParameterValue": "50" },
+  { "ParameterKey": "DdbCapacityAccountIdxAccountStatusRead",        "ParameterValue": "400" },
+  { "ParameterKey": "DdbCapacityAccountIdxAccountStatusWrite",       "ParameterValue": "50" },
 
   { "ParameterKey": "DdbCapacityApplicationRead",                    "ParameterValue": "100" },
   { "ParameterKey": "DdbCapacityApplicationWrite",                   "ParameterValue": "10" },
@@ -38,8 +39,8 @@
 
   { "ParameterKey": "DdbCapacityOrganizationRead",                   "ParameterValue": "200" },
   { "ParameterKey": "DdbCapacityOrganizationWrite",                  "ParameterValue": "20" },
-  { "ParameterKey": "DdbCapacityOrganizationIdxTenantUrlRead",       "ParameterValue": "1" },
-  { "ParameterKey": "DdbCapacityOrganizationIdxTenantUrlWrite",      "ParameterValue": "1" },
+  { "ParameterKey": "DdbCapacityOrganizationIdxTenantUrlRead",       "ParameterValue": "200" },
+  { "ParameterKey": "DdbCapacityOrganizationIdxTenantUrlWrite",      "ParameterValue": "20" },
 
   { "ParameterKey": "DdbCapacityStoreRead",                          "ParameterValue": "100" },
   { "ParameterKey": "DdbCapacityStoreWrite",                         "ParameterValue": "10" },
@@ -48,5 +49,3 @@
   { "ParameterKey": "DdbCapacitySubscriptionWrite",                  "ParameterValue": "10" }
 
 ]
-
-
