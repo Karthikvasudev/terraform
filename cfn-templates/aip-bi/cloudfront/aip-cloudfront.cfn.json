@@ -46,6 +46,12 @@
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
+        },
+        "PriceClass": {
+            "Description": "PriceClass - number of edges (performance) one is willing to pay for",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
         }
     },
 
@@ -166,7 +172,7 @@
                         "MaxTTL": 31536000,
                         "DefaultTTL": 86400
                     },
-                    "PriceClass" : "PriceClass_All",
+                    "PriceClass" : { "Ref" : "PriceClass" },
                     "Restrictions" : {
                        "GeoRestriction" : {
                             "RestrictionType" : "none",
