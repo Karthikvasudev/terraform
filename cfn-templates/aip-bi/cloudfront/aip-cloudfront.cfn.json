@@ -50,8 +50,8 @@
         "PriceClass": {
             "Description": "PriceClass - number of edges (performance) one is willing to pay for",
             "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
+            "Default": "PriceClass_All",
+            "AllowedValues" : ["PriceClass_All", "PriceClass_200", "PriceClass_100"]
         }
     },
 
