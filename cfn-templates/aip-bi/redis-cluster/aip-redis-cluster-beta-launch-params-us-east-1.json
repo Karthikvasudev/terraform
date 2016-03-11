@@ -4,6 +4,14 @@
         "ParameterValue": "beta"
     },
     {
+        "ParameterKey": "vpcId",
+        "ParameterValue": "vpc-5e6f043a"
+    },
+    {
+        "ParameterKey": "vpcCidrIP",
+        "ParameterValue": "10.85.40.0/21"
+    },
+    {
         "ParameterKey": "Subnets",
         "ParameterValue": "subnet-4c29c666,subnet-fbdb53c6"
     },

@@ -12,6 +12,14 @@
             "MinLength": "1",
             "MaxLength": "255"
         },
+        "vpcId": {
+            "Description": "VPC id for redis security group",
+            "Type": "String"
+        },
+        "vpcCidrIP": {
+            "Description": "CIDR block for the vpc",
+            "Type": "String"
+        },
         "Subnets": {
             "Description": "Redis cluster will be formed within these subnets.",
             "Type": "CommaDelimitedList"
@@ -40,6 +48,23 @@
 		}		
     },
     "Resources": {
+        "RedisSecGroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Redis Security Group",
+                "SecurityGroupIngress" : [{
+                    "IpProtocol" : "tcp",
+                    "FromPort" : "6379",
+                    "ToPort" : "6379",
+                    "CidrIp" : { "Ref" : "vpcCidrIP" }
+                }],
+                "Tags" :  [ {
+                    "Key" : "Name",
+                    "Value" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-redis-sg" ]]}
+                }],
+                "VpcId" : { "Ref" : "vpcId" }
+            }
+        },
 		"SubnetGroup" : {
             "Type" : "AWS::ElastiCache::SubnetGroup",
             "Properties" : {
@@ -59,7 +84,8 @@
                 "CacheSubnetGroupName" : { "Ref": "SubnetGroup" },
                 "EngineVersion" : "2.8.24",
                 "PreferredMaintenanceWindow" : "sat:15:00-sat:16:00",
-                "PreferredCacheClusterAZs": { "Ref" : "Zones" }
+                "PreferredCacheClusterAZs": { "Ref" : "Zones" },
+				"SecurityGroupIds": [{ "Ref" : "RedisSecGroup" }]
             }
         },
 	    "RedisR53Entry" : {

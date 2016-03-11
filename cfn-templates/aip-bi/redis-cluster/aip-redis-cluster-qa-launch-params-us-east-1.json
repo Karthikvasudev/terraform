@@ -4,6 +4,14 @@
         "ParameterValue": "qa"
     },
     {
+        "ParameterKey": "vpcId",
+        "ParameterValue": "vpc-e4f04280"
+    },
+    {
+        "ParameterKey": "vpcCidrIP",
+        "ParameterValue": "10.85.24.0/21"
+    },
+    {
         "ParameterKey": "Subnets",
         "ParameterValue": "subnet-03665928,subnet-0f43e332"
     },

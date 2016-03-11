@@ -4,6 +4,14 @@
         "ParameterValue": "dev"
     },
     {
+        "ParameterKey": "vpcId",
+        "ParameterValue": "vpc-3517bf51"
+    },
+    {
+        "ParameterKey": "vpcCidrIP",
+        "ParameterValue": "10.85.8.0/21"
+    },
+    {
         "ParameterKey": "Subnets",
         "ParameterValue": "subnet-c0b583eb,subnet-8929f3b4"
     },

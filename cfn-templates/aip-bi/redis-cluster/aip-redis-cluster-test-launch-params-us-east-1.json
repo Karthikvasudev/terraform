@@ -4,6 +4,14 @@
         "ParameterValue": "test"
     },
     {
+        "ParameterKey": "vpcId",
+        "ParameterValue": "vpc-185df67c"
+    },
+    {
+        "ParameterKey": "vpcCidrIP",
+        "ParameterValue": "10.85.16.0/21"
+    },
+    {
         "ParameterKey": "Subnets",
         "ParameterValue": "subnet-285b6a03,subnet-15fb5e28"
     },

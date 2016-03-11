@@ -4,6 +4,14 @@
         "ParameterValue": "devops"
     },
     {
+        "ParameterKey": "vpcId",
+        "ParameterValue": "vpc-2cd74548"
+    },
+    {
+        "ParameterKey": "vpcCidrIP",
+        "ParameterValue": "10.85.48.0/21"
+    },
+    {
         "ParameterKey": "Subnets",
         "ParameterValue": "subnet-53a01a6e,subnet-42534069"
     },
