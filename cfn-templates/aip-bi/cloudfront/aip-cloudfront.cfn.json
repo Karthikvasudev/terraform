@@ -100,7 +100,10 @@
                             "ForwardedValues" : {
                                 "QueryString" : "true",
                                 "Headers": [ "Authorization", "Host" ],
-                                "Cookies": { "Forward": "none" }
+                                "Cookies": { 
+                                    "Forward": "whitelist",
+                                    "WhitelistedNames": ["CloudFront-Key-Pair-Id", "CloudFront-Policy", "CloudFront-Signature"]
+                                }
                             },
                             "ViewerProtocolPolicy" : "https-only",
                             "MinTTL": 0,
