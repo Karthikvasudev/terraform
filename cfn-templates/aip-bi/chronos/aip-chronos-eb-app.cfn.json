@@ -100,7 +100,21 @@
         "PrivateSubnets": {
             "Description": "A comma-delimited list of private VPC subnets. Auto Scaling and RDS will be launched into this subnet.",
             "Type": "String"
-        }	
+        },
+        "AutoScaleMinSize": {
+            "Description": "AutoScaling Minimum number of instances",
+            "Default": "2",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+        "AutoScaleMaxSize": {
+            "Description": "AutoScaling Maximum number of instances",
+            "Default": "20",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        }   
     },
 
     "Conditions" : {
@@ -155,12 +169,11 @@
                     {
                         "Namespace": "aws:autoscaling:asg",
                         "OptionName": "MinSize",
-                        "Value": "1"
-                    },
+                        "Value": { "Ref" : "AutoScaleMinSize" }                    },
                     {
                         "Namespace": "aws:autoscaling:asg",
                         "OptionName": "MaxSize",
-                        "Value": "1"
+                        "Value": { "Ref" : "AutoScaleMaxSize" }
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",

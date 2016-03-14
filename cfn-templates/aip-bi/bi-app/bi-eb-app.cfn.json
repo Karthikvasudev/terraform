@@ -114,7 +114,21 @@
 			"Type": "String",
 			"MinLength": "1",
 			"MaxLength": "255"
-		}				
+		},
+        "AutoScaleMinSize": {
+            "Description": "AutoScaling Minimum number of instances",
+            "Default": "2",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+        "AutoScaleMaxSize": {
+            "Description": "AutoScaling Maximum number of instances",
+            "Default": "20",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        }   				
     },
 
 
@@ -172,12 +186,11 @@
                     {
                         "Namespace": "aws:autoscaling:asg",
                         "OptionName": "MinSize",
-                        "Value": "2"
-                    },
+                        "Value": { "Ref" : "AutoScaleMinSize" }                    },
                     {
                         "Namespace": "aws:autoscaling:asg",
                         "OptionName": "MaxSize",
-                        "Value": "20"
+                        "Value": { "Ref" : "AutoScaleMaxSize" }
                     },
                     {
                         "Namespace": "aws:autoscaling:launchconfiguration",

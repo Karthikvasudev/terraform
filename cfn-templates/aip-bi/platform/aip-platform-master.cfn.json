@@ -76,14 +76,14 @@
       "MinLength": "1",
       "MaxLength": "255"
     },
-	"PublicSubnets": {
-		"Description": "A comma-delimited list of public VPC subnets. ELBs will be launched into this subnet.",
-		"Type": "String"
-	},
-	"PrivateSubnets": {
-		"Description": "A comma-delimited list of private VPC subnets. Auto Scaling and RDS will be launched into this subnet.",
-		"Type": "String"
-	},	
+  	"PublicSubnets": {
+  		"Description": "A comma-delimited list of public VPC subnets. ELBs will be launched into this subnet.",
+  		"Type": "String"
+  	},
+  	"PrivateSubnets": {
+  		"Description": "A comma-delimited list of private VPC subnets. Auto Scaling and RDS will be launched into this subnet.",
+  		"Type": "String"
+  	},	
     "VpcName": {
       "Description": "name of the VPC",
       "Type": "String",
@@ -96,52 +96,52 @@
       "MinLength": "1",
       "MaxLength": "255"
     },
-	"R53HostedZoneName": {
-		"Description": "Name of the R53 HostedZone[aip.local.]",
-		"Default": "aliniqbis.local.",
-		"Type": "String",
-		"MinLength": "1",
-		"MaxLength": "255"
-	},
-	"R53RecordSetNamePrefix": {
-		"Description": "Name of the R53 Record Set[proxy,bi,aip]",
-		"Type": "String",
-		"MinLength": "1",
-		"MaxLength": "255"
-	},
-	"R53RecordSetNameSuffix": {
-		"Description": "Name of the R53 Record Set[us-1.aliniqbis.local]",
-		"Type": "String",
-		"MinLength": "1",
-		"MaxLength": "255"
-	},
-	"AppEnvironmentSuffix": {
-		"Description": "application environment suffix [ENV-'aip'-REGION or ENV-'bi-app'-REGION]",
-		"Default": "aip",
-		"Type": "String",
-		"MinLength": "1",
-		"MaxLength": "255"
-	},
-	"InstanceSecurityGroups": {
-		"Description": "A comma-delimited list of security groups",
-		"Type": "String",
-		"MinLength": "1",
-		"MaxLength": "255"
-	},
-  "AutoScaleMinSize": {
-    "Description": "AutoScaling Minimum number of instances",
-    "Default": "2",
-    "Type": "String",
-    "MinLength": "1",
-    "MaxLength": "255"
-  },
-  "AutoScaleMaxSize": {
-    "Description": "AutoScaling Maximum number of instances",
-    "Default": "20",
-    "Type": "String",
-    "MinLength": "1",
-    "MaxLength": "255"
-  } 
+  	"R53HostedZoneName": {
+  		"Description": "Name of the R53 HostedZone[aip.local.]",
+  		"Default": "aliniqbis.local.",
+  		"Type": "String",
+  		"MinLength": "1",
+  		"MaxLength": "255"
+  	},
+  	"R53RecordSetNamePrefix": {
+  		"Description": "Name of the R53 Record Set[proxy,bi,aip]",
+  		"Type": "String",
+  		"MinLength": "1",
+  		"MaxLength": "255"
+  	},
+  	"R53RecordSetNameSuffix": {
+  		"Description": "Name of the R53 Record Set[us-1.aliniqbis.local]",
+  		"Type": "String",
+  		"MinLength": "1",
+  		"MaxLength": "255"
+  	},
+  	"AppEnvironmentSuffix": {
+  		"Description": "application environment suffix [ENV-'aip'-REGION or ENV-'bi-app'-REGION]",
+  		"Default": "aip",
+  		"Type": "String",
+  		"MinLength": "1",
+  		"MaxLength": "255"
+  	},
+  	"InstanceSecurityGroups": {
+  		"Description": "A comma-delimited list of security groups",
+  		"Type": "String",
+  		"MinLength": "1",
+  		"MaxLength": "255"
+  	},
+    "AutoScaleMinSize": {
+      "Description": "AutoScaling Minimum number of instances",
+      "Default": "2",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "AutoScaleMaxSize": {
+      "Description": "AutoScaling Maximum number of instances",
+      "Default": "20",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    } 
   },
 
   "Resources": {
