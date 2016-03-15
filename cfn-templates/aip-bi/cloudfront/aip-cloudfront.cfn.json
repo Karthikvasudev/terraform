@@ -41,6 +41,12 @@
             "MinLength": "1",
             "MaxLength": "255"
         },
+        "R53HostedZoneID": {
+            "Description": "R53 Zone ID",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
         "ServerCertificateId": {
             "Description": "IAM Certificate ID number",
             "Type": "String",
@@ -197,11 +203,14 @@
             "Properties" : {
                 "HostedZoneName" : { "Ref": "R53HostedZoneName" },
                 "Comment"   : "Assigning route 53 A record for ELB's DNS record.",
+
                 "RecordSets" : [{
                     "Name"      : {"Ref" : "CloudFrontHost"}, 
-                    "Type": "CNAME", 
-                    "TTL" : "900",
-                    "ResourceRecords" : [ {"Fn::GetAtt": ["AliniqbisCloudFrontDistribution", "DomainName"]} ]
+                    "Type": "A", 
+                    "AliasTarget" : {
+                        "HostedZoneId" : { "Ref" : "R53HostedZoneID"},
+                        "DNSName" : { "Fn::GetAtt": ["AliniqbisCloudFrontDistribution", "DomainName"]} 
+                    }
                 }]
             }
         },

@@ -18,6 +18,11 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
+## - Run CDN Fixup script after any create-stack or update-stack (avoids manual clicks, etc.)
+##   Requires python 3 and AWS Boto3
+python cdn-fix.py --Id XXX     #"Distribution Id" from cloudfront console page
+
+
 
 # Dev - Create 
 aws cloudformation create-stack \
@@ -35,6 +40,9 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
+## - Run CDN Fixup script after any create-stack or update-stack (avoids manual clicks, etc.)
+##   Requires python 3 and AWS Boto3
+python cdn-fix.py --Id XXX     #"Distribution Id" from cloudfront console page
 
 
 

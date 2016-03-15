@@ -25,7 +25,7 @@
   },
   {
     "ParameterKey": "VpcName",
-    "ParameterValue": "aip-dev-vpc-us-east-1"
+    "ParameterValue": "api-dev-vpc-us-east-1"
   },
   {
     "ParameterKey": "ApplicationURL",

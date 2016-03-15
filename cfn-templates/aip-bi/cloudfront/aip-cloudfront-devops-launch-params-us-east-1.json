@@ -8,12 +8,16 @@
     "ParameterValue": "aliniqbis.com."
   },
   {
+    "ParameterKey": "R53HostedZoneID",
+    "ParameterValue": "Z1YQCIKJK8P7ZS"
+  },
+  {
     "ParameterKey": "ServerCertificateId",
     "ParameterValue": "ASCAI6DIHMLCEDXKCUWBS"
   },
   {
     "ParameterKey": "CloudFrontHost",
-    "ParameterValue": "devops-us-1.aliniqbis.com"
+    "ParameterValue": "cdn-devops-us-1.aliniqbis.com"
   },
   {
     "ParameterKey": "ApiHost",
@@ -25,7 +29,7 @@
   },
   {
     "ParameterKey": "Aliases",
-    "ParameterValue": "devops-us-1.aliniqbis.com,customer1-devops.aliniqbis.com,customer3-devops.aliniqbis.com,customer4-devops.aliniqbis.com"
+    "ParameterValue": "cdn-devops-us-1.aliniqbis.com,customer1-devops.aliniqbis.com,customer2-devops.aliniqbis.com,customer3-devops.aliniqbis.com"
   },
   { 
     "ParameterKey": "PriceClass",
