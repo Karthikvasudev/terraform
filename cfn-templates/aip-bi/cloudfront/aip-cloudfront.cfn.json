@@ -99,7 +99,7 @@
                             "CachedMethods"  : [ "HEAD", "GET" ],
                             "ForwardedValues" : {
                                 "QueryString" : "true",
-                                "Headers": [ "Authorization", "Host" ],
+                                "Headers": [ "Authorization", "Host", "Aip-Cf-Secret" ],
                                 "Cookies": { 
                                     "Forward": "whitelist",
                                     "WhitelistedNames": ["CloudFront-Key-Pair-Id", "CloudFront-Policy", "CloudFront-Signature"]
