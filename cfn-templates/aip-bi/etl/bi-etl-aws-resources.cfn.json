@@ -33,7 +33,7 @@
                    "TopicConfigurations": [
                         {
                             "Event": "s3:ObjectCreated:*",
-                            "Topic": {"Fn::Join": ["", ["arn:aws:sns:", {"Ref" : "AWS::Region"} ,":",{"Ref" : "AWS::AccountId"}, ":biETL-", {"Ref": "Environment"}, "-sns-s3bucket-put-events-lambda" ]]}
+                            "Topic": {"Fn::Join": ["", ["arn:aws:sns:", {"Ref" : "AWS::Region"} ,":",{"Ref" : "AWS::AccountId"}, ":bi-", {"Ref": "Environment"}, "-sns-etl-file-uploaded" ]]}
                         }
                     ]
                 }

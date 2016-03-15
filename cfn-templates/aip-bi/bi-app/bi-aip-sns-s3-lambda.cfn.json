@@ -25,13 +25,20 @@
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
+        },
+		"S3Key": {
+            "Description": "s3 key of the lambda code .zip ",
+			"Default" : "lambda/s3Archival/lambda_handler.zip",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
         }
     },
     "Resources": {
         "Topic": {
 			"Type": "AWS::SNS::Topic",
 			"Properties": {
-				"TopicName" : {"Fn::Join": ["", ["aip-", {"Ref": "Environment"},"-sns-s3bucket-put-events-lambda"]]},
+				"TopicName" : {"Fn::Join": ["", ["bi-", {"Ref": "Environment"},"-sns-file-uploaded"]]},
 				"Subscription" :[
 				{"Endpoint" : { "Fn::GetAtt": ["FunctionTopicSubscription", "Arn"] },
 					"Protocol" : "lambda"
@@ -101,15 +108,14 @@
 			"Type": "AWS::Lambda::Function",
 			
 			"Properties": {
-				"Handler": "index.handler",
-				
+				"Handler": "lambda_handler.lambda_handler",
 				"Role": {"Fn::Join": ["", ["arn:aws:iam::", {"Ref": "AWS::AccountId"},":role/",{ "Ref" : "Lambdarole" }]]},
 				"Code": {
 						"S3Bucket": {"Ref": "Bucket"},
-						"S3Key": "Archive-sse-lambda.zip"	
+						"S3Key": {"Ref": "S3Key"}	
 				},
-				"Runtime": "nodejs",
-				"Timeout": "30"
+				"Runtime": "python2.7",
+				"MemorySize": 1024
 			}
 		}
 		
