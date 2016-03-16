@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "prod"
+    "ParameterValue": "beta"
   },
   {
     "ParameterKey": "R53HostedZoneName",
@@ -17,19 +17,19 @@
   },
   {
     "ParameterKey": "CloudFrontHost",
-    "ParameterValue": "cdn-prod-us-1.aliniqbis.com"
+    "ParameterValue": "cdn-beta-us-1.aliniqbis.com"
   },
   {
     "ParameterKey": "ApiHost",
-    "ParameterValue": "api-prod-us-1.aliniqbis.com"
+    "ParameterValue": "api-beta-us-1.aliniqbis.com"
   },
   {
     "ParameterKey": "StaticHost",
-    "ParameterValue": "static-prod-us-1.aliniqbis.com"
+    "ParameterValue": "static-beta-us-1.aliniqbis.com"
   },
   {
     "ParameterKey": "Aliases",
-    "ParameterValue": "cdn-prod-us-1.aliniqbis.com,customer1-prod.aliniqbis.com,customer2-prod.aliniqbis.com,customer3-prod.aliniqbis.com,customer4-prod.aliniqbis.com"
+    "ParameterValue": "cdn-beta-us-1.aliniqbis.com,customer1-beta.aliniqbis.com,customer2-beta.aliniqbis.com,customer3-beta.aliniqbis.com,customer4-beta.aliniqbis.com"
   },
   { 
     "ParameterKey": "PriceClass",
