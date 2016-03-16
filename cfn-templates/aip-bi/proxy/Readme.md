@@ -137,7 +137,7 @@ aws cloudformation update-stack \
 --stack-name aip-proxy-devops-master \
 --template-body file://aip-proxy-master.cfn.json \
 --parameters file://aip-proxy-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM 
+--capabilities CAPABILITY_IAM \
 --region us-east-1
 
 
