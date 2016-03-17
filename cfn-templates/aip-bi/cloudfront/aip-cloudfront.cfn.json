@@ -193,7 +193,51 @@
                         "SslSupportMethod": "sni-only",
                         "MinimumProtocolVersion": "TLSv1"
                     },
-                    "WebACLId" : { "Ref": "WebACL" }
+                    "WebACLId" : { "Ref": "WebACL" },
+                    "CustomErrorResponses" : [
+                        {
+                            "ErrorCode" : "403",
+                            "ResponsePagePath" : "/error/403.html",
+                            "ResponseCode" : "403",
+                            "ErrorCachingMinTTL" : "300"
+                        },
+                        {
+                            "ErrorCode": "404",
+                            "ResponsePagePath": "/error/404.html",
+                            "ResponseCode": "404",
+                            "ErrorCachingMinTTL": "300"
+                        },
+                        {
+                            "ErrorCode": "500",
+                            "ResponsePagePath": "/error/500.html",
+                            "ResponseCode": "500",
+                            "ErrorCachingMinTTL": "300"
+                        },
+                        {
+                            "ErrorCode": "501",
+                            "ResponsePagePath": "/error/501.html",
+                            "ResponseCode": "501",
+                            "ErrorCachingMinTTL": "300"
+                        },
+                        {
+                            "ErrorCode": "502",
+                            "ResponsePagePath": "/error/502.html",
+                            "ResponseCode": "502",
+                            "ErrorCachingMinTTL": "300"
+                        },
+                        {
+                            "ErrorCode": "503",
+                            "ResponsePagePath": "/error/503.html",
+                            "ResponseCode": "503",
+                            "ErrorCachingMinTTL": "300"
+                        },
+                        {
+                            "ErrorCode": "504",
+                            "ResponsePagePath": "/error/504.html",
+                            "ResponseCode": "504",
+                            "ErrorCachingMinTTL": "300"
+                        }
+                    ]
                 }
             }
         },
