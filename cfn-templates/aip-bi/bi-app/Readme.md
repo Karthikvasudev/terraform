@@ -46,7 +46,7 @@ aws cloudformation update-stack \
 ### Test
 ## -- Create Abbott AWS: Test environment --
 aws cloudformation create-stack \
---stack-name bi-app-test-master \
+--stack-name bi-app-test-master1 \
 --template-body file://bi-master.cfn.json \
 --parameters file://bi-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback \
@@ -54,7 +54,7 @@ aws cloudformation create-stack \
 
 ## -- Update Abbott AWS: Test environment --
 aws cloudformation update-stack \
---stack-name bi-app-test-master \
+--stack-name bi-app-test-master1 \
 --template-body file://bi-master.cfn.json \
 --parameters file://bi-test-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM 
