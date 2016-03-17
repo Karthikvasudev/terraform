@@ -483,3 +483,35 @@ Stephen S.
 Admin VPC NAT IP: 52.3.143.228/32
 -----
 >>>>>>> origin/ICP-3165_Rollout_CDN
+------------
+ 
+api-test-us-1.aliniqbis.com
+cdn-test-us-1.aliniqbis.com
+static-test-us-1.aliniqbis.com
+ 
+api-qa-us-1.aliniqbis.com
+cdn-qa-us-1.aliniqbis.com
+static-qa-us-1.aliniqbis.com
+ 
+api-beta-us-1.aliniqbis.com
+cdn-beta-us-1.aliniqbis.com
+static-beta-us-1.aliniqbis.com
+ 
+api-prod-us-1.aliniqbis.com
+cdn-prod-us-1.aliniqbis.com
+static-prod-us-1.aliniqbis.com
+ 
+api-prod2-us-1.aliniqbis.com
+cdn-prod2-us-1.aliniqbis.com
+static-prod2-us-1.aliniqbis.com
+ 
+api-prod-eu-1.aliniqbis.com
+cdn-prod-eu-1.aliniqbis.com
+static-prod-eu-1.aliniqbis.com
+ 
+api-prod-ap-1.aliniqbis.com – was already available
+cdn-prod-ap-1.aliniqbis.com - was already available
+static-prod-ap-1.aliniqbis.com - was already available
+ 
+ 
+------------------
