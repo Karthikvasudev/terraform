@@ -1,10 +1,8 @@
 #Readme.md
 
-AWS CloudFormation Stack commands for CloudFront
-##
+# AWS CloudFormation Stack commands for CloudFront
 
-# CloudFront
-## -- Create Abbott AWS: DevOps environment --
+# Devops - create
 aws cloudformation create-stack \
 --stack-name aip-cloudfront-devops-master \
 --template-body file://aip-cloudfront.cfn.json \
@@ -12,7 +10,7 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
-## -- update Abbott AWS: Devops environment --
+## -- update
 aws cloudformation update-stack \
 --stack-name aip-cloudfront-devops-master \
 --template-body file://aip-cloudfront.cfn.json \
@@ -20,7 +18,32 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
+## - Run CDN Fixup script after any create-stack or update-stack (avoids manual clicks, etc.)
+##   Requires python 3 and AWS Boto3
+python cdn-fix.py --Id XXX     #"Distribution Id" from cloudfront console page
 
+## - Run R53 Env-Region to CDN script
+aws route53 change-resource-record-sets --hosted-zone-id Z1YQCIKJK8P7ZS --change-batch file://route53env-cdn.json
+
+# Dev - Create 
+aws cloudformation create-stack \
+--stack-name aip-cloudfront-dev-master \
+--template-body file://aip-cloudfront.cfn.json \
+--parameters file://aip-cloudfront-dev-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+## -- update Abbott AWS: Dev environment --
+aws cloudformation update-stack \
+--stack-name aip-cloudfront-dev-master \
+--template-body file://aip-cloudfront.cfn.json \
+--parameters file://aip-cloudfront-dev-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+## - Run CDN Fixup script after any create-stack or update-stack (avoids manual clicks, etc.)
+##   Requires python 3 and AWS Boto3
+python cdn-fix.py --Id XXX     #"Distribution Id" from cloudfront console page
 
 
 

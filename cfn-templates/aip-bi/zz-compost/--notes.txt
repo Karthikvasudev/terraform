@@ -436,6 +436,7 @@ esac
 
 echo REGION2=$REGION2
 echo RESOLVER=$RESOLVER
+<<<<<<< HEAD
 
 
 ----- docker machine -----
@@ -477,3 +478,8 @@ Best regards,
 Stephen S.
 
 -------------
+=======
+-----
+Admin VPC NAT IP: 52.3.143.228/32
+-----
+>>>>>>> origin/ICP-3165_Rollout_CDN

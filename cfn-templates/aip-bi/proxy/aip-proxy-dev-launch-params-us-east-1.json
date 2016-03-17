@@ -25,7 +25,7 @@
   },
   {
     "ParameterKey": "VpcName",
-    "ParameterValue": "aip-dev-vpc-us-east-1"
+    "ParameterValue": "api-dev-vpc-us-east-1"
   },
   {
     "ParameterKey": "ApplicationURL",
@@ -65,7 +65,7 @@
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
-    "ParameterValue": "dev-us-1.aliniqbis.com"
+    "ParameterValue": "api-dev-us-1.aliniqbis.com"
   },
   {
     "ParameterKey": "PublicSubnets",

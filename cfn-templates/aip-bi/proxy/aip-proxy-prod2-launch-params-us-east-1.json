@@ -65,7 +65,7 @@
   },
   {
     "ParameterKey": "R53RecordSetNameSuffix",
-    "ParameterValue": "prod2-us-1.aliniqbis.com"
+    "ParameterValue": "api-prod2-us-1.aliniqbis.com"
   },
   {
     "ParameterKey": "PublicSubnets",

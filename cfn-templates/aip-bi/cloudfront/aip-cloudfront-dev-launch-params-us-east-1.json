@@ -8,12 +8,23 @@
     "ParameterValue": "aliniqbis.com."
   },
   {
+<<<<<<< HEAD
+=======
+    "ParameterKey": "R53HostedZoneID",
+    "ParameterValue": "Z2FDTNDATAQYW2"
+  },
+  {
+>>>>>>> origin/ICP-3165_Rollout_CDN
     "ParameterKey": "ServerCertificateId",
     "ParameterValue": "ASCAI6DIHMLCEDXKCUWBS"
   },
   {
     "ParameterKey": "CloudFrontHost",
+<<<<<<< HEAD
     "ParameterValue": "dev-us-1.aliniqbis.com"
+=======
+    "ParameterValue": "cdn-dev-us-1.aliniqbis.com"
+>>>>>>> origin/ICP-3165_Rollout_CDN
   },
   {
     "ParameterKey": "ApiHost",
@@ -25,7 +36,15 @@
   },
   {
     "ParameterKey": "Aliases",
+<<<<<<< HEAD
     "ParameterValue": "dev-us-1.aliniqbis.com,customer1-dev.aliniqbis.com,customer2-dev.aliniqbis.com,customer3-dev.aliniqbis.com,customer4-dev.aliniqbis.com"
+=======
+    "ParameterValue": "cdn-dev-us-1.aliniqbis.com,customer1-dev.aliniqbis.com,customer2-dev.aliniqbis.com,customer3-dev.aliniqbis.com,customer4-dev.aliniqbis.com"
+  },
+  { 
+    "ParameterKey": "PriceClass",
+    "ParameterValue": "PriceClass_100"
+>>>>>>> origin/ICP-3165_Rollout_CDN
   }
   
 ]

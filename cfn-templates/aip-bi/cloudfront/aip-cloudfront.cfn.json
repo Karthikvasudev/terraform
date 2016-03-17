@@ -41,11 +41,23 @@
             "MinLength": "1",
             "MaxLength": "255"
         },
+        "R53HostedZoneID": {
+            "Description": "R53 Zone ID",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
         "ServerCertificateId": {
             "Description": "IAM Certificate ID number",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
+        },
+        "PriceClass": {
+            "Description": "PriceClass - number of edges (performance) one is willing to pay for",
+            "Type": "String",
+            "Default": "PriceClass_All",
+            "AllowedValues" : ["PriceClass_All", "PriceClass_200", "PriceClass_100"]
         }
     },
 
@@ -85,26 +97,6 @@
                         "Prefix" : "cloudfront"
                     },
                     "Aliases": {"Ref" : "Aliases"},
-                    "DefaultCacheBehavior": {
-                        "TargetOriginId" : { "Ref" : "StaticHost" },
-                        "SmoothStreaming" : "false",  
-                        "ForwardedValues" : {
-                            "QueryString" : "false",
-                            "Cookies" : { "Forward" : "none" }
-                        },
-                        "ViewerProtocolPolicy" : "https-only",
-                        "AllowedMethods": [
-                          "HEAD",
-                          "GET"
-                        ],
-                        "CachedMethods": [
-                          "HEAD",
-                          "GET"
-                        ],
-                        "MinTTL": 0,
-                        "MaxTTL": 0,
-                        "DefaultTTL": 0
-                    },
                     "CacheBehaviors" : [
                         {
                             "PathPattern" : "/api*",
@@ -113,8 +105,11 @@
                             "CachedMethods"  : [ "HEAD", "GET" ],
                             "ForwardedValues" : {
                                 "QueryString" : "true",
-                                "Headers": [ "Authorization", "Host" ],
-                                "Cookies": { "Forward": "none" }
+                                "Headers": [ "Authorization", "Host", "Aip-Cf-Secret" ],
+                                "Cookies": { 
+                                    "Forward": "whitelist",
+                                    "WhitelistedNames": ["CloudFront-Key-Pair-Id", "CloudFront-Policy", "CloudFront-Signature"]
+                                }
                             },
                             "ViewerProtocolPolicy" : "https-only",
                             "MinTTL": 0,
@@ -123,7 +118,7 @@
                         },
                         {
                             "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/help/*",
+                            "PathPattern": "/bi/help/*",
                             "ViewerProtocolPolicy": "https-only",
                             "AllowedMethods": [
                                 "HEAD",
@@ -139,34 +134,14 @@
                                 "Cookies": { "Forward": "none" }
                             },
                             "MinTTL": 0,
-                            "MaxTTL": 0,
-                            "DefaultTTL": 0
-                        },
-                        {
-                            "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/help/",
-                            "ViewerProtocolPolicy": "redirect-to-https",
-                            "AllowedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "CachedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "ForwardedValues" : {
-                                "QueryString" : "false",
-                                "Headers": [],
-                                "Cookies": { "Forward": "none" }
-                            },
-                            "MinTTL": 60,
-                            "MaxTTL": 60,
-                            "DefaultTTL": 60
+                            "MaxTTL": 31536000,
+                            "DefaultTTL": 86400,
+                            "TrustedSigners": ["self"]
                         },
                         {
                             "TargetOriginId": { "Ref" : "StaticHost" },
                             "PathPattern": "/admin/*",
-                            "ViewerProtocolPolicy": "redirect-to-https",
+                            "ViewerProtocolPolicy": "https-only",
                             "AllowedMethods": [
                                 "HEAD",
                                 "GET"
@@ -180,54 +155,33 @@
                                 "Headers": [],
                                 "Cookies": { "Forward": "none" }
                             },
-                            "MinTTL": 60,
-                            "MaxTTL": 60,
-                            "DefaultTTL": 60
-                        },
-                        {
-                            "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/login/",
-                            "ViewerProtocolPolicy": "redirect-to-https",
-                            "AllowedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "CachedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "ForwardedValues" : {
-                                "QueryString" : "false",
-                                "Headers": [],
-                                "Cookies": { "Forward": "none" }
-                            },
-                            "MinTTL": 60,
-                            "MaxTTL": 60,
-                            "DefaultTTL": 60
-                        },
-                        {
-                            "TargetOriginId": { "Ref" : "StaticHost" },
-                            "PathPattern": "/",
-                            "ViewerProtocolPolicy": "redirect-to-https",
-                            "AllowedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "CachedMethods": [
-                                "HEAD",
-                                "GET"
-                            ],
-                            "ForwardedValues" : {
-                                "QueryString" : "false",
-                                "Headers": [],
-                                "Cookies": { "Forward": "none" }
-                            },
-                            "MinTTL": 60,
-                            "MaxTTL": 60,
-                            "DefaultTTL": 60
+                            "MinTTL": 0,
+                            "MaxTTL": 31536000,
+                            "DefaultTTL": 86400,
+                            "TrustedSigners": ["self"]
                         }
                     ],
-                    "PriceClass" : "PriceClass_All",
+                    "DefaultCacheBehavior": {
+                        "TargetOriginId" : { "Ref" : "StaticHost" },
+                        "SmoothStreaming" : "false",  
+                        "ForwardedValues" : {
+                            "QueryString" : "false",
+                            "Cookies" : { "Forward" : "none" }
+                        },
+                        "ViewerProtocolPolicy": "redirect-to-https",
+                        "AllowedMethods": [
+                          "HEAD",
+                          "GET"
+                        ],
+                        "CachedMethods": [
+                          "HEAD",
+                          "GET"
+                        ],
+                        "MinTTL": 0,
+                        "MaxTTL": 31536000,
+                        "DefaultTTL": 86400
+                    },
+                    "PriceClass" : { "Ref" : "PriceClass" },
                     "Restrictions" : {
                        "GeoRestriction" : {
                             "RestrictionType" : "none",
@@ -249,11 +203,14 @@
             "Properties" : {
                 "HostedZoneName" : { "Ref": "R53HostedZoneName" },
                 "Comment"   : "Assigning route 53 A record for ELB's DNS record.",
+
                 "RecordSets" : [{
                     "Name"      : {"Ref" : "CloudFrontHost"}, 
-                    "Type": "CNAME", 
-                    "TTL" : "900",
-                    "ResourceRecords" : [ {"Fn::GetAtt": ["AliniqbisCloudFrontDistribution", "DomainName"]} ]
+                    "Type": "A", 
+                    "AliasTarget" : {
+                        "HostedZoneId" : { "Ref" : "R53HostedZoneID"},
+                        "DNSName" : { "Fn::GetAtt": ["AliniqbisCloudFrontDistribution", "DomainName"]} 
+                    }
                 }]
             }
         },
