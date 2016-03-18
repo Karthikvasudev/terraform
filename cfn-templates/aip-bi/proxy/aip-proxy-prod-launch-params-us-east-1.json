@@ -78,5 +78,13 @@
   {
     "ParameterKey": "InstanceSecurityGroups",
     "ParameterValue": "sg-97ce7df1"
+  },
+  {
+    "ParameterKey": "AutoScaleMinSize",
+    "ParameterValue": "2"
+  },   
+  {
+    "ParameterKey": "AutoScaleMaxSize",
+    "ParameterValue": "2"
   }
 ]

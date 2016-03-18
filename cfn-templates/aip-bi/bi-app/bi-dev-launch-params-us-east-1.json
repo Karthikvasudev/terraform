@@ -86,5 +86,13 @@
   {
     "ParameterKey": "R53RecordSetNameSuffix",
     "ParameterValue": "us-1.aliniqbis.local"
+  },
+  {
+    "ParameterKey": "AutoScaleMinSize",
+    "ParameterValue": "1"
+  },   
+  {
+    "ParameterKey": "AutoScaleMaxSize",
+    "ParameterValue": "1"
   }
 ]

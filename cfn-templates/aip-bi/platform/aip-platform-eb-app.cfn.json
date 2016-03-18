@@ -124,20 +124,20 @@
 			"MinLength": "1",
 			"MaxLength": "255"
 		},
-          "AutoScaleMinSize": {
+        "AutoScaleMinSize": {
             "Description": "AutoScaling Minimum number of instances",
             "Default": "2",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
-          },
-          "AutoScaleMaxSize": {
+        },
+        "AutoScaleMaxSize": {
             "Description": "AutoScaling Maximum number of instances",
             "Default": "20",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
-          } 		
+        } 		
     },
 
 
