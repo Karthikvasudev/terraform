@@ -81,10 +81,10 @@
   },
   {
     "ParameterKey": "AutoScaleMinSize",
-    "ParameterValue": "8"
+    "ParameterValue": "2"
   },   
   {
     "ParameterKey": "AutoScaleMaxSize",
-    "ParameterValue": "20"
+    "ParameterValue": "2"
   }
 ]

@@ -85,6 +85,6 @@
   },   
   {
     "ParameterKey": "AutoScaleMaxSize",
-    "ParameterValue": "20"
+    "ParameterValue": "8"
   }
 ]
