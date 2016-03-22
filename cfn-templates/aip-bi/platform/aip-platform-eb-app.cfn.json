@@ -143,9 +143,7 @@
 
     "Conditions" : {
         "ShortEnvironmentName" : {"Fn::Equals" : [
-            {"Fn::FindInMap" : ["RegionMap", { "Ref" : "AWS::Region" }, "dropregion" ]}, "true"]},
-
-        "NotSingleton" : {"Fn::Not" : [{"Fn::Equals" : [{ "Ref" : "AutoScaleMaxSize" }, "1" ]}]}
+            {"Fn::FindInMap" : ["RegionMap", { "Ref" : "AWS::Region" }, "dropregion" ]}, "true"]}
     },
 
 
@@ -238,39 +236,25 @@
                         "OptionName": "UpperThreshold",
                         "Value": "6000000"
                     },
-                    { "Fn::If" : [ "NotSingleton", 
-                        {
-                            "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                            "OptionName": "MaxBatchSize",
-                            "Value": "1"
-                        }, 
-                        {"Ref" : "AWS::NoValue"}]
+                    {
+                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
+                        "OptionName": "MaxBatchSize",
+                        "Value": "1"
                     },
-                    { "Fn::If" : [ "NotSingleton", 
-
-                        {
-                            "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                            "OptionName": "MinInstancesInService",
-                            "Value": "1"
-                        },
-                        {"Ref" : "AWS::NoValue"}]
+                    {
+                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
+                        "OptionName": "MinInstancesInService",
+                        "Value": "1"
                     },
-                    { "Fn::If" : [ "NotSingleton", 
-
-                        {
-                            "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                            "OptionName": "RollingUpdateEnabled",
-                            "Value": "true"
-                        },
-                        {"Ref" : "AWS::NoValue"}]
+                    {
+                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
+                        "OptionName": "RollingUpdateEnabled",
+                        "Value": "true"
                     },
-                    { "Fn::If" : [ "NotSingleton", 
-                        {
-                            "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
-                            "OptionName": "RollingUpdateType",
-                            "Value": "Health"
-                        },
-                        {"Ref" : "AWS::NoValue"}]
+                    {
+                        "Namespace": "aws:autoscaling:updatepolicy:rollingupdate",
+                        "OptionName": "RollingUpdateType",
+                        "Value": "Health"
                     },
                     {
                         "Namespace": "aws:ec2:vpc",

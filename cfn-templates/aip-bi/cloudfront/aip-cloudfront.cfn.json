@@ -4,18 +4,6 @@
     "Description": "aip-cloudfront.cfn.json",
     "Description": "This template defines the CloudFront configuration",
 
-    "Mappings" : {
-        "EnvMap" : {
-          "devops"    : { "IsProdLike" : "false"},
-          "dev"       : { "IsProdLike" : "false"},
-          "test"      : { "IsProdLike" : "false"},
-          "prod"      : { "IsProdLike" : "true" },
-          "prod2"     : { "IsProdLike" : "true" },
-          "beta"      : { "IsProdLike" : "true" },
-          "qa"        : { "IsProdLike" : "true" }
-        }
-    },
-
     "Parameters": {
 
         "Environment": {
@@ -73,11 +61,6 @@
         }
     },
 
-
-    "Conditions" : {
-        "ProdLikeEnv" : {"Fn::Equals" : [
-            {"Fn::FindInMap" : ["EnvMap", { "Ref" : "Environment" }, "IsProdLike" ]}, "true"]}
-    },
 
     "Resources": {
 
@@ -281,9 +264,7 @@
           "Properties": {
             "Name": {"Fn::Join": ["", ["aliniqbis-", {"Ref": "Environment"}, "-waf-", {"Ref": "AWS::Region"} ]]},
             "DefaultAction": {
-                "Fn::If" : [ "ProdLikeEnv", 
-                            {"Type" : "ALLOW"},  
-                            {"Type" : "BLOCK"} ]
+              "Type": "BLOCK"
             },
             "MetricName" : "AbbottWebACL",
                 "Rules": [
@@ -292,14 +273,21 @@
                       "Type" : "ALLOW"
                     },
                     "Priority" : 1,
-                    "RuleId" : { "Ref" : "AdminAccessRule" }
+                    "RuleId" : { "Ref" : "Rule1" }
                   },
                   {
                     "Action" : {
                       "Type" : "ALLOW"
                     },
                     "Priority" : 2,
-                    "RuleId" : { "Ref" : "AllowAbbottNetworkRule" }
+                    "RuleId" : { "Ref" : "Rule2" }
+                  },
+                  {
+                    "Action" : {
+                      "Type" : "ALLOW"
+                    },
+                    "Priority" : 3,
+                    "RuleId" : { "Ref" : "Rule3" }
                   }
                 ]
 
@@ -307,7 +295,7 @@
         },
 
 
-        "AdminAccessRule" : {
+        "Rule1" : {
             "Type" : "AWS::WAF::Rule",
             "Properties" : {
                 "MetricName" : "AdminAccess",
@@ -326,7 +314,7 @@
                 ]
             }
         },
-        "AllowAbbottNetworkRule" : {
+        "Rule2" : {
             "Type" : "AWS::WAF::Rule",
             "Properties" : {
                 "MetricName" : "AllowAccessFromAbbott",
@@ -338,6 +326,20 @@
                         "DataId" : {"Ref" : "IPSetAbbottNetworks"} 
                     }
                 ]
+            }
+        },
+        "Rule3" : {
+            "Type" : "AWS::WAF::Rule",
+            "Properties" : {
+                "MetricName" : "PublicAccess",
+                "Name"       : "PublicAccess",
+                "Predicates" : [ 
+                    { 
+                        "Type" : "IPMatch", 
+                        "Negated" : "false",
+                        "DataId" : {"Ref" : "IPSetPublicNetwork"} 
+                    }
+                 ]
             }
         },
 
@@ -381,12 +383,6 @@
         "URL": {
           "Description": "URL of the CloudFront Distribution",
           "Value": { "Fn::GetAtt": ["AliniqbisCloudFrontDistribution", "DomainName"] }
-        },
-        "CondTestOut": {
-            "Description": "IsProdLike",
-            "Value": { "Fn::If" : [ "ProdLikeEnv", 
-                            "ALLOW",  
-                            "BLOCK" ]}
         }
     }
 }
