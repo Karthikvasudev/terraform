@@ -20,7 +20,13 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM --disable-rollback --region us-east-1 --profile sandbox
 #### --------------------------
 
-
+## -- Create Archival S3 Bucket with lifecyclepolicy --
+aws cloudformation create-stack \
+--stack-name aip-archival-s3-bucket \
+--template-body file://aip-s3archive-lifecycle.cfn.json \
+--parameters ParameterKey=RetentionPeriod,ParameterValue=5  \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
 
 
 
@@ -50,6 +56,13 @@ aws cloudformation create-stack \
 --template-body file://aip-eb-apps.cfn.json \
 --capabilities CAPABILITY_IAM --disable-rollback --region eu-west-1 
 
+## -- Create Archival S3 Bucket with lifecyclepolicy --
+aws cloudformation create-stack \
+--stack-name aip-archival-s3-bucket \
+--template-body file://aip-s3archive-lifecycle.cfn.json \
+--parameters ParameterKey=RetentionPeriod,ParameterValue=5  \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region eu-west-1
 
 
 
