@@ -81,11 +81,11 @@
 		"Description": "A comma-delimited list of private VPC subnets. Auto Scaling and RDS will be launched into this subnet.",
 		"Type": "String"
 	},	
-  "VpcName": {
-    "Description": "name of the VPC",
-    "Type": "String",
-    "MinLength": "1",
-    "MaxLength": "255"
+    "VpcName": {
+     "Description": "name of the VPC",
+     "Type": "String",
+     "MinLength": "1",
+     "MaxLength": "255"
   },
   "VpcId": {
     "Description": "Administration Vpc Id",
@@ -93,36 +93,36 @@
     "MinLength": "1",
     "MaxLength": "255"
   },
-	"AppEnvironmentSuffix": {
-		"Description": "application environment suffix [ENV-'aip'-REGION or ENV-'bi-etl'-REGION or ENV-'proxy'-REGION]",
-		"Default": "bi-etl",
-		"Type": "String",
-		"MinLength": "1",
-		"MaxLength": "255"
-	},
-	"InstanceSecurityGroups": {
-		"Description": "A comma-delimited list of security groups",
-		"Type": "String",
-		"MinLength": "1",
-		"MaxLength": "255"
-	 },
-	"Lambdarole": {
+  "AppEnvironmentSuffix": {
+ 	"Description": "application environment suffix [ENV-'aip'-REGION or ENV-'bi-etl'-REGION or ENV-'proxy'-REGION]",
+  	"Default": "bi-etl",
+	"Type": "String",
+	"MinLength": "1",
+	"MaxLength": "255"
+  },
+  "InstanceSecurityGroups": {
+	"Description": "A comma-delimited list of security groups",
+	"Type": "String",
+	"MinLength": "1",
+	"MaxLength": "255"
+ },
+  "Lambdarole": {
             "Description": "name of the IAM role ",
-			"Default" : "s3_lambda_copy",
+	    "Default" : "s3_lambda_copy",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
         },
-	"LambdaBucket": {
+  "LambdaBucket": {
             "Description": "Bucket containing the lambda code .zip ",
-			"Default" : "aip-devops-us-east-1-661072482170",
+            "Default" : "aip-devops-us-east-1-661072482170",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
         },
-	"LambdaS3Key": {
+  "LambdaS3Key": {
             "Description": "s3 key of the lambda code .zip ",
-			"Default" : "lambda/s3Archival/lambda_handler.zip",
+            "Default" : "lambda/s3Archival/lambda_handler.zip",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
