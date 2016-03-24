@@ -25,10 +25,10 @@
 				},
 				"LifecycleConfiguration": {
 					"Rules": [{
-						"Status": "Enabled",
-						"ExpirationInDays": {
-							"Ref": "RetentionPeriod"
-						}
+						"Status" : "Enabled",
+					    "Transition" : {
+							"StorageClass" : "GLACIER",
+							"TransitionInDays" : {"Ref" : "RetentionPeriod"} }
 					}]
 				}
 			}
