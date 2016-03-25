@@ -294,6 +294,13 @@
                     },
                     "Priority" : 2,
                     "RuleId" : { "Ref" : "AllowAbbottNetworkRule" }
+                  },
+                  {
+                    "Action" : {
+                      "Type" : "ALLOW"
+                    },
+                    "Priority" : 3,
+                    "RuleId" : { "Ref" : "AllowAccessFromAdminVPCRule" }
                   }
                 ]
 
@@ -316,6 +323,20 @@
                         "Type" : "ByteMatch", 
                         "Negated" : "false",
                         "DataId" : {"Ref" : "AdminAccessByteMatchSet"}  
+                    }
+                ]
+            }
+        },
+        "AllowAccessFromAdminVPCRule" : {
+            "Type" : "AWS::WAF::Rule",
+            "Properties" : {
+                "MetricName" : "AllowAccessFromAdminVPC",
+                "Name"       : "AllowAccessFromAdminVPC",
+                "Predicates" : [ 
+                    { 
+                        "Type" : "IPMatch", 
+                        "Negated" : "false",
+                        "DataId" : {"Ref" : "IPSetAdminVPCNAT"}  
                     }
                 ]
             }
@@ -350,6 +371,15 @@
                 "Name"   : "PuclicNetwork",
                 "IPSetDescriptors": [
                     {"Type":"IPV4", "Value":"130.36.0.0/16"}
+                ]
+            }
+        },
+        "IPSetAdminVPCNAT": {
+            "Type" : "AWS::WAF::IPSet",
+            "Properties" : {
+                "Name"   : "AdminVPCNAT",
+                "IPSetDescriptors": [
+                    {"Type":"IPV4", "Value":"52.3.143.228/32"}
                 ]
             }
         },
