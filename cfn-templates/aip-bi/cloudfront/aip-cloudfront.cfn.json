@@ -219,12 +219,6 @@
                             "ErrorCachingMinTTL" : "300"
                         },
                         {
-                            "ErrorCode": "500",
-                            "ResponsePagePath": "/error/500.html",
-                            "ResponseCode": "500",
-                            "ErrorCachingMinTTL": "300"
-                        },
-                        {
                             "ErrorCode": "501",
                             "ResponsePagePath": "/error/501.html",
                             "ResponseCode": "501",

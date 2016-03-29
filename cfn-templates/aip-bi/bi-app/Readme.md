@@ -106,7 +106,7 @@ aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-qa-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=qa \
---capabilities CAPABILITY_IAM --disable-rollback \
+--capabilities CAPABILITY_IAM \
 --region us-east-1
 
 
