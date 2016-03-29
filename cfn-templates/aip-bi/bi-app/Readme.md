@@ -236,7 +236,7 @@ aws cloudformation update-stack \
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-devops-master \
 --template-body file://bi-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=devops \
+--parameters file://bi-devops-aws-resources-launch-params.json \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 

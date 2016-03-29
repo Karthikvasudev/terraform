@@ -37,14 +37,12 @@
 
 
     "Resources": {
-
-
         "Topic": {
             "Type": "AWS::SNS::Topic",
             "Properties": {
                 "TopicName" : {"Fn::Join": ["", ["bi-", {"Ref": "Environment"},"-sns-file-uploaded"]]},
                 "Subscription" :[
-                {"Endpoint" : { "Fn::GetAtt": ["FunctionTopicSubscription", "Arn"] },
+                {"Endpoint" : { "Fn::GetAtt": ["LambdaSNS", "Arn"] },
                     "Protocol" : "lambda"
                 }
                 ]
@@ -108,7 +106,7 @@
                 "Topics": [{"Ref": "Topic" }]
             }
         },
-        "FunctionTopicSubscription": {
+        "LambdaSNS": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
                 "Handler": "lambda_handler.lambda_handler",
@@ -139,7 +137,7 @@
                 },
 				"LifecycleConfiguration":{
 						  "Rules" : [ {
-								"ExpirationInDays" : 1,
+								"ExpirationInDays" : 5,
 								"Status" : "Enabled"
 								}]
 				},
@@ -200,7 +198,7 @@
                 },
 				"LifecycleConfiguration":{
 						  "Rules" : [ {
-								"ExpirationInDays" : 1,
+								"ExpirationInDays" : 5,
 								"Status" : "Enabled"
 								}]
 				},
@@ -261,7 +259,7 @@
                 },
 				"LifecycleConfiguration":{
 						  "Rules" : [ {
-								"ExpirationInDays" : 1,
+								"ExpirationInDays" : 5,
 								"Status" : "Enabled"
 								}]
 				},
@@ -315,10 +313,16 @@
            "Value" : { "Ref" : "BiS3FileUpload" }
         },
         "BiS3Benchmark": {
-           "Value" : { "Ref" : "BiS3Benchmark" }
+            "Value" : { "Ref" : "BiS3Benchmark" }
         },
         "BiS3Metaanalysis": {
-           "Value" : { "Ref" : "BiS3Metaanalysis" }
+            "Value" : { "Ref" : "BiS3Metaanalysis" }
+        },
+        "LambdaFunction": {
+            "Value" : { "Ref" : "LambdaSNS" }
+        },
+        "SNSTopic":{
+            "Value":{ "Ref" : "Topic"}
         }
   }
 }

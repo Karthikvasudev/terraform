@@ -177,7 +177,7 @@
                 },
 				"LifecycleConfiguration":{
 						  "Rules" : [ {
-								"ExpirationInDays" : 1,
+								"ExpirationInDays" : 5,
 								"Status" : "Enabled"
 								}]
 				},
@@ -212,6 +212,20 @@
                 }
             }
         }
-    }
+    },
+    "Outputs": {
+        
+        "BiS3FileUpload": {
+           "Value" : { "Ref" : "biETLBucket" }
+        },
+        "biETLQueue":{        
+            "Value" : { "Ref" : "biETLQueue" }
+        },
+        "LambdaFunction": {
+            "Value" : { "Ref" : "s3Archival" }
+        },
+        "SNSTopic":{
+            "Value":{ "Ref" : "Topic"}
+        }
 }
-
+}
