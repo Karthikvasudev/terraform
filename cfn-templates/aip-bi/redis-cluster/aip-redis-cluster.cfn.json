@@ -20,6 +20,10 @@
             "Description": "CIDR block for the vpc",
             "Type": "String"
         },
+        "admVpcCidrIP": {
+            "Description": "CIDR block for the Admin vpc",
+            "Type": "String"
+        },
         "Subnets": {
             "Description": "Redis cluster will be formed within these subnets.",
             "Type": "CommaDelimitedList"
@@ -57,6 +61,12 @@
                     "FromPort" : "6379",
                     "ToPort" : "6379",
                     "CidrIp" : { "Ref" : "vpcCidrIP" }
+                },
+                {
+                    "IpProtocol" : "tcp",
+                    "FromPort" : "6379",
+                    "ToPort" : "6379",
+                    "CidrIp" : { "Ref" : "admVpcCidrIP" }
                 }],
                 "Tags" :  [ {
                     "Key" : "Name",
@@ -68,14 +78,14 @@
 		"SubnetGroup" : {
             "Type" : "AWS::ElastiCache::SubnetGroup",
             "Properties" : {
-                "Description" : "Cache Subnet Group",
+                "Description" : { "Fn::Join": ["", [ "aip-", { "Ref": "Environment" }, "-redis-cache-subnet-group" ]]},
                 "SubnetIds" : { "Ref" : "Subnets" }
             }
         },	
         "RedisReplicationGroup" : {
             "Type": "AWS::ElastiCache::ReplicationGroup",
             "Properties": {
-                "ReplicationGroupDescription" : "Redis Replication Group",
+                "ReplicationGroupDescription" : { "Fn::Join": ["", [ "aip-", { "Ref": "Environment" }, "-redis-replication-group" ]]},
                 "NumCacheClusters" : "2",
                 "Engine" : "redis",
                 "CacheNodeType" : "cache.m3.medium",

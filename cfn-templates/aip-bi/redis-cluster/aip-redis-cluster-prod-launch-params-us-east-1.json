@@ -12,6 +12,10 @@
         "ParameterValue": "10.85.32.0/21"
     },
     {
+        "ParameterKey": "admVpcCidrIP",
+        "ParameterValue": "10.85.0.0/21"
+    },
+    {
         "ParameterKey": "Subnets",
         "ParameterValue": "subnet-6f665944,subnet-7f43e342"
     },
