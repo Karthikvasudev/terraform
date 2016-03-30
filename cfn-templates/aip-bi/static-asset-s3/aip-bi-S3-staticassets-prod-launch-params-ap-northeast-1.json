@@ -1,0 +1,11 @@
+[
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.com"
+  },
+  {
+    "ParameterKey": "WebSiteName",
+    "ParameterValue": "static-prod-ap-1"
+  }
+  
+]
