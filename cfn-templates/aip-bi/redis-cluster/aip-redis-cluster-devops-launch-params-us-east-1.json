@@ -17,7 +17,7 @@
     },
     {
         "ParameterKey": "Subnets",
-        "ParameterValue": "subnet-53a01a6e,subnet-42534069"
+        "ParameterValue": "subnet-42534069,subnet-53a01a6e"
     },
     {
         "ParameterKey": "Zones",

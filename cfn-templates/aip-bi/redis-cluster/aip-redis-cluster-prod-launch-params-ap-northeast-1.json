@@ -1,27 +1,27 @@
 [
     {
         "ParameterKey": "Environment",
-        "ParameterValue": "qa"
+        "ParameterValue": "prod"
     },
     {
         "ParameterKey": "vpcId",
-        "ParameterValue": "vpc-e4f04280"
+        "ParameterValue": "vpc-e4205081"
     },
     {
         "ParameterKey": "vpcCidrIP",
-        "ParameterValue": "10.85.24.0/21"
+        "ParameterValue": "10.166.32.0/21"
     },
     {
         "ParameterKey": "admVpcCidrIP",
-        "ParameterValue": "10.85.0.0/21"
+        "ParameterValue": "10.166.0.0/21"
     },
     {
         "ParameterKey": "Subnets",
-        "ParameterValue": "subnet-0166592a,subnet-0e43e333"
+        "ParameterValue": "subnet-72471505,subnet-ec7b11b5"
     },
     {
         "ParameterKey": "Zones",
-        "ParameterValue": "us-east-1d,us-east-1e"
+        "ParameterValue": "ap-northeast-1a,ap-northeast-1c"
     },
     {
         "ParameterKey": "R53HostedZoneName",
@@ -33,6 +33,6 @@
     },
     {
         "ParameterKey": "R53RecordSetNameSuffix",
-        "ParameterValue": "us-1.aliniqbis.local"
+        "ParameterValue": "ap-1.aliniqbis.local"
     }
 ]
