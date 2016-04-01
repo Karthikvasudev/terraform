@@ -29,7 +29,7 @@
   },
   {
     "ParameterKey": "Aliases",
-    "ParameterValue": "cdn-prod-ap-1.aliniqbis.com,pathnorth.aliniqbis.com,customer1-prod-ap-1.aliniqbis.com,customer2-prod-ap-1.aliniqbis.com"
+    "ParameterValue": "prod-ap-1.aliniqbis.com,cdn-prod-ap-1.aliniqbis.com,pathnorth.aliniqbis.com,customer1-prod-ap-1.aliniqbis.com,customer2-prod-ap-1.aliniqbis.com"
   },
   { 
     "ParameterKey": "PriceClass",
