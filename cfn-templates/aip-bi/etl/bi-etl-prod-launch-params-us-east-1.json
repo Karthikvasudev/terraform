@@ -61,7 +61,7 @@
   },
   {
     "ParameterKey": "PrivateSubnets",
-    "ParameterValue": "subnet-7ff72d55,subnet-902348ad"
+    "ParameterValue": "subnet-6d665946,subnet-7d43e340"
   },   
   {
     "ParameterKey": "InstanceSecurityGroups",
