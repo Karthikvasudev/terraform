@@ -1,0 +1,42 @@
+{
+  "Parameters": {
+    "VpcID": {
+      "Description": "name of the VPC",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    }
+  },
+
+  "Resources": {
+
+    "CustomerGateway": {
+      "Type": "AWS::EC2::CustomerGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-Singapore-cgw"
+          }
+        ],
+        "Type": "ipsec.1",
+        "IpAddress": "130.36.151.210",
+        "BgpAsn": "65000"
+      }
+    },
+
+    "VpnGateway": {
+      "Type": "AWS::EC2::VPNGateway",
+      "Properties": {
+        "Type": "ipsec.1",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "aip-all-vgw"
+          }
+        ]
+      }
+    }
+
+  }
+}

@@ -346,3 +346,17 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM --region eu-west-1
 
 
+
+
+########################################
+# ---- Tokyo AP-Northeast-1 Region -----
+########################################
+
+### VPN connection for Aliniqbis Administration VPC
+aws cloudformation create-stack \
+--stack-name aip-admin-vpc-vpn-tokyo \
+--template-body file://aip-vpc-admin-vpn-tokyo-ipam-SG-Singapore-SN20.cfn.json \
+--parameters file://aip-vpc-admin-vpn-launch-params-ap-northeast-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback --region ap-northeast-1
+
+
