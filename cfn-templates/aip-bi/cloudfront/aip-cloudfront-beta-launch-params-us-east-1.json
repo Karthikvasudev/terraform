@@ -29,7 +29,7 @@
   },
   {
     "ParameterKey": "Aliases",
-    "ParameterValue": "cdn-beta-us-1.aliniqbis.com,customer1-beta.aliniqbis.com,customer2-beta.aliniqbis.com"
+    "ParameterValue": "cdn-beta-us-1.aliniqbis.com,aurora.aliniqbis.com,mchenry.aliniqbis.com,kenosha.aliniqbis.com,igh.aliniqbis.com,saintfrancis.aliniqbis.com,greatlakes.aliniqbis.com,customer1-beta.aliniqbis.com,kingstoncanada.aliniqbis.com,smgcatamarcaargentina.aliniqbis.com,csvbrazil.aliniqbis.com,customer2-beta.aliniqbis.com,customer3-beta.aliniqbis.com,customer4-beta.aliniqbis.com"
   },
   { 
     "ParameterKey": "PriceClass",
