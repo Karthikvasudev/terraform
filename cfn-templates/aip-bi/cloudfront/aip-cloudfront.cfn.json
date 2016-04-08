@@ -106,7 +106,7 @@
                         }
                     ],
                     "Enabled" : "true",
-                    "Comment" : "CloudFront Distribution for the Abbott Informatics Platform",
+                    "Comment" : { "Ref" : "CloudFrontHost" },
                     "DefaultRootObject" : "index.html",
                     "Logging" : {
                         "IncludeCookies" : "true",
