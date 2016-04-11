@@ -1,0 +1,249 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "CloudFormation template for RDS With Read Replicas",
+
+  "Parameters": {
+
+  	"Environment": {
+  		"Description": "name of the Environment (dev, test, qa, prod)",
+  		"Type": "String",
+  		"MinLength": "1",
+  		"MaxLength": "255"
+  	},
+    "admVpcCidrIP": {
+      "Description": "CIDR block for the Admin vpc",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "VpcId": {
+      "Description": "Administration Vpc Id",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "DatabaseUser": {
+      "NoEcho": "true",
+      "Description" : "The database admin account username",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "16",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9\\_]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+    },
+
+    "DatabasePassword": {
+      "NoEcho": "true",
+      "Description" : "The database admin account password",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41"
+    },
+
+    "DBAllocatedStorage": {
+      "Default": "5",
+      "Description" : "The size of the database (Gb)",
+      "Type": "Number",
+      "MinValue": "5",
+      "MaxValue": "1024",
+      "ConstraintDescription" : "must be between 5 and 1024Gb."
+    },
+
+    "DBStorageType": {
+      "Default": "gp2",
+      "Description" : "magnetic, General Purpose SSD, Provisioned IOPS",
+      "Type": "String",
+      "AllowedValues" : [ "standard", "gp2", "io1" ],
+      "ConstraintDescription" : "must select a valid database storage type."
+    },
+
+    "DBInstanceClass": {
+      "Description" : "The database instance type",
+      "Type": "String",
+      "Default": "db.m1.small",
+      "AllowedValues" : [ "db.t1.micro", "db.m1.small", "db.m3.medium", "db.m3.large", "db.m3.xlarge", 
+          "db.m3.2xlarge", "db.r3.large", "db.r3.xlarge", "db.r3.2xlarge", "db.r3.4xlarge", 
+          "db.r3.8xlarge", "db.m2.xlarge", "db.m2.2xlarge", "db.m2.4xlarge", "db.m2.8xlarge"],
+      "ConstraintDescription" : "must select a valid database instance type."
+    },
+
+    "WebSecurityGroup": {
+      "Description" : "The EC2 security group that contains instances that need access to the database",
+      "Default": "default",
+      "Type": "String",
+      "AllowedPattern" : "[a-zA-Z0-9\\-]+",
+      "ConstraintDescription" : "must be a valid security group name."
+    },
+    "AZ1": {
+      "Description": "This AZ will be used to create read replica - 1",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "AZ2": {
+      "Description": "This AZ will be used to create read replica - 2",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "DatabaseSubnet1": {
+      "Description": "This AZ will be used to create read replica - 1",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "DatabaseSubnet2": {
+      "Description": "This AZ will be used to create read replica - 2",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+    "BackupRetentionPeriod" : {
+      "Description": "Backups - number of day to retain",
+      "Default": "5",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "2",
+      "AllowedPattern" : "[0-9][0-9]?"
+    }
+  },
+
+
+  "Resources" : {
+
+    "RedshiftSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription": "Open database for access",
+        "VpcId": {"Ref" : "VpcId"},
+        "SecurityGroupIngress" : [{
+          "IpProtocol" : "tcp",
+          "FromPort" : "5439",
+          "ToPort" : "5439",
+          "SourceSecurityGroupId" : { "Ref" : "WebSecurityGroup" }
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "5439",
+          "ToPort" : "5439",
+          "CidrIp" : { "Ref" : "admVpcCidrIP" }
+        }],
+        "Tags": [
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-redshift"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
+      }
+    },
+
+    "RedshiftSubnetGroup" : {
+         "Type" : "AWS::",
+         "Properties" : {
+            "DBSubnetGroupDescription" : "Data tier subnet list, one per AZ",
+            "SubnetIds" : [{"Ref": "DatabaseSubnet1"}, {"Ref": "DatabaseSubnet2"} ],
+            "Tags" : [ 
+                {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-redshift-subnetgrp-", {"Ref": "AWS::Region"} ]] }},
+                {"Key": "Environment", "Value": { "Ref": "Environment" }},
+                {"Key"  : "Comment", "Value" : "Redshift Subnet Group" }
+             ]
+         }
+    },
+
+    "RedshiftCluster1" : {
+      "Type": "AWS::Redshift::Cluster",
+      "Properties": {
+        "DBName" : { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-redshift-c1-", {"Ref": "AWS::Region"} ]]},
+        "AllowVersionUpgrade" : "false",
+        "AutomatedSnapshotRetentionPeriod" : {"Ref" : "BackupRetentionPeriod"},
+        "AvailabilityZone" : {"Ref" : ""},
+        "ClusterParameterGroupName" : {"Ref" : "RedshiftParameterGroup"},
+        "ClusterSecurityGroups" : [ String, ... ],
+        "ClusterSubnetGroupName" : {"Ref" : ""},
+        "ClusterType" : {"Ref" : ""},
+        "ClusterVersion" : {"Ref" : ""},
+        "Encrypted" : "true",
+        "MasterUsername" : {"Ref" : "DatabaseUser"},
+        "MasterUserPassword" : {"Ref" : "DatabasePassword"},
+        "NodeType" : {"Ref" : ""},
+        "NumberOfNodes" : {"Ref" : ""},
+        "Port" : Integer,
+        "PubliclyAccessible" : "false",
+        "SnapshotClusterIdentifier" : String,
+        "SnapshotIdentifier" : String,
+        "VpcSecurityGroupIds" : [{"Ref" : "RedshiftSecurityGroup"}],
+        "Tags" : [
+            {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-redshift-c1-", {"Ref": "AWS::Region"} ]] }},
+            {"Key": "Environment", "Value": { "Ref": "Environment" }},
+            {"Key"  : "Comment", "Value" : "RedshiftCluster1" }
+        ]
+      }
+      "Properties" : {
+        "DBSubnetGroupName"     : { "Ref" : "DBSubnetGroup" },
+        "VPCSecurityGroups"     : [ { "Fn::GetAtt": [ "DBSecurityGroup", "GroupId" ] } ],
+        "PubliclyAccessible"    : "false",
+        "StorageEncrypted"      : "true",
+        "StorageType"           : { "Ref" : "DBStorageType" },
+        "DBParameterGroupName"  : { "Ref" : "DBParameterGroup" },
+
+      }
+    },
+
+    
+    "RedshiftParameterGroup" : {
+       "Type": "AWS::",
+       "Properties" : {
+          "Description" : { "Fn::Join": ["", [{ "Ref": "Environment" }, " RDS Postgres Param Group"]]},
+          "Family" : "postgres9.4",
+          "Parameters" : {
+            "log_autovacuum_min_duration" : "500", 
+            "log_checkpoints" : "1", 
+            "log_connections" : "1", 
+            "log_disconnections": "1", 
+            "log_duration": "0", 
+            "log_error_verbosity": "default",
+            "log_executor_stats": "0", 
+            "log_lock_waits" : "1",
+            "log_min_duration_statement": "250",
+            "log_min_error_statement": "info",
+            "log_min_messages": "warning",
+            "log_parser_stats": "0", 
+            "log_planner_stats": "0",    
+            "log_statement": "ddl",
+            "log_statement_stats": "0", 
+            "log_temp_files": "0",
+            "random_page_cost": 1.1,
+            "pg_stat_statements.track": "ALL",
+            "track_activity_query_size": "2048",
+            "shared_preload_libraries": "pg_stat_statements"
+          },
+          "Tags" : [ 
+              {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-paramgrp-", {"Ref": "AWS::Region"}]]}},
+              {"Key": "Environment", "Value": { "Ref": "Environment" }},
+              {"Key": "Comment", "Value" : "Postgres DB Parameter Group"}
+           ]
+        }
+    }
+  },
+
+  "Outputs" : {
+
+    "MasterJDBCConnectionString": {
+      "Description" : "JDBC connection string for the master database",
+      "Value" : 
+          { "Fn::Join": [ "", [ "jdbc:postgres://", { "Fn::GetAtt": [ "MasterDB", "Endpoint.Address" ] }, ":",
+          { "Fn::GetAtt": [ "MasterDB", "Endpoint.Port" ] }]]}
+    },
+    "RedshiftSecurityGroup": {
+      "Description" : "Database Security Group",
+      "Value" : { "Ref": "RedshiftSecurityGroup" }
+    },
+    "RedshiftSubnetGroup": {
+      "Description" : "Database Subnet Group",
+      "Value" : { "Ref": "RedshiftSubnetGroup" }
+    },
+    "RedshiftParameterGroup": {
+      "Description" : "Database Security Group",
+      "Value" : { "Ref": "RedshiftParameterGroup" }
+    }
+  }
+}
