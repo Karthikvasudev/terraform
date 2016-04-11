@@ -1,0 +1,15 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "devops"
+  },
+  {
+    "ParameterKey": "DeletionPeriod",
+    "ParameterValue": "2190"
+  },
+  {
+    "ParameterKey": "RetentionPeriod",
+    "ParameterValue": "30"
+  }
+  
+]
