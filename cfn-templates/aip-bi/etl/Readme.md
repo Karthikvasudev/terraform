@@ -24,7 +24,7 @@ aws cloudformation update-stack  \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
-###Note: After the stack is created,In the console, go to the lambda function(bi-etl-dev-master-AppResources-XXXXX-s3Archival-XXXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-dev-sns-etl-file-uploaded) got created.
+### Note: After the stack is created,In the console, go to the lambda function(bi-etl-dev-master-AppResources-XXXXX-s3Archival-XXXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-dev-sns-etl-file-uploaded) got created.
 
 
 ### Sandbox
@@ -137,7 +137,7 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
-###Note: After the stack is created,In the console, go to the lambda function(bi-etl-devops-master-AppResources-XXXXX-s3Archival-XXXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-devops-sns-etl-file-uploaded) got created.
+### Note: After the stack is created,In the console, go to the lambda function(bi-etl-devops-master-AppResources-XXXXX-s3Archival-XXXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-devops-sns-etl-file-uploaded) got created.
 
 ########################################
 # ------ Ireland EU-west-1 Region ------
