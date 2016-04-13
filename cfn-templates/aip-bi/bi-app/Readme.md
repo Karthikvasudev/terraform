@@ -43,7 +43,7 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-#### Note: After the stack is created,In the console, go to the lambda function(bi-app-aws-resources-dev-FunctionTopicSubscriptio-XXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-dev-sns-file-uploaded) got created.
+### Note: After the stack is created,In the console, go to the lambda function(bi-app-aws-resources-dev-FunctionTopicSubscriptio-XXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-dev-sns-file-uploaded) got created.
 
 
 ### Test
