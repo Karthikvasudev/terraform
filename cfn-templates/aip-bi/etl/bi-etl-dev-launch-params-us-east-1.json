@@ -66,5 +66,17 @@
   {
     "ParameterKey": "InstanceSecurityGroups",
     "ParameterValue": "sg-0211b164"
+  },
+   {
+    "ParameterKey": "Lambdarole",
+    "ParameterValue": "s3_lambda_copy"
+  },
+  {
+    "ParameterKey": "LambdaBucket",
+    "ParameterValue": "aip-devops-us-east-1-661072482170"
+  },
+  {
+    "ParameterKey": "LambdaS3Key",
+    "ParameterValue": "lambda/s3Archival/lambda_handler.zip"
   }
 ]

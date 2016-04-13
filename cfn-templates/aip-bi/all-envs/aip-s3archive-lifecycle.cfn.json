@@ -6,6 +6,7 @@
 	"Parameters": {
 		"RetentionPeriod": {
 			"Description": "Static Web app name ex. static-devops-us1",
+			"Default" : "5",
 			"MinValue": "1",
 			"MaxValue": "90",
 			"Type": "Number"
