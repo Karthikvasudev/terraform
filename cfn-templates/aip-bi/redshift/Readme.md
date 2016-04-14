@@ -5,9 +5,27 @@ Copy/Paste into bash shell window
 
 
 
-
 ### Abbott AWS -- Redshift Master Template -- 
-##
+
+
+### DevOps
+## -- Create Abbott AWS: DevOps environment --
+aws cloudformation create-stack \
+--stack-name bi-devops-redshift-master \
+--template-body file://bi-redshift.cfn.json \
+--parameters file://bi-redshift-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+## -- Update Abbott AWS: DevOps environment --
+aws cloudformation update-stack \
+--stack-name bi-devops-redshift-master \
+--template-body file://bi-redshift.cfn.json \
+--parameters file://bi-redshift-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
 aws cloudformation create-stack \
@@ -109,26 +127,6 @@ aws cloudformation update-stack \
 --stack-name bi-beta-redshift-master \
 --template-body file://bi-redshift.cfn.json \
 --parameters file://bi-redshift-beta-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM \
---region us-east-1
-
-
-
-
-### DevOps
-## -- Create Abbott AWS: DevOps environment --
-aws cloudformation create-stack \
---stack-name bi-devops-redshift-master \
---template-body file://bi-redshift.cfn.json \
---parameters file://bi-redshift-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
-
-## -- Update Abbott AWS: DevOps environment --
-aws cloudformation update-stack \
---stack-name bi-devops-redshift-master \
---template-body file://bi-redshift.cfn.json \
---parameters file://bi-redshift-devops-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
