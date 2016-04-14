@@ -110,8 +110,8 @@
                     "DefaultRootObject" : "index.html",
                     "Logging" : {
                         "IncludeCookies" : "true",
-                        "Bucket" : "aip-devops-s3-logs-us-east-1-661072482170.s3.amazonaws.com",
-                        "Prefix" : "cloudfront"
+                        "Bucket" : {"Fn::Join": ["", ["logs-", {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, ".s3.amazonaws.com"]]},
+                        "Prefix" : {"Fn::Join": ["", ["cloudfront/", {"Ref": "Environment"} ]]}
                     },
                     "Aliases": {"Ref" : "Aliases"},
                     "CacheBehaviors" : [

@@ -226,7 +226,7 @@ aws cloudformation create-stack \
 aws cloudformation update-stack \
 --stack-name aip-cloudfront-prod-master \
 --template-body file://aip-cloudfront.cfn.json \
---parameters file://aip-cloudfront-prod-launch-params-ap-northeast-1 \
+--parameters file://aip-cloudfront-prod-launch-params-ap-northeast-1.json \
 --capabilities CAPABILITY_IAM \
 --region ap-northeast-1
 
