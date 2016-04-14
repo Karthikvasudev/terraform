@@ -20,7 +20,7 @@ aws cloudformation update-stack \
 
 ## - Run CDN Fixup script after any create-stack or update-stack (avoids manual clicks, etc.)
 ##   Requires python 3 and AWS Boto3
-python cdn-fix.py --Id XXX     #"Distribution Id" from cloudfront console page
+python cdn-fix.py --Id XXX     #"Distribution Id" from cloudfront console page, optional --verbose flag
 
 ## - Run R53 Env-Region to CDN script
 update-hostedzone.sh -e devops -z Z1YQCIKJK8P7ZS -r us-1

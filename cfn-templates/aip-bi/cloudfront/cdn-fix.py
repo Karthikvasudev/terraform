@@ -5,11 +5,12 @@ import sys
 #Parse command line for CloudFront Distribution ID e.g., '--id EZU58BWOW6DG5'
 parser = argparse.ArgumentParser(description='CloudFormation CloudFront missing features fixup tool.')
 parser.add_argument('--Id', required=True, type=str, help='CloudFront Distribution Id')
+parser.add_argument('--verbose', required=False, action='store_true', default=False, help='Verbose flag')
 args = parser.parse_args()
 
-#distribution ID
+#Args
 distributionId = args.Id
-#print distributionId
+verbose = args.verbose
 
 
 # CloudFront script to set distribution values due to gaps in CloudFormation as of 3/14/16
@@ -28,13 +29,13 @@ distConfig = client.get_distribution_config(Id=distributionId)
 #Set origin items not available via CloudFormation. Two origins - api and S3 bucket
 quantity = distConfig["DistributionConfig"]["Origins"]["Quantity"]
 for i in range(quantity): 
-	print distConfig["DistributionConfig"]["Origins"]["Items"][i]["Id"]
+	if verbose: print (distConfig["DistributionConfig"]["Origins"]["Items"][i]["Id"])
 	#Origin SSL Protocols
 	distConfig["DistributionConfig"]["Origins"]["Items"][i]\
 	["CustomOriginConfig"]["OriginSslProtocols"]["Quantity"] = 3
 	distConfig["DistributionConfig"]["Origins"]["Items"][i]\
 	["CustomOriginConfig"]["OriginSslProtocols"]["Items"] = ['TLSv1', 'TLSv1.1', 'TLSv1.2']
-	print "SSL Protocols: ", distConfig["DistributionConfig"]["Origins"]["Items"][i]["CustomOriginConfig"]['OriginSslProtocols']
+	if verbose: print("SSL Protocols: ", distConfig["DistributionConfig"]["Origins"]["Items"][i]["CustomOriginConfig"]['OriginSslProtocols'])
 	#
 	if distConfig["DistributionConfig"]["Origins"]["Items"][i]["Id"].startswith(AipOrigin):
 		# Origin Custom Headers
@@ -43,20 +44,20 @@ for i in range(quantity):
 		distConfig["DistributionConfig"]["Origins"]["Items"][i]\
 		["CustomHeaders"]["Items"]  = [{'HeaderName': AipCfSecretName, 'HeaderValue': AipCfSecretValue}]
 		#
-		print "CustomHeaders: ", distConfig["DistributionConfig"]["Origins"]["Items"][i]["CustomHeaders"], "\n"
+		if verbose: print("CustomHeaders: ", distConfig["DistributionConfig"]["Origins"]["Items"][i]["CustomHeaders"], "\n")
 
 
 # Set gzip compression on all Cache Behaviors
 # Default Cache 
 distConfig["DistributionConfig"]["DefaultCacheBehavior"]["Compress"] = True
-#print distConfig["DistributionConfig"]["DefaultCacheBehavior"]["Compress"], "\n"
+#if verbose: print (distConfig["DistributionConfig"]["DefaultCacheBehavior"]["Compress"], "\n")
 
 quantity = distConfig["DistributionConfig"]["CacheBehaviors"]["Quantity"]
 for i in range(quantity): 
-	print "\n", distConfig["DistributionConfig"]["CacheBehaviors"]["Items"][i]["PathPattern"]
+	if verbose: print("\n", distConfig["DistributionConfig"]["CacheBehaviors"]["Items"][i]["PathPattern"])
 	#Origin SSL Protocols
 	distConfig["DistributionConfig"]["CacheBehaviors"]["Items"][i]["Compress"] = True
-	print distConfig["DistributionConfig"]["CacheBehaviors"]["Items"][i]
+	if verbose: print(distConfig["DistributionConfig"]["CacheBehaviors"]["Items"][i])
 
 
 response = client.update_distribution( 
@@ -64,7 +65,7 @@ response = client.update_distribution(
 	DistributionConfig=distConfig["DistributionConfig"],
 	IfMatch=distConfig["ETag"])
 
-#print(response)
+#if verbose: print(response)
 
 sys.exit()
 
