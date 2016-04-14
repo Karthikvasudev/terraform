@@ -1,0 +1,58 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "devops"
+  },
+  {
+    "ParameterKey": "admVpcCidrIP",
+    "ParameterValue": "10.85.0.0/21"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-2cd74548"
+  },
+  {
+    "ParameterKey": "WebSecurityGroup",
+    "ParameterValue": "sg-d0b8b8b6"
+  },  
+  {
+    "ParameterKey": "ClusterSubnets",
+    "ParameterValue": "subnet-4053406b"
+  },
+  {
+    "ParameterKey": "AZ",
+    "ParameterValue": "us-east-1d"
+  },
+  {
+    "ParameterKey": "BackupRetentionPeriod",
+    "ParameterValue": "5"
+  },
+  {
+      "ParameterKey": "ClusterVersion",
+      "ParameterValue": "1.0"
+  },
+  {
+    "ParameterKey": "ClusterType",
+    "ParameterValue": "multi-node" 
+  },
+  {
+    "ParameterKey": "NumberOfNodes",
+    "ParameterValue": "2"
+  },
+  {
+    "ParameterKey": "NodeType",
+    "ParameterValue": "dc1.large"
+  },
+  {
+    "ParameterKey": "PortNumber",
+    "ParameterValue": "5439" 
+  },
+  {
+    "ParameterKey": "MasterUserName",
+    "ParameterValue": "sa"
+  },  
+  {
+    "ParameterKey": "MasterUserPassword",
+    "ParameterValue": "Pr0jectOnT!me"
+  }
+]

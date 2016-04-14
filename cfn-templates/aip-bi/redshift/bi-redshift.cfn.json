@@ -1,0 +1,207 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "CloudFormation template for RDS With Read Replicas",
+
+  "Parameters": {
+
+  	"Environment": {
+  		"Description": "name of the Environment (dev, test, qa, prod)",
+  		"Type": "String",
+  		"MinLength": "1",
+  		"MaxLength": "255"
+  	},
+
+    "admVpcCidrIP": {
+      "Description": "CIDR block for the Admin vpc",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+
+    "VpcId": {
+      "Description": "Administration Vpc Id",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+
+    "WebSecurityGroup": {
+      "Description" : "The EC2 security group that contains instances that need access to the redshift cluster",
+      "Default": "default",
+      "Type": "String",
+      "AllowedPattern" : "[a-zA-Z0-9\\-]+",
+      "ConstraintDescription" : "must be a valid security group name."
+    },
+
+    "ClusterSubnets": {
+      "Description": "List of subnets that redshift will create a cluster within.",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+
+    "AZ": {
+      "Description": "This Availabilty Zone will be used to create Cluster",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+
+    "BackupRetentionPeriod" : {
+      "Description": "Backups - number of day to retain",
+      "Default": "5",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "2",
+      "AllowedPattern" : "[0-9][0-9]?"
+    },
+
+    "ClusterVersion": {
+      "Description": "Redshift engine version",
+      "Default": "redshift-1.0",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "255"
+    },
+
+    "ClusterType" : {
+      "Description" : "The type of cluster",
+      "Type" : "String",
+      "Default" : "single-node",
+      "AllowedValues" : [ "single-node", "multi-node" ]
+    },
+
+    "NumberOfNodes" : {
+      "Description" : "The number of compute nodes in the cluster. For multi-node clusters, the NumberOfNodes parameter must be greater than 1",
+      "Type" : "Number",
+      "Default" : "1"
+    },
+    
+    "NodeType": {
+      "Default": "dc1.large",
+      "Description" : "Dense Compute 1 (dc1.large)",
+      "Type": "String",
+      "AllowedValues" : [ "dc1.large",  "dc1.8xlarge", "ds1.large",  "ds1.8xlarge", "ds2.large",  "ds2.8xlarge" ],
+      "ConstraintDescription" : "NodeType: must select a valid Redshift Node type."
+    },
+
+    "PortNumber" : {
+      "Description" : "The port number on which the cluster accepts incoming connections.",
+      "Type" : "Number",
+      "Default" : "5439"
+    },
+
+    "MasterUserName" : {
+      "Description" : "The user name that is associated with the master user account for the cluster that is being created",
+      "Type" : "String",
+      "Default" : "defaultuser",
+      "AllowedPattern" : "([a-z])([a-z]|[0-9])*"
+    },
+
+    "MasterUserPassword" :  {
+      "Description" : "The password that is associated with the master user account for the cluster that is being created.",
+      "Type" : "String",
+      "NoEcho" : "true"
+    }
+
+  },
+
+  "Conditions" : {
+    "IsMultiNodeCluster" : {
+      "Fn::Equals" : [{ "Ref" : "ClusterType" }, "multi-node" ]        
+    }
+  },
+
+  "Resources" : {
+
+    "RedshiftSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription": "Redshift SecurityGroup",
+        "VpcId": {"Ref" : "VpcId"},
+        "SecurityGroupIngress" : [{
+          "IpProtocol" : "tcp",
+          "FromPort" : {"Ref" : "PortNumber"},
+          "ToPort" : {"Ref" : "PortNumber"},
+          "SourceSecurityGroupId" : { "Ref" : "WebSecurityGroup" }
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : {"Ref" : "PortNumber"},
+          "ToPort" : {"Ref" : "PortNumber"},
+          "CidrIp" : { "Ref" : "admVpcCidrIP" }
+        }],
+        "Tags": [
+          { "Key": "Name", "Value": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sg-redshift"]] }},
+          { "Key": "Environment", "Value": { "Ref": "Environment" }}
+        ]
+      }
+    },
+
+    "RedshiftSubnetGroup" : {
+        "Type" : "AWS::Redshift::ClusterSubnetGroup",
+        "Properties" : {
+            "Description" : 
+                { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-redshift-subnetgrp-", {"Ref": "AWS::Region"} ]] },
+            "SubnetIds" : [{"Ref": "ClusterSubnets"}]
+         }
+    },
+
+    "Cluster" : {
+      "Type": "AWS::Redshift::Cluster",
+      "Properties": {
+        "DBName" : "bi" ,
+        "AllowVersionUpgrade" : "false",
+        "AutomatedSnapshotRetentionPeriod" : {"Ref" : "BackupRetentionPeriod"},
+        "AvailabilityZone" : {"Ref" : "AZ"},
+        "ClusterParameterGroupName" : {"Ref" : "RedshiftParameterGroup"},
+        "ClusterSubnetGroupName" : {"Ref" : "RedshiftSubnetGroup"},
+        "ClusterType" : { "Ref" : "ClusterType" },
+        "ClusterVersion" : {"Ref" : "ClusterVersion"},
+        "Encrypted" : "true",
+        "MasterUsername" : {"Ref" : "MasterUserName"},
+        "MasterUserPassword" : {"Ref" : "MasterUserPassword"},
+        "NodeType" : {"Ref" : "NodeType"},
+        "NumberOfNodes" : { "Fn::If" : [ "IsMultiNodeCluster",  { "Ref" : "NumberOfNodes" }, { "Ref" : "AWS::NoValue" }]},
+        "PubliclyAccessible" : "false",
+        "VpcSecurityGroupIds" : [{"Ref" : "RedshiftSecurityGroup"}],
+        "Port": {"Ref" : "PortNumber"}
+      }
+    },
+
+    
+    "RedshiftParameterGroup" : {
+      "Type": "AWS::Redshift::ClusterParameterGroup",
+      "Properties" : {
+          "Description" : { "Fn::Join": ["", [{ "Ref": "Environment" }, "-", {"Ref": "AWS::Region"}," Redshift Param Group" ]]},
+          "ParameterGroupFamily" : "redshift-1.0",
+          "Parameters" : [
+              {"ParameterName" : "enable_user_activity_logging", "ParameterValue" : "true"}
+          ] 
+        }
+    }
+  },
+
+  "Outputs" : {
+
+    "MasterJDBCConnectionString": {
+      "Description" : "JDBC connection string for the redshift cluster",
+      "Value" : 
+          { "Fn::Join": [ "", [ "jdbc:postgres://", { "Fn::GetAtt": [ "Cluster", "Endpoint.Address" ] }, ":",
+          { "Fn::GetAtt": [ "Cluster", "Endpoint.Port" ] }]]}
+    },
+    "RedshiftSecurityGroup": {
+      "Description" : "Security Group",
+      "Value" : { "Ref": "RedshiftSecurityGroup" }
+    },
+    "RedshiftSubnetGroup": {
+      "Description" : "Subnet Group",
+      "Value" : { "Ref": "RedshiftSubnetGroup" }
+    },
+    "RedshiftParameterGroup": {
+      "Description" : "Parameter Group",
+      "Value" : { "Ref": "RedshiftParameterGroup" }
+    }
+  }
+}
