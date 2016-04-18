@@ -137,7 +137,7 @@
                 },
 				"LifecycleConfiguration":{
 						  "Rules" : [ {
-								"ExpirationInDays" : 5,
+								"ExpirationInDays" : 15,
 								"Status" : "Enabled"
 								}]
 				},
@@ -198,7 +198,7 @@
                 },
 				"LifecycleConfiguration":{
 						  "Rules" : [ {
-								"ExpirationInDays" : 5,
+								"ExpirationInDays" : 15,
 								"Status" : "Enabled"
 								}]
 				},
@@ -259,7 +259,7 @@
                 },
 				"LifecycleConfiguration":{
 						  "Rules" : [ {
-								"ExpirationInDays" : 5,
+								"ExpirationInDays" : 15,
 								"Status" : "Enabled"
 								}]
 				},
