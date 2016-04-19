@@ -10,6 +10,9 @@ Note: include --profile sandbox when testing only. Included for safety reasons
 ##
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
+
+### Note : Clone the aip-aws-devops code commit repository (master branch ), Upload the lambda_handler.zip (lambda fn code) from the "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" to the bucket "aip-devops-us-east-1-661072482170/lambda/s3Archival/
+
 aws cloudformation create-stack \
 --stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-dev-launch-params-us-east-1.json \
@@ -120,9 +123,10 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-
-
 ## -- Create Abbott AWS: DevOps environment --
+
+### Note : Clone the aip-aws-devops code commit repository (master branch ), Upload the lambda_handler.zip (lambda fn code) from the "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" to the bucket "aip-devops-us-east-1-661072482170/lambda/s3Archival/
+
 aws cloudformation create-stack \
 --stack-name bi-etl-devops-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-devops-launch-params-us-east-1.json \
