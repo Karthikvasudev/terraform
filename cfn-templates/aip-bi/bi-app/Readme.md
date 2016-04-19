@@ -28,6 +28,9 @@ aws cloudformation update-stack \
 
 
 ## AWS resources
+
+### Note : Clone the aip-aws-devops code commit repository (master branch ), Upload the lambda_handler.zip  from the "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" to the bucket "aip-devops-us-east-1-661072482170/lambda/s3Archival/"
+
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-dev-master \
 --template-body file://bi-aws-resources.cfn.json \
@@ -201,6 +204,7 @@ aws cloudformation update-stack \
 
 
 ## AWS resources
+
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-beta-master \
 --template-body file://bi-aws-resources.cfn.json \
@@ -236,6 +240,9 @@ aws cloudformation update-stack \
 
 
 ## AWS resources
+
+### Note : Clone the aip-aws-devops code commit repository (master branch ), Upload the lambda_handler.zip (lambda fn code) from the "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" to the bucket "aip-devops-us-east-1-661072482170/lambda/s3Archival/"
+
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-devops-master \
 --template-body file://bi-aws-resources.cfn.json \
@@ -255,10 +262,10 @@ aws cloudformation update-stack \
 
 
 
-########################################
+
 ########################################
 # ------ Ireland EU-west-1 Region ------
-
+########################################
 
 ### Prod
 ## -- Create Abbott AWS: Prod environment --
