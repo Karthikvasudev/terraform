@@ -17,7 +17,7 @@
   },  
   {
     "ParameterKey": "InstanceType",
-    "ParameterValue": "m3.xlarge"
+    "ParameterValue": "t2.medium"
   },
   {
     "ParameterKey": "VpcId",
@@ -45,11 +45,11 @@
   },  
   {
     "ParameterKey": "SolutionStackName",
-    "ParameterValue": "64bit Amazon Linux 2015.09 v2.0.6 running Multi-container Docker 1.7.1 (Generic)"
+    "ParameterValue": "64bit Amazon Linux 2016.03 v2.1.0 running Multi-container Docker 1.9.1 (Generic)"
   },   
   {
     "ParameterKey": "ImageId",
-    "ParameterValue": "ami-27affd4d"
+    "ParameterValue": "ami-cacfe5a0"
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
@@ -73,6 +73,6 @@
   },   
   {
     "ParameterKey": "AutoScaleMaxSize",
-    "ParameterValue": "1"
+    "ParameterValue": "2"
   }
 ]
