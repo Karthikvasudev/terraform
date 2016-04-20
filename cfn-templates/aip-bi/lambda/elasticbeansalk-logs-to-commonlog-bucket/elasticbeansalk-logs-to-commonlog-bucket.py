@@ -1,6 +1,8 @@
 from __future__ import print_function
 
 
+
+
 import json
 import boto3
 import time
@@ -15,12 +17,14 @@ s3 = boto3.resource('s3')
 s3c = boto3.client('s3')
 
 def lambda_handler(event, context):
+    #region of the bucket that event happened
     region = event['Records'][0]['awsRegion']
     print ("REGION :" + region)
+    #Source bucket on whihc event happened
     source_bucket = event['Records'][0]['s3']['bucket']['name']
-   
     print ("BUCKET :" + source_bucket)
     src_bucket_instance = s3.Bucket(source_bucket)
+    #key added recently
     key = urllib.unquote_plus(event['Records'][0]['s3']['object']['key']).decode('utf8')
     print ("KEY :" + key)
     copy_src = source_bucket + '/' + key
