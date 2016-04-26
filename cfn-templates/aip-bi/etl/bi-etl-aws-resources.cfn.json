@@ -1,55 +1,38 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "Resources for ETL services includes S3,SQS and related policies for event notification to automatically post message",
+
     "Parameters": {
         "Environment": {
             "Description": "name of the VPC Environment (dev, test, qa, prod)",
             "MaxLength": "255",
             "MinLength": "1",
             "Type": "String"
-        },
-	"Lambdarole": {
-            "Description": "name of the IAM role ",
-			"Default" : "s3_lambda_copy",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        },
-	"LambdaBucket": {
-            "Description": "Bucket containing the lambda code .zip ",
-			"Default" : "aip-devops-us-east-1-661072482170",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        },
-	"LambdaS3Key": {
-            "Description": "s3 key of the lambda code .zip ",
-	    "Default" : "lambda/s3Archival/lambda_handler.zip",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
         }
     },
+
     "Resources": {
-		"Topic": {
-					"Type": "AWS::SNS::Topic",
-					"Properties": {
-						"TopicName" : {"Fn::Join": ["", ["bi-", {"Ref": "Environment"},"-sns-etl-file-uploaded"]]},
-						"Subscription" :[
-						{
-							"Endpoint" : { "Fn::GetAtt": ["s3Archival", "Arn"] },
-							"Protocol" : "lambda"
-						},
-						{
-							"Endpoint": { "Fn::GetAtt": [ "biETLQueue", "Arn" ] },
-							"Protocol": "sqs"
-						}
-						]
-			    }
+
+		"TopicFileUploaded": {
+			"Type": "AWS::SNS::Topic",
+			"Properties": {
+				"TopicName" : {"Fn::Join": ["", ["bi-", {"Ref": "Environment"},"-sns-etl-file-uploaded"]]},
+				"Subscription" :[
+				{
+                    "Endpoint" : {"Fn::Join": ["", ["arn:aws:lambda:", {"Ref": "AWS::REGION"}, ":", 
+                                 {"Ref": "AWS::AccountId"}, ":function:", {"Ref": "LambdaFunctionName"}]]},
+        			"Protocol" : "lambda"
+				},
+				{
+					"Endpoint": { "Fn::GetAtt": [ "biETLQueue", "Arn" ] },
+					"Protocol": "sqs"
+				}
+				]
+    	    }
 		},
 		"TopicPolicy":{
 		    "Type" : "AWS::SNS::TopicPolicy",
-			"DependsOn": ["Topic"],
+			"DependsOn": "TopicFileUploaded",
 			"Properties" :{
 				"PolicyDocument" : {
 					 "Version": "2008-10-17",
@@ -101,21 +84,7 @@
 					}
 					]
 				},
-				"Topics": [{"Ref": "Topic" }]
-			}
-		},
-		"s3Archival": {
-			"Type": "AWS::Lambda::Function",
-			"Properties": {
-				"Handler": "lambda_handler.lambda_handler",
-				"Role": {"Fn::Join": ["", ["arn:aws:iam::", {"Ref": "AWS::AccountId"},":role/",{ "Ref" : "Lambdarole" }]]},
-				"Code": {
-						"S3Bucket": {"Ref": "LambdaBucket"},
-						"S3Key": {"Ref": "LambdaS3Key"}	
-				},
-				"Runtime": "python2.7",
-				"MemorySize": 1024,
-				"Timeout": 300
+				"Topics": [{"Ref": "TopicFileUploaded" }]
 			}
 		},
 		"biETLQueue": {
@@ -163,7 +132,7 @@
         },
 	    "biETLBucket": {
             "Type": "AWS::S3::Bucket",
-			"DependsOn": "Topic",
+			"DependsOn": "TopicFileUploaded",
             "Properties": {
                 "BucketName": {"Fn::Join": ["", ["bi-", {"Ref": "Environment"}, "-s3-dataprocess-fileupload-",
                               {"Ref": "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}]]},
@@ -185,7 +154,7 @@
                    "TopicConfigurations": [
                         {
                             "Event": "s3:ObjectCreated:*",
-                            "Topic": {"Ref": "Topic"}
+                            "Topic": {"Ref": "TopicFileUploaded"}
                         }
                     ]
                 }
@@ -221,11 +190,8 @@
         "biETLQueue":{        
             "Value" : { "Ref" : "biETLQueue" }
         },
-        "LambdaFunction": {
-            "Value" : { "Ref" : "s3Archival" }
-        },
         "SNSTopic":{
-            "Value":{ "Ref" : "Topic"}
+            "Value":{ "Ref" : "TopicFileUploaded"}
         }
 }
 }

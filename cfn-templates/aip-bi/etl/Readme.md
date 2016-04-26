@@ -6,12 +6,30 @@ Note: include --profile sandbox when testing only. Included for safety reasons
 
 
 
+## -- Create Abbott AWS: DevOps environment --
+
+
+aws cloudformation create-stack \
+--stack-name bi-etl-devops-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+## -- Update Abbott AWS: DevOps environment --
+aws cloudformation update-stack \
+--stack-name bi-etl-devops-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+### Note: Create the common Lambda function handler for S3-Archive by running the installer script located in "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" folder.
+
+
 ### Abbott AWS -- Beanstalk App -- ETL Services ""
 ##
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
-
-### Note : Clone the aip-aws-devops code commit repository (master branch ), Upload the lambda_handler.zip (lambda fn code) from the "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" to the bucket "aip-devops-us-east-1-661072482170/lambda/s3Archival/
 
 aws cloudformation create-stack \
 --stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
@@ -27,22 +45,7 @@ aws cloudformation update-stack  \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
-### Note: After the stack is created,In the console, go to the lambda function(bi-etl-dev-master-AppResources-XXXXX-s3Archival-XXXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-dev-sns-etl-file-uploaded) got created.
-
-
-### Sandbox
-aws cloudformation create-stack \
---stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
---parameters file://bi-etl-dev-launch-params-us-east-1-Sandbox.json \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
-
-
-aws cloudformation update-stack \
---stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
---parameters file://bi-etl-dev-launch-params-us-east-1-Sandbox.json \
---capabilities CAPABILITY_IAM \
---region us-east-1
+### Note: Create the common Lambda function handler for S3-Archive by running the installer script located in "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" folder.
 
 
 
@@ -123,25 +126,7 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-## -- Create Abbott AWS: DevOps environment --
 
-### Note : Clone the aip-aws-devops code commit repository (master branch ), Upload the lambda_handler.zip (lambda fn code) from the "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" to the bucket "aip-devops-us-east-1-661072482170/lambda/s3Archival/
-
-aws cloudformation create-stack \
---stack-name bi-etl-devops-master --template-body file://bi-etl-master.cfn.json \
---parameters file://bi-etl-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
-
-
-## -- Update Abbott AWS: DevOps environment --
-aws cloudformation update-stack \
---stack-name bi-etl-devops-master --template-body file://bi-etl-master.cfn.json \
---parameters file://bi-etl-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM \
---region us-east-1
-
-### Note: After the stack is created,In the console, go to the lambda function(bi-etl-devops-master-AppResources-XXXXX-s3Archival-XXXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-devops-sns-etl-file-uploaded) got created.
 
 ########################################
 # ------ Ireland EU-west-1 Region ------

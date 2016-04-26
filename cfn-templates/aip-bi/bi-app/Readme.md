@@ -26,16 +26,7 @@ aws cloudformation update-stack \
 
 ## AWS resources
 
-### Note : Clone the aip-aws-devops code commit repository (master branch ), Upload the lambda_handler.zip (lambda fn code) from the "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" to the bucket "aip-devops-us-east-1-661072482170/lambda/s3Archival/"
-
-aws lambda create-function --function-name s3-copy2archive-lambda-fromAWSCLI \
---runtime python2.7 \
---role "arn:aws:iam::661072482170:role/s3_lambda_copy" \
---handler lambda_handler.lambda_handler \
---code https://s3.amazonaws.com/aip-devops-us-east-1-661072482170/lambda/s3Archival/lambda_handler.zip \
---description "Copy a S3 Put object to the Archive Bucket, Glacier" \
---timeout 300 \
---memory-size 1024
+### Note: Create the common Lambda function handler for S3-Archive by running the installer script located in "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" folder.
 
 
 aws cloudformation create-stack \
@@ -55,9 +46,7 @@ ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --region us-east-1
 
 
-### Note: After the stack is created,In the console, go to the lambda function(bi-app-aws-resources-devo-FunctionTopicSubscriptio-XXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-devops-sns-file-uploaded) got created.
-
-
+### Note: After the stack is created,In the console, go to the lambda function (s3-copy2archive-lambda) and add the event source of the lambda to the sns topic(bi-devops-sns-file-uploaded) for the buckets.
 
 
 
@@ -83,7 +72,7 @@ aws cloudformation update-stack \
 
 ## AWS resources
 
-### Note : Clone the aip-aws-devops code commit repository (master branch ), Upload the lambda_handler.zip  from the "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" to the bucket "aip-devops-us-east-1-661072482170/lambda/s3Archival/"
+### Note: Create the common Lambda function handler for S3-Archive by running the installer script located in "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" folder.
 
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-dev-master \
@@ -102,7 +91,7 @@ ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --region us-east-1
 
 
-### Note: After the stack is created,In the console, go to the lambda function(bi-app-aws-resources-dev-FunctionTopicSubscriptio-XXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-dev-sns-file-uploaded) got created.
+### Note: After the stack is created,In the console, go to the lambda function (s3-copy2archive-lambda) and add the event source of the lambda to the sns topic(bi-devops-sns-file-uploaded) for the buckets.
 
 
 ### Test
