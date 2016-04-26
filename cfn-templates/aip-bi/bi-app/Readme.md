@@ -6,6 +6,60 @@
 ### Note: include --profile sandbox when testing only. Included for safety reasons
 
 
+### DevOps
+## -- Create Abbott AWS: DevOps environment --
+aws cloudformation create-stack \
+--stack-name bi-app-devops-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+## -- Update Abbott AWS: devops environment --
+aws cloudformation update-stack \
+--stack-name bi-app-devops-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
+## AWS resources
+
+### Note : Clone the aip-aws-devops code commit repository (master branch ), Upload the lambda_handler.zip (lambda fn code) from the "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" to the bucket "aip-devops-us-east-1-661072482170/lambda/s3Archival/"
+
+aws lambda create-function --function-name s3-copy2archive-lambda-fromAWSCLI \
+--runtime python2.7 \
+--role "arn:aws:iam::661072482170:role/s3_lambda_copy" \
+--handler lambda_handler.lambda_handler \
+--code https://s3.amazonaws.com/aip-devops-us-east-1-661072482170/lambda/s3Archival/lambda_handler.zip \
+--description "Copy a S3 Put object to the Archive Bucket, Glacier" \
+--timeout 300 \
+--memory-size 1024
+
+
+aws cloudformation create-stack \
+--stack-name bi-app-aws-resources-devops-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=devops,\
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+aws cloudformation update-stack \
+--stack-name bi-app-aws-resources-devops-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=devops,\
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+### Note: After the stack is created,In the console, go to the lambda function(bi-app-aws-resources-devo-FunctionTopicSubscriptio-XXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-devops-sns-file-uploaded) got created.
+
+
+
+
 
 ### Abbott AWS -- BI Beanstalk deployment via Master Template
 ##
@@ -34,14 +88,16 @@ aws cloudformation update-stack \
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-dev-master \
 --template-body file://bi-aws-resources.cfn.json \
---parameters file://bi-dev-aws-resources-launch-params.json \
+--parameters ParameterKey=Environment,ParameterValue=dev,\
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
 aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-dev-master \
 --template-body file://bi-aws-resources.cfn.json \
---parameters file://bi-dev-aws-resources-launch-params.json\
+--parameters ParameterKey=Environment,ParameterValue=dev,\
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
@@ -220,45 +276,6 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-
-### DevOps
-## -- Create Abbott AWS: DevOps environment --
-aws cloudformation create-stack \
---stack-name bi-app-devops-master \
---template-body file://bi-master.cfn.json \
---parameters file://bi-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
-
-## -- Update Abbott AWS: devops environment --
-aws cloudformation update-stack \
---stack-name bi-app-devops-master \
---template-body file://bi-master.cfn.json \
---parameters file://bi-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM \
---region us-east-1
-
-
-## AWS resources
-
-### Note : Clone the aip-aws-devops code commit repository (master branch ), Upload the lambda_handler.zip (lambda fn code) from the "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" to the bucket "aip-devops-us-east-1-661072482170/lambda/s3Archival/"
-
-aws cloudformation create-stack \
---stack-name bi-app-aws-resources-devops-master \
---template-body file://bi-aws-resources.cfn.json \
---parameters file://bi-devops-aws-resources-launch-params.json \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
-
-aws cloudformation update-stack \
---stack-name bi-app-aws-resources-devops-master \
---template-body file://bi-aws-resources.cfn.json \
---parameters file://bi-devops-aws-resources-launch-params.json \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
-
-
-### Note: After the stack is created,In the console, go to the lambda function(bi-app-aws-resources-devo-FunctionTopicSubscriptio-XXXXXXXXX) got created and configure the event source of the lambda to the sns topic(bi-devops-sns-file-uploaded) got created.
 
 
 

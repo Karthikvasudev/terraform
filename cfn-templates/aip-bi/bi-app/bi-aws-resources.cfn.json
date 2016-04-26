@@ -12,23 +12,9 @@
             "MinLength": "1",
             "MaxLength": "255"
         },
-		"Lambdarole": {
+		"LambdaFunctionName": {
             "Description": "name of the IAM role ",
 			"Default" : "s3_lambda_copy",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        },
-		"Bucket": {
-            "Description": "Bucket containing the lambda code .zip ",
-			"Default" : "aip-devops-us-east-1-661072482170",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        },
-		"S3Key": {
-            "Description": "s3 key of the lambda code .zip ",
-			"Default" : "lambda/s3Archival/lambda_handler.zip",
             "Type": "String",
             "MinLength": "1",
             "MaxLength": "255"
@@ -42,7 +28,9 @@
             "Properties": {
                 "TopicName" : {"Fn::Join": ["", ["bi-", {"Ref": "Environment"},"-sns-file-uploaded"]]},
                 "Subscription" :[
-                {"Endpoint" : { "Fn::GetAtt": ["LambdaSNS", "Arn"] },
+                {
+                    "Endpoint" : {"Fn::Join": ["", ["arn:aws:lambda:", {"Ref": "AWS::REGION"}, ":", 
+                                 {"Ref": "AWS::AccountId"}, ":function:", {"Ref": "LambdaFunctionName"}]]},
                     "Protocol" : "lambda"
                 }
                 ]
@@ -105,20 +93,6 @@
                 },
                 "Topics": [{"Ref": "Topic" }]
             }
-        },
-        "LambdaSNS": {
-            "Type": "AWS::Lambda::Function",
-            "Properties": {
-                "Handler": "lambda_handler.lambda_handler",
-                "Role": {"Fn::Join": ["", ["arn:aws:iam::", {"Ref": "AWS::AccountId"},":role/",{ "Ref" : "Lambdarole" }]]},
-                "Code": {
-                        "S3Bucket": {"Ref": "Bucket"},
-                        "S3Key": {"Ref": "S3Key"}   
-                },
-                "Runtime": "python2.7",
-                "MemorySize": 1024,
-				"Timeout": 300
-             }
         },
 
         "BiS3FileUpload": {
@@ -317,9 +291,6 @@
         },
         "BiS3Metaanalysis": {
             "Value" : { "Ref" : "BiS3Metaanalysis" }
-        },
-        "LambdaFunction": {
-            "Value" : { "Ref" : "LambdaSNS" }
         },
         "SNSTopic":{
             "Value":{ "Ref" : "Topic"}

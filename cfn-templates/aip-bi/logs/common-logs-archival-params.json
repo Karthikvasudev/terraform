@@ -1,0 +1,12 @@
+[
+
+  {
+    "ParameterKey": "DeletionPeriod",
+    "ParameterValue": "2190"
+  },
+  {
+    "ParameterKey": "RetentionPeriod",
+    "ParameterValue": "30"
+  }
+  
+]
