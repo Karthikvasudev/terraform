@@ -1,8 +1,5 @@
 [
-  {
-    "ParameterKey": "Environment",
-    "ParameterValue": "devops"
-  },
+
   {
     "ParameterKey": "DeletionPeriod",
     "ParameterValue": "2190"

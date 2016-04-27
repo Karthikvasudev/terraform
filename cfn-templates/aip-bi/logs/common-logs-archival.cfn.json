@@ -1,24 +1,17 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
 
-    "Description": "Use file aip-admin-resources.cfn.json for Admin VPC specific resources.",
-    "Description": "Application specific AWS resources - aip-bi-aws-resources.cfn.json",
-
+    "Description": "Common Log bucket template - not environment specific, however region based. ",
 
     "Parameters": {
-        "Environment": {
-            "Description": "name of the Environment (dev, test, qa, prod)",
-            "Type": "String",
-            "MinLength": "1",
-            "MaxLength": "255"
-        },
+
         "DeletionPeriod": {
-            "Description": "Static Web app name ex. static-devops-us1",
+            "Description": "Days to retain, then delete afterward. 2190 = 6 years",
             "Default": "2190",
             "Type": "Number"
         },
         "RetentionPeriod": {
-            "Description": "Static Web app name ex. static-devops-us1",
+            "Description": "Glacier retention period in days",
             "Default": "30",
             "MinValue": "1",
             "MaxValue": "90",
@@ -32,75 +25,44 @@
         "logsS3Bucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-                "BucketName": {
-                    "Fn::Join": ["", ["logs-",  {
-                        "Ref": "AWS::Region"
-                    }, "-", {
-                        "Ref": "AWS::AccountId"
-                    }]]
-                },
-                "CorsConfiguration": {
-                    "CorsRules": [{
-                        "AllowedOrigins": ["*"],
-                        "AllowedHeaders": ["*"],
-                        "AllowedMethods": ["PUT", "POST", "GET", "HEAD"],
-                        "MaxAge": "3000"
-                    }]
-                },
+                "BucketName": {"Fn::Join": ["", ["logs-",  {"Ref": "AWS::Region"}, "-", {"Ref": "AWS::AccountId"}]]},
+
                 "LifecycleConfiguration": {
                     "Rules": [{
-                        "ExpirationInDays": {
-                            "Ref": "DeletionPeriod"
-                        },
+                        "ExpirationInDays": {"Ref": "DeletionPeriod"},
                         "Status": "Enabled",
                         "Transition": {
                             "StorageClass": "GLACIER",
-                            "TransitionInDays": {
-                                "Ref": "RetentionPeriod"
-                            }
+                            "TransitionInDays": {"Ref": "RetentionPeriod"}
                         }
                     }]
                 }
-
-
             }
-       
         },
-          "LogsS3BucketPolicy": {
-                "Type": "AWS::S3::BucketPolicy",
-                "Properties": {
-                    "Bucket": {
-                        "Ref": "logsS3Bucket"
-                    },
-                    "PolicyDocument": {
-                        "Statement": [{
-                            "Action": "s3:GetObject",
-                            "Effect": "Allow",
-                            "Resource": {
-                                "Fn::Join": ["", ["arn:aws:s3:::", {
-                                    "Ref": "logsS3Bucket"
-                                }, "/*"]]
-                            },
-                            "Principal": "*"
-                        }, {
-                            "Effect": "Deny",
-                            "Principal": "*",
-                            "Action": "s3:PutObject",
-                            "Resource": {
-                                "Fn::Join": ["", ["arn:aws:s3:::", {
-                                    "Ref": "logsS3Bucket"
-                                }, "/*"]]
-                            },
-                            "Condition": {
-                                "StringNotEquals": {
-                                    "s3:x-amz-server-side-encryption": "AES256"
-                                }
-                            }
-                        }]
-                    }
+        "LogsS3BucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "Bucket": {
+                    "Ref": "logsS3Bucket"
+                },
+                "PolicyDocument": {
+                    "Statement": [{
+                        "Action": "s3:GetObject",
+                        "Effect": "Allow",
+                        "Resource": {"Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "logsS3Bucket"}, "/*"]]},
+                        "Principal": "*"
+                    }, 
+                    {
+                        "Action": "s3:PutObject",
+                        "Effect": "Deny",
+                        "Principal": "*",
+                        "Resource": {"Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "logsS3Bucket"}, "/*"]]},
+                        "Condition": {
+                            "StringNotEquals": {"s3:x-amz-server-side-encryption": "AES256"}
+                        }
+                    }]
                 }
             }
-
-
+        }
     }
 }
