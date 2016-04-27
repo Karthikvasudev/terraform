@@ -110,8 +110,8 @@
                     "DefaultRootObject" : "index.html",
                     "Logging" : {
                         "IncludeCookies" : "true",
-                        "Bucket" : {"Fn::Join": ["", ["logs-", {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, ".s3.amazonaws.com"]]},
-                        "Prefix" : {"Fn::Join": ["", ["cloudfront/", {"Ref": "Environment"} ]]}
+                        "Bucket" : {"Fn::Join": ["", ["aip-devops-", {"Ref" : "AWS::Region"}, "-", {"Ref" : "AWS::AccountId"}, ".s3.amazonaws.com"]]},
+                        "Prefix" : {"Fn::Join": ["", ["cloudfront/logs/", {"Ref": "Environment"} ]]}
                     },
                     "Aliases": {"Ref" : "Aliases"},
                     "CacheBehaviors" : [
