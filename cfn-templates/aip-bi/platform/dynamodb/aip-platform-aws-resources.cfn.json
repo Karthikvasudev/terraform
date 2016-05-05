@@ -58,11 +58,11 @@
 
   "Resources": {
     
-	"ddbclients": {
+  "ddbclients": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "AttributeDefinitions": [
-    		  {
+          {
             "AttributeName": "clientId",
             "AttributeType": "S"
           }
@@ -84,7 +84,7 @@
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "AttributeDefinitions": [
-    		  {
+          {
             "AttributeName": "clientId",
             "AttributeType": "S"
           },
@@ -98,7 +98,7 @@
           }
         ],
         "KeySchema": [
-		          {
+              {
             "AttributeName": "userId",
             "KeyType": "HASH"
           },
@@ -112,7 +112,7 @@
           "WriteCapacityUnits": { "Ref": "DdbCapacityAuthAccessTokensWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-authentication-service.AccessTokens"]] },
-    		"GlobalSecondaryIndexes": [
+        "GlobalSecondaryIndexes": [
           {
             "IndexName": "userId-Index",
             "KeySchema": [
@@ -125,9 +125,9 @@
               "NonKeyAttributes": [
                 "clientId",
                 "tokenHash",
-        				"scope",
-        				"createdAt",
-        				"expiresAt"
+                "scope",
+                "createdAt",
+                "expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
@@ -148,9 +148,9 @@
               "NonKeyAttributes": [
                 "clientId",
                 "userId",
-        				"scope",
-        				"createdAt",
-        				"expiresAt"
+                "scope",
+                "createdAt",
+                "expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
@@ -163,11 +163,11 @@
 
       }
     },
-	"ddbrefreshtokens": {
+  "ddbrefreshtokens": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "AttributeDefinitions": [
-		  {
+      {
             "AttributeName": "clientId",
             "AttributeType": "S"
           },
@@ -181,7 +181,7 @@
           }
         ],
         "KeySchema": [
-		          {
+              {
             "AttributeName": "userId",
             "KeyType": "HASH"
           },
@@ -195,7 +195,7 @@
           "WriteCapacityUnits": { "Ref": "DdbCapacityAuthRefreshTokensWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-authentication-service.RefreshTokens"]] },
-    		"GlobalSecondaryIndexes": [
+        "GlobalSecondaryIndexes": [
           {
             "IndexName": "userId-Index",
             "KeySchema": [
@@ -208,8 +208,8 @@
               "NonKeyAttributes": [
                 "clientId",
                 "tokenHash",
-        				"createdAt",
-        				"expiresAt"
+                "createdAt",
+                "expiresAt"
               ],
               "ProjectionType": "INCLUDE"
             },
@@ -227,13 +227,7 @@
               }
             ],
             "Projection": {
-              "NonKeyAttributes": [
-                "clientId",
-                "userId",
-        				"createdAt",
-        				"expiresAt"
-              ],
-              "ProjectionType": "INCLUDE"
+              "ProjectionType": "ALL"
             },
             "ProvisionedThroughput": {
               "ReadCapacityUnits":  { "Ref": "DdbCapacityAuthRefreshTokensIdxTokenHashRead" },
@@ -310,7 +304,7 @@
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-subscription"]] }
       }
     },
-	"ddbapplication": {
+  "ddbapplication": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
         "AttributeDefinitions": [
@@ -318,7 +312,7 @@
             "AttributeName": "appId",
             "AttributeType": "S"
           },
-    		  {
+          {
             "AttributeName": "storeId",
             "AttributeType": "S"
           }
@@ -328,7 +322,7 @@
             "AttributeName": "appId",
             "KeyType": "HASH"
           },
-    		  {
+          {
             "AttributeName": "storeId",
             "KeyType": "RANGE"
           }
@@ -400,7 +394,7 @@
             "AttributeName": "emailAddress",
             "AttributeType": "S"
           },
-    		  {
+          {
             "AttributeName": "accountStatus",
             "AttributeType": "S"
           }
@@ -416,7 +410,7 @@
           "WriteCapacityUnits": { "Ref": "DdbCapacityAccountWrite" }
         },
         "TableName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-ddb-account"]] },
-    		"GlobalSecondaryIndexes": [
+        "GlobalSecondaryIndexes": [
           {
             "IndexName": "emailAddress-index",
             "KeySchema": [
@@ -433,14 +427,14 @@
               "WriteCapacityUnits": { "Ref": "DdbCapacityAccountIdxEmailAddressWrite" }
             }
           },
-    		  {
+          {
             "IndexName": "tenant-index",
             "KeySchema": [
               {
                 "AttributeName": "tenantId",
                 "KeyType": "HASH"
               },
-      			  {
+              {
                 "AttributeName": "emailAddress",
                 "KeyType": "RANGE"
               }
@@ -453,14 +447,14 @@
               "WriteCapacityUnits": { "Ref": "DdbCapacityAccountIdxTenantWrite" }
             }
           },
-    		  {
+          {
             "IndexName": "accountStatus-index",
             "KeySchema": [
               {
                 "AttributeName": "accountId",
                 "KeyType": "HASH"
               },
-      			  {
+              {
                 "AttributeName": "accountStatus",
                 "KeyType": "RANGE"
               }
@@ -478,35 +472,35 @@
     },
 
 
-  	"snsappcreated": {
+    "snsappcreated": {
       "Type": "AWS::SNS::Topic",
-		"Properties" : {
-		"TopicName" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-created"]] }
-		}   
+    "Properties" : {
+    "TopicName" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-created"]] }
+    }   
     },
     "snsappdeleted": {
       "Type": "AWS::SNS::Topic",
-		"Properties" : {
-		"TopicName" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-deleted"]] }
-		}   
+    "Properties" : {
+    "TopicName" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-deleted"]] }
+    }   
     },
     "snsappsubscribed": {
       "Type": "AWS::SNS::Topic",
-		"Properties" : {
-		"TopicName" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-subscribed"]] }
-		}
+    "Properties" : {
+    "TopicName" : { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-subscribed"]] }
+    }
     },
     "snsappunsubscribed": {
       "Type": "AWS::SNS::Topic",
-		"Properties" : {
-		  "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-unsubscribed"]] }
-		}
+    "Properties" : {
+      "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-unsubscribed"]] }
+    }
     },
     "snsappupdated": {
       "Type": "AWS::SNS::Topic",
-		"Properties" : {
-		  "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-updated"]] }
-		}
+    "Properties" : {
+      "TopicName": { "Fn::Join": ["", ["aip-", { "Ref": "Environment" }, "-sns-app-updated"]] }
+    }
     },
     "snstenantcreated": {
       "Type": "AWS::SNS::Topic",
@@ -581,25 +575,25 @@
       }
     },
 
-  	"aipServerAppBucket": {
-  		"Type": "AWS::S3::Bucket",
-  		"Properties": {
-  			"BucketName": {
-  				"Fn::Join": [
-  					"",
-  					[
-  						"aip-",
-  						{
-  							"Ref": "Environment"
-  						},
-  						"-s3-uploads-",
-  						{
-  							"Ref": "AWS::Region"
-  						}
-  					]
-  				]
-  			}
-  		}
-  	}	
+    "aipServerAppBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": {
+          "Fn::Join": [
+            "",
+            [
+              "aip-",
+              {
+                "Ref": "Environment"
+              },
+              "-s3-uploads-",
+              {
+                "Ref": "AWS::Region"
+              }
+            ]
+          ]
+        }
+      }
+    } 
   }
 }

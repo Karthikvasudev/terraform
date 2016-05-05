@@ -7,7 +7,7 @@ Copy/Paste into bash shell window
 
 ## DevOps 
 aws cloudformation create-stack \
---stack-name aip-plat form-resources-devops-master \
+--stack-name aip-platform-resources-devops-master \
 --template-body file://aip-platform-aws-resources.cfn.json \
 --parameters file://aip-platform-resources-devops-params-us-east-1.json \
 --capabilities CAPABILITY_IAM --disable-rollback \
