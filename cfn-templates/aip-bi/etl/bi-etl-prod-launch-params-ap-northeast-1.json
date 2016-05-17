@@ -45,11 +45,11 @@
   },  
   {
     "ParameterKey": "SolutionStackName",
-    "ParameterValue": "64bit Amazon Linux 2015.09 v2.0.8 running Multi-container Docker 1.9.1 (Generic)"
+    "ParameterValue": "64bit Amazon Linux 2016.03 v2.1.1 running Multi-container Docker 1.9.1 (Generic)"
   },  
   {
     "ParameterKey": "ImageId",
-    "ParameterValue": "ami-d2f9fabc"
+    "ParameterValue": "ami-aa8d89c4"
   },
   {
     "ParameterKey": "AppEnvironmentSuffix",
