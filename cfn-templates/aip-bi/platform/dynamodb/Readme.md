@@ -100,6 +100,22 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
+## Beta
+aws cloudformation create-stack \
+--stack-name aip-platform-resources-beta-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-beta-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+aws cloudformation update-stack \
+--stack-name aip-platform-resources-beta-master \
+--template-body file://aip-platform-aws-resources.cfn.json \
+--parameters file://aip-platform-resources-beta-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
 
 ########################################
 # ------ Ireland EU-west-1 Region ------
