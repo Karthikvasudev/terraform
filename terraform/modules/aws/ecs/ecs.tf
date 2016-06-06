@@ -5,32 +5,32 @@
 
 # Variables
 
-variable "cluster-name" {
+variable "cluster_name" {
     description = "name of the ecs cluster"
 }
 
-variable "ami-id" {
+variable "ami_id" {
     description = "ecs optimized amazon linux ami"
 }
 
-variable "instance-type" { 
+variable "instance_type" { 
     description = "instance type to be provisioned"
     default = "t2.micro" 
 }
 
-variable "keypair-name" {
+variable "keypair_name" {
     description = "keypair name to be used for instance"    
 }
 
-variable "user-data-file" {
+variable "user_data_file" {
     description = "environment specific user-date file"
 }
 
-variable "vpc-id" {
-    description = "vpc-id in the vpc where instances created"
+variable "vpc_id" {
+    description = "vpc_id in the vpc where instances created"
 }
 
-variable "subnet-ids" {
+variable "subnet_ids" {
     description = "subnet ids in the vpc where instances created"
 }
 
@@ -38,7 +38,7 @@ variable "azs" {
     description = "availability zones where instances created"
 }
 
-variable "max-size" { 
+variable "as_max_size" { 
     description = "maximum number of instances in the cluster"
     default = 2
 }
@@ -48,7 +48,7 @@ variable "min-size" {
     default = 1
 }
 
-variable "desired-capacity" { 
+variable "as_desired_capacity" { 
     description = "desirec number of instnces in the cluster"
     default = 1
 }
@@ -57,7 +57,7 @@ variable "desired-capacity" {
 # Resources
 
 resource "aws_ecs_cluster" "ecs" {
-    name = "${var.cluster-name}"
+    name = "${var.cluster_name}"
 }
 
 
@@ -66,7 +66,7 @@ resource "aws_ecs_cluster" "ecs" {
  */
 
 resource "aws_iam_role" "ecs-instance-role" {
-    name = "${var.cluster-name}-role"
+    name = "${var.cluster_name}-role"
     assume_role_policy = <<EOF
 {
   "Version": "2008-10-17",
@@ -90,7 +90,7 @@ EOF
  */
 
 resource "aws_iam_policy_attachment" "ecs-instance-policy" {
-    name = "${var.cluster-name}-instance-policy"
+    name = "${var.cluster_name}-instance-policy"
     roles = ["${aws_iam_role.ecs-instance-role.name}"]
     policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
@@ -101,7 +101,7 @@ resource "aws_iam_policy_attachment" "ecs-instance-policy" {
  */
 
 resource "aws_iam_instance_profile" "ecs-instance-profile" {
-    name = "${var.cluster-name}-instance-profile"
+    name = "${var.cluster_name}-instance-profile"
     roles = ["${aws_iam_role.ecs-instance-role.name}"]
 }
 
@@ -111,9 +111,9 @@ resource "aws_iam_instance_profile" "ecs-instance-profile" {
  */
 
 resource "aws_security_group" "ecs-instance-security-group" {
-    name = "${var.cluster-name}-sg"
-    description = "Sec group associated to ${var.cluster-name} instance"
-    vpc_id = "${var.vpc-id}"
+    name = "${var.cluster_name}-sg"
+    description = "Sec group associated to ${var.cluster_name} instance"
+    vpc_id = "${var.vpc_id}"
 
     ingress {
         from_port = 8000
@@ -138,15 +138,15 @@ resource "aws_security_group" "ecs-instance-security-group" {
  */
 
 resource "aws_launch_configuration" "ecs-cluster-launch-configuration" {
-    name = "${var.cluster-name}-launch-configuration"
+    name = "${var.cluster_name}-launch-configuration"
 
-    image_id = "${var.ami-id}"
-    instance_type ="${var.instance-type}"
+    image_id = "${var.ami_id}"
+    instance_type ="${var.instance_type}"
     iam_instance_profile = "${aws_iam_instance_profile.ecs-instance-profile.name}"
 
-    user_data = "${file(var.user-data-file)}"
+    user_data = "${file(var.user_data_file)}"
     security_groups = ["${aws_security_group.ecs-instance-security-group.id}"]
-    key_name = "${var.keypair-name}"
+    key_name = "${var.keypair_name}"
 }
 
 
@@ -156,23 +156,23 @@ resource "aws_launch_configuration" "ecs-cluster-launch-configuration" {
  */
 
 resource "aws_autoscaling_group" "ecs-cluster-autoscaling-group" {
-    name = "${var.cluster-name}-autoscaling-group"
+    name = "${var.cluster_name}-autoscaling-group"
 
     launch_configuration = "${aws_launch_configuration.ecs-cluster-launch-configuration.name}"
 
-    vpc_zone_identifier = ["${split(",", var.subnet-ids)}"]
+    vpc_zone_identifier = ["${split(",", var.subnet_ids)}"]
     availability_zones = ["${split(",", var.azs)}"]
 
-    max_size = "${var.max-size}"
+    max_size = "${var.as_max_size}"
     min_size = "${var.min-size}"
     health_check_grace_period = 300
     health_check_type = "ELB"
-    desired_capacity = "${var.desired-capacity}"
+    desired_capacity = "${var.as_desired_capacity}"
     force_delete = true
 
     tag {
         key = "Name"
-        value = "${var.cluster-name}-instance"
+        value = "${var.cluster_name}-instance"
         propagate_at_launch = true
     }
 }

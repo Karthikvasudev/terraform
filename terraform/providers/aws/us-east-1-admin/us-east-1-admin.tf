@@ -17,17 +17,15 @@ variable "adm_vpc_private_route_table_id"   { }
 variable "adm_vpc_ecs_subnet_az1_cidr"      { }
 variable "adm_vpc_ecs_subnet_az2_cidr"      { }
 
-variable "cluster-name"                     { }
-variable "ami-id"                           { }
-variable "instance-type"                    { }
-variable "keypair-name"                     { }
-variable "user-data-file"                   { }
-variable "vpc-id"                           { }
-variable "subnet-ids"                       { }
-variable "azs"                              { }
-variable "max-size"                         { }
-variable "min-size"                         { }
-variable "desired-capacity"                 { }
+variable "adm_ecs_cluster_name"                     { }
+variable "adm_ecs_cluster_ami_id"                           { }
+variable "adm_ecs_cluster_instance_type"                    { }
+variable "adm_ecs_cluster_ec2_keypair"                     { }
+variable "adm_ecs_cluster_ec2_userdata"                   { }
+#variable "subnet_ids"                       { }
+variable "adm_ecs_cluster_autoscale_max"                         { }
+variable "adm_ecs_cluster_autoscale_min"                         { }
+variable "adm_ecs_cluster_autoscale_desired"                 { }
 
 
 module "vpc" {
@@ -53,21 +51,21 @@ module "vpc" {
 module "ecs" {
     source = "../../../modules/aws/ecs"
 
-    cluster-name  = "${var.cluster-name}"
+    cluster_name  = "${var.adm_ecs_cluster_name}"
     
     # EC2 instance in the Cluster
-    ami-id         = "${var.ami-id}"
-    instance-type  = "${var.instance-type}"
-    keypair-name   = "${var.keypair-name}"
-    user-data-file = "${var.user-data-file}"
+    ami_id         = "${var.adm_ecs_cluster_ami_id}"
+    instance_type  = "${var.adm_ecs_cluster_instance_type}"
+    keypair_name   = "${var.adm_ecs_cluster_ec2_keypair}"
+    user_data_file = "${var.adm_ecs_cluster_ec2_userdata}"
 
-    vpc-id         = "${var.vpc-id}"
-    subnet-ids     = "${var.subnet-ids}"
-    azs            = "${var.azs}"
+    vpc_id         = "${var.adm_vpc_id}"
+    subnet_ids     = "${var.subnet_ids}"
+    azs            = "${var.var.adm_vpc_az1},${var.var.adm_vpc_az2}"
 
     # Auto-scaling group parameters
-    max-size         = "${var.max-size}"
-    min-size         = "${var.min-size}"
-    desired-capacity = "${var.desired-capacity}"
+    as_max_size         = "${var.adm_ecs_cluster_autoscale_max}"
+    as_min_size         = "${var.adm_ecs_cluster_autoscale_min}"
+    as_desired_capacity = "${var.adm_ecs_cluster_autoscale_desired}"
 
 }
