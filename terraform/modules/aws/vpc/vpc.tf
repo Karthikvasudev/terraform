@@ -1,8 +1,37 @@
 # Admin VPC ECS Cluster Subnets
 
 
+# Variables
 
-# vpc.aip-adm-sn-private-ecs-az1.id, vpc.aip-adm-sn-private-ecs-az2.id
+variable "adm_vpc_id" {
+    type = "string"
+}
+
+variable "adm_vpc_az1" {
+    type = "string"
+}
+
+variable "adm_vpc_az2" {
+    type = "string"
+}
+
+
+variable "adm_vpc_private_route_table_id" {
+    type = "string"
+}
+
+
+variable "adm_vpc_ecs_subnet_az1_cidr" {
+    type = "string"
+}
+
+
+variable "adm_vpc_ecs_subnet_az2_cidr" {
+    type = "string"
+}
+
+
+# Resources
 
 resource "aws_subnet" "aip-adm-sn-private-ecs-az1" {
     vpc_id = "${var.adm_vpc_id}"
