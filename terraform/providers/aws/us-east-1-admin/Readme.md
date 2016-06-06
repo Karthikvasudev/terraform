@@ -2,10 +2,11 @@
 
 # Prod
 terraform get -update=true 
-
 terraform plan .
-
 terraform apply .
 
 # Sandbox 
-terraform plan -var 'profile=sandbox' .
+terraform get -update=true 
+terraform plan -var 'profile=sandbox' -var-file=sandbox.tfvars .
+terraform apply -var 'profile=sandbox' -var-file=sandbox.tfvars .
+

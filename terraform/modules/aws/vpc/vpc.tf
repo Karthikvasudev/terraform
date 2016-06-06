@@ -3,32 +3,12 @@
 
 # Variables
 
-variable "adm_vpc_id" {
-    type = "string"
-}
-
-variable "adm_vpc_az1" {
-    type = "string"
-}
-
-variable "adm_vpc_az2" {
-    type = "string"
-}
-
-
-variable "adm_vpc_private_route_table_id" {
-    type = "string"
-}
-
-
-variable "adm_vpc_ecs_subnet_az1_cidr" {
-    type = "string"
-}
-
-
-variable "adm_vpc_ecs_subnet_az2_cidr" {
-    type = "string"
-}
+variable "adm_vpc_id"                       { }
+variable "adm_vpc_az1"                      { }
+variable "adm_vpc_az2"                      { }
+variable "adm_vpc_private_route_table_id"   { }
+variable "adm_vpc_ecs_subnet_az1_cidr"      { }
+variable "adm_vpc_ecs_subnet_az2_cidr"      { }
 
 
 # Resources
