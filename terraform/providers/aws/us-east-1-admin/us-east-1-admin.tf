@@ -17,6 +17,17 @@ variable "adm_vpc_private_route_table_id"   { }
 variable "adm_vpc_ecs_subnet_az1_cidr"      { }
 variable "adm_vpc_ecs_subnet_az2_cidr"      { }
 
+variable "cluster-name"                     { }
+variable "ami-id"                           { }
+variable "instance-type"                    { }
+variable "keypair-name"                     { }
+variable "user-data-file"                   { }
+variable "vpc-id"                           { }
+variable "subnet-ids"                       { }
+variable "azs"                              { }
+variable "max-size"                         { }
+variable "min-size"                         { }
+variable "desired-capacity"                 { }
 
 
 module "vpc" {
@@ -39,6 +50,24 @@ module "vpc" {
 
 }
 
+module "ecs" {
+    source = "../../../modules/aws/ecs"
 
+    cluster-name  = "${var.cluster-name}"
+    
+    # EC2 instance in the Cluster
+    ami-id         = "${var.ami-id}"
+    instance-type  = "${var.instance-type}"
+    keypair-name   = "${var.keypair-name}"
+    user-data-file = "${var.user-data-file}"
 
+    vpc-id         = "${var.vpc-id}"
+    subnet-ids     = "${var.subnet-ids}"
+    azs            = "${var.azs}"
 
+    # Auto-scaling group parameters
+    max-size         = "${var.max-size}"
+    min-size         = "${var.min-size}"
+    desired-capacity = "${var.desired-capacity}"
+
+}
