@@ -43,7 +43,7 @@ variable "as_max_size" {
     default = 2
 }
 
-variable "min-size" { 
+variable "as_min_size" { 
     description = "minimum number of instances in the cluster"
     default = 1
 }
@@ -164,7 +164,7 @@ resource "aws_autoscaling_group" "ecs-cluster-autoscaling-group" {
     availability_zones = ["${split(",", var.azs)}"]
 
     max_size = "${var.as_max_size}"
-    min_size = "${var.min-size}"
+    min_size = "${var.as_min_size}"
     health_check_grace_period = 300
     health_check_type = "ELB"
     desired_capacity = "${var.as_desired_capacity}"

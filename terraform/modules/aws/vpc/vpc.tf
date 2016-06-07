@@ -45,3 +45,6 @@ resource "aws_route_table_association" "rtbl_assoc_2" {
     subnet_id = "${aws_subnet.aip-adm-sn-private-ecs-az2.id}"
     route_table_id = "${var.adm_vpc_private_route_table_id}"
 }
+
+
+output "subnet_ids" { value = "${aws_subnet.aip-adm-sn-private-ecs-az1.id},${aws_subnet.aip-adm-sn-private-ecs-az2.id}" }

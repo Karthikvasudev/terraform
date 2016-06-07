@@ -5,27 +5,26 @@ variable "profile" 	{ default = "default" }
 
 provider "aws" {
     profile = "${var.profile}"
-	region = "${var.region}"
+    region = "${var.region}"
 }
 
 # Variables
 
-variable "adm_vpc_id"                       { }
-variable "adm_vpc_az1"                      { }
-variable "adm_vpc_az2"                      { }
-variable "adm_vpc_private_route_table_id"   { }
-variable "adm_vpc_ecs_subnet_az1_cidr"      { }
-variable "adm_vpc_ecs_subnet_az2_cidr"      { }
+variable "adm_vpc_id"                        { }
+variable "adm_vpc_az1"                       { }
+variable "adm_vpc_az2"                       { }
+variable "adm_vpc_private_route_table_id"    { }
+variable "adm_vpc_ecs_subnet_az1_cidr"       { }
+variable "adm_vpc_ecs_subnet_az2_cidr"       { }
 
-variable "adm_ecs_cluster_name"                     { }
-variable "adm_ecs_cluster_ami_id"                           { }
-variable "adm_ecs_cluster_instance_type"                    { }
-variable "adm_ecs_cluster_ec2_keypair"                     { }
-variable "adm_ecs_cluster_ec2_userdata"                   { }
-#variable "subnet_ids"                       { }
-variable "adm_ecs_cluster_autoscale_max"                         { }
-variable "adm_ecs_cluster_autoscale_min"                         { }
-variable "adm_ecs_cluster_autoscale_desired"                 { }
+variable "adm_ecs_cluster_name"              { }
+variable "adm_ecs_cluster_ami_id"            { }
+variable "adm_ecs_cluster_instance_type"     { }
+variable "adm_ecs_cluster_ec2_keypair"       { }
+variable "adm_ecs_cluster_ec2_userdata"      { }
+variable "adm_ecs_cluster_autoscale_max"     { }
+variable "adm_ecs_cluster_autoscale_min"     { }
+variable "adm_ecs_cluster_autoscale_desired" { }
 
 
 module "vpc" {
@@ -60,8 +59,8 @@ module "ecs" {
     user_data_file = "${var.adm_ecs_cluster_ec2_userdata}"
 
     vpc_id         = "${var.adm_vpc_id}"
-    subnet_ids     = "${var.subnet_ids}"
-    azs            = "${var.var.adm_vpc_az1},${var.var.adm_vpc_az2}"
+    subnet_ids     = "${module.vpc.subnet_ids}"
+    azs            = "${var.adm_vpc_az1},${var.adm_vpc_az2}"
 
     # Auto-scaling group parameters
     as_max_size         = "${var.adm_ecs_cluster_autoscale_max}"
