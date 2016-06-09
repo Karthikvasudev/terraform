@@ -53,6 +53,11 @@ variable "as_desired_capacity" {
     default = 1
 }
 
+variable "vpc_nat_instance_sg" {
+    description = "Security group associated to VPC's nat instance"
+}
+
+
 
 # Resources
 
@@ -175,4 +180,16 @@ resource "aws_autoscaling_group" "ecs-cluster-autoscaling-group" {
         value = "${var.cluster_name}-instance"
         propagate_at_launch = true
     }
+}
+
+
+resource "aws_security_group_rule" "vpc_nat_sg" {
+    type = "ingress"
+    from_port = 443
+    to_port = 443
+    protocol = "tcp"
+
+    source_security_group_id = "${aws_security_group.ecs-instance-security-group.id}"
+
+    security_group_id = "${var.vpc_nat_instance_sg}"
 }

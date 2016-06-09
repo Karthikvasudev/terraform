@@ -25,7 +25,7 @@ variable "adm_ecs_cluster_ec2_userdata"      { }
 variable "adm_ecs_cluster_autoscale_max"     { }
 variable "adm_ecs_cluster_autoscale_min"     { }
 variable "adm_ecs_cluster_autoscale_desired" { }
-
+variable "adm_vpc_nat_sg"                    { } 
 
 module "vpc" {
 
@@ -66,5 +66,8 @@ module "ecs" {
     as_max_size         = "${var.adm_ecs_cluster_autoscale_max}"
     as_min_size         = "${var.adm_ecs_cluster_autoscale_min}"
     as_desired_capacity = "${var.adm_ecs_cluster_autoscale_desired}"
+
+    # VPC nat instance Security Group id
+    vpc_nat_instance_sg = "${var.adm_vpc_nat_sg}"
 
 }
