@@ -17,6 +17,26 @@ adm_vpc_az2 = "us-east-1c"
 # Admin VPC Route Table Id
 adm_vpc_private_route_table_id = "rtb-2c3a8248"
 
+adm_vpc_nat_sg = "sg-e25b4685"
+
+
+# ELB Test
+
+adm_test_elb_name = "test-elb"
+
+adm_elb_test_listener_instance_port     = 8001
+adm_elb_test_listener_instance_protocol = "http"
+adm_elb_test_listener_lb_port           = 443
+adm_elb_test_listener_lb_protocol       = "https"
+
+adm_elb_test_elb_ssl_cert_arn      = "arn:aws:acm:us-east-1:661072482170:certificate/cb98db69-6fc9-452a-b4c2-fd8c437b8bc5"
+
+adm_elb_test_elb_healthy_threshold      = 2
+adm_elb_test_elb_unhealthy_threshold    = 2
+adm_elb_test_elb_health_check_timeout   = 3
+adm_elb_test_elb_health_check_url       = "HTTPS:443/"
+adm_elb_test_elb_health_check_interval  = 30
+
 
 # ECS Cluster
 
@@ -32,4 +52,3 @@ adm_ecs_cluster_autoscale_max     = 2
 adm_ecs_cluster_autoscale_min     = 1
 adm_ecs_cluster_autoscale_desired = 1
 
-adm_vpc_nat_sg = "sg-e25b4685"
