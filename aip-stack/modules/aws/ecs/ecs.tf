@@ -203,3 +203,5 @@ resource "aws_security_group_rule" "vpc_nat_sg" {
 
 	security_group_id = "${var.vpc_nat_instance_sg}"
 }
+
+output "cluster_id" { value = "${aws_ecs_cluster.ecs.id}" }

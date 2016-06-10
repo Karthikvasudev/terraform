@@ -34,7 +34,7 @@ adm_elb_test_elb_ssl_cert_arn      = "arn:aws:acm:us-east-1:661072482170:certifi
 adm_elb_test_elb_healthy_threshold      = 2
 adm_elb_test_elb_unhealthy_threshold    = 2
 adm_elb_test_elb_health_check_timeout   = 3
-adm_elb_test_elb_health_check_url       = "HTTPS:443/"
+adm_elb_test_elb_health_check_url       = "HTTP:8001/"
 adm_elb_test_elb_health_check_interval  = 30
 
 
@@ -51,3 +51,11 @@ adm_ecs_cluster_ec2_userdata  = "./admin-prod-us1/ecs-cluster-user-data.txt"
 adm_ecs_cluster_autoscale_max     = 2
 adm_ecs_cluster_autoscale_min     = 1
 adm_ecs_cluster_autoscale_desired = 1
+
+
+# Test ECS Cluster Service
+
+adm_ecs_service_ecs_service_name          = "nginx"
+adm_ecs_service_task_definition_file      = "./admin-prod-us1/nginx-golden.json"
+adm_ecs_service_ecs_task_name             = "nginx"
+adm_ecs_service_ecs_service_desired_count = 1

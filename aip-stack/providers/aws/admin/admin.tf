@@ -39,6 +39,10 @@ variable "adm_ecs_cluster_autoscale_max"     { }
 variable "adm_ecs_cluster_autoscale_min"     { }
 variable "adm_ecs_cluster_autoscale_desired" { }
  
+variable "adm_ecs_service_ecs_service_name"           { }
+variable "adm_ecs_service_task_definition_file"       { }
+variable "adm_ecs_service_ecs_task_name"              { }
+variable "adm_ecs_service_ecs_service_desired_count"  { }
 
 module "vpc" {
 
@@ -107,4 +111,22 @@ module "ecs" {
 	# VPC nat instance Security Group id
 	vpc_nat_instance_sg = "${var.adm_vpc_nat_sg}"
 	
+}
+
+module "test_ecs_service" {
+	source = "../../../modules/aws/ecs-service"
+
+	ecs_service_name     = "${var.adm_ecs_service_ecs_service_name}"
+
+	task_definition_file = "${var.adm_ecs_service_task_definition_file}"
+	ecs_task_name        = "${var.adm_ecs_service_ecs_task_name}"
+
+	ecs_cluser_id        = "${module.ecs.cluster_id}"
+
+	ecs_service_desired_count = "${var.adm_ecs_service_ecs_service_desired_count}"
+
+	#ecs_service_elb_name
+	#ecs_service_container_name" 
+	#ecs_service_container_port" 
+
 }
