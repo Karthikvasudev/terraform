@@ -36,24 +36,49 @@ variable "elb_ssl_cert_arn" {
 }
 
 variable "elb_healthy_threshold" {
-	description = "elb_health_check_threshold"
+	description = "elb health check threshold"
 }
 
 variable "elb_unhealthy_threshold" {
-	description = "elb_unhealthy_threshold"
+	description = "elb unhealthy threshold"
 }
 
 variable "elb_health_check_timeout" {
-	description = "elb_health_check_timeout"
+	description = "elb health check timeout"
 }
 
 variable "elb_health_check_url" {
-	description = "elb_health_check_url"
+	description = "elb health check url"
 }
 
 variable "elb_health_check_interval" {
-	description = "elb_health_check_interval"
+	description = "elb health check interval"
 }
+
+variable "elb_sec_group_ing_from_port" {
+	description = "elb security port - ingress port range begining from"
+}
+
+variable "elb_sec_group_ing_to_port" {
+	description = "elb security port - ingress port range ends at"
+}
+
+variable "elb_sec_group_ing_protocol" {
+	description = "elb security port - ingress protocol"
+}
+
+variable "elb_sec_group_eg_from_port" {
+	description = "elb security port - egress port range begining from"
+}
+
+variable "elb_sec_group_eg_to_port" {
+	description = "elb security port - egress port range ends at"
+}
+
+variable "elb_sec_group_eg_protocol" {
+	description = "elb security port - egress protocol"
+}
+
 
 # Resources
 
@@ -67,17 +92,17 @@ resource "aws_security_group" "elb-security-group" {
 	vpc_id = "${var.vpc_id}"
 
 	ingress {
-		from_port = 443
-		to_port = 443
-		protocol = "tcp"
+		from_port = "${var.elb_sec_group_ing_from_port}"
+		to_port   = "${var.elb_sec_group_ing_to_port}"
+		protocol  = "${var.elb_sec_group_ing_protocol}"
 		#security_groups = replace cidr block appropriately
 		cidr_blocks = ["0.0.0.0/0"]
 	}
 
 	egress {
-		from_port = 8000
-		to_port = 9000
-		protocol = "tcp"
+		from_port = "${var.elb_sec_group_eg_from_port}"
+		to_port   = "${var.elb_sec_group_eg_to_port}"
+		protocol  = "${var.elb_sec_group_eg_protocol}"
 		cidr_blocks = ["0.0.0.0/0"]
 	}
 
@@ -94,19 +119,19 @@ resource "aws_elb" "elb" {
 	security_groups = ["${aws_security_group.elb-security-group.id}"]
 
 	listener {
-		instance_port = "${var.listener_instance_port}"
-		instance_protocol = "${var.listener_instance_protocol}"
-		lb_port = "${var.listener_lb_port}"
-		lb_protocol = "${var.listener_lb_protocol}"
+		instance_port      = "${var.listener_instance_port}"
+		instance_protocol  = "${var.listener_instance_protocol}"
+		lb_port            = "${var.listener_lb_port}"
+		lb_protocol        = "${var.listener_lb_protocol}"
 		ssl_certificate_id = "${var.elb_ssl_cert_arn}"
 	}
 
 	health_check {
-		healthy_threshold = "${var.elb_healthy_threshold}"
+		healthy_threshold   = "${var.elb_healthy_threshold}"
 		unhealthy_threshold = "${var.elb_unhealthy_threshold}"
-		timeout = "${var.elb_health_check_timeout}"
-		target = "${var.elb_health_check_url}"
-		interval = "${var.elb_health_check_interval}"
+		timeout             = "${var.elb_health_check_timeout}"
+		target              = "${var.elb_health_check_url}"
+		interval            = "${var.elb_health_check_interval}"
 	}
 
 	tags {
@@ -114,5 +139,9 @@ resource "aws_elb" "elb" {
 	}
 } 
 
-output "elb_id"	{ value = "${aws_elb.elb.id}" }
+output "elb_id"	    { value = "${aws_elb.elb.id}" }
+output "elb_name"   { value = "${aws_elb.elb.name}" }
+output "dns_name"   { value = "${aws_elb.elb.dns_name}" }
+output "zone_id"    { value = "${aws_elb.elb.zone_id}" }
+
 output "elb_sg_id"	{ value = "${aws_security_group.elb-security-group.id}" }

@@ -20,24 +20,6 @@ adm_vpc_private_route_table_id = "rtb-1942f17d"
 adm_vpc_nat_sg = "sg-f37b7794"
 
 
-# ELB Test
-
-adm_test_elb_name = "test-elb"
-
-adm_elb_test_listener_instance_port     = 8001
-adm_elb_test_listener_instance_protocol = "http"
-adm_elb_test_listener_lb_port           = 443
-adm_elb_test_listener_lb_protocol       = "https"
-
-adm_elb_test_elb_ssl_cert_arn      = "arn:aws:acm:us-east-1:661072482170:certificate/cb98db69-6fc9-452a-b4c2-fd8c437b8bc5"
-
-adm_elb_test_elb_healthy_threshold      = 2
-adm_elb_test_elb_unhealthy_threshold    = 2
-adm_elb_test_elb_health_check_timeout   = 3
-adm_elb_test_elb_health_check_url       = "HTTP:8001/"
-adm_elb_test_elb_health_check_interval  = 30
-
-
 # ECS Cluster
 
 # must mention the below cluster name in the user-data-file too
@@ -53,9 +35,31 @@ adm_ecs_cluster_autoscale_min     = 1
 adm_ecs_cluster_autoscale_desired = 1
 
 
-# Test ECS Cluster Service
+# ECS Service Test - Nginx
 
-adm_ecs_service_ecs_service_name          = "nginx"
-adm_ecs_service_task_definition_file      = "./admin-prod-us1/nginx-golden.json"
-adm_ecs_service_ecs_task_name             = "nginx"
-adm_ecs_service_ecs_service_desired_count = 1
+adm_ecs_service_test_service_name         = "nginx"
+adm_ecs_service_test_task_name            = "nginx"
+adm_ecs_service_test_task_definition_file = "./admin-prod-us1/nginx-golden.json"
+adm_ecs_service_test_container_name       = "nginx"
+adm_ecs_service_test_container_port       = "80"
+adm_ecs_service_test_desired_count        = 2
+
+adm_ecs_service_test_elb_listener_instance_port     = 8001
+adm_ecs_service_test_elb_listener_instance_protocol = "http"
+adm_ecs_service_test_elb_listener_lb_port           = 443
+adm_ecs_service_test_elb_listener_lb_protocol       = "https"
+adm_ecs_service_test_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/cb98db69-6fc9-452a-b4c2-fd8c437b8bc5"
+adm_ecs_service_test_elb_healthy_threshold     = 2
+adm_ecs_service_test_elb_unhealthy_threshold   = 2
+adm_ecs_service_test_elb_health_check_timeout  = 3
+adm_ecs_service_test_elb_health_check_url      = "HTTP:8001/"
+adm_ecs_service_test_elb_health_check_interval = 30
+adm_ecs_service_test_elb_sec_group_ing_from_port = 443
+adm_ecs_service_test_elb_sec_group_ing_to_port   = 443 
+adm_ecs_service_test_elb_sec_group_ing_protocol  = "tcp"
+adm_ecs_service_test_elb_sec_group_eg_from_port  = 0
+adm_ecs_service_test_elb_sec_group_eg_to_port    = 0
+adm_ecs_service_test_elb_sec_group_eg_protocol   = "-1"
+
+adm_ecs_service_zone_id       = "ZWNUK1RZNC5G5"
+adm_ecs_service_test_dns_name = "jira.aipadmin.com"

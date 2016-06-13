@@ -18,17 +18,7 @@ variable "adm_vpc_ecs_subnet_az1_cidr"       { }
 variable "adm_vpc_ecs_subnet_az2_cidr"       { }
 variable "adm_vpc_nat_sg"                    { }
 
-variable "adm_test_elb_name"                        { }
-variable "adm_elb_test_listener_instance_port"      { }
-variable "adm_elb_test_listener_instance_protocol"  { }
-variable "adm_elb_test_listener_lb_port"            { }
-variable "adm_elb_test_listener_lb_protocol"        { }
-variable "adm_elb_test_elb_ssl_cert_arn"            { }
-variable "adm_elb_test_elb_healthy_threshold"       { }
-variable "adm_elb_test_elb_unhealthy_threshold"     { }
-variable "adm_elb_test_elb_health_check_timeout"    { }
-variable "adm_elb_test_elb_health_check_url"        { }
-variable "adm_elb_test_elb_health_check_interval"   { }
+# ECS Cluster
 
 variable "adm_ecs_cluster_name"              { }
 variable "adm_ecs_cluster_ami_id"            { }
@@ -39,10 +29,35 @@ variable "adm_ecs_cluster_autoscale_max"     { }
 variable "adm_ecs_cluster_autoscale_min"     { }
 variable "adm_ecs_cluster_autoscale_desired" { }
  
-variable "adm_ecs_service_ecs_service_name"           { }
-variable "adm_ecs_service_task_definition_file"       { }
-variable "adm_ecs_service_ecs_task_name"              { }
-variable "adm_ecs_service_ecs_service_desired_count"  { }
+# ECS Service - Test
+
+variable "adm_ecs_service_test_service_name"                   { }
+variable "adm_ecs_service_test_task_name"                      { }
+variable "adm_ecs_service_test_task_definition_file"           { }
+variable "adm_ecs_service_test_container_name"                 { }
+variable "adm_ecs_service_test_container_port"                 { }
+variable "adm_ecs_service_test_desired_count"                  { }
+
+variable "adm_ecs_service_test_elb_listener_instance_port"     { }
+variable "adm_ecs_service_test_elb_listener_instance_protocol" { }
+variable "adm_ecs_service_test_elb_listener_lb_port"           { }
+variable "adm_ecs_service_test_elb_listener_lb_protocol"       { }
+variable "adm_ecs_service_test_elb_ssl_cert_arn"               { }
+variable "adm_ecs_service_test_elb_healthy_threshold"          { }
+variable "adm_ecs_service_test_elb_unhealthy_threshold"        { }
+variable "adm_ecs_service_test_elb_health_check_timeout"       { }
+variable "adm_ecs_service_test_elb_health_check_url"           { }
+variable "adm_ecs_service_test_elb_health_check_interval"      { }
+variable "adm_ecs_service_test_elb_sec_group_ing_from_port"    { }
+variable "adm_ecs_service_test_elb_sec_group_ing_to_port"      { }
+variable "adm_ecs_service_test_elb_sec_group_ing_protocol"     { }
+variable "adm_ecs_service_test_elb_sec_group_eg_from_port"     { }
+variable "adm_ecs_service_test_elb_sec_group_eg_to_port"       { }
+variable "adm_ecs_service_test_elb_sec_group_eg_protocol"      { }
+
+variable "adm_ecs_service_zone_id"         { }
+variable "adm_ecs_service_test_dns_name"   { }
+
 
 module "vpc" {
 
@@ -64,6 +79,7 @@ module "vpc" {
 
 }
 
+/*
 module "elb" {
 	source = "../../../modules/aws/elb"
 
@@ -85,7 +101,14 @@ module "elb" {
 	elb_health_check_url      = "${var.adm_elb_test_elb_health_check_url}"
 	elb_health_check_interval = "${var.adm_elb_test_elb_health_check_interval}"
 
-}
+	elb_sec_group_ing_from_port = "${var.adm_elb_test_elb_sec_group_ing_from_port}"
+	elb_sec_group_ing_to_port   = "${var.adm_elb_test_elb_sec_group_ing_to_port}"
+	elb_sec_group_ing_protocol  = "${var.adm_elb_test_elb_sec_group_ing_protocol}"
+
+	elb_sec_group_eg_from_port  = "${var.adm_elb_test_elb_sec_group_eg_from_port}"
+	elb_sec_group_eg_to_port    = "${var.adm_elb_test_elb_sec_group_eg_to_port}"
+	elb_sec_group_eg_protocol   = "${var.adm_elb_test_elb_sec_group_eg_protocol}"
+} */
 
 module "ecs" {
 	source = "../../../modules/aws/ecs"
@@ -106,7 +129,7 @@ module "ecs" {
 	as_max_size         = "${var.adm_ecs_cluster_autoscale_max}"
 	as_min_size         = "${var.adm_ecs_cluster_autoscale_min}"
 	as_desired_capacity = "${var.adm_ecs_cluster_autoscale_desired}"
-	elbs                = "${module.elb.elb_id}"
+	#elbs                = "${module.elb.elb_id}"
 
 	# VPC nat instance Security Group id
 	vpc_nat_instance_sg = "${var.adm_vpc_nat_sg}"
@@ -116,17 +139,37 @@ module "ecs" {
 module "test_ecs_service" {
 	source = "../../../modules/aws/ecs-service"
 
-	ecs_service_name     = "${var.adm_ecs_service_ecs_service_name}"
-
-	task_definition_file = "${var.adm_ecs_service_task_definition_file}"
-	ecs_task_name        = "${var.adm_ecs_service_ecs_task_name}"
-
 	ecs_cluser_id        = "${module.ecs.cluster_id}"
 
-	ecs_service_desired_count = "${var.adm_ecs_service_ecs_service_desired_count}"
+	ecs_service_name     = "${var.adm_ecs_service_test_service_name}"
+	ecs_task_name        = "${var.adm_ecs_service_test_task_name}"
+	task_definition_file = "${var.adm_ecs_service_test_task_definition_file}"
+	ecs_service_container_name = "${var.adm_ecs_service_test_container_name}"
+	ecs_service_container_port = "${var.adm_ecs_service_test_container_port}"
+	ecs_service_desired_count  = "${var.adm_ecs_service_test_desired_count}"
 
-	#ecs_service_elb_name
-	#ecs_service_container_name" 
-	#ecs_service_container_port" 
+
+	vpc_id         = "${var.adm_vpc_id}"
+	subnet_ids     = "${module.vpc.subnet_ids}"
+
+	ecs_service_elb_listener_instance_port     = "${var.adm_ecs_service_test_elb_listener_instance_port}"
+	ecs_service_elb_listener_instance_protocol = "${var.adm_ecs_service_test_elb_listener_instance_protocol}"
+	ecs_service_elb_listener_lb_port           = "${var.adm_ecs_service_test_elb_listener_lb_port}"
+	ecs_service_elb_listener_lb_protocol       = "${var.adm_ecs_service_test_elb_listener_lb_protocol}"
+	ecs_service_elb_ssl_cert_arn          = "${var.adm_ecs_service_test_elb_ssl_cert_arn}"
+	ecs_service_elb_healthy_threshold     = "${var.adm_ecs_service_test_elb_healthy_threshold}"
+	ecs_service_elb_unhealthy_threshold   = "${var.adm_ecs_service_test_elb_unhealthy_threshold}"
+	ecs_service_elb_health_check_timeout  = "${var.adm_ecs_service_test_elb_health_check_timeout}"
+	ecs_service_elb_health_check_url      = "${var.adm_ecs_service_test_elb_health_check_url}"
+	ecs_service_elb_health_check_interval = "${var.adm_ecs_service_test_elb_health_check_interval}"
+	ecs_service_elb_sec_group_ing_from_port = "${var.adm_ecs_service_test_elb_sec_group_ing_from_port}"
+	ecs_service_elb_sec_group_ing_to_port   = "${var.adm_ecs_service_test_elb_sec_group_ing_to_port}"
+	ecs_service_elb_sec_group_ing_protocol  = "${var.adm_ecs_service_test_elb_sec_group_ing_protocol}"
+	ecs_service_elb_sec_group_eg_from_port  = "${var.adm_ecs_service_test_elb_sec_group_eg_from_port}"
+	ecs_service_elb_sec_group_eg_to_port    = "${var.adm_ecs_service_test_elb_sec_group_eg_to_port}"
+	ecs_service_elb_sec_group_eg_protocol   = "${var.adm_ecs_service_test_elb_sec_group_eg_protocol}"
+
+	ecs_service_dns_zone_id = "${var.adm_ecs_service_zone_id}"
+	ecs_service_dns_name    = "${var.adm_ecs_service_test_dns_name}"
 
 }

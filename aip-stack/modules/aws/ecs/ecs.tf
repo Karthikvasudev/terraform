@@ -53,9 +53,9 @@ variable "as_desired_capacity" {
 	default = 1
 }
 
-variable "elbs" {
-	description = "List of elbs to associate to autoscaling group"
-}
+#variable "elbs" {
+#	description = "List of elbs to associate to autoscaling group"
+#}
 
 variable "vpc_nat_instance_sg" {
 	description = "Security group associated to VPC's nat instance"
@@ -104,7 +104,6 @@ resource "aws_iam_policy_attachment" "ecs-instance-policy" {
 	policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
-
 /*
  * instance profile with iam role
  */
@@ -126,16 +125,16 @@ resource "aws_security_group" "ecs-instance-security-group" {
 
 	ingress {
 		from_port = 8000
-		to_port = 9000
-		protocol = "tcp"
+		to_port   = 9000
+		protocol  = "tcp"
 		#security_groups = replace cidr block with id of aip-adm-sg-elb
 		cidr_blocks = ["0.0.0.0/0"]
 	}
 
 	egress {
 		from_port = 0
-		to_port = 0
-		protocol = "-1"
+		to_port   = 0
+		protocol  = "-1"
 		cidr_blocks = ["0.0.0.0/0"]
 	}
 
@@ -160,6 +159,8 @@ resource "aws_launch_configuration" "ecs-cluster-launch-configuration" {
 	user_data = "${file(var.user_data_file)}"
 	security_groups = ["${aws_security_group.ecs-instance-security-group.id}"]
 	key_name = "${var.keypair_name}"
+
+	depends_on = ["aws_iam_instance_profile.ecs-instance-profile"]
 }
 
 
@@ -179,11 +180,12 @@ resource "aws_autoscaling_group" "ecs-cluster-autoscaling-group" {
 	max_size = "${var.as_max_size}"
 	min_size = "${var.as_min_size}"
 	health_check_grace_period = 300
-	health_check_type = "ELB"
+	health_check_type = "EC2"
 	desired_capacity = "${var.as_desired_capacity}"
 	force_delete = true
 
-	load_balancers = ["${split(",", var.elbs)}"]
+	# per service load balancers will be created
+	#load_balancers = ["${split(",", var.elbs)}"]
 
 	tag {
 		key = "Name"
@@ -196,8 +198,8 @@ resource "aws_autoscaling_group" "ecs-cluster-autoscaling-group" {
 resource "aws_security_group_rule" "vpc_nat_sg" {
 	type = "ingress"
 	from_port = 443
-	to_port = 443
-	protocol = "tcp"
+	to_port   = 443
+	protocol  = "tcp"
 
 	source_security_group_id = "${aws_security_group.ecs-instance-security-group.id}"
 
