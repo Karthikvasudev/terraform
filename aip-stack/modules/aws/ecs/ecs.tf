@@ -1,6 +1,6 @@
 /*
  * TF configuration to create an ecs cluster
- *    add ec2 instance to the cluster
+ * and add ec2 instances to the cluster
  */
 
 # Variables
@@ -53,27 +53,51 @@ variable "as_desired_capacity" {
 	default = 1
 }
 
-#variable "elbs" {
-#	description = "List of elbs to associate to autoscaling group"
-#}
-
 variable "vpc_nat_instance_sg" {
 	description = "Security group associated to VPC's nat instance"
 }
 
+variable "ecs_instance_sec_group_ing_from_port" {
+	description = "ecs instance sec group - ingress 'from port'"
+}
+
+variable "ecs_instance_sec_group_ing_to_port" {
+	description = "ecs instance sec group - ingress 'to port'"
+}
+
+variable "ecs_instance_sec_group_ing_protocol" {
+	description = "ecs_instance_sec_group_ing_protocol"
+}
+
+variable "ecs_instance_sec_group_ingress_cidrs" {
+	description = "ecs_instance_sec_group_ingress_cidrs"
+}
+
+variable "ecs_instance_sec_group_eg_from_port" {
+	description = "ecs_instance_sec_group_eg_from_port"
+}
+
+variable "ecs_instance_sec_group_eg_to_port" {
+	description = "ecs_instance_sec_group_eg_to_port"
+}
+
+variable "ecs_instance_sec_group_eg_protocol" {
+	description = "ecs_instance_sec_group_eg_protocol"
+}
 
 
 # Resources
 
+/*
+ * creates an ecs cluster
+ */
 resource "aws_ecs_cluster" "ecs" {
 	name = "${var.cluster_name}"
 }
 
-
 /*
- *  iam role with trust policy
+ *  ecs instance iam role with trust policy
  */
-
 resource "aws_iam_role" "ecs-instance-role" {
 	name = "${var.cluster_name}-role"
 	assume_role_policy = <<EOF
@@ -97,7 +121,6 @@ EOF
 /*
  * attach ecs managed policy to the iam role
  */
-
 resource "aws_iam_policy_attachment" "ecs-instance-policy" {
 	name = "${var.cluster_name}-instance-policy"
 	roles = ["${aws_iam_role.ecs-instance-role.name}"]
@@ -105,9 +128,8 @@ resource "aws_iam_policy_attachment" "ecs-instance-policy" {
 }
 
 /*
- * instance profile with iam role
+ * instance profile with ecs instance iam role
  */
-
 resource "aws_iam_instance_profile" "ecs-instance-profile" {
 	name = "${var.cluster_name}-instance-profile"
 	roles = ["${aws_iam_role.ecs-instance-role.name}"]
@@ -115,40 +137,35 @@ resource "aws_iam_instance_profile" "ecs-instance-profile" {
 
 
 /*
- * ecs cluster instance security group
+ * security group associated to the ecs cluster instances
  */
-
 resource "aws_security_group" "ecs-instance-security-group" {
-	name = "${var.cluster_name}-sg"
+	name = "${var.cluster_name}-instance-sg"
 	description = "Sec group associated to ${var.cluster_name} instance"
 	vpc_id = "${var.vpc_id}"
 
 	ingress {
-		from_port = 8000
-		to_port   = 9000
-		protocol  = "tcp"
-		#security_groups = replace cidr block with id of aip-adm-sg-elb
-		cidr_blocks = ["0.0.0.0/0"]
+		from_port = "${var.ecs_instance_sec_group_ing_from_port}"
+		to_port   = "${var.ecs_instance_sec_group_ing_to_port}"
+		protocol  = "${var.ecs_instance_sec_group_ing_protocol}"
+		cidr_blocks = ["${split(",", var.ecs_instance_sec_group_ingress_cidrs)}"]
 	}
 
 	egress {
-		from_port = 0
-		to_port   = 0
-		protocol  = "-1"
+		from_port = "${var.ecs_instance_sec_group_eg_from_port}"
+		to_port   = "${var.ecs_instance_sec_group_eg_to_port}"
+		protocol  = "${var.ecs_instance_sec_group_eg_protocol}"
 		cidr_blocks = ["0.0.0.0/0"]
 	}
 
 	tags {
-		Name = "${var.cluster_name}-sg"
-	}	
+		Name = "${var.cluster_name}-instance-sg"
+	}
 }
 
-
 /*
- * ec2 launch configuraion 
- * inputs : ami id, instance type, user_data file, keypair name
+ * ec2 launch configuraion of the cluster instances
  */
-
 resource "aws_launch_configuration" "ecs-cluster-launch-configuration" {
 	name = "${var.cluster_name}-launch-configuration"
 
@@ -163,38 +180,34 @@ resource "aws_launch_configuration" "ecs-cluster-launch-configuration" {
 	depends_on = ["aws_iam_instance_profile.ecs-instance-profile"]
 }
 
-
 /*
- * auto scaling group
- * inputs: azs, max_size, min_size, desired capacity
+ * auto scaling group to associate to the cluster instances
  */
-
 resource "aws_autoscaling_group" "ecs-cluster-autoscaling-group" {
 	name = "${var.cluster_name}-autoscaling-group"
 
 	launch_configuration = "${aws_launch_configuration.ecs-cluster-launch-configuration.name}"
 
 	vpc_zone_identifier = ["${split(",", var.subnet_ids)}"]
-	availability_zones = ["${split(",", var.azs)}"]
+	availability_zones  = ["${split(",", var.azs)}"]
 
 	max_size = "${var.as_max_size}"
 	min_size = "${var.as_min_size}"
 	health_check_grace_period = 300
 	health_check_type = "EC2"
-	desired_capacity = "${var.as_desired_capacity}"
+	desired_capacity  = "${var.as_desired_capacity}"
 	force_delete = true
 
-	# per service load balancers will be created
-	#load_balancers = ["${split(",", var.elbs)}"]
-
 	tag {
-		key = "Name"
+		key   = "Name"
 		value = "${var.cluster_name}-instance"
 		propagate_at_launch = true
 	}
 }
 
-
+/*
+ * allow cluster instance to access nat instance over SSL port
+ */
 resource "aws_security_group_rule" "vpc_nat_sg" {
 	type = "ingress"
 	from_port = 443
@@ -206,4 +219,8 @@ resource "aws_security_group_rule" "vpc_nat_sg" {
 	security_group_id = "${var.vpc_nat_instance_sg}"
 }
 
+
+# Outputs
+
 output "cluster_id" { value = "${aws_ecs_cluster.ecs.id}" }
+output "cluster_instance_sg_id" { value = "${aws_security_group.ecs-instance-security-group.id}"}

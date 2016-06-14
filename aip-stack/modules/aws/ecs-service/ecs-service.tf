@@ -2,13 +2,15 @@
 /*
  * TF module to create an ecs service. 
  * This stack consists of :
- *   -  ECS Service, Task
+ *   -  ECS Service, Task, IAM role
  *   -  ELB to the Service instances
  *   -  DNS record to the Service
  */
 
+# Variables  
+
 /* ------------------------------------------------------------------------- */
- # Variables  - ECS Service, Task
+ #  ECS Service, Task
 /* ------------------------------------------------------------------------- */
 
 variable "ecs_service_name" {
@@ -39,8 +41,12 @@ variable "ecs_service_container_port" {
 	description = "container port as mentioned in task definition file"
 }
 
+variable "ecs_service_role_arn" {
+	description = "ecs service iam role arn"
+}
+
 /* ------------------------------------------------------------------------- */
- # Variables  - ELB for the ECS Service
+ # ELB for the ECS Service
 /* ------------------------------------------------------------------------- */
 
 variable "vpc_id" {
@@ -102,6 +108,10 @@ variable "ecs_service_elb_sec_group_ing_protocol" {
 	description = "elb security port - ingress protocol"
 }
 
+variable "ecs_service_elb_sec_group_ing_cidr_blocks" {
+	description = "elb security port - ingress cidr blocks"
+}
+
 variable "ecs_service_elb_sec_group_eg_from_port" {
 	description = "elb security port - egress port range begining from"
 }
@@ -114,8 +124,12 @@ variable "ecs_service_elb_sec_group_eg_protocol" {
 	description = "elb security port - egress protocol"
 }
 
+variable "ecs-service-instance-security-group-id" {
+	description = "ecs service instance's security group id"
+}
+
 /* ------------------------------------------------------------------------- */
- # Variables  - DNS Record
+ # DNS Record
 /* ------------------------------------------------------------------------- */
 
 variable "ecs_service_dns_zone_id" {
@@ -126,11 +140,15 @@ variable "ecs_service_dns_name" {
 	description = "domain name of the service"
 }
 
+# Resources
 
 /* ------------------------------------------------------------------------- */
- # Resources - ECS service load balancer
+ # ECS service load balancer
 /* ------------------------------------------------------------------------- */
 
+/*
+ * Load balancrer to associate to the ecs service hosted in the cluster
+ */
  module "ecs_service_elb" {
 
 	source = "../elb"
@@ -152,9 +170,10 @@ variable "ecs_service_dns_name" {
 	elb_health_check_url        = "${var.ecs_service_elb_health_check_url}"
 	elb_health_check_interval   = "${var.ecs_service_elb_health_check_interval}"
 
-	elb_sec_group_ing_from_port = "${var.ecs_service_elb_sec_group_ing_from_port}"
-	elb_sec_group_ing_to_port   = "${var.ecs_service_elb_sec_group_ing_to_port}"
-	elb_sec_group_ing_protocol  = "${var.ecs_service_elb_sec_group_ing_protocol}"
+	elb_sec_group_ing_from_port   = "${var.ecs_service_elb_sec_group_ing_from_port}"
+	elb_sec_group_ing_to_port     = "${var.ecs_service_elb_sec_group_ing_to_port}"
+	elb_sec_group_ing_protocol    = "${var.ecs_service_elb_sec_group_ing_protocol}"
+	elb_sec_group_ing_cidr_blocks = "${var.ecs_service_elb_sec_group_ing_cidr_blocks}"
 	
 	elb_sec_group_eg_from_port  = "${var.ecs_service_elb_sec_group_eg_from_port}"
 	elb_sec_group_eg_to_port    = "${var.ecs_service_elb_sec_group_eg_to_port}"
@@ -163,15 +182,14 @@ variable "ecs_service_dns_name" {
 
 
 /* ------------------------------------------------------------------------- */
- # Resources - ECS Service, Task, Service IAM role
+ # ECS Service, Task, Service IAM role
 /* ------------------------------------------------------------------------- */
 
 /*
- *  iam role with trust policy
+ * iam role to associate to the ecs container instances
  */
-
 resource "aws_iam_role" "ecs-service-role" {
-	name = "${var.ecs_service_name}-service-role"
+	name = "${var.ecs_service_name}-ecs-service-role"
 	assume_role_policy = <<EOF
 {
   "Version": "2008-10-17",
@@ -180,7 +198,7 @@ resource "aws_iam_role" "ecs-service-role" {
 	  "Sid": "",
 	  "Effect": "Allow",
 	  "Principal": {
-		"Service": "ec2.amazonaws.com"
+		"Service": "ecs.amazonaws.com"
 	  },
 	  "Action": "sts:AssumeRole"
 	}
@@ -189,33 +207,35 @@ resource "aws_iam_role" "ecs-service-role" {
 EOF
 }
 
-
 /*
- * attach ecs managed policy to the iam role
+ * attaches ecs managed policy to the ecs service iam role
  */
-
 resource "aws_iam_policy_attachment" "ecs-service-policy" {
-	name = "${var.ecs_service_name}-service-policy"
+	name = "${var.ecs_service_name}-ecs-service-role-policy"
 	roles = ["${aws_iam_role.ecs-service-role.name}"]
 	policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }
 
-
+/*
+ * ecs task definition, task details to be provided in json file
+ */
 resource "aws_ecs_task_definition" "ecs_task" {
 	family = "${var.ecs_task_name}"
 	container_definitions = "${file(var.task_definition_file)}"
 }
 
+/*
+ * creates ecs service, associates role and load balancer to the service
+ */
 resource "aws_ecs_service" "ecs_service" {
 	name = "${var.ecs_service_name}"
 
 	cluster         = "${var.ecs_cluser_id}"
 	task_definition = "${aws_ecs_task_definition.ecs_task.arn}"
 	desired_count   = "${var.ecs_service_desired_count}"
-	#iam_role        = "${aws_iam_role.ecs-service-role.arn}"
-	iam_role        = "arn:aws:iam::661072482170:role/nginx-service-role-tmp"
+	iam_role        = "${aws_iam_role.ecs-service-role.arn}"
 
-	depends_on = ["aws_iam_role.ecs-service-role", "aws_iam_policy_attachment.ecs-service-policy"]
+	depends_on = ["aws_iam_role.ecs-service-role"]
 
 	load_balancer {
 		elb_name = "${module.ecs_service_elb.elb_name}"
@@ -224,11 +244,27 @@ resource "aws_ecs_service" "ecs_service" {
 	}
 }
 
+/* 
+ * sec group rule associated to the cluster instance to allow inbound to this service
+ */
+resource "aws_security_group_rule" "ecs_service_instance_sg_rule" {
+	type = "ingress"
+	from_port = "${var.ecs_service_elb_listener_instance_port}"
+	to_port   = "${var.ecs_service_elb_listener_instance_port}"
+	protocol  = "tcp"
+
+	source_security_group_id = "${module.ecs_service_elb.elb_sg_id}"
+
+	security_group_id = "${var.ecs-service-instance-security-group-id}"
+}
 
 /* ------------------------------------------------------------------------- */
- # Resources - DNS Record
+ # DNS Record
 /* ------------------------------------------------------------------------- */
 
+/*
+ * creates dns alias record for the service in route53 
+ */
 resource "aws_route53_record" "ecs_service_dns" {
 	zone_id = "${var.ecs_service_dns_zone_id}"
 	name    = "${var.ecs_service_dns_name}"
@@ -240,3 +276,7 @@ resource "aws_route53_record" "ecs_service_dns" {
 		evaluate_target_health = true
 	}
 }
+
+# Outputs
+
+output "service_name" { value = "${aws_ecs_service.ecs_service.name}" }

@@ -67,6 +67,10 @@ variable "elb_sec_group_ing_protocol" {
 	description = "elb security port - ingress protocol"
 }
 
+variable "elb_sec_group_ing_cidr_blocks" {
+	description = "elb security group - ingress allow cidr blocks"
+}
+
 variable "elb_sec_group_eg_from_port" {
 	description = "elb security port - egress port range begining from"
 }
@@ -83,9 +87,8 @@ variable "elb_sec_group_eg_protocol" {
 # Resources
 
 /*
- * elb instance security group
+ * elb security group
  */
-
 resource "aws_security_group" "elb-security-group" {
 	name = "${var.elb_name}-sg"
 	description = "Sec group associated to ${var.elb_name} load balancer"
@@ -95,8 +98,7 @@ resource "aws_security_group" "elb-security-group" {
 		from_port = "${var.elb_sec_group_ing_from_port}"
 		to_port   = "${var.elb_sec_group_ing_to_port}"
 		protocol  = "${var.elb_sec_group_ing_protocol}"
-		#security_groups = replace cidr block appropriately
-		cidr_blocks = ["0.0.0.0/0"]
+		cidr_blocks = ["${split(",", var.elb_sec_group_ing_cidr_blocks)}"]
 	}
 
 	egress {
@@ -111,6 +113,9 @@ resource "aws_security_group" "elb-security-group" {
 	}
 }
 
+/*
+ * creates elb and associates security group
+ */
 resource "aws_elb" "elb" {
 	name = "${var.elb_name}"
 
@@ -138,6 +143,8 @@ resource "aws_elb" "elb" {
 		Name = "${var.elb_name}"
 	}
 } 
+
+# Outputs
 
 output "elb_id"	    { value = "${aws_elb.elb.id}" }
 output "elb_name"   { value = "${aws_elb.elb.name}" }
