@@ -59,14 +59,17 @@ variable "vpc_nat_instance_sg" {
 
 variable "ecs_instance_sec_group_ing_from_port" {
 	description = "ecs instance sec group - ingress 'from port'"
+	default = 22
 }
 
 variable "ecs_instance_sec_group_ing_to_port" {
 	description = "ecs instance sec group - ingress 'to port'"
+	default = 22
 }
 
 variable "ecs_instance_sec_group_ing_protocol" {
 	description = "ecs_instance_sec_group_ing_protocol"
+	default = "tcp"
 }
 
 variable "ecs_instance_sec_group_ingress_cidrs" {
@@ -75,14 +78,17 @@ variable "ecs_instance_sec_group_ingress_cidrs" {
 
 variable "ecs_instance_sec_group_eg_from_port" {
 	description = "ecs_instance_sec_group_eg_from_port"
+	default = 0
 }
 
 variable "ecs_instance_sec_group_eg_to_port" {
 	description = "ecs_instance_sec_group_eg_to_port"
+	default = 0
 }
 
 variable "ecs_instance_sec_group_eg_protocol" {
 	description = "ecs_instance_sec_group_eg_protocol"
+	default = "-1"
 }
 
 

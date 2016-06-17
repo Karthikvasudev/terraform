@@ -31,18 +31,17 @@ variable "ecs_cluser_id" {
 
 variable "ecs_service_desired_count" {
 	description = "desired count of the ecs service containers"
+	default = 1
 }
 
 variable "ecs_service_container_name" {
 	description = "container name as mentioned in task definition file"
+	default = "nginx"
 }
 
 variable "ecs_service_container_port" {
 	description = "container port as mentioned in task definition file"
-}
-
-variable "ecs_service_role_arn" {
-	description = "ecs service iam role arn"
+	default = 80
 }
 
 /* ------------------------------------------------------------------------- */
@@ -63,13 +62,16 @@ variable "ecs_service_elb_listener_instance_port" {
 
 variable "ecs_service_elb_listener_instance_protocol" {
 	description = "listener instance protocol"
+	default = "http"
 }
 variable "ecs_service_elb_listener_lb_port" {
 	description = "listener elb port"
+	default = 443
 }
 
 variable "ecs_service_elb_listener_lb_protocol" {
 	description = "listener elb protocol"
+	default = "https"
 }
 
 variable "ecs_service_elb_ssl_cert_arn" {
@@ -77,51 +79,62 @@ variable "ecs_service_elb_ssl_cert_arn" {
 }
 
 variable "ecs_service_elb_healthy_threshold" {
-	description = "elb_health_check_threshold"
+	description = "elb health check threshold"
+	default = 2
 }
 
 variable "ecs_service_elb_unhealthy_threshold" {
-	description = "elb_unhealthy_threshold"
+	description = "elb unhealthy threshold"
+	default = 2
 }
 
 variable "ecs_service_elb_health_check_timeout" {
-	description = "elb_health_check_timeout"
+	description = "elb health check timeout"
+	default = 3
 }
 
 variable "ecs_service_elb_health_check_url" {
-	description = "elb_health_check_url"
+	description = "elb health check url"
 }
 
 variable "ecs_service_elb_health_check_interval" {
-	description = "elb_health_check_interval"
+	description = "elb health check interval"
+	default = 30
 }
 
 variable "ecs_service_elb_sec_group_ing_from_port" {
-	description = "elb security port - ingress port range begining from"
+	description = "elb security group - ingress port range begining from"
+	default = 443
 }
 
 variable "ecs_service_elb_sec_group_ing_to_port" {
-	description = "elb security port - ingress port range ends at"
+	description = "elb security group - ingress port range ends at"
+	default = 443
 }
 
 variable "ecs_service_elb_sec_group_ing_protocol" {
-	description = "elb security port - ingress protocol"
+	description = "elb security group - ingress protocol"
+	default = "tcp"
 }
 
 variable "ecs_service_elb_sec_group_ing_cidr_blocks" {
-	description = "elb security port - ingress cidr blocks"
+	description = "elb security group - ingress cidr blocks"
+	default = "0.0.0.0/0"
 }
 
 variable "ecs_service_elb_sec_group_eg_from_port" {
-	description = "elb security port - egress port range begining from"
+	description = "elb security group - egress port range begining from"
+	default = 0
 }
 
 variable "ecs_service_elb_sec_group_eg_to_port" {
-	description = "elb security port - egress port range ends at"
+	description = "elb security group - egress port range ends at"
+	default = 0
 }
 
 variable "ecs_service_elb_sec_group_eg_protocol" {
-	description = "elb security port - egress protocol"
+	description = "elb security group - egress protocol"
+	default = "-1"
 }
 
 variable "ecs-service-instance-security-group-id" {
