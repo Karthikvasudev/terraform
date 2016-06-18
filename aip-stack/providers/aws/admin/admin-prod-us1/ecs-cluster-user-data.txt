@@ -1,2 +1,12 @@
 #!/bin/bash
 echo ECS_CLUSTER=aip-adm-ecs-admin >> /etc/ecs/ecs.config
+
+# create a directory for the config files
+mkdir -p /root/config/
+
+# download config files from s3 bucket to the config directory
+#aws s3 cp bucket/config/ /root/config
+
+# create directory for the jira service's data (future EFS mount)
+# naming format of the app data location is /opt/aip/<ecs service name as in .tfvars>
+mkdir -p /opt/aip/aip-adm-jira

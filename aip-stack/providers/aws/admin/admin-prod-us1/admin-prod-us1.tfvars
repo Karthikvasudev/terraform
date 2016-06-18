@@ -33,3 +33,20 @@ adm_ecs_cluster_ec2_userdata  = "./admin/admin-prod-us1/ecs-cluster-user-data.tx
 adm_ecs_cluster_autoscale_max     = 2
 adm_ecs_cluster_autoscale_min     = 1
 adm_ecs_cluster_autoscale_desired = 1
+
+
+# ECS Service - Jira
+
+adm_ecs_service_jira_service_name         = "aip-adm-jira"
+adm_ecs_service_jira_task_name            = "jira"
+adm_ecs_service_jira_task_definition_file = "./admin/admin-prod-us1/jira-task-definition.json"
+
+
+adm_ecs_service_jira_elb_listener_instance_port     = 8002
+
+adm_ecs_service_jira_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/cb98db69-6fc9-452a-b4c2-fd8c437b8bc5"
+
+adm_ecs_service_jira_elb_health_check_url      = "TCP:8002"
+
+adm_ecs_service_zone_id       = "ZWNUK1RZNC5G5"
+adm_ecs_service_jira_dns_name = "jira.aipadmin.com"

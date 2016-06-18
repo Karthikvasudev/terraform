@@ -235,6 +235,16 @@ resource "aws_iam_policy_attachment" "ecs-service-policy" {
 resource "aws_ecs_task_definition" "ecs_task" {
 	family = "${var.ecs_task_name}"
 	container_definitions = "${file(var.task_definition_file)}"
+
+	volume = {
+		name = "app-volume"
+		host_path = "/opt/aip/${var.ecs_service_name}"
+	}
+
+	volume = {
+		name = "nginx-config"
+		host_path = "/root/config/${var.ecs_service_name}/nginx/nginx.conf"
+	}
 }
 
 /*

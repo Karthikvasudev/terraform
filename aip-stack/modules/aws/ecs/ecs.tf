@@ -127,10 +127,22 @@ EOF
 /*
  * attach ecs managed policy to the iam role
  */
-resource "aws_iam_policy_attachment" "ecs-instance-policy" {
+resource "aws_iam_policy_attachment" "ecs-instance-policy-ecs" {
 	name = "${var.cluster_name}-instance-policy"
 	roles = ["${aws_iam_role.ecs-instance-role.name}"]
 	policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
+
+resource "aws_iam_policy_attachment" "ecs-instance-policy-ecr" {
+	name = "${var.cluster_name}-instance-policy"
+	roles = ["${aws_iam_role.ecs-instance-role.name}"]
+	policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
+}
+
+resource "aws_iam_policy_attachment" "ecs-instance-policy-s3" {
+	name = "${var.cluster_name}-instance-policy"
+	roles = ["${aws_iam_role.ecs-instance-role.name}"]
+	policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
 /*
