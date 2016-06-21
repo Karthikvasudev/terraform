@@ -42,6 +42,20 @@ variable "adm_ecs_service_jira_elb_health_check_url"           { }
 variable "adm_ecs_service_zone_id"         { }
 variable "adm_ecs_service_jira_dns_name"   { }
 
+ 
+# ECS Service - Confluence
+
+variable "adm_ecs_service_confluence_service_name"                   { }
+variable "adm_ecs_service_confluence_task_name"                      { }
+variable "adm_ecs_service_confluence_task_definition_file"           { }
+
+variable "adm_ecs_service_confluence_elb_listener_instance_port"     { }
+variable "adm_ecs_service_confluence_elb_ssl_cert_arn"               { }
+variable "adm_ecs_service_confluence_elb_health_check_url"           { }
+
+variable "adm_ecs_service_zone_id"         { }
+variable "adm_ecs_service_confluence_dns_name"   { }
+
 
 module "vpc" {
 
@@ -110,5 +124,30 @@ module "jira_ecs_service" {
 
 	ecs_service_dns_zone_id = "${var.adm_ecs_service_zone_id}"
 	ecs_service_dns_name    = "${var.adm_ecs_service_jira_dns_name}"
+
+}
+
+
+
+module "confluence_ecs_service" {
+	
+	source = "../../../modules/aws/ecs-service"
+
+	ecs_cluser_id        = "${module.ecs.cluster_id}"
+
+	ecs_service_name     = "${var.adm_ecs_service_confluence_service_name}"
+	ecs_task_name        = "${var.adm_ecs_service_confluence_task_name}"
+	task_definition_file = "${var.adm_ecs_service_confluence_task_definition_file}"
+
+	vpc_id         = "${var.adm_vpc_id}"
+	subnet_ids     = "${module.vpc.subnet_ids}"
+
+	ecs_service_elb_listener_instance_port     = "${var.adm_ecs_service_confluence_elb_listener_instance_port}"
+	ecs_service_elb_ssl_cert_arn               = "${var.adm_ecs_service_confluence_elb_ssl_cert_arn}"
+	ecs_service_elb_health_check_url      = "${var.adm_ecs_service_confluence_elb_health_check_url}"
+	ecs-service-instance-security-group-id  = "${module.ecs.cluster_instance_sg_id}"
+
+	ecs_service_dns_zone_id = "${var.adm_ecs_service_zone_id}"
+	ecs_service_dns_name    = "${var.adm_ecs_service_confluence_dns_name}"
 
 }

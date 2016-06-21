@@ -34,6 +34,28 @@
 		"links": [
 			"postgres"
 		],
+		"environment": [
+			{
+				"name" : "JIRA_INSTALL",
+				"value" : "/opt/atlassian/jira/"
+			},
+			{
+				"name" : "X_PROXY_NAME",
+				"value" : "nginx"
+			},
+			{
+				"name" : "X_PROXY_PORT",
+				"value" : "80"
+			},
+			{
+				"name" : "X_PROXY_SCHEME",
+				"value" : "http"
+			},
+			{
+				"name" : "X_PATH",
+				"value" : "/jira"
+			}
+		],		
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
@@ -42,7 +64,7 @@
 				}
 			},
 		"cpu": 512,
-		"memory": 1024,
+		"memory": 2048,
 		"essential": true
 	},
 	{
