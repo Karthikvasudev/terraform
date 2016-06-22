@@ -21,7 +21,7 @@
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
-					"awslogs-group": "adm-confluence-proxy-logs",
+					"awslogs-group": "aip-adm-confluence-logs",
 					"awslogs-region": "us-east-1"
 				}
 			},
@@ -37,7 +37,7 @@
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
-					"awslogs-group": "adm-confluence-logs",
+					"awslogs-group": "aip-adm-confluence-logs",
 					"awslogs-region": "us-east-1"
 				}
 			},
@@ -76,7 +76,7 @@
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
-					"awslogs-group": "adm-confluence-postgres-logs",
+					"awslogs-group": "aip-adm-confluence-logs",
 					"awslogs-region": "us-east-1"
 				}
 			},

@@ -10,3 +10,4 @@ mkdir -p /root/config/
 # create directory for the jira service's data (future EFS mount)
 # naming format of the app data location is /opt/aip/<ecs service name as in .tfvars>
 mkdir -p /opt/aip/aip-adm-jira
+mkdir -p /opt/aip/aip-adm-confluence

@@ -6,7 +6,7 @@
 		"portMappings": [
 			{
 				"containerPort": 80,
-				"hostPort": 8002
+				"hostPort": 8000
 			}
 		],
 		"links": [
@@ -21,7 +21,7 @@
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
-					"awslogs-group": "adm-jira-proxy-logs",
+					"awslogs-group": "aip-adm-jira-logs",
 					"awslogs-region": "us-east-1"
 				}
 			},
@@ -41,25 +41,25 @@
 			},
 			{
 				"name" : "X_PROXY_NAME",
-				"value" : "nginx"
+				"value" : "jira.aipadmin.com"
 			},
 			{
 				"name" : "X_PROXY_PORT",
-				"value" : "80"
+				"value" : "443"
 			},
 			{
 				"name" : "X_PROXY_SCHEME",
-				"value" : "http"
+				"value" : "https"
 			},
 			{
 				"name" : "X_PATH",
-				"value" : "/jira"
+				"value" : "/"
 			}
 		],		
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
-					"awslogs-group": "adm-jira-logs",
+					"awslogs-group": "aip-adm-jira-logs",
 					"awslogs-region": "us-east-1"
 				}
 			},
@@ -98,7 +98,7 @@
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
-					"awslogs-group": "adm-jira-postgres-logs",
+					"awslogs-group": "aip-adm-jira-logs",
 					"awslogs-region": "us-east-1"
 				}
 			},

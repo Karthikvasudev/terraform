@@ -28,6 +28,8 @@ variable "adm_ecs_cluster_ec2_userdata"      { }
 variable "adm_ecs_cluster_autoscale_max"     { }
 variable "adm_ecs_cluster_autoscale_min"     { }
 variable "adm_ecs_cluster_autoscale_desired" { }
+
+variable "adm_ecs_service_zone_id"           { }
  
 # ECS Service - Jira
 
@@ -39,8 +41,7 @@ variable "adm_ecs_service_jira_elb_listener_instance_port"     { }
 variable "adm_ecs_service_jira_elb_ssl_cert_arn"               { }
 variable "adm_ecs_service_jira_elb_health_check_url"           { }
 
-variable "adm_ecs_service_zone_id"         { }
-variable "adm_ecs_service_jira_dns_name"   { }
+variable "adm_ecs_service_jira_dns_name"                       { }
 
  
 # ECS Service - Confluence
@@ -53,8 +54,7 @@ variable "adm_ecs_service_confluence_elb_listener_instance_port"     { }
 variable "adm_ecs_service_confluence_elb_ssl_cert_arn"               { }
 variable "adm_ecs_service_confluence_elb_health_check_url"           { }
 
-variable "adm_ecs_service_zone_id"         { }
-variable "adm_ecs_service_confluence_dns_name"   { }
+variable "adm_ecs_service_confluence_dns_name"                       { }
 
 
 module "vpc" {
@@ -126,7 +126,6 @@ module "jira_ecs_service" {
 	ecs_service_dns_name    = "${var.adm_ecs_service_jira_dns_name}"
 
 }
-
 
 
 module "confluence_ecs_service" {

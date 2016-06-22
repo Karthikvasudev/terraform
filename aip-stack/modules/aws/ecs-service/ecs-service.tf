@@ -248,6 +248,13 @@ resource "aws_ecs_task_definition" "ecs_task" {
 }
 
 /*
+ * creates cloudwatch log group for the service
+ */
+resource "aws_cloudwatch_log_group" "ecs_service_log_group" {
+  name = "${var.ecs_service_name}-logs"
+}
+
+/*
  * creates ecs service, associates role and load balancer to the service
  */
 resource "aws_ecs_service" "ecs_service" {
