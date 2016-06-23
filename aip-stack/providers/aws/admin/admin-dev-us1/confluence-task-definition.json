@@ -1,0 +1,86 @@
+[
+	{
+		"name": "nginx",
+		"image": "nginx:alpine",
+		"essential": true,	
+		"portMappings": [
+			{
+				"containerPort": 80,
+				"hostPort": 8001
+			}
+		],
+		"links": [
+			"confluence"
+		],
+		"mountPoints": [
+			{
+				"sourceVolume": "nginx-config",
+				"containerPath": "/etc/nginx/nginx.conf"
+			}
+		],
+		"logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+					"awslogs-group": "aip-adm-confluence-logs",
+					"awslogs-region": "us-east-1"
+				}
+			},
+		"memory": 256,
+		"cpu": 100
+	},
+	{
+		"name": "confluence",
+		"image": "cptactionhank/atlassian-confluence:latest",	
+		"links": [
+			"postgres"
+		],
+		"logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+					"awslogs-group": "aip-adm-confluence-logs",
+					"awslogs-region": "us-east-1"
+				}
+			},
+		"cpu": 512,
+		"memory": 1024,
+		"essential": true
+	},
+	{
+		"name": "postgres",
+		"image": "postgres:9.3",
+		"essential": true,	
+		"environment": [
+			{
+				"name" : "POSTGRES_USER",
+				"value" : "pgadmin"
+			},
+			{
+				"name" : "POSTGRES_PASSWORD",
+				"value" : "password"
+			},
+			{
+				"name" : "PGDATA",
+				"value" : "/var/lib/postgresql/data/pgdata"
+			},
+			{
+				"name" : "POSTGRES_DB",
+				"value" : "confluencedb"
+			}
+		],
+		"mountPoints": [
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/var/lib/postgresql/data"
+			}
+		],		
+		"logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+					"awslogs-group": "aip-adm-confluence-logs",
+					"awslogs-region": "us-east-1"
+				}
+			},
+		"memory": 750,
+		"cpu": 100
+	}
+]

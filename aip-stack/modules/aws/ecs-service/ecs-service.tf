@@ -222,11 +222,30 @@ EOF
 
 /*
  * attaches ecs managed policy to the ecs service iam role
+ * Attached following managed policy documents
+ *  - AmazonEC2ContainerServiceRole
  */
-resource "aws_iam_policy_attachment" "ecs-service-policy" {
-	name = "${var.ecs_service_name}-ecs-service-role-policy"
-	roles = ["${aws_iam_role.ecs-service-role.name}"]
-	policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
+resource "aws_iam_role_policy" "ecs-service-policy" {
+    name = "${var.ecs_service_name}-ecs-service-role-policy"
+    role = "${aws_iam_role.ecs-service-role.name}"
+    policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:Describe*",
+        "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+        "elasticloadbalancing:Describe*",
+        "elasticloadbalancing:RegisterInstancesWithLoadBalancer"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 }
 
 /*
