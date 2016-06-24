@@ -8,15 +8,15 @@ Commands that can be run from the 'admin' directory to create admin stack in res
 terraform remote config -backend=s3 \
 	-backend-config="bucket=aip-config-us-east-1-661072482170" \
 	-backend-config="key=terraform/admin-prod-us1/admin-prod-us1.tfstate" \
-	-backend-config="region=us-east-1
+	-backend-config="region=us-east-1"
 
 terraform get -update=true ./admin
 
-terraform plan -var-file=./admin/admin-prod-us1/admin-prod-us1.tfvars -state=./admin/admin-prod-us1/admin-prod-us1.tfstate ./admin
+terraform plan -var-file=./admin/admin-prod-us1/admin-prod-us1.tfvars ./admin
 
-terraform apply -var-file=./admin/admin-prod-us1/admin-prod-us1.tfvars -state=./admin/admin-prod-us1/admin-prod-us1.tfstate ./admin
+terraform apply -var-file=./admin/admin-prod-us1/admin-prod-us1.tfvars ./admin
 
-terraform destroy -var-file=./admin/admin-prod-us1/admin-prod-us1.tfvars -state=./admin/admin-prod-us1/admin-prod-us1.tfstate ./admin
+terraform destroy -var-file=./admin/admin-prod-us1/admin-prod-us1.tfvars ./admin
 
 
 # Sandbox - admin-dev-us1

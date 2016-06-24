@@ -29,7 +29,7 @@ adm_ecs_cluster_name = "aip-adm-ecs-admin"
 
 adm_ecs_cluster_ami_id        = "ami-8f7687e2"
 adm_ecs_cluster_instance_type = "m3.large"
-adm_ecs_cluster_ec2_keypair   = "aip-bi-adm-keys"
+adm_ecs_cluster_ec2_keypair   = "aip-bi-adm-keys-infradev"
 adm_ecs_cluster_ec2_userdata  = "./admin/admin-dev-us1/ecs-cluster-user-data.txt"
 
 adm_ecs_cluster_autoscale_max     = 2
