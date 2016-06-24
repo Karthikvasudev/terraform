@@ -1,6 +1,8 @@
 # Variables
 	
-region = "us-east-1"
+region    = "us-east-1"
+accountno = "596978647277"
+env       = "admin-dev-us1"
 
 
 # Admin VPC Id

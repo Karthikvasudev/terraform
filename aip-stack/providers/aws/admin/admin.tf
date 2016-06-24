@@ -1,7 +1,10 @@
 # N. Virginia us-east-1 Admin VPC
 
-variable "region" 	{ }
-variable "profile" 	{ default = "default" }
+variable "region" 	 { }
+variable "accountno" { }
+variable "env"       { }
+
+variable "profile" 	 { default = "default" }
 
 provider "aws" {
 	profile = "${var.profile}"
@@ -56,6 +59,16 @@ variable "adm_ecs_service_confluence_elb_health_check_url"           { }
 
 variable "adm_ecs_service_confluence_dns_name"                       { }
 
+
+# LTS Terraform State - Remote Storage Backend configuration
+resource "terraform_remote_state" "s3-remote-state" {
+	backend = "s3"
+	config {
+		bucket = "aip-config-${var.region}-${var.accountno}"
+		key    = "terraform/${var.env}/${var.env}.tfstate"
+		region = "${var.region}"
+	}
+}
 
 module "vpc" {
 
