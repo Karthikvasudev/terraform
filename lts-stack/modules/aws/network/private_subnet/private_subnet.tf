@@ -27,7 +27,7 @@ variable "nat_gateway_ids" {
 
 # Resources
 
-resource "aws_subnet" "prvate_subnet" {
+resource "aws_subnet" "private_subnet" {
 	vpc_id            = "${var.vpc_id}"
 	cidr_block        = "${element(split(",", var.private_subnet_cidrs), count.index)}"
 	availability_zone = "${element(split(",", var.private_subnet_azs), count.index)}"
@@ -54,10 +54,10 @@ resource "aws_route_table" "prvate_rtb" {
 
 resource "aws_route_table_association" "prvate_rtb_association" {
 	count          = "${length(split(",", var.private_subnet_cidrs))}"
-	subnet_id      = "${element(aws_subnet.prvate_subnet.*.id, count.index)}"
+	subnet_id      = "${element(aws_subnet.private_subnet.*.id, count.index)}"
 	route_table_id = "${element(aws_route_table.prvate_rtb.*.id, count.index)}"
 }
 
 # Outputs
 
-output "subnet_ids" { value = "${join(",", aws_subnet.prvate_subnet.*.id)}" }
+output "subnet_ids" { value = "${join(",", aws_subnet.private_subnet.*.id)}" }
