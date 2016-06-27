@@ -222,11 +222,30 @@ EOF
 
 /*
  * attaches ecs managed policy to the ecs service iam role
+ * Attached following managed policy documents
+ *  - AmazonEC2ContainerServiceRole
  */
-resource "aws_iam_policy_attachment" "ecs-service-policy" {
-	name = "${var.ecs_service_name}-ecs-service-role-policy"
-	roles = ["${aws_iam_role.ecs-service-role.name}"]
-	policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
+resource "aws_iam_role_policy" "ecs-service-policy" {
+    name = "${var.ecs_service_name}-ecs-service-role-policy"
+    role = "${aws_iam_role.ecs-service-role.name}"
+    policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:Describe*",
+        "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+        "elasticloadbalancing:Describe*",
+        "elasticloadbalancing:RegisterInstancesWithLoadBalancer"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 }
 
 /*
@@ -235,6 +254,23 @@ resource "aws_iam_policy_attachment" "ecs-service-policy" {
 resource "aws_ecs_task_definition" "ecs_task" {
 	family = "${var.ecs_task_name}"
 	container_definitions = "${file(var.task_definition_file)}"
+
+	volume = {
+		name = "app-volume"
+		host_path = "/opt/aip/${var.ecs_service_name}"
+	}
+
+	volume = {
+		name = "nginx-config"
+		host_path = "/root/config/${var.ecs_service_name}/nginx/nginx.conf"
+	}
+}
+
+/*
+ * creates cloudwatch log group for the service
+ */
+resource "aws_cloudwatch_log_group" "ecs_service_log_group" {
+  name = "${var.ecs_service_name}-logs"
 }
 
 /*
