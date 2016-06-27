@@ -126,11 +126,52 @@ EOF
 
 /*
  * attach ecs managed policy to the iam role
+ * Attached following managed policy documents
+ *  - AmazonEC2ContainerServiceforEC2Role
+ *  - AmazonEC2ContainerRegistryFullAccess
+ *  - AmazonS3FullAccess
  */
-resource "aws_iam_policy_attachment" "ecs-instance-policy" {
-	name = "${var.cluster_name}-instance-policy"
-	roles = ["${aws_iam_role.ecs-instance-role.name}"]
-	policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+resource "aws_iam_role_policy" "ecs-instance-policy" {
+    name = "${var.cluster_name}-instance-policy"
+    role = "${aws_iam_role.ecs-instance-role.name}"
+    policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecs:CreateCluster",
+        "ecs:DeregisterContainerInstance",
+        "ecs:DiscoverPollEndpoint",
+        "ecs:Poll",
+        "ecs:RegisterContainerInstance",
+        "ecs:StartTelemetrySession",
+        "ecs:Submit*",
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 }
 
 /*
