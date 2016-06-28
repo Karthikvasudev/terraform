@@ -30,6 +30,7 @@ variable "public_subnet_azs"       { }
 variable "private_subnet_cidrs"    { }
 variable "private_subnet_azs"      { }
 
+
 module "network" {
 
 	source = "../../../modules/aws/network"
@@ -45,3 +46,19 @@ module "network" {
 	private_subnet_cidrs = "${var.private_subnet_cidrs}"
 	private_subnet_azs   = "${var.private_subnet_azs}"
 }
+
+
+variable "ldap_name" 				{ }
+variable "ldap_password" 			{ }
+
+module "ldap" {
+
+	source = "../../../modules/aws/auth/ldap"
+
+  	ldap_name     		= "${var.ldap_name}"
+  	ldap_password  		= "${var.ldap_password}"
+
+    vpc_id 				= "${module.network.vpc_id}"
+    private_subnet_ids  = "${module.network.private_subnet_ids}"
+}
+
