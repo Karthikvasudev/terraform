@@ -66,11 +66,18 @@ resource "aws_directory_service_directory" "ldap-connector" {
 }
 
 
-output "ad_service_dns_joined" {
+output "ad_service_ips" {
 	value = "${join(",",aws_directory_service_directory.ldap.dns_ip_addresses)}"
 }
 
+output "ad_service_connector_id" {
+	value = "${aws_directory_service_directory.ldap-connector.id}"
+}
 
-output "ad_service_connector_joined" {
+output "ad_service_connector_ips" {
 	value = "${join(",",aws_directory_service_directory.ldap-connector.dns_ip_addresses)}"
+}
+
+output "ad_service_connector_url" {
+	value = "${join(",",aws_directory_service_directory.ldap-connector.access_url)}"
 }

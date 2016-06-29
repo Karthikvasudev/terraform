@@ -30,7 +30,6 @@ variable "public_subnet_azs"       { }
 variable "private_subnet_cidrs"    { }
 variable "private_subnet_azs"      { }
 
-
 module "network" {
 
 	source = "../../../modules/aws/network"
@@ -48,17 +47,29 @@ module "network" {
 }
 
 
-variable "ldap_name" 				{ }
-variable "ldap_password" 			{ }
+variable "ldap_name"				{ }
+variable "ldap_password"			{ }
 
-module "ldap" {
+variable "mfa_system_ami_id"        { }
+variable "mfa_system_ec2_type" { }
+variable "mfa_system_ec2_keypair" { }
+variable "mfa_system_ec2_userdata" { }
 
-	source = "../../../modules/aws/auth/ldap"
+module "auth" {
+	source = "../../../modules/aws/auth"
+	
+	vpc_id = "${module.network.vpc_id}"
+	private_subnet_ids = "${module.network.private_subnet_ids}"
+	ldap_name = "${var.ldap_name}"
+	ldap_password = "${var.ldap_password}"
 
-  	ldap_name     		= "${var.ldap_name}"
-  	ldap_password  		= "${var.ldap_password}"
+	mfa_system_name = "lts-freeradius-${var.region}"
+	mfa_system_sg_ssh_allow_cidrs = "${var.vpc_cidr_block}"
+	mfa_system_ami_id = "${var.mfa_system_ami_id}"
+	mfa_system_ec2_subnet_id = "${element(split(",",module.network.private_subnet_ids), 0)}"
+	mfa_system_ec2_keypair = "${var.mfa_system_ec2_keypair}"
+	mfa_system_ec2_userdata = "${var.mfa_system_ec2_userdata}"
 
-    vpc_id 				= "${module.network.vpc_id}"
-    private_subnet_ids  = "${module.network.private_subnet_ids}"
+	region  = "${var.region}"
+	profile = "${var.profile}"
 }
-
