@@ -89,4 +89,3 @@ adm_ecs_service_bitbucket_elb_ssl_cert_arn = "arn:aws:iam::596978647277:server-c
 adm_ecs_service_bitbucket_elb_health_check_url      = "TCP:8002"
 
 adm_ecs_service_bitbucket_dns_name = "bitbucket.aipadmin.com"
-
