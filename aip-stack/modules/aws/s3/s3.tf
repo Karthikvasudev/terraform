@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "s3_bucket" {
     region = "${var.region}"
 
 	provisioner "local-exec" {
-		command = "aws --region ${var.region} --profile ${var.profile} aws s3 sync ${var.localpath} s3://${var.bucket_name}-${var.region}-${var.accountno}"
+		command = "aws --region ${var.region} --profile ${var.profile} s3 sync ${var.localpath} s3://${var.bucket_name}-${var.region}-${var.accountno}"
 	}
 
 }

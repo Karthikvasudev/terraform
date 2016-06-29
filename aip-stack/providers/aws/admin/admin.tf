@@ -114,7 +114,7 @@ module "s3bucket" {
     region = "${var.region}"
     accountno = "${var.accountno}"
 	profile = "${var.profile}"
-	localpath = "./config"
+	localpath = "./admin/config"
 }
 
 module "ecs" {
