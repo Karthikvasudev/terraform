@@ -1,6 +1,8 @@
 # Variables
 	
-region = "us-east-1"
+region    = "us-east-1"
+accountno = "661072482170"
+env       = "admin-prod-us1"
 
 
 # Admin VPC Id
@@ -19,6 +21,9 @@ adm_vpc_private_route_table_id = "rtb-1942f17d"
 
 adm_vpc_nat_sg = "sg-f37b7794"
 
+# Admin S3 bucket
+
+adm_bucket_name = "aip-adm-s3-app-data"
 
 # ECS Cluster
 

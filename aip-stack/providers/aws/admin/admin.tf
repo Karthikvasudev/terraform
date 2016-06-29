@@ -21,6 +21,10 @@ variable "adm_vpc_ecs_subnet_az1_cidr"       { }
 variable "adm_vpc_ecs_subnet_az2_cidr"       { }
 variable "adm_vpc_nat_sg"                    { }
 
+# S3 bucket
+
+variable "adm_bucket_name"					 { }
+
 # ECS Cluster
 
 variable "adm_ecs_cluster_name"              { }
@@ -100,6 +104,17 @@ module "vpc" {
 	# Admin VPC Route Table Id
 	adm_vpc_private_route_table_id = "${var.adm_vpc_private_route_table_id}"
 
+}
+
+module "s3bucket" {
+
+    source = "../../../modules/aws/s3"
+
+    bucket_name  = "${var.adm_bucket_name}"
+    region = "${var.region}"
+    accountno = "${var.accountno}"
+	profile = "${var.profile}"
+	localpath = "./config"
 }
 
 module "ecs" {

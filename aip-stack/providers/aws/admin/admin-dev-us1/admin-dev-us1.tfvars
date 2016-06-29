@@ -21,6 +21,9 @@ adm_vpc_private_route_table_id = "rtb-2c3a8248"
 
 adm_vpc_nat_sg = "sg-e25b4685"
 
+# Admin S3 bucket
+
+adm_bucket_name = "aip-adm-s3-app-data"
 
 # ECS Cluster
 
