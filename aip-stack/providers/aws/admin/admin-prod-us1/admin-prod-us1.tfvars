@@ -67,3 +67,18 @@ adm_ecs_service_confluence_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:66107248217
 adm_ecs_service_confluence_elb_health_check_url      = "TCP:8001"
 
 adm_ecs_service_confluence_dns_name = "confluence.aipadmin.com"
+
+# ECS Service - bitbucket
+
+adm_ecs_service_bitbucket_service_name         = "aip-adm-bitbucket"
+adm_ecs_service_bitbucket_task_name            = "bitbucket"
+adm_ecs_service_bitbucket_task_definition_file = "./admin/admin-prod-us1/bitbucket-task-definition.json"
+
+
+adm_ecs_service_bitbucket_elb_listener_instance_port     = 8002
+
+adm_ecs_service_bitbucket_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/cb98db69-6fc9-452a-b4c2-fd8c437b8bc5"
+
+adm_ecs_service_bitbucket_elb_health_check_url      = "TCP:8002"
+
+adm_ecs_service_bitbucket_dns_name = "bitbucket.aipadmin.com"

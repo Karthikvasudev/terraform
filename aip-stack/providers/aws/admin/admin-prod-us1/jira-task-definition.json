@@ -2,7 +2,7 @@
 	{
 		"name": "nginx",
 		"image": "nginx:alpine",
-		"essential": true,	
+		"essential": true,
 		"portMappings": [
 			{
 				"containerPort": 80,
@@ -30,9 +30,15 @@
 	},
 	{
 		"name": "jira",
-		"image": "cptactionhank/atlassian-jira:7.1.7",	
+		"image": "cptactionhank/atlassian-jira:7.1.7",
 		"links": [
 			"postgres"
+		],
+		"mountPoints": [
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/var/atlassian/jira"
+			}
 		],
 		"environment": [
 			{
@@ -56,6 +62,7 @@
 				"value" : "/"
 			}
 		],		
+		"user": "root",
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
