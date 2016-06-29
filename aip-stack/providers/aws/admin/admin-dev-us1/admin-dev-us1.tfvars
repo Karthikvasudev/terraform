@@ -21,6 +21,9 @@ adm_vpc_private_route_table_id = "rtb-2c3a8248"
 
 adm_vpc_nat_sg = "sg-e25b4685"
 
+# Admin S3 bucket
+
+adm_bucket_name = "aip-adm-s3-app-data"
 
 # ECS Cluster
 
@@ -38,11 +41,12 @@ adm_ecs_cluster_autoscale_desired = 2
 
 adm_ecs_service_zone_id       = "Z2TRK11Z2S58FH"
 
+
 # ECS Service - Jira
 
 adm_ecs_service_jira_service_name         = "aip-adm-jira"
 adm_ecs_service_jira_task_name            = "jira"
-adm_ecs_service_jira_task_definition_file = "./admin/admin-prod-us1/jira-task-definition.json"
+adm_ecs_service_jira_task_definition_file = "./admin/admin-dev-us1/jira-task-definition.json"
 
 
 adm_ecs_service_jira_elb_listener_instance_port     = 8000
@@ -59,7 +63,7 @@ adm_ecs_service_jira_dns_name = "jira.aipadmin.com"
 
 adm_ecs_service_confluence_service_name         = "aip-adm-confluence"
 adm_ecs_service_confluence_task_name            = "confluence"
-adm_ecs_service_confluence_task_definition_file = "./admin/admin-prod-us1/confluence-task-definition.json"
+adm_ecs_service_confluence_task_definition_file = "./admin/admin-dev-us1/confluence-task-definition.json"
 
 
 adm_ecs_service_confluence_elb_listener_instance_port     = 8001
@@ -69,3 +73,19 @@ adm_ecs_service_confluence_elb_ssl_cert_arn = "arn:aws:iam::596978647277:server-
 adm_ecs_service_confluence_elb_health_check_url      = "TCP:8001"
 
 adm_ecs_service_confluence_dns_name = "confluence.aipadmin.com"
+
+
+# ECS Service - bitbucket
+
+adm_ecs_service_bitbucket_service_name         = "aip-adm-bitbucket"
+adm_ecs_service_bitbucket_task_name            = "bitbucket"
+adm_ecs_service_bitbucket_task_definition_file = "./admin/admin-dev-us1/bitbucket-task-definition.json"
+
+
+adm_ecs_service_bitbucket_elb_listener_instance_port     = 8002
+
+adm_ecs_service_bitbucket_elb_ssl_cert_arn = "arn:aws:iam::596978647277:server-certificate/aipadmin"
+
+adm_ecs_service_bitbucket_elb_health_check_url      = "TCP:8002"
+
+adm_ecs_service_bitbucket_dns_name = "bitbucket.aipadmin.com"

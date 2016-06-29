@@ -266,6 +266,20 @@ resource "aws_security_group_rule" "vpc_nat_sg" {
 	security_group_id = "${var.vpc_nat_instance_sg}"
 }
 
+/*
+ * allow cluster instance to access nat instance over port 80 (needed for yum install)
+ */
+resource "aws_security_group_rule" "vpc_nat_sg_rule2" {
+	type = "ingress"
+	from_port = 80
+	to_port   = 80
+	protocol  = "tcp"
+
+	source_security_group_id = "${aws_security_group.ecs-instance-security-group.id}"
+
+	security_group_id = "${var.vpc_nat_instance_sg}"
+}
+
 
 # Outputs
 

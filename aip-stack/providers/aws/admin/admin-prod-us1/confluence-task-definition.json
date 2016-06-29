@@ -30,10 +30,39 @@
 	},
 	{
 		"name": "confluence",
-		"image": "cptactionhank/atlassian-confluence:latest",	
+		"image": "cptactionhank/atlassian-confluence:5.9.10",	
 		"links": [
 			"postgres"
 		],
+		"mountPoints": [
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/var/atlassian/confluence"
+			}
+		],
+		"environment": [
+			{
+				"name" : "CONF_INSTALL",
+				"value" : "/opt/atlassian/confluence/"
+			},
+			{
+				"name" : "X_PROXY_NAME",
+				"value" : "confluence.aipadmin.com"
+			},
+			{
+				"name" : "X_PROXY_PORT",
+				"value" : "443"
+			},
+			{
+				"name" : "X_PROXY_SCHEME",
+				"value" : "https"
+			},
+			{
+				"name" : "X_PATH",
+				"value" : "/"
+			}
+		],		
+		"user": "root",
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
@@ -42,7 +71,7 @@
 				}
 			},
 		"cpu": 512,
-		"memory": 1024,
+		"memory": 2048,
 		"essential": true
 	},
 	{

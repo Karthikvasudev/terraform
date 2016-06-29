@@ -38,7 +38,32 @@ adm_ecs_service_jira_elb_health_check_url       - Health check URL for this serv
   
 adm_ecs_service_zone_id       - Route53 zone id where dns record for this service to be created  
 adm_ecs_service_jira_dns_name - DNS name of this service  
+ 
+ECS Service - confluence:  
   
+adm_ecs_service_confluence_service_name  - Name the confluence service for a given environment  
+adm_ecs_service_confluence_task_name     - Name of the confluence task name  
+adm_ecs_service_confluence_task_definition_file - Path to the task definition file for the confluence service  
+  
+adm_ecs_service_confluence_elb_listener_instance_port - Port in the cluster instance where the service listens  
+adm_ecs_service_confluence_elb_ssl_cert_arn           - arn of the SSL certificate to be used for this service  
+adm_ecs_service_confluence_elb_health_check_url       - Health check URL for this service to be used by ELB  
+  
+adm_ecs_service_zone_id       - Route53 zone id where dns record for this service to be created  
+adm_ecs_service_confluence_dns_name - DNS name of this service 
+
+ECS Service - bitbucket:  
+  
+adm_ecs_service_bitbucket_service_name  - Name the bitbucket service for a given environment  
+adm_ecs_service_bitbucket_task_name     - Name of the bitbuckettask name  
+adm_ecs_service_bitbucket_task_definition_file - Path to the task definition file for the bitbucket service  
+  
+adm_ecs_service_bitbucket_elb_listener_instance_port - Port in the cluster instance where the service listens  
+adm_ecs_service_bitbucket_elb_ssl_cert_arn           - arn of the SSL certificate to be used for this service  
+adm_ecs_service_bitbucket_elb_health_check_url       - Health check URL for this service to be used by ELB  
+  
+adm_ecs_service_zone_id       - Route53 zone id where dns record for this service to be created  
+adm_ecs_service_bitbucket_dns_name - DNS name of this service 
   
 # Outputs  
   

@@ -2,15 +2,15 @@
 	{
 		"name": "nginx",
 		"image": "nginx:alpine",
-		"essential": true,
+		"essential": true,	
 		"portMappings": [
 			{
 				"containerPort": 80,
-				"hostPort": 8000
+				"hostPort": 8002
 			}
 		],
 		"links": [
-			"jira"
+			"bitbucket"
 		],
 		"mountPoints": [
 			{
@@ -21,7 +21,7 @@
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
-					"awslogs-group": "aip-adm-jira-logs",
+					"awslogs-group": "aip-adm-bitbucket-logs",
 					"awslogs-region": "us-east-1"
 				}
 			},
@@ -29,25 +29,25 @@
 		"cpu": 100
 	},
 	{
-		"name": "jira",
-		"image": "cptactionhank/atlassian-jira:7.1.7",
+		"name": "bitbucket",
+		"image": "cptactionhank/atlassian-bitbucket:4.7.1",	
 		"links": [
 			"postgres"
 		],
 		"mountPoints": [
 			{
 				"sourceVolume": "app-volume",
-				"containerPath": "/var/atlassian/jira"
+				"containerPath": "/var/atlassian/bitbucket"
 			}
 		],
 		"environment": [
 			{
-				"name" : "JIRA_INSTALL",
-				"value" : "/opt/atlassian/jira/"
+				"name" : "BITBUCKET_INSTALL",
+				"value" : "/opt/atlassian/bitbucket/"
 			},
 			{
 				"name" : "X_PROXY_NAME",
-				"value" : "jira.aipadmin.com"
+				"value" : "bitbucket.aipadmin.com"
 			},
 			{
 				"name" : "X_PROXY_PORT",
@@ -66,12 +66,12 @@
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
-					"awslogs-group": "aip-adm-jira-logs",
+					"awslogs-group": "aip-adm-bitbucket-logs",
 					"awslogs-region": "us-east-1"
 				}
 			},
 		"cpu": 512,
-		"memory": 2048,
+		"memory": 2024,
 		"essential": true
 	},
 	{
@@ -93,7 +93,7 @@
 			},
 			{
 				"name" : "POSTGRES_DB",
-				"value" : "jiradb"
+				"value" : "bitbucketdb"
 			}
 		],
 		"mountPoints": [
@@ -105,7 +105,7 @@
 		"logConfiguration": {
 				"logDriver": "awslogs",
 				"options": {
-					"awslogs-group": "aip-adm-jira-logs",
+					"awslogs-group": "aip-adm-bitbucket-logs",
 					"awslogs-region": "us-east-1"
 				}
 			},
