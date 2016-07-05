@@ -6,6 +6,49 @@
 ### Note: include --profile sandbox when testing only. Included for safety reasons
 
 
+### DevOps
+## -- Create Abbott AWS: DevOps environment --
+aws cloudformation create-stack \
+--stack-name bi-app-devops-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+## -- Update Abbott AWS: devops environment --
+aws cloudformation update-stack \
+--stack-name bi-app-devops-master \
+--template-body file://bi-master.cfn.json \
+--parameters file://bi-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+
+## AWS resources
+
+### Note: Create the common Lambda function handler for S3-Archive by running the installer script located in "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" folder.
+
+
+aws cloudformation create-stack \
+--stack-name bi-app-aws-resources-devops-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=devops,\
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+aws cloudformation update-stack \
+--stack-name bi-app-aws-resources-devops-master \
+--template-body file://bi-aws-resources.cfn.json \
+--parameters ParameterKey=Environment,ParameterValue=devops,\
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+### Note: After the stack is created,In the console, go to the lambda function (s3-copy2archive-lambda) and add the event source of the lambda to the sns topic(bi-devops-sns-file-uploaded) for the buckets.
+
+
 
 ### Abbott AWS -- BI Beanstalk deployment via Master Template
 ##
@@ -28,19 +71,27 @@ aws cloudformation update-stack \
 
 
 ## AWS resources
+
+### Note: Create the common Lambda function handler for S3-Archive by running the installer script located in "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" folder.
+
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-dev-master \
 --template-body file://bi-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=dev \
+--parameters ParameterKey=Environment,ParameterValue=dev,\
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
 aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-dev-master \
 --template-body file://bi-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=dev \
+--parameters ParameterKey=Environment,ParameterValue=dev,\
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
+
+
+### Note: After the stack is created,In the console, go to the lambda function (s3-copy2archive-lambda) and add the event source of the lambda to the sns topic(bi-devops-sns-file-uploaded) for the buckets.
 
 
 ### Test
@@ -57,7 +108,7 @@ aws cloudformation update-stack \
 --stack-name bi-app-test-master1 \
 --template-body file://bi-master.cfn.json \
 --parameters file://bi-test-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM 
+--capabilities CAPABILITY_IAM
 --region us-east-1
 
 
@@ -198,6 +249,7 @@ aws cloudformation update-stack \
 
 
 ## AWS resources
+
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-beta-master \
 --template-body file://bi-aws-resources.cfn.json \
@@ -213,39 +265,6 @@ aws cloudformation update-stack \
 --region us-east-1
 
 
-
-### DevOps
-## -- Create Abbott AWS: DevOps environment --
-aws cloudformation create-stack \
---stack-name bi-app-devops-master \
---template-body file://bi-master.cfn.json \
---parameters file://bi-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
-
-## -- Update Abbott AWS: devops environment --
-aws cloudformation update-stack \
---stack-name bi-app-devops-master \
---template-body file://bi-master.cfn.json \
---parameters file://bi-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM \
---region us-east-1
-
-
-## AWS resources
-aws cloudformation create-stack \
---stack-name bi-app-aws-resources-devops-master \
---template-body file://bi-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=devops \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
-
-aws cloudformation update-stack \
---stack-name bi-app-aws-resources-devops-master \
---template-body file://bi-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=devops \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
 
 
 
@@ -253,7 +272,6 @@ aws cloudformation update-stack \
 ########################################
 # ------ Ireland EU-west-1 Region ------
 ########################################
-
 
 ### Prod
 ## -- Create Abbott AWS: Prod environment --

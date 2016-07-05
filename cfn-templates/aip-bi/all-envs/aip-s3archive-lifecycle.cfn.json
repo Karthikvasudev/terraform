@@ -1,0 +1,38 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+
+	"Description": "Archival bucket creation",
+
+	"Parameters": {
+		"RetentionPeriod": {
+			"Description": "Number of days before moving object to Glacier",
+			"Default" : "5",
+			"MinValue": "1",
+			"MaxValue": "90",
+			"Type": "Number"
+
+		}
+	},
+	"Resources": {
+		"Archival": {
+			"Type": "AWS::S3::Bucket",
+			"Properties": {
+				"BucketName": {
+					"Fn::Join": ["", ["aip-s3-archive-", {
+						"Ref": "AWS::Region"
+					}, "-", {
+						"Ref": "AWS::AccountId"
+					}]]
+				},
+				"LifecycleConfiguration": {
+					"Rules": [{
+						"Status" : "Enabled",
+					    "Transition" : {
+							"StorageClass" : "GLACIER",
+							"TransitionInDays" : {"Ref" : "RetentionPeriod"} }
+					}]
+				}
+			}
+		}
+	}
+}

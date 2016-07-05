@@ -6,10 +6,31 @@ Note: include --profile sandbox when testing only. Included for safety reasons
 
 
 
+## -- Create Abbott AWS: DevOps environment --
+
+
+aws cloudformation create-stack \
+--stack-name bi-etl-devops-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM --disable-rollback \
+--region us-east-1
+
+
+## -- Update Abbott AWS: DevOps environment --
+aws cloudformation update-stack \
+--stack-name bi-etl-devops-master --template-body file://bi-etl-master.cfn.json \
+--parameters file://bi-etl-devops-launch-params-us-east-1.json \
+--capabilities CAPABILITY_IAM \
+--region us-east-1
+
+### Note: Create the common Lambda function handler for S3-Archive by running the installer script located in "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" folder.
+
+
 ### Abbott AWS -- Beanstalk App -- ETL Services ""
 ##
 ### Dev
 ## -- Create Abbott AWS: Dev environment --
+
 aws cloudformation create-stack \
 --stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
 --parameters file://bi-etl-dev-launch-params-us-east-1.json \
@@ -24,20 +45,7 @@ aws cloudformation update-stack  \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
-
-### Sandbox
-aws cloudformation create-stack \
---stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
---parameters file://bi-etl-dev-launch-params-us-east-1-Sandbox.json \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
-
-
-aws cloudformation update-stack \
---stack-name bi-etl-dev-master --template-body file://bi-etl-master.cfn.json \
---parameters file://bi-etl-dev-launch-params-us-east-1-Sandbox.json \
---capabilities CAPABILITY_IAM \
---region us-east-1
+### Note: Create the common Lambda function handler for S3-Archive by running the installer script located in "aip-aws-devops/cfn-templates/aip-bi/lambda/archive-s3/" folder.
 
 
 
@@ -116,26 +124,6 @@ aws cloudformation update-stack \
 --parameters file://bi-etl-beta-launch-params-us-east-1.json \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
-
-
-
-
-## -- Create Abbott AWS: DevOps environment --
-aws cloudformation create-stack \
---stack-name bi-etl-devops-master --template-body file://bi-etl-master.cfn.json \
---parameters file://bi-etl-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM --disable-rollback \
---region us-east-1
-
-
-## -- Update Abbott AWS: DevOps environment --
-aws cloudformation update-stack \
---stack-name bi-etl-devops-master --template-body file://bi-etl-master.cfn.json \
---parameters file://bi-etl-devops-launch-params-us-east-1.json \
---capabilities CAPABILITY_IAM \
---region us-east-1
-
-
 
 
 

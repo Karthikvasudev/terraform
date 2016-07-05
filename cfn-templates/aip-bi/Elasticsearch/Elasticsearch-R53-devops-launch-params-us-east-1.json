@@ -1,0 +1,15 @@
+[
+  {
+    "ParameterKey": "R53CName",
+    "ParameterValue": "logs-devops-us-1"
+  },
+  {
+    "ParameterKey": "ESendpointurl",
+    "ParameterValue": "search-es-devops-us-east-1-2f6ieb3ydbj6fsoy7wik3neluu.us-east-1.es.amazonaws.com"
+  },
+  {
+    "ParameterKey": "R53HostedZoneName",
+    "ParameterValue": "aliniqbis.com"
+  }
+  
+]

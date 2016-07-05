@@ -73,53 +73,75 @@
       "MinLength": "1",
       "MaxLength": "255"
     },
-  	"PublicSubnets": {
-  		"Description": "A comma-delimited list of public VPC subnets. ELBs will be launched into this subnet.",
-  		"Type": "String"
-  	},
-  	"PrivateSubnets": {
-  		"Description": "A comma-delimited list of private VPC subnets. Auto Scaling and RDS will be launched into this subnet.",
-  		"Type": "String"
-  	},	
+
+	"PublicSubnets": {
+		"Description": "A comma-delimited list of public VPC subnets. ELBs will be launched into this subnet.",
+		"Type": "String"
+	},
+	"PrivateSubnets": {
+		"Description": "A comma-delimited list of private VPC subnets. Auto Scaling and RDS will be launched into this subnet.",
+		"Type": "String"
+	},	
     "VpcName": {
-      "Description": "name of the VPC",
+     "Description": "name of the VPC",
+     "Type": "String",
+     "MinLength": "1",
+     "MaxLength": "255"
+  },
+  "VpcId": {
+    "Description": "Administration Vpc Id",
+    "Type": "String",
+    "MinLength": "1",
+    "MaxLength": "255"
+  },
+  "AppEnvironmentSuffix": {
+ 	"Description": "application environment suffix [ENV-'aip'-REGION or ENV-'bi-etl'-REGION or ENV-'proxy'-REGION]",
+  	"Default": "bi-etl",
+	"Type": "String",
+	"MinLength": "1",
+	"MaxLength": "255"
+  },
+  "InstanceSecurityGroups": {
+	"Description": "A comma-delimited list of security groups",
+	"Type": "String",
+	"MinLength": "1",
+	"MaxLength": "255"
+ },
+  "AutoScaleMinSize": {
+      "Description": "AutoScaling Minimum number of instances",
+      "Default": "2",
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "255"
-    },
-    "VpcId": {
-      "Description": "Administration Vpc Id",
+  },
+  "AutoScaleMaxSize": {
+      "Description": "AutoScaling Maximum number of instances",
+      "Default": "20",
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "255"
-    },
-  	"AppEnvironmentSuffix": {
-  		"Description": "application environment suffix [ENV-'aip'-REGION or ENV-'bi-etl'-REGION or ENV-'proxy'-REGION]",
-  		"Default": "bi-etl",
-  		"Type": "String",
-  		"MinLength": "1",
-  		"MaxLength": "255"
-  	},
-  	"InstanceSecurityGroups": {
-  		"Description": "A comma-delimited list of security groups",
-  		"Type": "String",
-  		"MinLength": "1",
-  		"MaxLength": "255"
-  	 },
-    "AutoScaleMinSize": {
-        "Description": "AutoScaling Minimum number of instances",
-        "Default": "2",
-        "Type": "String",
-        "MinLength": "1",
-        "MaxLength": "255"
-    },
-    "AutoScaleMaxSize": {
-        "Description": "AutoScaling Maximum number of instances",
-        "Default": "20",
-        "Type": "String",
-        "MinLength": "1",
-        "MaxLength": "255"
-    }   
+  }   
+  "Lambdarole": {
+            "Description": "name of the IAM role ",
+	    "Default" : "s3_lambda_copy",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+  "LambdaBucket": {
+            "Description": "Bucket containing the lambda code .zip ",
+            "Default" : "aip-devops-us-east-1-661072482170",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        },
+  "LambdaS3Key": {
+            "Description": "s3 key of the lambda code .zip ",
+            "Default" : "lambda/s3Archival/lambda_handler.zip",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "255"
+        }	
   },
 
   "Resources": {
@@ -131,7 +153,10 @@
             { "Fn::Join" : ["", ["http://", "s3.amazonaws.com/aip-devops-", 
             "us-east-1", "-", {"Ref" : "AWS::AccountId"}, { "Ref" : "ResourcesTemplateKey" }]]},
         "Parameters" : {
-          "Environment": { "Ref" : "Environment" }
+          "Environment": { "Ref" : "Environment" },
+	  "Lambdarole" : { "Ref" : "Lambdarole"},
+	  "LambdaBucket" : { "Ref" : "LambdaBucket"}, 
+	  "LambdaS3Key" : { "Ref" : "LambdaS3Key"}
         }
       }
     },

@@ -313,7 +313,7 @@
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",
 						"OptionName": "HttpPath",
-						"Value": "/etl/sqs"
+						"Value": "/etl/sns"
 					},
 					{
 						"Namespace": "aws:elasticbeanstalk:sqsd",

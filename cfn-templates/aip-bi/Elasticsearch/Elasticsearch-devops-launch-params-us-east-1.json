@@ -1,0 +1,31 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "devops"
+  },
+  {
+    "ParameterKey": "AbbottCIDR",
+    "ParameterValue": "130.36.0.0/16"
+  },
+  {
+    "ParameterKey": "InstanceSize",
+    "ParameterValue": "m3.medium.elasticsearch"
+  },
+  {
+    "ParameterKey": "DedicatedMasterSize",
+    "ParameterValue": "m3.medium.elasticsearch"
+  },
+   {
+    "ParameterKey": "NodeCount",
+    "ParameterValue": "2"
+  },
+   {
+    "ParameterKey": "MasterCount",
+    "ParameterValue": "3"
+  },
+    {
+    "ParameterKey": "SSDVolumeSize",
+    "ParameterValue": "25"
+  }
+  
+]
