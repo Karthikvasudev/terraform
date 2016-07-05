@@ -56,12 +56,13 @@ resource "aws_directory_service_directory" "ldap-connector" {
 
 	depends_on          = ["aws_directory_service_directory.ldap"]
 
+	enable_sso          = true
 	# Connection Settings
 	connect_settings {
-	customer_username   = "${var.ldap_username}"
-	customer_dns_ips    = ["${aws_directory_service_directory.ldap.dns_ip_addresses}"]
-	vpc_id              = "${var.vpc_id}"
-	subnet_ids          = ["${split(",", var.private_subnet_ids)}"]
+		customer_username   = "${var.ldap_username}"
+		customer_dns_ips    = ["${aws_directory_service_directory.ldap.dns_ip_addresses}"]
+		vpc_id              = "${var.vpc_id}"
+		subnet_ids          = ["${split(",", var.private_subnet_ids)}"]
 	}
 }
 
@@ -79,5 +80,5 @@ output "ad_service_connector_ips" {
 }
 
 output "ad_service_connector_url" {
-	value = "${join(",",aws_directory_service_directory.ldap-connector.access_url)}"
+	value = "${aws_directory_service_directory.ldap-connector.access_url}"
 }

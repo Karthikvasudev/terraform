@@ -114,8 +114,8 @@ resource "aws_instance" "mfa_instance" {
 	}
 
 	provisioner "local-exec" {
-        command = "sleep 3m && aws --region ${var.region} --profile ${var.profile} ds enable-radius --directory-id ${var.ad_service_connector_id} --radius-settings RadiusServers=${aws_instance.mfa_instance.private_ip},RadiusPort=1812,RadiusTimeout=20,RadiusRetries=10,SharedSecret=testing123,AuthenticationProtocol=PAP,DisplayLabel=Radius,UseSameUsername=true"
-    }
+		command = "sleep 3m && aws --region ${var.region} --profile ${var.profile} ds enable-radius --directory-id ${var.ad_service_connector_id} --radius-settings RadiusServers=${aws_instance.mfa_instance.private_ip},RadiusPort=1812,RadiusTimeout=20,RadiusRetries=10,SharedSecret=testing123,AuthenticationProtocol=PAP,DisplayLabel=Radius"
+	}
 }
 
 # Outputs
