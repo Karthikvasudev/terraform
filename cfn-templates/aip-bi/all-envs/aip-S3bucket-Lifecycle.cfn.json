@@ -11,7 +11,7 @@
 			"MaxLength": "255"
 		},
 		"RetentionPeriod": {
-			"Description": "Static Web app name ex. static-devops-us1",
+			"Description": "Number of days before moving object to Glacier",
 			"MinValue": "1",
             "MaxValue": "90",
 			"Type": "Number"

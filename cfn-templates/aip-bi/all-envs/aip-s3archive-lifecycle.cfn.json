@@ -5,7 +5,7 @@
 
 	"Parameters": {
 		"RetentionPeriod": {
-			"Description": "Static Web app name ex. static-devops-us1",
+			"Description": "Number of days before moving object to Glacier",
 			"Default" : "5",
 			"MinValue": "1",
 			"MaxValue": "90",
