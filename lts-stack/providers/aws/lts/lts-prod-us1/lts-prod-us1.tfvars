@@ -22,3 +22,8 @@ mfa_system_ami_id       = "ami-fce3c696"
 mfa_system_ec2_type     = "t2.small"
 mfa_system_ec2_keypair  = "aip-lts-prod-keys"
 mfa_system_ec2_userdata = "./lts/lts-prod-us1/freeradius-user-data.txt"
+
+# PowerBI
+powerbi_wst_ami      = "ami-6242fa75"
+powerbi_wst_ec2_type = "m4.2xlarge"
+powerbi_wst_keypair  = "aip-lts-prod-keys"

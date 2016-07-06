@@ -74,3 +74,28 @@ module "auth" {
 	region  = "${var.region}"
 	profile = "${var.profile}"
 }
+
+variable "powerbi_wst_ami"       { }
+variable "powerbi_wst_ec2_type"  { }
+variable "powerbi_wst_keypair"   { }
+
+module "powerbi" {
+	source = "../../../modules/aws/powerbi"
+
+	vpc_id = "${module.network.vpc_id}"
+	powerbi_wst_ami = "${var.powerbi_wst_ami}"
+	powerbi_wst_ec2_type = "${var.powerbi_wst_ec2_type}"
+	powerbi_wst_ec2_subnet_id = "${element(split(",",module.network.private_subnet_ids), 0)}"
+	powerbi_wst_keypair = "${var.powerbi_wst_keypair}"
+	powerbi_wst_rdp_allow_cidr = "${var.vpc_cidr_block}"
+}
+
+
+variable "peer_prod_accountno" { }
+variable "peer_prod_vpc_id"    { }
+
+resource "aws_vpc_peering_connection" "lts_vpc_peering" {
+    peer_owner_id = "${var.peer_prod_accountno}"
+    peer_vpc_id = "${var.peer_prod_vpc_id}"
+    vpc_id = "${module.network.vpc_id}"
+}

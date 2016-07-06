@@ -22,3 +22,12 @@ mfa_system_ami_id       = "ami-fce3c696"
 mfa_system_ec2_type     = "t2.small"
 mfa_system_ec2_keypair  = "aip-bi-adm-keys-infradev"
 mfa_system_ec2_userdata = "./lts/lts-infradev-us1/freeradius-user-data.txt"
+
+# PowerBI
+powerbi_wst_ami      = "ami-6242fa75"
+powerbi_wst_ec2_type = "m4.2xlarge"
+powerbi_wst_keypair  = "aip-bi-adm-keys-infradev"
+
+# VPC peering
+peer_prod_accountno = "661072482170"
+peer_prod_vpc_id    = "vpc-2cd74548"

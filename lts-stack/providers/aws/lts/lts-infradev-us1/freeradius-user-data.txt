@@ -24,8 +24,7 @@ sed -i '50i DEFAULT Auth-Type := PAM' /etc/freeradius/users
 sed -ir "s/#\s*pam/\tpam/" /etc/freeradius/sites-enabled/default
 sed -i 's/^\([^#]\)/#\1/g' /etc/pam.d/radiusd
 
-echo -e "\nauth requisite pam_google_authenticator.so forward_pass\n\
-auth required pam_unix.so use_first_pass" >> /etc/pam.d/radiusd
+echo -e "\nauth requisite pam_google_authenticator.so forward_pass" >> /etc/pam.d/radiusd
 
 # configure client endpoints
 client_end_points="\nclient ${AD_CONNECTOR_IP1} {\n\tsecret = testing123\n\t\
