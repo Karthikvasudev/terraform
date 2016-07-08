@@ -62,8 +62,7 @@ cd aip-bi/lambda/archive-s3/s3-archive-lambda.sh
 cd ../../deploy/ICP-2013-S3Archive
 
 # Move all $ENV bucket objects to the aip-devops-compost-us-east-1-661072482170 bucket. 
-aws s3 mv s3://mybucket/ s3://mybucket2/ --recursive
-
+./0-move-bucket-objects.sh -e dev -r us-east-1
 
 ## AWS BI App Resources #### AWS BI ETL App (BI-DataProcess) ##
 # Deletes stacks: bi-etl-$ENV-master, bi-app-aws-resources-$ENV-master
@@ -78,18 +77,22 @@ aws s3 mv s3://mybucket/ s3://mybucket2/ --recursive
 
 ./2-create-stacks.sh -e [devops|dev|test|qa|prod|prod2] -r us-east-1
 
+
+# Move back $ENV bucket objects from the aip-devops-compost-us-east-1-661072482170 bucket. 
+./3-move-bucket-objects.sh -e dev -r us-east-1
+
+# Only after bucket data has been moved back to BI buckets, Deploy ETL application code via Beanstalk deploy (specific version on Confluence)
+
 #Manual Step - Add Lambda Topic subscriptions to each bucket in each environment (no api avaiable)
 # 1) Goto Console for Lambda
 # 2) Navigate to "Lambda > Functions > s3-copy2archive-lambda"
 # 3) Select the "Triggers" Tab
 # 4) Choose "Add Trigger"
-# 5) Add the following topic subscription per environment:
+# 5) Add the following topic subscriptions (2) per environment:
 	"bi-{Environment}-sns-etl-file-uploaded"
+	"bi-{Environment}-sns-file-uploaded"
 # 6) Verify invocation by dropping a bucket valid file to trigger the event. Locate the log event and find the file in the S3-Archive-{Region}-{AccountNo} bucket. Example: aip-s3-archive-us-east-1-661072482170
 
-
-# Move back $ENV bucket objects from the aip-devops-compost-us-east-1-661072482170 bucket. 
-aws s3 mv s3://mybucket/ s3://mybucket2/ --recursive
 
 ########################################################
 	Rollout EU-West-1 - Ireland

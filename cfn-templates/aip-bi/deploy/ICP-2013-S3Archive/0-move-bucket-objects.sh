@@ -34,8 +34,7 @@ if [ -z $ENV ] || [ -z $REGION ]; then
 fi
 
 
-S3_Compost="s3://aip-devops-compost-us-east-1-661072482170/cfn-templates"
-
+S3_Compost="s3://aip-devops-compost-us-east-1-661072482170"
 
 
 set -x
@@ -46,15 +45,14 @@ ret=0
 #-------------------------- Bi Buckets ---------------------------#
 cd  ${ETL_DIR}
 
-[ $? -ne 0 ] || aws s3 cp bi-etl-eb-app.cfn.json ${ETL_33_CFN_LOC}
+aws s3 mv s3://bi-$ENV-s3-fileupload-us-east-1-661072482170/ ${S3_Compost}/bi-$ENV-fileupload/ --recursive --sse AES256
 
-[ $? -ne 0 ] || aws s3 cp bi-etl-aws-resources.cfn.json ${ETL_33_CFN_LOC}
+aws s3 mv s3://bi-$ENV-s3-data-benchmark-us-east-1-661072482170/ ${S3_Compost}/bi-$ENV-benchmark/ --recursive --sse AES256
 
+aws s3 mv s3://bi-$ENV-s3-data-metaanalysis-us-east-1-661072482170/ ${S3_Compost}/bi-$ENV-metaanalysis/ --recursive --sse AES256
 
-if [ $? -ne 0 ];then
-	ret=$?
-	echo "Error: Bucket move Failure $ret"
-fi
+aws s3 mv s3://bi-$ENV-s3-dataprocess-fileupload-us-east-1-661072482170/ ${S3_Compost}/bi-$ENV-dataprocess-fileupload/ --recursive --sse AES256
+
 
 cd ${DIR}
 #-----------------------------------------------------------------------------#
