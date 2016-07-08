@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 ENV=""
@@ -24,7 +25,6 @@ while getopts ":e:r:h" opt; do
 			echo "Requires -e <env>, -r <region e.g. 'us-east-1'>"
 			exit 1
 			;;
-
 	esac
 done
 
@@ -33,26 +33,29 @@ if [ -z $ENV ] || [ -z $REGION ]; then
 	exit 1
 fi
 
+
+S3_Compost="s3://aip-devops-compost-us-east-1-661072482170/cfn-templates"
+
+
+
 set -x
-
-DYNAMODB_DIR="../../platform/dynamodb"
-
-cd ${DYNAMODB_DIR}
-
-aws cloudformation update-stack \
---stack-name aip-platform-resources-$ENV-master \
---template-body file://aip-platform-aws-resources.cfn.json \
---parameters file://aip-platform-resources-$ENV-params-$REGION.json \
---capabilities CAPABILITY_IAM \
---region $REGION
+ret=0
 
 
-if [ $? -ne 0 ]; then
+
+#-------------------------- Bi Buckets ---------------------------#
+cd  ${ETL_DIR}
+
+[ $? -ne 0 ] || aws s3 cp bi-etl-eb-app.cfn.json ${ETL_33_CFN_LOC}
+
+[ $? -ne 0 ] || aws s3 cp bi-etl-aws-resources.cfn.json ${ETL_33_CFN_LOC}
+
+
+if [ $? -ne 0 ];then
 	ret=$?
-	echo "Error: dynamodb update-stack returned $ret"
+	echo "Error: Bucket move Failure $ret"
 fi
 
 cd ${DIR}
+#-----------------------------------------------------------------------------#
 
-ret=$?
-exit $ret

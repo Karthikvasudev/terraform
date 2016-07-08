@@ -74,5 +74,9 @@
   {
     "ParameterKey": "AutoScaleMaxSize",
     "ParameterValue": "1"
+  },
+  {
+    "ParameterKey": "LambdaFunctionName",
+    "ParameterValue": "s3-copy2archive-lambda"
   }
 ]

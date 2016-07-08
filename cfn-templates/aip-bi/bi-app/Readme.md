@@ -32,7 +32,7 @@ aws cloudformation update-stack \
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-devops-master \
 --template-body file://bi-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=devops,\
+--parameters ParameterKey=Environment,ParameterValue=devops \
 ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
@@ -40,7 +40,7 @@ ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-devops-master \
 --template-body file://bi-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=devops,\
+--parameters ParameterKey=Environment,ParameterValue=devops \
 ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
@@ -77,7 +77,7 @@ aws cloudformation update-stack \
 aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-dev-master \
 --template-body file://bi-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=dev,\
+--parameters ParameterKey=Environment,ParameterValue=dev \
 ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
@@ -85,7 +85,7 @@ ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-dev-master \
 --template-body file://bi-aws-resources.cfn.json \
---parameters ParameterKey=Environment,ParameterValue=dev,\
+--parameters ParameterKey=Environment,ParameterValue=dev \
 ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
@@ -117,6 +117,7 @@ aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-test-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=test \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
@@ -124,6 +125,7 @@ aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-test-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=test \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
@@ -150,6 +152,7 @@ aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-qa-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=qa \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
@@ -157,6 +160,7 @@ aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-qa-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=qa \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM \
 --region us-east-1
 
@@ -184,6 +188,7 @@ aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-prod-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=prod \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
@@ -191,6 +196,7 @@ aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-prod-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=prod \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
@@ -217,6 +223,7 @@ aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-prod2-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=prod2 \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
@@ -224,6 +231,7 @@ aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-prod2-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=prod2 \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
@@ -254,6 +262,7 @@ aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-beta-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=beta \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
@@ -261,6 +270,7 @@ aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-beta-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=beta \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region us-east-1
 
@@ -296,6 +306,7 @@ aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-prod-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=prod \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region eu-west-1
 
@@ -303,6 +314,7 @@ aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-prod-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=prod \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region eu-west-1
 
@@ -336,6 +348,7 @@ aws cloudformation create-stack \
 --stack-name bi-app-aws-resources-prod-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=prod \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region ap-northeast-1
 
@@ -344,5 +357,6 @@ aws cloudformation update-stack \
 --stack-name bi-app-aws-resources-prod-master \
 --template-body file://bi-aws-resources.cfn.json \
 --parameters ParameterKey=Environment,ParameterValue=prod \
+ParameterKey=LambdaFunctionName,ParameterValue=s3-copy2archive-lambda \
 --capabilities CAPABILITY_IAM --disable-rollback \
 --region ap-northeast-1
