@@ -1,7 +1,0 @@
-vpc
-
-ecs
-
-aip
-
-bi
