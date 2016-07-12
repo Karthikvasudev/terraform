@@ -45,7 +45,7 @@
   },
   {
     "ParameterKey": "SolutionStackName",
-    "ParameterValue": "64bit Amazon Linux 2016.03 v2.1.1 running Multi-container Docker 1.9.1 (Generic)"
+    "ParameterValue": "64bit Amazon Linux 2016.03 v2.1.3 running Multi-container Docker 1.11.1 (Generic)"
   },   
   {
     "ParameterKey": "ImageId",
