@@ -14,3 +14,65 @@ aws s3 sync s3://aip-adm-s3-app-data-us-east-1-661072482170/config/ /root/config
 mkdir -p /opt/aip/aip-adm-jira
 mkdir -p /opt/aip/aip-adm-confluence
 mkdir -p /opt/aip/aip-adm-bitbucket
+
+# Retry function
+# argument - command and args to execute
+# performs exponential backoff on each command failure
+function retry() {
+
+	local -r CMD="$@"
+	local -i MAX_SLEEP=1024
+	local -i sleep_seconds=1
+
+	until $CMD
+	do
+		((sleep_seconds <<= 1)) #binary shift, 1, 2, 4, 8, 16, 32, 64, 128
+		echo "Command failed, sleep($sleep_seconds)..."
+		sleep $((sleep_seconds))
+
+		if [ $sleep_seconds -ge $MAX_SLEEP ]; then
+			echo "Command retry timeout"
+			date
+			exit 1
+		fi
+
+		echo "Retrying..."
+	done
+}
+
+APP_DATA_S3_LOC="s3://aip-adm-s3-app-data-us-east-1-661072482170"
+
+#Restore Jira
+
+LAST_BACKUP_JIRA=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/jira/ | awk -F " " '{print $4}' | grep ^jira | sort -r | head -n1)
+
+if [ $? -eq 0 ]; then
+	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/jira/$LAST_BACKUP_JIRA $LAST_BACKUP_JIRA
+	tar -xvf $LAST_BACKUP_JIRA -C /
+	rm $LAST_BACKUP_JIRA
+else
+	echo "no existing backup"
+fi
+
+# Restore BitBucket
+
+LAST_BACKUP_BITBUCKET=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/bitbucket/ | awk -F " " '{print $4}' | grep ^bitbucket | sort -r | head -n1)
+
+if [ $? -eq 0 ]; then
+	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/bitbucket/$LAST_BACKUP_BITBUCKET $LAST_BACKUP_BITBUCKET
+	tar -xvf $LAST_BACKUP_BITBUCKET -C /
+	rm $LAST_BACKUP_BITBUCKET
+else
+	echo "no existing backup"
+fi
+
+# Restore confluence
+LAST_BACKUP_CONFLUENCE=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/confluence/ | awk -F " " '{print $4}' | grep ^confluence | sort -r | head -n1)
+
+if [ $? -eq 0 ]; then
+	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/confluence/$LAST_BACKUP_CONFLUENCE $LAST_BACKUP_CONFLUENCE
+	tar -xvf $LAST_BACKUP_CONFLUENCE -C /
+	rm $LAST_BACKUP_CONFLUENCE
+else
+	echo "no existing backup"
+fi
