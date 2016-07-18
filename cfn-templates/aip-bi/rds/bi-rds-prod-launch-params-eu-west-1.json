@@ -50,6 +50,13 @@
   {
     "ParameterKey": "BackupRetentionPeriod",
     "ParameterValue": "35"
+  },
+  {
+    "ParameterKey": "DbParameterWorkmemValue",
+    "ParameterValue": "8388608"
+  },
+  {
+    "ParameterKey": "DbParameterMaintenanceorkmemValue",
+    "ParameterValue": "2097152"
   }
-
 ]

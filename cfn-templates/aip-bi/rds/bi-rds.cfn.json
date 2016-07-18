@@ -100,6 +100,16 @@
       "MinLength": "1",
       "MaxLength": "2",
       "AllowedPattern" : "[0-9][0-9]?"
+    },
+    "DbParameterWorkmemValue" : {
+      "Description": "RDS Parameter - work_mem value",
+      "Type": "String",
+      "AllowedPattern" : "[0-9]+"
+    },
+    "DbParameterMaintenanceorkmemValue" : {
+      "Description": "RDS Parameter - maintenance_work_mem value",
+      "Type": "String",
+      "AllowedPattern" : "[0-9]+"
     }
   },
 
@@ -243,7 +253,9 @@
             "random_page_cost": 1.1,
             "pg_stat_statements.track": "ALL",
             "track_activity_query_size": "2048",
-            "shared_preload_libraries": "pg_stat_statements"
+            "shared_preload_libraries": "pg_stat_statements",
+            "work_mem": { "Ref": "DbParameterWorkmemValue" },
+            "maintenance_work_mem": { "Ref": "DbParameterMaintenanceorkmemValue" }
           },
           "Tags" : [ 
               {"Key": "Name", "Value": { "Fn::Join": ["", ["bi-", { "Ref": "Environment" }, "-rds-dw-paramgrp-", {"Ref": "AWS::Region"}]]}},
