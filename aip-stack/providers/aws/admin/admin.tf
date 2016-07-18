@@ -83,6 +83,7 @@ resource "terraform_remote_state" "s3-remote-state" {
 		bucket = "aip-config-${var.region}-${var.accountno}"
 		key    = "terraform/${var.env}/${var.env}.tfstate"
 		region = "${var.region}"
+		profile = "${var.profile}"
 	}
 }
 
