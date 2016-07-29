@@ -29,7 +29,7 @@
   },
   {
     "ParameterKey": "Aliases",
-    "ParameterValue": "beta-us-1.aliniqbis.com,cdn-beta-us-1.aliniqbis.com,x.aliniqbis.com,french.aliniqbis.com,aurora.aliniqbis.com,mchenry.aliniqbis.com,kenosha.aliniqbis.com,igh.aliniqbis.com,saintfrancis.aliniqbis.com,greatlakes.aliniqbis.com,customer1-beta.aliniqbis.com,kingstoncanada.aliniqbis.com,smgcatamarcaargentina.aliniqbis.com,csvbrazil.aliniqbis.com,customer2-beta.aliniqbis.com,customer3-beta.aliniqbis.com,customer4-beta.aliniqbis.com,unitedphysicians.aliniqbis.com,hospitaledejoliceur.aliniqbis.com,abchospital.aliniqbis.com,ataturkhospital.aliniqbis.com"
+    "ParameterValue": "beta-us-1.aliniqbis.com,cdn-beta-us-1.aliniqbis.com,x.aliniqbis.com,french.aliniqbis.com,aurora.aliniqbis.com,mchenry.aliniqbis.com,kenosha.aliniqbis.com,igh.aliniqbis.com,saintfrancis.aliniqbis.com,greatlakes.aliniqbis.com,customer1-beta.aliniqbis.com,kingstoncanada.aliniqbis.com,smgcatamarcaargentina.aliniqbis.com,csvbrazil.aliniqbis.com,customer2-beta.aliniqbis.com,customer3-beta.aliniqbis.com,customer4-beta.aliniqbis.com,unitedphysicians.aliniqbis.com,hospitaledejoliceur.aliniqbis.com,abchospital.aliniqbis.com,ataturkhospital.aliniqbis.com,tenant-migration-1.aliniqbis.com,tenant-migration-2.aliniqbis.com"
   },
   { 
     "ParameterKey": "PriceClass",
