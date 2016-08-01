@@ -72,11 +72,8 @@ module "cluster" {
 
 	node_reg_secret_token = "${var.node_reg_secret_token}"
 
-	mgr_asg_subnet_ids = "${module.network.private_subnet_ids}"
-	mgr_asg_azs        = "${var.private_subnet_azs}"
-
-	wkr_asg_subnet_ids = "${module.network.private_subnet_ids}"
-	wkr_asg_azs        = "${var.private_subnet_azs}"
+	node_asg_subnet_ids = "${module.network.private_subnet_ids}"
+	node_asg_azs        = "${var.private_subnet_azs}"
 
 	node_sec_group_ingress_cidrs = "${var.node_sec_group_ingress_cidrs}"
 }

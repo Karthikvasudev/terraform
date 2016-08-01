@@ -68,7 +68,7 @@ module "vpc" {
 module "public_subnet" {
 	source = "./public_subnet"
 
-	public_subnet_name   = "${var.vpc_tag_name}-public-subnet"
+	public_subnet_name   = "${var.vpc_tag_name}-sn-swarm-public"
 	#vpc_id = "${module.vpc.vpc_ids}"
 	#vpc_id  = "${element(concat(join(",", var.existing_vpc_id), join(",", module.vpc.vpc_ids)),0)}"
 	vpc_id = "${var.existing_vpc_id}"
@@ -86,7 +86,7 @@ module "nat" {
 module "private_subnet" {
 	source = "./private_subnet"
 
-	private_subnet_name   = "${var.vpc_tag_name}-private-subnet"
+	private_subnet_name   = "${var.vpc_tag_name}-sn-swarm-private"
 	#vpc_id = "${module.vpc.vpc_ids}"
 	#vpc_id  = "${element(split(",", concat(join(",", var.existing_vpc_id), join(",", module.vpc.vpc_ids))),0)}"
 	#vpc_id  = "${element(concat(join(",", var.existing_vpc_id), join(",", module.vpc.vpc_ids)),0)}"
