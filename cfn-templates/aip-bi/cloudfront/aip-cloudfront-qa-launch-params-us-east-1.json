@@ -29,7 +29,7 @@
   },
   {
     "ParameterKey": "Aliases",
-    "ParameterValue": "qa-us-1.aliniqbis.com,cdn-qa-us-1.aliniqbis.com,customer1-qa.aliniqbis.com,customer2-qa.aliniqbis.com,customer3-qa.aliniqbis.com,customer4-qa.aliniqbis.com,customer5-qa.aliniqbis.com,customer6-qa.aliniqbis.com,customer7-qa.aliniqbis.com,customer8-qa.aliniqbis.com,customer9-qa.aliniqbis.com,customer10-qa.aliniqbis.com"
+    "ParameterValue": "qa-us-1.aliniqbis.com,cdn-qa-us-1.aliniqbis.com,customer1-qa.aliniqbis.com,customer2-qa.aliniqbis.com,customer3-qa.aliniqbis.com,customer4-qa.aliniqbis.com,customer5-qa.aliniqbis.com,customer6-qa.aliniqbis.com,customer7-qa.aliniqbis.com,customer8-qa.aliniqbis.com,customer9-qa.aliniqbis.com,customer10-qa.aliniqbis.com,tenant-migration-1.aliniqbis.com,tenant-migration-2.aliniqbis.com"
   },
   { 
     "ParameterKey": "PriceClass",
