@@ -36,7 +36,6 @@ variable "existing_igw_id"         { }
 
 variable "node_ami_id"             { }
 variable "node_ec2_keypair"        { }
-variable "node_reg_secret_token"   { }
 variable "node_sec_group_ingress_cidrs"  { }
 
 
@@ -69,8 +68,6 @@ module "cluster" {
 	cluster_name     = "${var.vpc_tag_name}"
 	node_ami_id      = "${var.node_ami_id}"
 	node_ec2_keypair = "${var.node_ec2_keypair}"
-
-	node_reg_secret_token = "${var.node_reg_secret_token}"
 
 	node_asg_subnet_ids = "${module.network.private_subnet_ids}"
 	node_asg_azs        = "${var.private_subnet_azs}"

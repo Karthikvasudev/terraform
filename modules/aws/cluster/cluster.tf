@@ -25,11 +25,6 @@ variable "node_ec2_keypair" {
 	description = "keypair to be used for node instance"
 }
 
-variable "node_reg_secret_token" {
-	type = "string"
-	description = "secret token to join the cluster"
-}
-
 variable "node_user_data_file" {
 	description = "manager join user-date file"
 	default = "../../../modules/aws/cluster/cluster_user_data.sh"
@@ -54,12 +49,12 @@ variable "node_asg_max_size" {
 
 variable "node_asg_min_size" { 
 	description = "minimum number of instances in the cluster"
-	default = 3
+	default = 5
 }
 
 variable "node_asg_desired_capacity" { 
 	description = "desirec number of instnces in the cluster"
-	default = 3
+	default = 5
 }
 
 variable "node_sec_group_ing_from_port" {
@@ -219,8 +214,7 @@ resource "template_file" "node_user_data_tpl" {
 	template = "${file(var.node_user_data_file)}"
 
 	vars {
-		NODE_REG_SECRET_TOKEN = "${var.node_reg_secret_token}"
-
+		# Add variables here when needed
 	}
 }
 

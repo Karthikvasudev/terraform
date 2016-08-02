@@ -18,5 +18,4 @@ private_subnet_azs   = "us-east-1a,us-east-1b,us-east-1e"
 
 node_ami_id = "ami-2051294a"
 node_ec2_keypair = "aip-bi-dev-keys"
-node_reg_secret_token = "Joshua123"
 node_sec_group_ingress_cidrs = "10.0.0.0/8"
