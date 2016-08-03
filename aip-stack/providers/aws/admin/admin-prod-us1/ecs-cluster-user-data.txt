@@ -14,6 +14,8 @@ aws s3 sync s3://aip-adm-s3-app-data-us-east-1-661072482170/config/ /root/config
 mkdir -p /opt/aip/aip-adm-jira
 mkdir -p /opt/aip/aip-adm-confluence
 mkdir -p /opt/aip/aip-adm-bitbucket
+mkdir -p /opt/aip/aip-adm-artifactory
+mkdir -p /opt/aip/aip-adm-jenkins
 
 # Retry function
 # argument - command and args to execute
@@ -73,6 +75,31 @@ if [ $? -eq 0 ]; then
 	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/confluence/$LAST_BACKUP_CONFLUENCE $LAST_BACKUP_CONFLUENCE
 	tar -xvf $LAST_BACKUP_CONFLUENCE -C /
 	rm $LAST_BACKUP_CONFLUENCE
+else
+	echo "no existing backup"
+fi
+
+# Restore Artifactory
+
+LAST_BACKUP_ARTIFACTORY=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/artifactory/ | awk -F " " '{print $4}' | grep ^artifactory | sort -r | head -n1)
+
+if [ $? -eq 0 ]; then
+	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/artifactory/$LAST_BACKUP_ARTIFACTORY $LAST_BACKUP_ARTIFACTORY
+	tar -xvf $LAST_BACKUP_ARTIFACTORY -C /
+	rm $LAST_BACKUP_ARTIFACTORY
+	chmod 777 -R /opt/aip/aip-adm-artifactory
+else
+	echo "no existing backup"
+fi
+
+# Restore Jenkins
+
+LAST_BACKUP_JENKINS=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/jenkins/ | awk -F " " '{print $4}' | grep ^jenkins | sort -r | head -n1)
+
+if [ $? -eq 0 ]; then
+	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/jenkins/$LAST_BACKUP_JENKINS $LAST_BACKUP_JENKINS
+	tar -xvf $LAST_BACKUP_JENKINS -C /
+	rm $LAST_BACKUP_JENKINS
 else
 	echo "no existing backup"
 fi

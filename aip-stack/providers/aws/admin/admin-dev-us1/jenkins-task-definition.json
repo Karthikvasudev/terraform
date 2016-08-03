@@ -1,0 +1,117 @@
+[
+    {
+        "name": "nginx",
+        "image": "nginx:alpine",
+        "essential": true,
+        "portMappings": [
+            {
+                "containerPort": 80,
+                "hostPort": 8004
+            }
+        ],
+        "links": [
+             "jenkins"
+        ],
+        "mountPoints": [
+            {
+                "sourceVolume": "nginx-config",
+                "containerPath": "/etc/nginx/nginx.conf"
+            }
+        ],
+        "logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+                    "awslogs-group": "aip-adm-jenkins-logs",
+                    "awslogs-region": "us-east-1"
+                }
+			},
+        "memory": 256,
+        "cpu": 100
+    },
+	{
+		"name": "jenkins",
+		"image": "jenkins:1.625.3",
+		"mountPoints": [
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/var/jenkins_home"
+			}
+        ],
+		"environment": [
+			{
+				"name" : "X_PROXY_NAME",
+				"value" : "jenkins.aipadmin.com"
+			},
+			{
+				"name" : "X_PROXY_PORT",
+				"value" : "443"
+			},
+			{
+				"name" : "X_PROXY_SCHEME",
+				"value" : "https"
+			},
+			{
+				"name" : "X_PATH",
+				"value" : "/"
+			}
+		],
+		"user": "root",
+		"logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+				"awslogs-group": "aip-adm-jenkins-logs",
+				"awslogs-region": "us-east-1"
+				}
+			},
+		"cpu": 512,
+		"memory": 2024,
+		"essential": true
+	},
+	{
+		"name": "dockup-data",
+		"image": "596978647277.dkr.ecr.us-east-1.amazonaws.com/add/atlassian-dockup-data:latest",
+		"essential": true,
+		"mountPoints": [
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/opt/aip/aip-adm-jenkins"
+			}
+		],
+		"environment": [
+			{
+				"name" : "BACKUP_NAME",
+				"value" : "jenkins"
+			},
+			{
+				"name" : "BACKUP_TAR_OPTION",
+				"value" : "/opt/aip/aip-adm-jenkins/*"
+			},
+			{
+				"name" : "AWS_REGION",
+				"value" : "us-east-1"
+			},
+			{
+				"name" : "AWS_BUCKET",
+				"value" : "aip-adm-s3-app-data-us-east-1-596978647277"
+			},
+			{
+				"name" : "PREFIX",
+				"value" : "backups/adm/data/jenkins"
+			},
+			{
+				"name" : "CRON_TIME",
+				"value" : "00 5 * * *"
+			}
+		],
+			"logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+				"awslogs-group": "aip-adm-jenkins-logs",
+				"awslogs-region": "us-east-1"
+				}
+			},
+			"memory": 256,
+			"cpu": 100
+	}
+
+]
