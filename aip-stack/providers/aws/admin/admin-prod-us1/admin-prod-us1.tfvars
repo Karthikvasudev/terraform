@@ -89,3 +89,33 @@ adm_ecs_service_bitbucket_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170
 adm_ecs_service_bitbucket_elb_health_check_url      = "TCP:8002"
 
 adm_ecs_service_bitbucket_dns_name = "bitbucket.aipadmin.com"
+
+# ECS Service - Artifactory
+
+adm_ecs_service_artifactory_service_name         = "aip-adm-artifactory"
+adm_ecs_service_artifactory_task_name            = "artifactory"
+adm_ecs_service_artifactory_task_definition_file = "./admin/admin-prod-us1/artifactory-task-definition.json"
+
+
+adm_ecs_service_artifactory_elb_listener_instance_port     = 8003
+
+adm_ecs_service_artifactory_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/cb98db69-6fc9-452a-b4c2-fd8c437b8bc5"
+
+adm_ecs_service_artifactory_elb_health_check_url      = "TCP:8003"
+
+adm_ecs_service_artifactory_dns_name = "artifactory.aipadmin.com"
+
+# ECS Service - Jenkins
+
+adm_ecs_service_jenkins_service_name         = "aip-adm-jenkins"
+adm_ecs_service_jenkins_task_name            = "jenkins"
+adm_ecs_service_jenkins_task_definition_file = "./admin/admin-prod-us1/jenkins-task-definition.json"
+
+
+adm_ecs_service_jenkins_elb_listener_instance_port     = 8004
+
+adm_ecs_service_jenkins_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/cb98db69-6fc9-452a-b4c2-fd8c437b8bc5"
+
+adm_ecs_service_jenkins_elb_health_check_url      = "TCP:8004"
+
+adm_ecs_service_jenkins_dns_name = "jenkins.aipadmin.com"
