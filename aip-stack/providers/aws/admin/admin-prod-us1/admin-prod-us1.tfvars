@@ -35,11 +35,12 @@ adm_ecs_cluster_instance_type = "m3.large"
 adm_ecs_cluster_ec2_keypair   = "aip-bi-adm-keys"
 adm_ecs_cluster_ec2_userdata  = "./admin/admin-prod-us1/ecs-cluster-user-data.txt"
 
-adm_ecs_cluster_autoscale_max     = 2
-adm_ecs_cluster_autoscale_min     = 2
-adm_ecs_cluster_autoscale_desired = 2
+adm_ecs_cluster_autoscale_max     = 4
+adm_ecs_cluster_autoscale_min     = 4
+adm_ecs_cluster_autoscale_desired = 4
 
 adm_ecs_service_zone_id       = "ZWNUK1RZNC5G5"
+adm_apps_ecs_service_zone_id  = "Z1LRCTGFBMLKI2"
 
 
 # ECS Service - Jira
@@ -90,6 +91,7 @@ adm_ecs_service_bitbucket_elb_health_check_url      = "TCP:8002"
 
 adm_ecs_service_bitbucket_dns_name = "bitbucket.aipadmin.com"
 
+
 # ECS Service - Artifactory
 
 adm_ecs_service_artifactory_service_name         = "aip-adm-artifactory"
@@ -99,11 +101,12 @@ adm_ecs_service_artifactory_task_definition_file = "./admin/admin-prod-us1/artif
 
 adm_ecs_service_artifactory_elb_listener_instance_port     = 8003
 
-adm_ecs_service_artifactory_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/cb98db69-6fc9-452a-b4c2-fd8c437b8bc5"
+adm_ecs_service_artifactory_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/b016e8db-215a-4471-90ae-5d3b224e7e35"
 
 adm_ecs_service_artifactory_elb_health_check_url      = "TCP:8003"
 
 adm_ecs_service_artifactory_dns_name = "artifactory.aipadmin.com"
+
 
 # ECS Service - Jenkins
 
@@ -114,8 +117,24 @@ adm_ecs_service_jenkins_task_definition_file = "./admin/admin-prod-us1/jenkins-t
 
 adm_ecs_service_jenkins_elb_listener_instance_port     = 8004
 
-adm_ecs_service_jenkins_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/cb98db69-6fc9-452a-b4c2-fd8c437b8bc5"
+adm_ecs_service_jenkins_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/1489674e-bc57-4289-bf62-55c481de80fb"
 
 adm_ecs_service_jenkins_elb_health_check_url      = "TCP:8004"
 
 adm_ecs_service_jenkins_dns_name = "jenkins.aipadmin.com"
+
+
+# ECS Service - blast
+
+adm_ecs_service_blast_service_name         = "aip-adm-blast"
+adm_ecs_service_blast_task_name            = "blast"
+adm_ecs_service_blast_task_definition_file = "./admin/admin-dev-us1/blast-task-definition.json"
+
+
+adm_ecs_service_blast_elb_listener_instance_port     = 8005
+
+adm_ecs_service_blast_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/d8ee51fb-c20c-42c7-90f4-409cd8d23ed2"
+
+adm_ecs_service_blast_elb_health_check_url      = "TCP:8005"
+
+adm_ecs_service_blast_dns_name = "blast.aipapps.com"

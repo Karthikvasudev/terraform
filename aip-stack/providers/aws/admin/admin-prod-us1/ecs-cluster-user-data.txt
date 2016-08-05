@@ -16,6 +16,7 @@ mkdir -p /opt/aip/aip-adm-confluence
 mkdir -p /opt/aip/aip-adm-bitbucket
 mkdir -p /opt/aip/aip-adm-artifactory
 mkdir -p /opt/aip/aip-adm-jenkins
+mkdir -p /opt/aip/aip-adm-blast
 
 # Retry function
 # argument - command and args to execute
@@ -83,7 +84,7 @@ fi
 
 LAST_BACKUP_ARTIFACTORY=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/artifactory/ | awk -F " " '{print $4}' | grep ^artifactory | sort -r | head -n1)
 
-if [ $? -eq 0 ]; then
+if [ $? -eq 0 ] && [ ! -z ${LAST_BACKUP_ARTIFACTORY} ]; then
 	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/artifactory/$LAST_BACKUP_ARTIFACTORY $LAST_BACKUP_ARTIFACTORY
 	tar -xvf $LAST_BACKUP_ARTIFACTORY -C /
 	rm $LAST_BACKUP_ARTIFACTORY
@@ -96,7 +97,7 @@ fi
 
 LAST_BACKUP_JENKINS=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/jenkins/ | awk -F " " '{print $4}' | grep ^jenkins | sort -r | head -n1)
 
-if [ $? -eq 0 ]; then
+if [ $? -eq 0 ] && [ ! -z ${LAST_BACKUP_JENKINS} ]; then
 	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/jenkins/$LAST_BACKUP_JENKINS $LAST_BACKUP_JENKINS
 	tar -xvf $LAST_BACKUP_JENKINS -C /
 	rm $LAST_BACKUP_JENKINS

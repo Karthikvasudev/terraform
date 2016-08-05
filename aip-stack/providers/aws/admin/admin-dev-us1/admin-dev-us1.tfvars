@@ -40,6 +40,7 @@ adm_ecs_cluster_autoscale_min     = 2
 adm_ecs_cluster_autoscale_desired = 2
 
 adm_ecs_service_zone_id       = "Z2TRK11Z2S58FH"
+adm_apps_ecs_service_zone_id  = "Z2TRK11Z2S58FH"
 
 
 # ECS Service - Jira
@@ -90,6 +91,7 @@ adm_ecs_service_bitbucket_elb_health_check_url      = "TCP:8002"
 
 adm_ecs_service_bitbucket_dns_name = "bitbucket.aipadmin.com"
 
+
 # ECS Service - Artifactory
 
 adm_ecs_service_artifactory_service_name         = "aip-adm-artifactory"
@@ -105,6 +107,7 @@ adm_ecs_service_artifactory_elb_health_check_url      = "TCP:8003"
 
 adm_ecs_service_artifactory_dns_name = "artifactory.aipadmin.com"
 
+
 # ECS Service - Jenkins
 
 adm_ecs_service_jenkins_service_name         = "aip-adm-jenkins"
@@ -119,3 +122,20 @@ adm_ecs_service_jenkins_elb_ssl_cert_arn = "arn:aws:iam::596978647277:server-cer
 adm_ecs_service_jenkins_elb_health_check_url      = "TCP:8004"
 
 adm_ecs_service_jenkins_dns_name = "jenkins.aipadmin.com"
+
+
+# ECS Service - blast
+
+adm_ecs_service_blast_service_name         = "aip-adm-blast"
+adm_ecs_service_blast_task_name            = "blast"
+adm_ecs_service_blast_task_definition_file = "./admin/admin-dev-us1/blast-task-definition.json"
+
+
+adm_ecs_service_blast_elb_listener_instance_port     = 8005
+
+adm_ecs_service_blast_elb_ssl_cert_arn = "arn:aws:iam::596978647277:server-certificate/aipadmin"
+
+adm_ecs_service_blast_elb_health_check_url      = "TCP:8005"
+
+adm_ecs_service_blast_dns_name = "blast.aipadmin.com"
+
