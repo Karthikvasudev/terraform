@@ -138,3 +138,18 @@ adm_ecs_service_blast_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:cer
 adm_ecs_service_blast_elb_health_check_url      = "TCP:8005"
 
 adm_ecs_service_blast_dns_name = "blast.aipapps.com"
+
+# ECS Service - crowd
+
+adm_ecs_service_crowd_service_name         = "aip-adm-crowd"
+adm_ecs_service_crowd_task_name            = "crowd"
+adm_ecs_service_crowd_task_definition_file = "./admin/admin-prod-us1/crowd-task-definition.json"
+
+
+adm_ecs_service_crowd_elb_listener_instance_port     = 8006
+
+adm_ecs_service_crowd_elb_ssl_cert_arn = "arn:aws:acm:us-east-1:661072482170:certificate/9e1a0d8b-581d-47d3-88c7-5c6eea93b3fc"
+
+adm_ecs_service_crowd_elb_health_check_url      = "TCP:8006"
+
+adm_ecs_service_crowd_dns_name = "crowd.aipadmin.com"
