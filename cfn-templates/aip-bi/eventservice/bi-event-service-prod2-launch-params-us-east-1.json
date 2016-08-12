@@ -1,0 +1,78 @@
+[
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "aip-bi-prod2-keys-us-east-1"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "prod2"
+  },
+  {
+    "ParameterKey": "ResourcesTemplateKey",
+    "ParameterValue": "/cfn-templates/bi-event-service/bi-event-service-aws-resources.cfn.json"
+  },
+  {
+    "ParameterKey": "AppTemplateKey",
+    "ParameterValue": "/cfn-templates/bi-event-service/bi-event-service-eb-app.cfn.json"
+  },  
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m3.xlarge"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-78d6f41c"
+  },
+  {
+    "ParameterKey": "VpcName",
+    "ParameterValue": "aip-prod2-vpc-us-east-1"
+  },
+  {
+    "ParameterKey": "ApplicationURL",
+    "ParameterValue": "prod2-event-service-app"
+  },
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "bi-event-service"
+  },  
+  {
+    "ParameterKey": "ApplicationSourceBundle",
+    "ParameterValue": "golden"
+  },  
+  {
+    "ParameterKey": "S3Key",
+    "ParameterValue": "eb-docker-template.zip"
+  },  
+  {
+    "ParameterKey": "SolutionStackName",
+    "ParameterValue": "64bit Amazon Linux 2016.03 v2.1.3 running Multi-container Docker 1.11.1 (Generic)"
+  },   
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-cacfe5a0"
+  },
+  {
+    "ParameterKey": "AppEnvironmentSuffix",
+    "ParameterValue": "bi-es"
+  },
+  {
+    "ParameterKey": "PublicSubnets",
+    "ParameterValue": "subnet-7bf72d51,subnet-912348ac"
+  },
+  {
+    "ParameterKey": "PrivateSubnets",
+    "ParameterValue": "subnet-7af72d50,subnet-932348ae"
+  },   
+  {
+    "ParameterKey": "InstanceSecurityGroups",
+    "ParameterValue": "sg-85af0ffd"
+  },
+  {
+    "ParameterKey": "AutoScaleMinSize",
+    "ParameterValue": "1"
+  },   
+  {
+    "ParameterKey": "AutoScaleMaxSize",
+    "ParameterValue": "1"
+  }
+]

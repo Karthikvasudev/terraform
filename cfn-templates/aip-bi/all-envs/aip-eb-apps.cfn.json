@@ -43,6 +43,13 @@
                 "ApplicationName": {"Fn::Join": ["-", ["bi-datapipeline-service", {"Ref": "AWS::Region"}]]},
                 "Description": "AWS Elastic Beanstalk Datapipeline Application"
             }
+        },
+        "eventserviceapp": {
+            "Type": "AWS::ElasticBeanstalk::Application",
+            "Properties": {
+                "ApplicationName": {"Fn::Join": ["-", ["bi-event-service", {"Ref": "AWS::Region"}]]},
+                "Description": "AWS Elastic Beanstalk EventService Application"
+            }
         }
     }
 }

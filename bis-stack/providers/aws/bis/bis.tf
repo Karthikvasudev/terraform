@@ -82,4 +82,14 @@ module "bi-dataprocess-groups" {
 	region  = "${var.region}"
 	profile = "${var.profile}"
 	log-group-names = "bi-${var.env}-dataprocess-service"
-}	
+}
+
+# Log group for bi-event-service
+
+module "bi-event-service-groups" {
+	source = "../../../modules/aws/awslogs"
+
+	region  = "${var.region}"
+	profile = "${var.profile}"
+	log-group-names = "bi-${var.env}-event-service"
+}
