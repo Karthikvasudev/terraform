@@ -25,6 +25,10 @@ variable "adm_vpc_nat_sg"                    { }
 
 variable "adm_bucket_name"					 { }
 
+# EFS
+
+variable "adm_efs_name" 					{ }
+
 # ECS Cluster
 
 variable "adm_ecs_cluster_name"              { }
@@ -156,6 +160,15 @@ module "vpc" {
 
 }
 
+module "efs" {
+	source = "../../../modules/aws/efs"
+	
+	efs_name = "${var.adm_efs_name}"
+	vpc_id         = "${var.adm_vpc_id}"
+	subnet_ids     = "${module.vpc.subnet_ids}"
+	
+}
+
 module "s3bucket" {
 
     source = "../../../modules/aws/s3"
@@ -177,6 +190,9 @@ module "ecs" {
 	instance_type  = "${var.adm_ecs_cluster_instance_type}"
 	keypair_name   = "${var.adm_ecs_cluster_ec2_keypair}"
 	user_data_file = "${var.adm_ecs_cluster_ec2_userdata}"
+	
+	# Adding SG for EFS access
+	efs_sg_id     = "${module.efs.efs_sg_id}"
 
 	vpc_id         = "${var.adm_vpc_id}"
 	subnet_ids     = "${module.vpc.subnet_ids}"
