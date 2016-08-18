@@ -91,6 +91,10 @@ variable "ecs_instance_sec_group_eg_protocol" {
 	default = "-1"
 }
 
+variable "efs_sg_id" {
+	description = "efs_sg_id"
+}
+
 
 # Resources
 
@@ -153,7 +157,8 @@ resource "aws_iam_role_policy" "ecs-instance-policy" {
         "ecr:GetDownloadUrlForLayer",
         "ecr:BatchGetImage",
         "logs:CreateLogStream",
-        "logs:PutLogEvents"
+        "logs:PutLogEvents",
+		"elasticfilesystem:*"
       ],
       "Resource": "*"
     },
@@ -280,6 +285,33 @@ resource "aws_security_group_rule" "vpc_nat_sg_rule2" {
 	security_group_id = "${var.vpc_nat_instance_sg}"
 }
 
+/*
+ * allow cluster instance to access efs over port 2049 (needed for EFS access)
+ */
+resource "aws_security_group_rule" "efs_sg_rule1" {
+	type = "ingress"
+	from_port = 2049
+	to_port   = 2049
+	protocol  = "tcp"
+
+	source_security_group_id = "${aws_security_group.ecs-instance-security-group.id}"
+
+	security_group_id = "${var.efs_sg_id}"
+}
+
+/*
+ * allow cluster instance to access efs over port 2049 (needed for EFS access)
+ */
+resource "aws_security_group_rule" "efs_sg_rule2" {
+	type = "ingress"
+	from_port = 2049
+	to_port   = 2049
+	protocol  = "tcp"
+
+	source_security_group_id = "${var.efs_sg_id}"
+
+	security_group_id = "${aws_security_group.ecs-instance-security-group.id}"
+}
 
 # Outputs
 

@@ -25,6 +25,10 @@ adm_vpc_nat_sg = "sg-f37b7794"
 
 adm_bucket_name = "aip-adm-s3-app-data"
 
+# EFS
+
+adm_efs_name = "aip-adm-efs-admin"
+
 # ECS Cluster
 
 # must mention the below cluster name in the user-data-file too

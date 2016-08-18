@@ -1,7 +1,13 @@
 #!/bin/bash
 
-yum install aws-cli -y
+
+#Instance should be added to an security group that allows HTTP outbound
+yum -y install aws-cli
+yum -y install nfs-utils
+yum -y install jq
+
 echo ECS_CLUSTER=aip-adm-ecs-admin >> /etc/ecs/ecs.config
+aws configure set preview.efs true
 
 # create a directory for the config files
 mkdir -p /root/config/
@@ -9,14 +15,8 @@ mkdir -p /root/config/
 # download config files from s3 bucket to the config directory
 aws s3 sync s3://aip-adm-s3-app-data-us-east-1-661072482170/config/ /root/config/
 
-# create directory for the jira service's data (future EFS mount)
-# naming format of the app data location is /opt/aip/<ecs service name as in .tfvars>
-mkdir -p /opt/aip/aip-adm-jira
-mkdir -p /opt/aip/aip-adm-confluence
-mkdir -p /opt/aip/aip-adm-bitbucket
-mkdir -p /opt/aip/aip-adm-artifactory
-mkdir -p /opt/aip/aip-adm-jenkins
-mkdir -p /opt/aip/aip-adm-blast
+#Create mount point
+mkdir -p /opt/aip
 
 # Retry function
 # argument - command and args to execute
@@ -27,11 +27,11 @@ function retry() {
 	local -i MAX_SLEEP=1024
 	local -i sleep_seconds=1
 
-	until $CMD
+	until $CMD 
 	do
 		((sleep_seconds <<= 1)) #binary shift, 1, 2, 4, 8, 16, 32, 64, 128
 		echo "Command failed, sleep($sleep_seconds)..."
-		sleep $((sleep_seconds))
+		sleep $((sleep_seconds))  
 
 		if [ $sleep_seconds -ge $MAX_SLEEP ]; then
 			echo "Command retry timeout"
@@ -43,64 +43,45 @@ function retry() {
 	done
 }
 
-APP_DATA_S3_LOC="s3://aip-adm-s3-app-data-us-east-1-661072482170"
 
-#Restore Jira
+#Get region of EC2 from instance metadata
+EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
+EC2_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed -e 's:\([0-9][0-9]*\)[a-z]*\$:\\1:'`"
 
-LAST_BACKUP_JIRA=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/jira/ | awk -F " " '{print $4}' | grep ^jira | sort -r | head -n1)
 
-if [ $? -eq 0 ]; then
-	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/jira/$LAST_BACKUP_JIRA $LAST_BACKUP_JIRA
-	tar -xvf $LAST_BACKUP_JIRA -C /
-	rm $LAST_BACKUP_JIRA
-else
-	echo "no existing backup"
+#Get EFS FileSystemID attribute
+#Instance needs to be added to a EC2 role that give the instance at least read access to EFS
+
+EFS_FILE_SYSTEM_ID=$(aws efs describe-file-systems --region $EC2_REGION | jq '.FileSystems[]' | jq 'select(.Name=="aip-adm-efs-admin")' | jq -r '.FileSystemId')
+#Check to see if the variable is set. If not, then exit.
+if [ -z "$EFS_FILE_SYSTEM_ID" ]; then
+        echo "ERROR: variable not set" 1> /etc/efssetup.log
+        exit
 fi
 
-# Restore BitBucket
+#Instance needs to be a member of security group that allows 2049 inbound/outbound
+#The security group that the instance belongs to has to be added to EFS file system configuration
+#Create variables for source and target
 
-LAST_BACKUP_BITBUCKET=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/bitbucket/ | awk -F " " '{print $4}' | grep ^bitbucket | sort -r | head -n1)
+DIR_SRC=$EC2_AVAIL_ZONE.$EFS_FILE_SYSTEM_ID.efs.$EC2_REGION.amazonaws.com
+DIR_TGT=/opt/aip
 
-if [ $? -eq 0 ]; then
-	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/bitbucket/$LAST_BACKUP_BITBUCKET $LAST_BACKUP_BITBUCKET
-	tar -xvf $LAST_BACKUP_BITBUCKET -C /
-	rm $LAST_BACKUP_BITBUCKET
-else
-	echo "no existing backup"
-fi
+#Mount EFS file system
 
-# Restore confluence
-LAST_BACKUP_CONFLUENCE=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/confluence/ | awk -F " " '{print $4}' | grep ^confluence | sort -r | head -n1)
+retry mount -t nfs4 -o nfsvers=4.1 $DIR_SRC:/ $DIR_TGT
 
-if [ $? -eq 0 ]; then
-	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/confluence/$LAST_BACKUP_CONFLUENCE $LAST_BACKUP_CONFLUENCE
-	tar -xvf $LAST_BACKUP_CONFLUENCE -C /
-	rm $LAST_BACKUP_CONFLUENCE
-else
-	echo "no existing backup"
-fi
+# naming format of the app data location is /opt/aip/<ecs service name as in .tfvars>
+mkdir -p /opt/aip/aip-adm-jira
+mkdir -p /opt/aip/aip-adm-confluence
+mkdir -p /opt/aip/aip-adm-bitbucket
+mkdir -p /opt/aip/aip-adm-artifactory
+mkdir -p /opt/aip/aip-adm-jenkins
+mkdir -p /opt/aip/aip-adm-blast
+mkdir -p /opt/aip/aip-adm-crowd
+mkdir -p /opt/aip/aip-adm-sonar
 
-# Restore Artifactory
+chmod 777 -R /opt/aip/aip-adm-artifactory
 
-LAST_BACKUP_ARTIFACTORY=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/artifactory/ | awk -F " " '{print $4}' | grep ^artifactory | sort -r | head -n1)
+#Restart docker deamon and ECS service
 
-if [ $? -eq 0 ] && [ ! -z ${LAST_BACKUP_ARTIFACTORY} ]; then
-	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/artifactory/$LAST_BACKUP_ARTIFACTORY $LAST_BACKUP_ARTIFACTORY
-	tar -xvf $LAST_BACKUP_ARTIFACTORY -C /
-	rm $LAST_BACKUP_ARTIFACTORY
-	chmod 777 -R /opt/aip/aip-adm-artifactory
-else
-	echo "no existing backup"
-fi
-
-# Restore Jenkins
-
-LAST_BACKUP_JENKINS=$(retry aws s3 ls ${APP_DATA_S3_LOC}/backups/adm/data/jenkins/ | awk -F " " '{print $4}' | grep ^jenkins | sort -r | head -n1)
-
-if [ $? -eq 0 ] && [ ! -z ${LAST_BACKUP_JENKINS} ]; then
-	retry aws s3 cp ${APP_DATA_S3_LOC}/backups/adm/data/jenkins/$LAST_BACKUP_JENKINS $LAST_BACKUP_JENKINS
-	tar -xvf $LAST_BACKUP_JENKINS -C /
-	rm $LAST_BACKUP_JENKINS
-else
-	echo "no existing backup"
-fi
+sudo service docker restart && sudo start ecs
