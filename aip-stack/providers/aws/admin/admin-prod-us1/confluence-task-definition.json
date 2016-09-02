@@ -38,6 +38,14 @@
 			{
 				"sourceVolume": "app-volume",
 				"containerPath": "/var/atlassian/confluence"
+			},
+			{
+				"sourceVolume": "sso-config",
+				"containerPath": "/opt/atlassian/confluence/confluence/WEB-INF/classes/seraph-config.xml"
+			},
+			{
+				"sourceVolume": "crowd-config",
+				"containerPath": "/opt/atlassian/confluence/confluence/WEB-INF/classes/crowd.properties"
 			}
 		],
 		"environment": [

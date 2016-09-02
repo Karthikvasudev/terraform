@@ -128,6 +128,18 @@ variable "adm_ecs_service_crowd_elb_health_check_url"           { }
 
 variable "adm_ecs_service_crowd_dns_name"   		    		{ }
 
+# ECS Service - bio
+
+variable "adm_ecs_service_bio_service_name"                   { }
+variable "adm_ecs_service_bio_task_name"                      { }
+variable "adm_ecs_service_bio_task_definition_file"           { }
+
+variable "adm_ecs_service_bio_elb_listener_instance_port"     { }
+variable "adm_ecs_service_bio_elb_ssl_cert_arn"               { }
+variable "adm_ecs_service_bio_elb_health_check_url"           { }
+
+variable "adm_ecs_service_bio_dns_name"   		    		{ }
+
 
 # LTS Terraform State - Remote Storage Backend configuration
 resource "terraform_remote_state" "s3-remote-state" {

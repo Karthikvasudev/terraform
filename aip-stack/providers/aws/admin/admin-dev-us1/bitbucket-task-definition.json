@@ -30,7 +30,7 @@
 	},
 	{
 		"name": "bitbucket",
-		"image": "cptactionhank/atlassian-bitbucket:4.7.1",	
+		"image": "596978647277.dkr.ecr.us-east-1.amazonaws.com/add/atlassian-sso-bitbucket:latest",
 		"links": [
 			"postgres"
 		],

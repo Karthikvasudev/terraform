@@ -30,7 +30,7 @@
 	},
 	{
 		"name": "jira",
-		"image": "cptactionhank/atlassian-jira:7.1.7",
+		"image": "596978647277.dkr.ecr.us-east-1.amazonaws.com/add/atlassian-sso-jira:latest",
 		"links": [
 			"postgres"
 		],
@@ -38,6 +38,14 @@
 			{
 				"sourceVolume": "app-volume",
 				"containerPath": "/var/atlassian/jira"
+			},
+			{
+				"sourceVolume": "sso-config",
+				"containerPath": "/opt/atlassian/jira/atlassian-jira/WEB-INF/classes/seraph-config.xml"
+			},
+			{
+				"sourceVolume": "crowd-config",
+				"containerPath": "/opt/atlassian/jira/atlassian-jira/WEB-INF/classes/crowd.properties"
 			}
 		],
 		"environment": [
