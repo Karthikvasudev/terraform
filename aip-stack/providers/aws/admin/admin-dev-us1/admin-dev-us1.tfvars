@@ -39,9 +39,9 @@ adm_ecs_cluster_instance_type = "m3.large"
 adm_ecs_cluster_ec2_keypair   = "aip-bi-adm-keys-infradev"
 adm_ecs_cluster_ec2_userdata  = "./admin/admin-dev-us1/ecs-cluster-user-data.txt"
 
-adm_ecs_cluster_autoscale_max     = 2
-adm_ecs_cluster_autoscale_min     = 2
-adm_ecs_cluster_autoscale_desired = 2
+adm_ecs_cluster_autoscale_max     = 3
+adm_ecs_cluster_autoscale_min     = 3
+adm_ecs_cluster_autoscale_desired = 3
 
 adm_ecs_service_zone_id       = "Z2TRK11Z2S58FH"
 adm_apps_ecs_service_zone_id  = "Z2TRK11Z2S58FH"

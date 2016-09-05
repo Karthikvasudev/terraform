@@ -30,7 +30,7 @@
 	},
 	{
 		"name": "confluence",
-		"image": "cptactionhank/atlassian-confluence:5.9.10",	
+		"image": "596978647277.dkr.ecr.us-east-1.amazonaws.com/add/atlassian-sso-confluence:latest",
 		"links": [
 			"postgres"
 		],
@@ -38,6 +38,14 @@
 			{
 				"sourceVolume": "app-volume",
 				"containerPath": "/var/atlassian/confluence"
+			},
+			{
+				"sourceVolume": "sso-config",
+				"containerPath": "/opt/atlassian/confluence/confluence/WEB-INF/classes/seraph-config.xml"
+			},
+			{
+				"sourceVolume": "crowd-config",
+				"containerPath": "/opt/atlassian/confluence/confluence/WEB-INF/classes/crowd.properties"
 			}
 		],
 		"environment": [
