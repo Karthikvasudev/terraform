@@ -165,6 +165,28 @@
                             "Topic": {"Ref": "TopicFileUploaded"}
                         }
                     ]
+                },
+                "LoggingConfiguration" : {
+                    "DestinationBucketName" : {
+                                "Fn::Join": [ 
+                                    "", 
+                                    [ 
+                                        "logs-s3access-",
+                                        {"Ref" : "AWS::Region"},
+                                        "-",
+                                        {"Ref" : "AWS::AccountId"}
+                                    ]
+                                ]
+                    },
+                    "LogFilePrefix" : {
+                                "Fn::Join": [ 
+                                    "", 
+                                    [ 
+                                        {"Ref": "Environment"},
+                                        "/bi-dataprocess-fileupload/dataprocess-fileupload-access.log"
+                                    ]
+                                ]
+                    }
                 }
             }
         },
