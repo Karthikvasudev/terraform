@@ -122,6 +122,28 @@
                             "Topic": {"Ref": "TopicFileUploaded"}
                         }
                     ]
+                },
+                "LoggingConfiguration" : {
+                    "DestinationBucketName" : {
+                                "Fn::Join": [ 
+                                    "", 
+                                    [ 
+                                        "logs-s3access-",
+                                        {"Ref" : "AWS::Region"},
+                                        "-",
+                                        {"Ref" : "AWS::AccountId"}
+                                    ]
+                                ]
+                    },
+                    "LogFilePrefix" : {
+                                "Fn::Join": [ 
+                                    "", 
+                                    [ 
+                                        {"Ref": "Environment"},
+                                        "/bi-fileupload/fileupload-access.log"
+                                    ]
+                                ]
+                    }
                 }
             }
         },
@@ -183,6 +205,28 @@
                             "Topic": {"Ref": "TopicFileUploaded"}
                         }
                     ]
+                },
+                "LoggingConfiguration" : {
+                    "DestinationBucketName" : {
+                                "Fn::Join": [ 
+                                    "", 
+                                    [ 
+                                        "logs-s3access-",
+                                        {"Ref" : "AWS::Region"},
+                                        "-",
+                                        {"Ref" : "AWS::AccountId"}
+                                    ]
+                                ]
+                    },
+                    "LogFilePrefix" : {
+                                "Fn::Join": [ 
+                                    "", 
+                                    [ 
+                                        {"Ref": "Environment"},
+                                        "/bi-data-benchmark/data-benchmark-access.log"
+                                    ]
+                                ]
+                    }
                 }
             }
         },
@@ -244,6 +288,28 @@
                             "Topic": {"Ref": "TopicFileUploaded"}
                         }
                     ]
+                },
+                "LoggingConfiguration" : {
+                    "DestinationBucketName" : {
+                                "Fn::Join": [ 
+                                    "", 
+                                    [ 
+                                        "logs-s3access-",
+                                        {"Ref" : "AWS::Region"},
+                                        "-",
+                                        {"Ref" : "AWS::AccountId"}
+                                    ]
+                                ]
+                    },
+                    "LogFilePrefix" : {
+                                "Fn::Join": [ 
+                                    "", 
+                                    [ 
+                                        {"Ref": "Environment"},
+                                        "/bi-data-metaanalysis/data-metaanalysis-access.log"
+                                    ]
+                                ]
+                    }
                 }
             }
         },
