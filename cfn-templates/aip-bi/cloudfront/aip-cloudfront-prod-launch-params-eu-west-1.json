@@ -29,7 +29,7 @@
   },
   {
     "ParameterKey": "Aliases",
-    "ParameterValue": "prod-eu-1.aliniqbis.com,cdn-prod-eu-1.aliniqbis.com,customer1-prod-eu-1.aliniqbis.com,customer2-prod-eu-1.aliniqbis.com,sacco.aliniqbis.com"
+    "ParameterValue": "prod-eu-1.aliniqbis.com,cdn-prod-eu-1.aliniqbis.com,customer1-prod-eu-1.aliniqbis.com,customer2-prod-eu-1.aliniqbis.com,sacco.aliniqbis.com,johnradcliffe-uk.aliniqbis.com"
   },
   { 
     "ParameterKey": "PriceClass",
