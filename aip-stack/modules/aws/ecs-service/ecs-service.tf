@@ -264,6 +264,27 @@ resource "aws_ecs_task_definition" "ecs_task" {
 		name = "nginx-config"
 		host_path = "/root/config/${var.ecs_service_name}/nginx/nginx.conf"
 	}
+	
+	volume = {
+		name = "sso-config"
+		host_path = "/opt/aip/${var.ecs_service_name}/seraph-config.xml"
+	}
+	
+	volume = {
+		name = "crowd-config"
+		host_path = "/opt/aip/${var.ecs_service_name}/crowd.properties"
+	}
+	
+	volume = {
+		name = "dockersock-config"
+		host_path = "/var/run/docker.sock"
+	}
+	
+	volume = {
+		name = "docker-volume"
+		host_path = "/var/lib/docker"
+	}
+	
 }
 
 /*
