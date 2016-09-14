@@ -158,7 +158,11 @@ resource "aws_iam_role_policy" "ecs-instance-policy" {
         "ecr:BatchGetImage",
         "logs:CreateLogStream",
         "logs:PutLogEvents",
-		"elasticfilesystem:*"
+		"elasticfilesystem:*",
+		"codecommit:BatchGetRepositories",
+		"codecommit:Get*",
+		"codecommit:List*",
+		"codecommit:GitPull"
       ],
       "Resource": "*"
     },

@@ -35,13 +35,13 @@ adm_efs_name = "aip-adm-efs-admin"
 adm_ecs_cluster_name = "aip-adm-ecs-admin"
 
 adm_ecs_cluster_ami_id        = "ami-8f7687e2"
-adm_ecs_cluster_instance_type = "m3.large"
+adm_ecs_cluster_instance_type = "c4.xlarge"
 adm_ecs_cluster_ec2_keypair   = "aip-bi-adm-keys"
 adm_ecs_cluster_ec2_userdata  = "./admin/admin-prod-us1/ecs-cluster-user-data.txt"
 
-adm_ecs_cluster_autoscale_max     = 4
-adm_ecs_cluster_autoscale_min     = 4
-adm_ecs_cluster_autoscale_desired = 4
+adm_ecs_cluster_autoscale_max     = 3
+adm_ecs_cluster_autoscale_min     = 3
+adm_ecs_cluster_autoscale_desired = 3
 
 adm_ecs_service_zone_id       = "ZWNUK1RZNC5G5"
 adm_apps_ecs_service_zone_id  = "Z1LRCTGFBMLKI2"
