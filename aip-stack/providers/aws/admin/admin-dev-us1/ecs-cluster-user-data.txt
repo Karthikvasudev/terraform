@@ -78,6 +78,7 @@ mkdir -p /opt/aip/aip-adm-artifactory
 mkdir -p /opt/aip/aip-adm-jenkins
 mkdir -p /opt/aip/aip-adm-blast
 mkdir -p /opt/aip/aip-adm-crowd
+mkdir -p /opt/aip/aip-adm-sonar
 
 #Restart docker deamon and ECS service
 
