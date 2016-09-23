@@ -1,0 +1,226 @@
+[
+	{
+		"name": "nginx",
+		"image": "nginx:alpine",
+		"essential": true,
+		"portMappings": [
+			{
+				"containerPort": 80,
+				"hostPort": 8008
+			}
+		],
+		"links": [
+			"sonar"
+		],
+		"mountPoints": [
+			{
+				"sourceVolume": "nginx-config",
+				"containerPath": "/etc/nginx/nginx.conf"
+			}
+		],
+		"logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+					"awslogs-group": "aip-adm-sonar-logs",
+					"awslogs-region": "us-east-1"
+				}
+			},
+		"memory": 256,
+		"cpu": 100
+	},
+	{
+		"name": "sonar",
+		"image": "661072482170.dkr.ecr.us-east-1.amazonaws.com/add/sonarqube:latest",
+		"links": [
+			"postgres"
+		],
+		"environment": [
+			{
+				"name" : "SONARQUBE_JDBC_USERNAME",
+				"value" : "sonar"
+			},
+			{
+				"name" : "SONARQUBE_JDBC_PASSWORD",
+				"value" : "sonar"
+			},
+			{
+				"name" : "SONARQUBE_JDBC_URL",
+				"value" : "jdbc:postgresql://postgres:5432/sonar"
+			}
+			
+		],
+		"mountPoints": [
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/opt/sonarqube/data"
+			},
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/opt/sonarqube/conf"
+			},
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/opt/sonarqube/extensions"
+			},
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/opt/sonarqube/lib/bundled-plugins"
+			},
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/opt/sonarqube/logs"
+			}
+		],
+		"user": "root",
+		"logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+					"awslogs-group": "aip-adm-sonar-logs",
+					"awslogs-region": "us-east-1"
+				}
+			},
+		"cpu": 512,
+		"memory": 2048,
+		"essential": true
+	},
+	{
+		"name": "postgres",
+		"image": "postgres:9.3",
+		"essential": true,
+		
+		"environment": [
+			{
+				"name" : "POSTGRES_USER",
+				"value" : "sonar"
+			},
+			{
+				"name" : "POSTGRES_PASSWORD",
+				"value" : "sonar"
+			},
+			{
+				"name" : "POSTGRES_DB",
+				"value" : "sonar"
+			},
+			{
+				"name" : "PGDATA",
+				"value" : "/var/lib/postgresql/data/pgdata"
+			}
+		],
+		"mountPoints": [
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/var/lib/postgresql/data"
+			}
+		],
+		"logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+					"awslogs-group": "aip-adm-sonar-logs",
+					"awslogs-region": "us-east-1"
+				}
+			},
+		"memory": 750,
+		"cpu": 100
+	},
+	{
+		"name": "dockup-pgdump",
+		"image": "661072482170.dkr.ecr.us-east-1.amazonaws.com/add/atlassian-dockup-pgdump:latest",
+		"essential": true,
+		"links": [
+			"postgres"
+		],
+		"environment": [
+			{
+				"name" : "PGDUMP_OPTIONS",
+				"value" : "-Fc --no-acl --no-owner"
+			},
+			{
+				"name" : "PGDUMP_DATABASE",
+				"value" : "sonar"
+			},
+			{
+				"name" : "POSTGRES_ENV_POSTGRES_USER",
+				"value" : "sonar"
+			},
+			{
+				"name" : "POSTGRES_ENV_POSTGRES_PASSWORD",
+				"value" : "sonar"
+			},
+			{
+				"name" : "POSTGRES_PORT_5432_TCP_ADDR",
+				"value" : "postgres"
+			},
+			{
+				"name" : "POSTGRES_PORT_5432_TCP_PORT",
+				"value" : "5432"
+			},
+			{
+				"name" : "AWS_BUCKET",
+				"value" : "aip-adm-s3-app-data-us-east-1-661072482170"
+			},
+			{
+				"name" : "PREFIX",
+				"value" : "backups/adm/pgdump/sonar"
+			},
+			{
+				"name" : "CRON_TIME",
+				"value" : "00 5 * * *"
+			}
+		],
+		"logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+					"awslogs-group": "aip-adm-sonar-logs",
+					"awslogs-region": "us-east-1"
+				}
+			},
+		"memory": 256,
+		"cpu": 100
+	},
+	{
+		"name": "dockup-data",
+		"image": "661072482170.dkr.ecr.us-east-1.amazonaws.com/add/atlassian-dockup-data:latest",
+		"essential": true,
+		"mountPoints": [
+			{
+				"sourceVolume": "app-volume",
+				"containerPath": "/opt/aip/aip-adm-sonar"
+			}
+		],
+		"environment": [
+			{
+				"name" : "BACKUP_NAME",
+				"value" : "sonar"
+			},
+			{
+				"name" : "BACKUP_TAR_OPTION",
+				"value" : "/opt/aip/aip-adm-sonar/*"
+			},
+			{
+				"name" : "AWS_REGION",
+				"value" : "us-east-1"
+			},
+			{
+				"name" : "AWS_BUCKET",
+				"value" : "aip-adm-s3-app-data-us-east-1-661072482170"
+			},
+			{
+				"name" : "PREFIX",
+				"value" : "backups/adm/data/sonar"
+			},
+			{
+				"name" : "CRON_TIME",
+				"value" : "00 5 * * *"
+			}
+		],
+		"logConfiguration": {
+				"logDriver": "awslogs",
+				"options": {
+					"awslogs-group": "aip-adm-sonar-logs",
+					"awslogs-region": "us-east-1"
+				}
+			},
+		"memory": 256,
+		"cpu": 100
+	}
+]

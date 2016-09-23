@@ -35,7 +35,7 @@ adm_efs_name = "aip-adm-efs-admin"
 adm_ecs_cluster_name = "aip-adm-ecs-admin"
 
 adm_ecs_cluster_ami_id        = "ami-8f7687e2"
-adm_ecs_cluster_instance_type = "c4.xlarge"
+adm_ecs_cluster_instance_type = "m3.large"
 adm_ecs_cluster_ec2_keypair   = "aip-bi-adm-keys-infradev"
 adm_ecs_cluster_ec2_userdata  = "./admin/admin-dev-us1/ecs-cluster-user-data.txt"
 
@@ -174,3 +174,18 @@ adm_ecs_service_bio_elb_ssl_cert_arn = "arn:aws:iam::596978647277:server-certifi
 adm_ecs_service_bio_elb_health_check_url      = "TCP:8007"
 
 adm_ecs_service_bio_dns_name = "bio.aipadmin.com"
+
+# ECS Service - sonar
+
+adm_ecs_service_sonar_service_name         = "aip-adm-sonar"
+adm_ecs_service_sonar_task_name            = "sonar"
+adm_ecs_service_sonar_task_definition_file = "./admin/admin-dev-us1/sonar-task-definition.json"
+
+
+adm_ecs_service_sonar_elb_listener_instance_port     = 8008
+
+adm_ecs_service_sonar_elb_ssl_cert_arn = "arn:aws:iam::596978647277:server-certificate/aipadmin"
+
+adm_ecs_service_sonar_elb_health_check_url      = "TCP:8008"
+
+adm_ecs_service_sonar_dns_name = "sonar.aipadmin.com"
